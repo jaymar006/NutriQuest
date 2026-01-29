@@ -234,7 +234,7 @@ Since you're using a 3D project, each scene needs its own UI Canvas. The UI will
      - Font Size: 28
      - Position: Below register button
      - Size: 400x50
-
+   
 9. Create Error Text:
    - Right-click LoginCanvas → UI → Text - TextMeshPro
    - Name: "ErrorText"
