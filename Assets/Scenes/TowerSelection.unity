@@ -147,7 +147,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &983186276
 --- !u!81 &1545506286
 AudioListener:
   m_ObjectHideFlags: 0
@@ -313,7 +312,6 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
---- !u!4 &1278755354
 --- !u!4 &1714322316
 Transform:
   m_ObjectHideFlags: 0
