@@ -8,6 +8,24 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Bootstrap.unity
     guid: 255d03c8c57e49b4cb0bea7b7dddf53f
+  - enabled: 1
+    path: Assets/Scenes/Library.unity
+    guid: f8072119cdd7fd34a8accdfb37434792
+  - enabled: 1
+    path: Assets/Scenes/Recipes.unity
+    guid: 5ffe9ea79628a0c42a2f7801d6a44f50
+  - enabled: 1
+    path: Assets/Scenes/TriviaSection.unity
+    guid: 86c8b1fdcaca671468fdb03764c90daa
+  - enabled: 1
+    path: Assets/Scenes/Achievements.unity
+    guid: ac84b322bd5ce0442996193fe181b573
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: aa9431d2b1eeac140a59082124d31abd
+  - enabled: 1
+    path: Assets/Scenes/LoadingScreen.unity
+    guid: 9cb6ad5b380392b469bd509115e70313
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 142731ec3d53c9345acebf7f488071fa, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 825700579239bc7438295502ec3a6bd6, type: 2}
