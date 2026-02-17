@@ -1,11 +1,13 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Image))]
 [RequireComponent(typeof(AudioSource))]
-public class UICharacterSquish : MonoBehaviour, IPointerClickHandler
+public class UICharacterSquish1 : MonoBehaviour, IPointerClickHandler
 {
     [Header("Sprites")]
     public Sprite idleSprite;
@@ -24,7 +26,7 @@ public class UICharacterSquish : MonoBehaviour, IPointerClickHandler
     public float idleDuration = 1f;
     public float idleMaxScale = 1.05f;
     public bool resetAfterIdle = true;
-    public bool reverseIdleCurve = true; // reverse ping-pong
+    public bool reverseIdleCurve = true;
 
     [Header("Per-Axis Scaling")]
     public bool scaleX = true;
@@ -34,6 +36,39 @@ public class UICharacterSquish : MonoBehaviour, IPointerClickHandler
     [Header("Animation Curves")]
     public AnimationCurve reactionCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
     public AnimationCurve idleCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+
+    // =========================
+    // ⭐ MILESTONE SYSTEM
+    // =========================
+    [Header("Milestone System")]
+    public bool useMilestones = false;
+    public List<TapMilestone> milestones = new List<TapMilestone>();
+
+    private int tapCount = 0;
+
+    [System.Serializable]
+    public class TapMilestone
+    {
+        [Header("Milestone Info")]
+        public string milestoneName = "New Milestone";
+        public int tapsRequired = 10;
+
+        [Header("Sprite Change")]
+        public bool useSprite = false;
+        public Sprite milestoneSprite;
+
+        [Header("Sound")]
+        public bool useSound = false;
+        public AudioClip milestoneSound;
+
+        [Header("Event")]
+        public bool useEvent = false;
+        public UnityEvent milestoneEvent;
+
+        [HideInInspector] public bool triggered;
+    }
+
+    // =========================
 
     private Image img;
     private AudioSource audioSource;
@@ -55,13 +90,51 @@ public class UICharacterSquish : MonoBehaviour, IPointerClickHandler
         StartCoroutine(IdlePingPong());
     }
 
-    // Tap detection
+    // =========================
+    // TAP INPUT
+    // =========================
     public void OnPointerClick(PointerEventData eventData)
     {
+        tapCount++;
+
+        if (useMilestones)
+            CheckMilestones();
+
         if (!isBusy)
             StartCoroutine(Reaction());
     }
 
+    // =========================
+    // MILESTONE CHECK
+    // =========================
+    private void CheckMilestones()
+    {
+        foreach (var m in milestones)
+        {
+            if (m.triggered) continue;
+
+            if (tapCount >= m.tapsRequired)
+            {
+                m.triggered = true;
+
+                // Sprite
+                if (m.useSprite && m.milestoneSprite != null)
+                    img.sprite = m.milestoneSprite;
+
+                // Sound
+                if (m.useSound && m.milestoneSound != null)
+                    audioSource.PlayOneShot(m.milestoneSound, volume);
+
+                // Event
+                if (m.useEvent)
+                    m.milestoneEvent?.Invoke();
+            }
+        }
+    }
+
+    // =========================
+    // REACTION ANIMATION
+    // =========================
     private IEnumerator Reaction()
     {
         isBusy = true;
@@ -80,13 +153,13 @@ public class UICharacterSquish : MonoBehaviour, IPointerClickHandler
         isBusy = false;
     }
 
-    /// <summary>
-    /// Idle breathing as smooth ping-pong (expand → shrink → expand)
-    /// </summary>
+    // =========================
+    // IDLE BREATHING LOOP
+    // =========================
     private IEnumerator IdlePingPong()
     {
         float t = 0f;
-        float direction = 1f; // 1 = forward, -1 = backward
+        float direction = 1f;
         Vector3 startScale;
 
         while (true)
@@ -107,22 +180,19 @@ public class UICharacterSquish : MonoBehaviour, IPointerClickHandler
                     float scaleFactor = 1f + curveValue * (idleMaxScale - 1f);
 
                     Vector3 newScale = startScale;
+
                     if (scaleX) newScale.x = startScale.x * scaleFactor;
                     if (scaleY) newScale.y = startScale.y * scaleFactor;
                     if (scaleZ) newScale.z = startScale.z * scaleFactor;
 
                     transform.localScale = newScale;
 
-                    // Reverse direction at ends
-                    if (t >= idleDuration)
-                        direction = -1f;
-                    else if (t <= 0f)
-                        direction = 1f;
+                    if (t >= idleDuration) direction = -1f;
+                    else if (t <= 0f) direction = 1f;
 
                     yield return null;
                 }
 
-                // Optional: reset to original scale after stopping idle
                 if (resetAfterIdle)
                     transform.localScale = originalScale;
             }
@@ -131,9 +201,9 @@ public class UICharacterSquish : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    /// <summary>
-    /// Animate a single squash/stretch (reaction or one-time)
-    /// </summary>
+    // =========================
+    // GENERIC ANIMATION
+    // =========================
     private IEnumerator Animate(float duration, float maxScale, AnimationCurve curve, bool reverseCurve, bool resetAfterAnimation)
     {
         float t = 0f;
@@ -151,6 +221,7 @@ public class UICharacterSquish : MonoBehaviour, IPointerClickHandler
             float scaleFactor = 1f + curveValue * (maxScale - 1f);
 
             Vector3 newScale = startScale;
+
             if (scaleX) newScale.x = startScale.x * scaleFactor;
             if (scaleY) newScale.y = startScale.y * scaleFactor;
             if (scaleZ) newScale.z = startScale.z * scaleFactor;
