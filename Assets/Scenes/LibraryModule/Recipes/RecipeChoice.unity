@@ -2105,12 +2105,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2039462771}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f2b533334d9b2f49b10f91299d2a320, type: 3}
+  m_Script: {fileID: 11500000, guid: fc939ecbb9b0b77449daafe21d5f9d9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneLoader
-  sceneAsset: {fileID: 102900000, guid: 5311244a3117a944b9fc1bf3b7523f1d, type: 3}
-  sceneName: Recipe 1
-  loadDelay: 0.2
 --- !u!114 &2039462777
 MonoBehaviour:
   m_ObjectHideFlags: 0
