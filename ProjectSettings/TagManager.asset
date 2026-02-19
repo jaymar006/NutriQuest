@@ -48,6 +48,12 @@ TagManager:
   - name: UI
     uniqueID: 3898406657
     locked: 0
+  - name: Foreground
+    uniqueID: 627741897
+    locked: 0
+  - name: Front
+    uniqueID: 2617142371
+    locked: 0
   m_RenderingLayers:
   - Default
   - Light Layer 1
