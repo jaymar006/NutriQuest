@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 456657886}
   - component: {fileID: 456657889}
   - component: {fileID: 456657888}
+  - component: {fileID: 456657890}
   m_Layer: 5
   m_Name: Recipe 3
   m_TagString: Untagged
@@ -205,9 +206,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 456657886}
-        m_TargetAssemblyTypeName: SquishSquashManager, Assembly-CSharp
-        m_MethodName: PlaySquashAndStretch
+      - m_Target: {fileID: 456657890}
+        m_TargetAssemblyTypeName: SceneLoaderManager, Assembly-CSharp
+        m_MethodName: LoadScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -217,9 +218,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 456657887}
-        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
-        m_MethodName: LoadScene
+      - m_Target: {fileID: 456657886}
+        m_TargetAssemblyTypeName: SquishSquashManager, Assembly-CSharp
+        m_MethodName: PlaySquashAndStretch
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -462,6 +463,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &456657890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456657881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26035a00731b3f54caff6eba87d983f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneLoaderManager
+  sceneAsset: {fileID: 102900000, guid: ee67cebdf434177479c6f7610509dcbc, type: 3}
+  sceneName: Recipe 3
+  loadDelay: 0.2
 --- !u!1 &517859709
 GameObject:
   m_ObjectHideFlags: 0
@@ -881,6 +897,7 @@ GameObject:
   - component: {fileID: 1358363844}
   - component: {fileID: 1358363847}
   - component: {fileID: 1358363846}
+  - component: {fileID: 1358363848}
   m_Layer: 5
   m_Name: Recipe 4
   m_TagString: Untagged
@@ -951,8 +968,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1358363845}
-        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
+      - m_Target: {fileID: 1358363848}
+        m_TargetAssemblyTypeName: SceneLoaderManager, Assembly-CSharp
         m_MethodName: LoadScene
         m_Mode: 1
         m_Arguments:
@@ -1208,6 +1225,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1358363848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1358363839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26035a00731b3f54caff6eba87d983f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneLoaderManager
+  sceneAsset: {fileID: 102900000, guid: c1493dfb80ed14f4f8aceb024c063d05, type: 3}
+  sceneName: Recipe 4
+  loadDelay: 0.2
 --- !u!1 &1427179593
 GameObject:
   m_ObjectHideFlags: 0
@@ -1534,6 +1566,7 @@ GameObject:
   - component: {fileID: 1880410494}
   - component: {fileID: 1880410497}
   - component: {fileID: 1880410496}
+  - component: {fileID: 1880410498}
   m_Layer: 5
   m_Name: Recipe 2
   m_TagString: Untagged
@@ -1604,9 +1637,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1880410495}
-        m_TargetAssemblyTypeName: SquishSquashManager, Assembly-CSharp
-        m_MethodName: PlaySquashAndStretch
+      - m_Target: {fileID: 1880410498}
+        m_TargetAssemblyTypeName: SceneLoaderManager, Assembly-CSharp
+        m_MethodName: LoadScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1616,9 +1649,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1880410494}
-        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
-        m_MethodName: LoadScene
+      - m_Target: {fileID: 1880410495}
+        m_TargetAssemblyTypeName: SquishSquashManager, Assembly-CSharp
+        m_MethodName: PlaySquashAndStretch
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1861,6 +1894,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1880410498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1880410489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26035a00731b3f54caff6eba87d983f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneLoaderManager
+  sceneAsset: {fileID: 102900000, guid: d5872b7ade5345c4d86b69bb3554d9ef, type: 3}
+  sceneName: Recipe 2
+  loadDelay: 0.2
 --- !u!1 &1966547987
 GameObject:
   m_ObjectHideFlags: 0
@@ -1952,6 +2000,7 @@ GameObject:
   - component: {fileID: 2039462776}
   - component: {fileID: 2039462779}
   - component: {fileID: 2039462778}
+  - component: {fileID: 2039462780}
   m_Layer: 5
   m_Name: Recipe 1
   m_TagString: Untagged
@@ -2022,7 +2071,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2039462776}
+      - m_Target: {fileID: 2039462780}
         m_TargetAssemblyTypeName: SceneLoaderManager, Assembly-CSharp
         m_MethodName: LoadScene
         m_Mode: 1
@@ -2276,6 +2325,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2039462780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2039462771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26035a00731b3f54caff6eba87d983f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneLoaderManager
+  sceneAsset: {fileID: 102900000, guid: 5311244a3117a944b9fc1bf3b7523f1d, type: 3}
+  sceneName: Recipe 1
+  loadDelay: 0.2
 --- !u!1 &156785808020093319
 GameObject:
   m_ObjectHideFlags: 0
@@ -2336,11 +2400,11 @@ GameObject:
   - component: {fileID: 4303842068442613034}
   - component: {fileID: 394505386807103360}
   - component: {fileID: 4358816655689310725}
-  - component: {fileID: 4459086811982064821}
   - component: {fileID: 3226583991334652558}
   - component: {fileID: 5027603593556595791}
   - component: {fileID: 5027603593556595793}
   - component: {fileID: 5027603593556595792}
+  - component: {fileID: 5027603593556595794}
   m_Layer: 5
   m_Name: Back Button
   m_TagString: Untagged
@@ -2557,9 +2621,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4459086811982064821}
-        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
-        m_MethodName: LoadPreviousScene
+      - m_Target: {fileID: 5027603593556595794}
+        m_TargetAssemblyTypeName: SceneLoaderManager, Assembly-CSharp
+        m_MethodName: LoadScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2593,21 +2657,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &4459086811982064821
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 496468996842182630}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f2b533334d9b2f49b10f91299d2a320, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SceneLoader
-  sceneAsset: {fileID: 0}
-  sceneName: 
-  loadDelay: 0.2
 --- !u!4 &4776708328007025638
 Transform:
   m_ObjectHideFlags: 0
@@ -2746,6 +2795,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5027603593556595794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496468996842182630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26035a00731b3f54caff6eba87d983f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneLoaderManager
+  sceneAsset: {fileID: 102900000, guid: 18109d398a8a2094faa2deaf56dd3b6a, type: 3}
+  sceneName: Library
+  loadDelay: 0.2
 --- !u!198 &8371016435247824561
 ParticleSystem:
   m_ObjectHideFlags: 0

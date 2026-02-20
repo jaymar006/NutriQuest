@@ -12,6 +12,21 @@ EditorBuildSettings:
     path: Assets/Scenes/Library.unity
     guid: f8072119cdd7fd34a8accdfb37434792
   - enabled: 1
+    path: Assets/Scenes/LibraryModule/Recipes/RecipeChoice.unity
+    guid: 370fb3d053abb964eab9b3ad3ee5932e
+  - enabled: 1
+    path: Assets/Scenes/LibraryModule/Recipes/Recipe 1.unity
+    guid: 5311244a3117a944b9fc1bf3b7523f1d
+  - enabled: 1
+    path: Assets/Scenes/LibraryModule/Recipes/Recipe 2.unity
+    guid: d5872b7ade5345c4d86b69bb3554d9ef
+  - enabled: 1
+    path: Assets/Scenes/LibraryModule/Recipes/Recipe 3.unity
+    guid: ee67cebdf434177479c6f7610509dcbc
+  - enabled: 1
+    path: Assets/Scenes/LibraryModule/Recipes/Recipe 4.unity
+    guid: c1493dfb80ed14f4f8aceb024c063d05
+  - enabled: 1
     path: Assets/Scenes/Recipes.unity
     guid: 5ffe9ea79628a0c42a2f7801d6a44f50
   - enabled: 1

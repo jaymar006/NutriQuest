@@ -976,20 +976,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &768858391138180673
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3578563566481614098}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f2b533334d9b2f49b10f91299d2a320, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SceneLoader
-  sceneAsset: {fileID: 0}
-  sceneName: 
 --- !u!114 &808382737645146353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1034,9 +1020,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 768858391138180673}
+      - m_Target: {fileID: 3578563566481614098}
         m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
-        m_MethodName: LoadSceneByName
+        m_MethodName: 
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1472,9 +1458,9 @@ GameObject:
   - component: {fileID: 932248388758992862}
   - component: {fileID: 3617450403111828852}
   - component: {fileID: 808382737645146353}
-  - component: {fileID: 768858391138180673}
   - component: {fileID: 1985368892439640186}
   - component: {fileID: 8255082320716129979}
+  - component: {fileID: 8255082320716129980}
   m_Layer: 5
   m_Name: Back Button
   m_TagString: Untagged
@@ -6632,6 +6618,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
   m_Delegates: []
+--- !u!114 &8255082320716129980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3578563566481614098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26035a00731b3f54caff6eba87d983f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneLoaderManager
+  sceneAsset: {fileID: 102900000, guid: 18109d398a8a2094faa2deaf56dd3b6a, type: 3}
+  sceneName: Library
+  loadDelay: 0.2
 --- !u!1 &8263374796782933329
 GameObject:
   m_ObjectHideFlags: 0

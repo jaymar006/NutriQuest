@@ -16,21 +16,38 @@ public class SceneLoaderManager : MonoBehaviour
     [Header("Loading Settings")]
     [SerializeField] private float loadDelay = 0.2f;
 
-    private bool isLoading = false;
+    private bool isLoading;
 
+    private void Awake()
+    {
+        isLoading = false;
+    }
+
+    // -----------------------------
+    // LOAD BY NAME
+    // -----------------------------
     public void LoadScene()
     {
-        if (isLoading) return;
+        if (isLoading)
+        {
+            Debug.Log("Scene is already loading.");
+            return;
+        }
 
-        if (!string.IsNullOrEmpty(sceneName))
+        if (string.IsNullOrEmpty(sceneName))
         {
-            isLoading = true;
-            Invoke(nameof(LoadSceneAfterDelay), loadDelay);
+            Debug.LogError("Scene name is empty!");
+            return;
         }
-        else
+
+        if (!Application.CanStreamedLevelBeLoaded(sceneName))
         {
-            Debug.LogWarning("Scene name is empty!");
+            Debug.LogError("Scene not found in Build Settings: " + sceneName);
+            return;
         }
+
+        isLoading = true;
+        Invoke(nameof(LoadSceneAfterDelay), loadDelay);
     }
 
     private void LoadSceneAfterDelay()
@@ -38,23 +55,43 @@ public class SceneLoaderManager : MonoBehaviour
         SceneManager.LoadScene(sceneName);
     }
 
-    public void LoadScene(int sceneIndex)
+    // -----------------------------
+    // LOAD BY BUILD INDEX
+    // -----------------------------
+    public void LoadSceneByIndex(int index)
     {
         if (isLoading) return;
+
+        if (index < 0 || index >= SceneManager.sceneCountInBuildSettings)
+        {
+            Debug.LogError("Invalid scene index: " + index);
+            return;
+        }
 
         isLoading = true;
         Invoke(nameof(LoadSceneByIndexAfterDelay), loadDelay);
 
         void LoadSceneByIndexAfterDelay()
         {
-            Scene scene = (Scene)sceneIndex;
-            SceneManager.LoadScene(scene.ToString());
+            SceneManager.LoadScene(index);
         }
     }
 
+    // -----------------------------
+    // LOAD NEXT / PREVIOUS
+    // -----------------------------
     public void LoadNextScene()
     {
         if (isLoading) return;
+
+        int current = SceneManager.GetActiveScene().buildIndex;
+        int next = current + 1;
+
+        if (next >= SceneManager.sceneCountInBuildSettings)
+        {
+            Debug.LogWarning("No next scene available.");
+            return;
+        }
 
         isLoading = true;
         Invoke(nameof(LoadNextAfterDelay), loadDelay);
@@ -70,6 +107,15 @@ public class SceneLoaderManager : MonoBehaviour
     {
         if (isLoading) return;
 
+        int current = SceneManager.GetActiveScene().buildIndex;
+        int previous = current - 1;
+
+        if (previous < 0)
+        {
+            Debug.LogWarning("No previous scene available.");
+            return;
+        }
+
         isLoading = true;
         Invoke(nameof(LoadPreviousAfterDelay), loadDelay);
     }
@@ -80,6 +126,9 @@ public class SceneLoaderManager : MonoBehaviour
         SceneManager.LoadScene(current - 1);
     }
 
+    // -----------------------------
+    // QUIT
+    // -----------------------------
     public void QuitGame()
     {
         if (isLoading) return;
@@ -102,15 +151,4 @@ public class SceneLoaderManager : MonoBehaviour
         }
     }
 #endif
-
-    public enum Scene
-    {
-        Bootstrap,
-        Library,
-        Recipes,
-        TriviaSection,
-        Achievements,
-        MainMenu,
-        LoadingScreen
-    }
 }
