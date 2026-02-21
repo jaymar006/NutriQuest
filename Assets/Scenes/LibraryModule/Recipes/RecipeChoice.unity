@@ -478,6 +478,7 @@ MonoBehaviour:
   sceneAsset: {fileID: 102900000, guid: ee67cebdf434177479c6f7610509dcbc, type: 3}
   sceneName: Recipe 3
   loadDelay: 0.2
+  useTransition: 0
 --- !u!1 &517859709
 GameObject:
   m_ObjectHideFlags: 0
@@ -1240,6 +1241,7 @@ MonoBehaviour:
   sceneAsset: {fileID: 102900000, guid: c1493dfb80ed14f4f8aceb024c063d05, type: 3}
   sceneName: Recipe 4
   loadDelay: 0.2
+  useTransition: 0
 --- !u!1 &1427179593
 GameObject:
   m_ObjectHideFlags: 0
@@ -1909,6 +1911,7 @@ MonoBehaviour:
   sceneAsset: {fileID: 102900000, guid: d5872b7ade5345c4d86b69bb3554d9ef, type: 3}
   sceneName: Recipe 2
   loadDelay: 0.2
+  useTransition: 0
 --- !u!1 &1966547987
 GameObject:
   m_ObjectHideFlags: 0
@@ -2340,6 +2343,7 @@ MonoBehaviour:
   sceneAsset: {fileID: 102900000, guid: 5311244a3117a944b9fc1bf3b7523f1d, type: 3}
   sceneName: Recipe 1
   loadDelay: 0.2
+  useTransition: 0
 --- !u!1 &156785808020093319
 GameObject:
   m_ObjectHideFlags: 0
@@ -2501,7 +2505,7 @@ RectTransform:
   m_GameObject: {fileID: 496468996842182630}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -17280}
-  m_LocalScale: {x: 1.130648, y: 1.130648, z: 1.130648}
+  m_LocalScale: {x: 1.0007366, y: 1.0007366, z: 1.0007366}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1722104460}
@@ -2807,9 +2811,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26035a00731b3f54caff6eba87d983f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneLoaderManager
-  sceneAsset: {fileID: 102900000, guid: 18109d398a8a2094faa2deaf56dd3b6a, type: 3}
-  sceneName: Library
+  sceneAsset: {fileID: 102900000, guid: 16a934d48c2436545bfee927179eff16, type: 3}
+  sceneName: LibraryMenu
   loadDelay: 0.2
+  useTransition: 1
 --- !u!198 &8371016435247824561
 ParticleSystem:
   m_ObjectHideFlags: 0
