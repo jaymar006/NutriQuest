@@ -1,86 +1,135 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
+[RequireComponent(typeof(Canvas))]
 public class TransitionManager : MonoBehaviour
 {
-    public static TransitionManager Instance;
+    public static TransitionManager Instance { get; private set; }
 
     [Header("Fade Settings")]
     [SerializeField] private Image fadeImage;
-    [SerializeField] private float fadeDuration = 0.5f;
+    [SerializeField] private float fadeDuration = 0.4f;
 
+    private CanvasGroup canvasGroup;
     private bool isTransitioning;
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        Initialize();
     }
 
-    private void OnEnable()
+    private void Initialize()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        if (fadeImage == null)
+        {
+            Debug.LogError("TransitionManager: Fade Image is not assigned.");
+            return;
+        }
+
+        canvasGroup = fadeImage.GetComponent<CanvasGroup>();
+        if (canvasGroup == null)
+            canvasGroup = fadeImage.gameObject.AddComponent<CanvasGroup>();
+
+        canvasGroup.alpha = 1f;
+        canvasGroup.blocksRaycasts = true;
+        canvasGroup.interactable = false;
     }
 
-    private void OnDisable()
+    private void Start()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
+        StartCoroutine(Fade(0f));
     }
 
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    public void LoadScene(string sceneName)
     {
-        if (fadeImage != null)
-            StartCoroutine(FadeIn());
+        if (isTransitioning) return;
+
+        if (string.IsNullOrEmpty(sceneName))
+        {
+            Debug.LogError("TransitionManager: Scene name is empty.");
+            return;
+        }
+
+        if (SceneUtility.GetBuildIndexByScenePath(sceneName) == -1 &&
+            !Application.CanStreamedLevelBeLoaded(sceneName))
+        {
+            Debug.LogError("TransitionManager: Scene not found in Build Settings: " + sceneName);
+            return;
+        }
+
+        StartCoroutine(LoadRoutine(sceneName));
     }
 
-    public IEnumerator PlayTransition()
+    public void LoadScene(int buildIndex)
     {
-        if (isTransitioning || fadeImage == null)
-            yield break;
+        if (isTransitioning) return;
 
+        if (buildIndex < 0 || buildIndex >= SceneManager.sceneCountInBuildSettings)
+        {
+            Debug.LogError("TransitionManager: Invalid scene index: " + buildIndex);
+            return;
+        }
+
+        StartCoroutine(LoadRoutine(buildIndex));
+    }
+
+    private IEnumerator LoadRoutine(object sceneReference)
+    {
         isTransitioning = true;
-        yield return FadeOut();
-    }
 
-    private IEnumerator FadeOut()
-    {
-        yield return Fade(1);
-    }
+        yield return Fade(1f);
 
-    private IEnumerator FadeIn()
-    {
-        yield return Fade(0);
+        AsyncOperation operation;
+
+        if (sceneReference is string)
+            operation = SceneManager.LoadSceneAsync((string)sceneReference);
+        else
+            operation = SceneManager.LoadSceneAsync((int)sceneReference);
+
+        operation.allowSceneActivation = true;
+
+        while (!operation.isDone)
+            yield return null;
+
+        yield return Fade(0f);
+
         isTransitioning = false;
     }
 
-    private IEnumerator Fade(float targetAlpha)
+    private IEnumerator Fade(float target)
     {
+        if (fadeDuration <= 0f)
+        {
+            canvasGroup.alpha = target;
+            yield break;
+        }
+
+        canvasGroup.blocksRaycasts = true;
+
+        float start = canvasGroup.alpha;
         float time = 0f;
-        float startAlpha = fadeImage.color.a;
 
         while (time < fadeDuration)
         {
             time += Time.deltaTime;
-            float alpha = Mathf.Lerp(startAlpha, targetAlpha, time / fadeDuration);
-
-            Color color = fadeImage.color;
-            color.a = alpha;
-            fadeImage.color = color;
-
+            canvasGroup.alpha = Mathf.Lerp(start, target, time / fadeDuration);
             yield return null;
         }
 
-        Color finalColor = fadeImage.color;
-        finalColor.a = targetAlpha;
-        fadeImage.color = finalColor;
+        canvasGroup.alpha = target;
+
+        if (target == 0f)
+            canvasGroup.blocksRaycasts = false;
     }
 }

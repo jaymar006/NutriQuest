@@ -350,9 +350,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f2b533334d9b2f49b10f91299d2a320, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneLoader
-  sceneAsset: {fileID: 102900000, guid: 0c5989777cda5e24aa9fef21ad6d0d03, type: 3}
-  sceneName: Recipe 3
-  loadDelay: 0.2
 --- !u!114 &456657888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -477,8 +474,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SceneLoaderManager
   sceneAsset: {fileID: 102900000, guid: ee67cebdf434177479c6f7610509dcbc, type: 3}
   sceneName: Recipe 3
-  loadDelay: 0.2
-  useTransition: 0
 --- !u!1 &517859709
 GameObject:
   m_ObjectHideFlags: 0
@@ -627,6 +622,8 @@ GameObject:
   - component: {fileID: 519812090}
   - component: {fileID: 519812092}
   - component: {fileID: 519812091}
+  - component: {fileID: 519812093}
+  - component: {fileID: 519812094}
   m_Layer: 0
   m_Name: 'Contents '
   m_TagString: Untagged
@@ -697,6 +694,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!223 &519812093
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519812089}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 1
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: -396560639
+  m_SortingOrder: 15
+  m_TargetDisplay: 0
+--- !u!114 &519812094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519812089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GraphicRaycaster
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &824675416
 GameObject:
   m_ObjectHideFlags: 0
@@ -1113,9 +1150,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f2b533334d9b2f49b10f91299d2a320, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneLoader
-  sceneAsset: {fileID: 102900000, guid: 5e3f96b9522b3034ba924e62e08cf232, type: 3}
-  sceneName: Recipe 4
-  loadDelay: 0.2
 --- !u!114 &1358363846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1240,8 +1274,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SceneLoaderManager
   sceneAsset: {fileID: 102900000, guid: c1493dfb80ed14f4f8aceb024c063d05, type: 3}
   sceneName: Recipe 4
-  loadDelay: 0.2
-  useTransition: 0
 --- !u!1 &1427179593
 GameObject:
   m_ObjectHideFlags: 0
@@ -1725,9 +1757,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f2b533334d9b2f49b10f91299d2a320, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneLoader
-  sceneAsset: {fileID: 102900000, guid: fb373d591450a174fb8ab1965c8d0ff2, type: 3}
-  sceneName: Recipe 2
-  loadDelay: 0.2
 --- !u!114 &1880410495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1910,8 +1939,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SceneLoaderManager
   sceneAsset: {fileID: 102900000, guid: d5872b7ade5345c4d86b69bb3554d9ef, type: 3}
   sceneName: Recipe 2
-  loadDelay: 0.2
-  useTransition: 0
 --- !u!1 &1966547987
 GameObject:
   m_ObjectHideFlags: 0
@@ -2342,8 +2369,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SceneLoaderManager
   sceneAsset: {fileID: 102900000, guid: 5311244a3117a944b9fc1bf3b7523f1d, type: 3}
   sceneName: Recipe 1
-  loadDelay: 0.2
-  useTransition: 0
 --- !u!1 &156785808020093319
 GameObject:
   m_ObjectHideFlags: 0
@@ -2409,6 +2434,8 @@ GameObject:
   - component: {fileID: 5027603593556595793}
   - component: {fileID: 5027603593556595792}
   - component: {fileID: 5027603593556595794}
+  - component: {fileID: 5027603593556595795}
+  - component: {fileID: 5027603593556595796}
   m_Layer: 5
   m_Name: Back Button
   m_TagString: Untagged
@@ -2813,8 +2840,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SceneLoaderManager
   sceneAsset: {fileID: 102900000, guid: 16a934d48c2436545bfee927179eff16, type: 3}
   sceneName: LibraryMenu
-  loadDelay: 0.2
-  useTransition: 1
+--- !u!223 &5027603593556595795
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496468996842182630}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 1
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: -396560639
+  m_SortingOrder: 10
+  m_TargetDisplay: 0
+--- !u!114 &5027603593556595796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496468996842182630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GraphicRaycaster
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!198 &8371016435247824561
 ParticleSystem:
   m_ObjectHideFlags: 0
