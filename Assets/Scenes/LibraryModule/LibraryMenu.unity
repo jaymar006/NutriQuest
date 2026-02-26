@@ -2274,9 +2274,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SceneLoaderManager, Assembly-CSharp
-        m_MethodName: LoadScene
+      - m_Target: {fileID: 8437834032885143628}
+        m_TargetAssemblyTypeName: SceneNavigationSystem, Assembly-CSharp
+        m_MethodName: Navigate
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2741,7 +2741,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &8239955009540666927
 MonoBehaviour:
   m_ObjectHideFlags: 0

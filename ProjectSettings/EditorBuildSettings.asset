@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Bootstrap.unity
     guid: 255d03c8c57e49b4cb0bea7b7dddf53f
   - enabled: 1
-    path: Assets/Scenes/Library.unity
-    guid: 7eb8bb59f5a59cc4f9ab9beb3a0fb55f
+    path: Assets/Scenes/LibraryModule/LibraryMenu.unity
+    guid: 16a934d48c2436545bfee927179eff16
   - enabled: 1
     path: Assets/Scenes/LibraryModule/TriviaSection.unity
     guid: b90e665c8f6d11d4a8d43c8730955af0
