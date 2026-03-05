@@ -9,9 +9,11 @@ public class SceneNavigationSystem : MonoBehaviour
 #if UNITY_EDITOR
     [SerializeField] private SceneAsset targetSceneAsset;
 #endif
+
     [SerializeField] private string targetSceneName;
 
-    [Header("Loading Scene")]
+    [Header("Loading Settings")]
+    [SerializeField] private bool useLoadingScreen = true;
     [SerializeField] private string loadingSceneName = "LoadingScene";
 
     public void Navigate()
@@ -22,11 +24,21 @@ public class SceneNavigationSystem : MonoBehaviour
             return;
         }
 
-        // Save the real destination
-        LoadingTargetScene.TargetScene = targetSceneName;
+        if (string.IsNullOrEmpty(targetSceneName))
+        {
+            Debug.LogError("Target scene name is empty.");
+            return;
+        }
 
-        // Go to loading scene first
-        SceneTransitionManager.Instance.NavigateTo(loadingSceneName);
+        if (useLoadingScreen)
+        {
+            LoadingTargetScene.SetTarget(targetSceneName);
+            SceneTransitionManager.Instance.NavigateTo(loadingSceneName);
+        }
+        else
+        {
+            SceneTransitionManager.Instance.NavigateTo(targetSceneName);
+        }
     }
 
 #if UNITY_EDITOR

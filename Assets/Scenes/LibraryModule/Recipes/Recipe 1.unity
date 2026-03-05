@@ -1325,7 +1325,6 @@ RectTransform:
   m_Children:
   - {fileID: 1768482984}
   - {fileID: 1661092516}
-  - {fileID: 1483629932}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1639,17 +1638,17 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1483629931}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7933766, y: 0.7450255, z: 0.8054329}
+  m_LocalPosition: {x: 0, y: 0, z: 1039.2305}
+  m_LocalScale: {x: 0.026196647, y: 0.024600133, z: 0.026594738}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 924565564}
-  m_Father: {fileID: 1152647503}
+  m_Father: {fileID: 1559069058}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 552, y: 2089.5537}
+  m_AnchoredPosition: {x: -25, y: -49.910004}
+  m_SizeDelta: {x: 2463.755, y: 5494.6416}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1483629933
 MonoBehaviour:
@@ -1840,7 +1839,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab782b713bc02b2419e9d2bd763f4cbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UISoundFX
-  clickSound: {fileID: 8300000, guid: 7a66cbf2e4726134dbacbd356bd45b5b, type: 3}
 --- !u!82 &1483629942
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2106,6 +2104,43 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1557555594}
   m_CullTransparentMesh: 1
+--- !u!1 &1559069057
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1559069058}
+  m_Layer: 0
+  m_Name: Back
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1559069058
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1559069057}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1039.2305}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2033784085034084147}
+  - {fileID: 1483629932}
+  m_Father: {fileID: 1661092516}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 25, y: 49.91}
+  m_SizeDelta: {x: 8.245087, y: 8.245087}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1587006626
 GameObject:
   m_ObjectHideFlags: 0
@@ -2413,8 +2448,8 @@ RectTransform:
   m_LocalScale: {x: 30.285423, y: 30.285423, z: 30.285423}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2033784085034084147}
   - {fileID: 1122826302}
+  - {fileID: 1559069058}
   m_Father: {fileID: 1152647503}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -2999,7 +3034,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab782b713bc02b2419e9d2bd763f4cbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UISoundFX
-  clickSound: {fileID: 8300000, guid: 7c53270bffc211b44a5d5531471e3201, type: 3}
 --- !u!114 &1354186943480430926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3044,15 +3078,15 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6594838376109512452}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1039.2305}
-  m_LocalScale: {x: 0.054244, y: 0.054244, z: 0.054244}
+  m_LocalPosition: {x: 0, y: 0, z: -0.00012207031}
+  m_LocalScale: {x: 0.054243997, y: 0.054243997, z: 0.054243997}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1661092516}
+  m_Father: {fileID: 1559069058}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -25, y: -0.09000015}
+  m_AnchoredPosition: {x: -4.1225433, y: -4.1225433}
   m_SizeDelta: {x: 152, y: 152}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2201193833495093934
@@ -3063,6 +3097,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6594838376109512452}
   m_CullTransparentMesh: 1
+--- !u!1001 &2291077193794665488
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1793877029674786518, guid: 5982b1eb6fec0834a9662b6b7b6d039d, type: 3}
+      propertyPath: m_Name
+      value: UISFXManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 1864543813726518128, guid: 5982b1eb6fec0834a9662b6b7b6d039d, type: 3}
+      propertyPath: buttonGroups.Array.data[0].buttonParent
+      value: 
+      objectReference: {fileID: 1997455725797850440}
+    - target: {fileID: 1864543813726518128, guid: 5982b1eb6fec0834a9662b6b7b6d039d, type: 3}
+      propertyPath: buttonGroups.Array.data[1].buttonParent
+      value: 
+      objectReference: {fileID: 1559069058}
+    - target: {fileID: 1864543813726518128, guid: 5982b1eb6fec0834a9662b6b7b6d039d, type: 3}
+      propertyPath: buttonGroups.Array.data[2].buttonParent
+      value: 
+      objectReference: {fileID: 2033784085034084147}
+    - target: {fileID: 3973034457763047042, guid: 5982b1eb6fec0834a9662b6b7b6d039d, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.91008
+      objectReference: {fileID: 0}
+    - target: {fileID: 3973034457763047042, guid: 5982b1eb6fec0834a9662b6b7b6d039d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.11119
+      objectReference: {fileID: 0}
+    - target: {fileID: 3973034457763047042, guid: 5982b1eb6fec0834a9662b6b7b6d039d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3973034457763047042, guid: 5982b1eb6fec0834a9662b6b7b6d039d, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3973034457763047042, guid: 5982b1eb6fec0834a9662b6b7b6d039d, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3973034457763047042, guid: 5982b1eb6fec0834a9662b6b7b6d039d, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3973034457763047042, guid: 5982b1eb6fec0834a9662b6b7b6d039d, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3973034457763047042, guid: 5982b1eb6fec0834a9662b6b7b6d039d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3973034457763047042, guid: 5982b1eb6fec0834a9662b6b7b6d039d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3973034457763047042, guid: 5982b1eb6fec0834a9662b6b7b6d039d, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5982b1eb6fec0834a9662b6b7b6d039d, type: 3}
 --- !u!114 &2414797381772374285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3092,7 +3195,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab782b713bc02b2419e9d2bd763f4cbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UISoundFX
-  clickSound: {fileID: 8300000, guid: 7a66cbf2e4726134dbacbd356bd45b5b, type: 3}
 --- !u!114 &2471393774624152732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3248,6 +3350,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SceneNavigationRequest
   targetSceneAsset: {fileID: 102900000, guid: 370fb3d053abb964eab9b3ad3ee5932e, type: 3}
   targetSceneName: RecipeChoice
+  useLoadingScreen: 0
+  loadingSceneName: LoadingScene
 --- !u!82 &5073356510490114592
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3763,3 +3867,4 @@ SceneRoots:
   - {fileID: 1152647503}
   - {fileID: 1515633823}
   - {fileID: 1079959986}
+  - {fileID: 2291077193794665488}

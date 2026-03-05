@@ -919,6 +919,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SceneNavigationSystem
   targetSceneAsset: {fileID: 102900000, guid: 16a934d48c2436545bfee927179eff16, type: 3}
   targetSceneName: LibraryMenu
+  loadingSceneName: LoadingScene
 --- !u!114 &98251345
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1156,6 +1157,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SceneNavigationSystem
   targetSceneAsset: {fileID: 0}
   targetSceneName: 
+  loadingSceneName: LoadingScene
 --- !u!82 &176802610
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2844,6 +2846,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SceneNavigationSystem
   targetSceneAsset: {fileID: 0}
   targetSceneName: 
+  loadingSceneName: LoadingScene
 --- !u!1 &819561017
 GameObject:
   m_ObjectHideFlags: 0
@@ -4739,6 +4742,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SceneNavigationSystem
   targetSceneAsset: {fileID: 0}
   targetSceneName: 
+  loadingSceneName: LoadingScene
 --- !u!82 &1145058895
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7998,6 +8002,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SceneNavigationSystem
   targetSceneAsset: {fileID: 0}
   targetSceneName: 
+  loadingSceneName: LoadingScene
 --- !u!82 &1837242731
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8869,6 +8874,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SceneNavigationSystem
   targetSceneAsset: {fileID: 0}
   targetSceneName: 
+  loadingSceneName: LoadingScene
 --- !u!1 &2039575560
 GameObject:
   m_ObjectHideFlags: 0
@@ -9486,6 +9492,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SceneNavigationSystem
   targetSceneAsset: {fileID: 102900000, guid: ac84b322bd5ce0442996193fe181b573, type: 3}
   targetSceneName: Achievements
+  loadingSceneName: LoadingScene
 --- !u!1 &2132072048
 GameObject:
   m_ObjectHideFlags: 0
@@ -9953,7 +9960,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &3239798155344274806
 MonoBehaviour:
   m_ObjectHideFlags: 0
