@@ -11,6 +11,9 @@ public class SceneNavigationSystem : MonoBehaviour
 #endif
     [SerializeField] private string targetSceneName;
 
+    [Header("Loading Scene")]
+    [SerializeField] private string loadingSceneName = "LoadingScene";
+
     public void Navigate()
     {
         if (SceneTransitionManager.Instance == null)
@@ -19,7 +22,11 @@ public class SceneNavigationSystem : MonoBehaviour
             return;
         }
 
-        SceneTransitionManager.Instance.NavigateTo(targetSceneName);
+        // Save the real destination
+        LoadingTargetScene.TargetScene = targetSceneName;
+
+        // Go to loading scene first
+        SceneTransitionManager.Instance.NavigateTo(loadingSceneName);
     }
 
 #if UNITY_EDITOR
