@@ -6,52 +6,76 @@ public class LoadingSceneController : MonoBehaviour
 {
     [Header("UI References")]
     [SerializeField] private LoadingTextAnimator loadingAnimator;
+    [SerializeField] private RandomLoadingTrivia triviaSystem;
+
+    [Header("Loading Settings")]
+    [SerializeField] private float minimumLoadTime = 10.5f;
+
+    [Header("Sound Effects")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip tapSoundEffect;
 
     private void Start()
     {
         if (loadingAnimator == null)
             Debug.LogError("[LoadingSceneController] loadingAnimator not assigned in Inspector!");
 
-        StartCoroutine(WaitForLoadThenTap());
+        if (triviaSystem == null)
+            Debug.LogError("[LoadingSceneController] triviaSystem not assigned in Inspector!");
+
+        if (audioSource == null)
+            Debug.LogWarning("[LoadingSceneController] AudioSource not assigned — tap sound won't play.");
+
+        if (tapSoundEffect == null)
+            Debug.LogWarning("[LoadingSceneController] Tap sound effect not assigned in Inspector!");
+
+        StartCoroutine(LoadingRoutine());
     }
 
-    private IEnumerator WaitForLoadThenTap()
+    private IEnumerator LoadingRoutine()
     {
-        // Wait until SceneTransitionManager has set the target scene
-        // (it sets it right after loading this scene)
         while (string.IsNullOrEmpty(LoadingTargetScene.GetTarget()))
             yield return null;
 
         Debug.Log("[LoadingSceneController] Target scene ready: " + LoadingTargetScene.GetTarget());
 
-        // Simulate a minimum loading delay so the animation plays
-        // (target scene is loaded by SceneTransitionManager, not here)
-        yield return new WaitForSeconds(1.5f);
+        if (triviaSystem != null)
+            triviaSystem.ShowRandomTrivia();
 
-        // Tell animator loading is done — hide text, show tap to continue
-        if (loadingAnimator != null)
-            loadingAnimator.SetLoadingComplete();
-
-        Debug.Log("[LoadingSceneController] Waiting for tap...");
-
-        // Wait for player tap
-        bool tapped = false;
-        while (!tapped)
+        float elapsed = 0f;
+        while (elapsed < minimumLoadTime)
         {
             if (IsTapDetected())
-                tapped = true;
+            {
+                // Play tap sound
+                PlayTapSound();
 
+                // Cycle trivia
+                if (triviaSystem != null)
+                    triviaSystem.ShowRandomTrivia();
+            }
+
+            elapsed += Time.deltaTime;
             yield return null;
         }
 
-        Debug.Log("[LoadingSceneController] Tap detected — notifying SceneTransitionManager.");
+        if (loadingAnimator != null)
+            loadingAnimator.SetLoadingComplete();
 
-        // Tell SceneTransitionManager the player is ready
-        // It takes over from here: fade out > load target > fade in
+        yield return new WaitForSeconds(0.3f);
+
+        Debug.Log("[LoadingSceneController] Auto-proceeding to target scene.");
+
         if (SceneTransitionManager.Instance != null)
             SceneTransitionManager.Instance.PlayerTappedToContinue = true;
         else
             Debug.LogError("[LoadingSceneController] SceneTransitionManager not found!");
+    }
+
+    private void PlayTapSound()
+    {
+        if (audioSource != null && tapSoundEffect != null)
+            audioSource.PlayOneShot(tapSoundEffect);
     }
 
     private bool IsTapDetected()
