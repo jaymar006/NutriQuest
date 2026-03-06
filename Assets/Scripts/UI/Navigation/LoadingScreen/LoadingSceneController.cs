@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using System.Collections;
 
@@ -8,65 +7,59 @@ public class LoadingSceneController : MonoBehaviour
     [Header("UI References")]
     [SerializeField] private LoadingTextAnimator loadingAnimator;
 
-    private AsyncOperation loadingOperation;
-
-    private bool loadingReady = false;
-    private bool waitingForTap = false;
-
     private void Start()
     {
-        StartCoroutine(LoadSceneAsync());
+        if (loadingAnimator == null)
+            Debug.LogError("[LoadingSceneController] loadingAnimator not assigned in Inspector!");
+
+        StartCoroutine(WaitForLoadThenTap());
     }
 
-    private IEnumerator LoadSceneAsync()
+    private IEnumerator WaitForLoadThenTap()
     {
-        string targetScene = LoadingTargetScene.GetTarget();
-
-        if (string.IsNullOrEmpty(targetScene))
-        {
-            Debug.LogError("Target scene is empty!");
-            yield break;
-        }
-
-        loadingOperation = SceneManager.LoadSceneAsync(targetScene);
-        loadingOperation.allowSceneActivation = false;
-
-        // Wait until loading reaches 90%
-        while (loadingOperation.progress < 0.9f)
-        {
+        // Wait until SceneTransitionManager has set the target scene
+        // (it sets it right after loading this scene)
+        while (string.IsNullOrEmpty(LoadingTargetScene.GetTarget()))
             yield return null;
-        }
 
-        loadingReady = true;
-        waitingForTap = true;
+        Debug.Log("[LoadingSceneController] Target scene ready: " + LoadingTargetScene.GetTarget());
 
+        // Simulate a minimum loading delay so the animation plays
+        // (target scene is loaded by SceneTransitionManager, not here)
+        yield return new WaitForSeconds(1.5f);
+
+        // Tell animator loading is done — hide text, show tap to continue
         if (loadingAnimator != null)
             loadingAnimator.SetLoadingComplete();
 
-        // Wait for valid tap AFTER ready
-        while (waitingForTap)
+        Debug.Log("[LoadingSceneController] Waiting for tap...");
+
+        // Wait for player tap
+        bool tapped = false;
+        while (!tapped)
         {
             if (IsTapDetected())
-            {
-                waitingForTap = false;
-            }
+                tapped = true;
 
             yield return null;
         }
 
-        loadingOperation.allowSceneActivation = true;
+        Debug.Log("[LoadingSceneController] Tap detected — notifying SceneTransitionManager.");
 
-        LoadingTargetScene.Clear();
+        // Tell SceneTransitionManager the player is ready
+        // It takes over from here: fade out > load target > fade in
+        if (SceneTransitionManager.Instance != null)
+            SceneTransitionManager.Instance.PlayerTappedToContinue = true;
+        else
+            Debug.LogError("[LoadingSceneController] SceneTransitionManager not found!");
     }
 
     private bool IsTapDetected()
     {
-        // Mobile / Touch
         if (Touchscreen.current != null &&
             Touchscreen.current.primaryTouch.press.wasPressedThisFrame)
             return true;
 
-        // Mouse (Editor testing)
         if (Mouse.current != null &&
             Mouse.current.leftButton.wasPressedThisFrame)
             return true;

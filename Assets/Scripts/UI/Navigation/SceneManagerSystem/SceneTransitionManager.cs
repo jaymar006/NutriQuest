@@ -7,12 +7,6 @@ using System.Collections;
 using UnityEditor;
 #endif
 
-public enum TransitionMode
-{
-    FadeOnly,
-    FadeWithLoadingScene
-}
-
 public class SceneTransitionManager : MonoBehaviour
 {
     public static SceneTransitionManager Instance { get; private set; }
@@ -21,25 +15,23 @@ public class SceneTransitionManager : MonoBehaviour
     [SerializeField] private Image fadeImage;
     [SerializeField] private float fadeDuration = 0.4f;
 
-#if UNITY_EDITOR
-    [SerializeField] private SceneAsset[] fadeOnlyScenes;
-#endif
-    [SerializeField] private string[] fadeOnlySceneNames;
-
-    [Header("Loading Scene Settings")]
-#if UNITY_EDITOR
-    [SerializeField] private SceneAsset[] loadingScenes;
-#endif
-    [SerializeField] private string[] loadingSceneNames;
-
+    [Header("Loading Scene")]
 #if UNITY_EDITOR
     [SerializeField] private SceneAsset defaultLoadingSceneAsset;
 #endif
     [SerializeField] private string defaultLoadingSceneName;
 
+#if UNITY_EDITOR
+    [SerializeField] private SceneAsset[] fadeOnlyScenes;
+#endif
+    [SerializeField] private string[] fadeOnlySceneNames;
+
     private CanvasGroup canvasGroup;
+    private Canvas fadeCanvas;
     private bool isTransitioning;
-    private string pendingTargetScene;
+
+    // LoadingSceneController sets this to true when player taps
+    public bool PlayerTappedToContinue { get; set; }
 
     private void Awake()
     {
@@ -51,7 +43,6 @@ public class SceneTransitionManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
-
         InitializeFade();
     }
 
@@ -64,8 +55,30 @@ public class SceneTransitionManager : MonoBehaviour
     {
         if (fadeImage == null)
         {
-            Debug.LogError("Fade Image not assigned.");
+            Debug.LogError("[SceneTransitionManager] Fade Image not assigned in Inspector!");
             return;
+        }
+
+        // Force fade image to cover full screen
+        RectTransform rt = fadeImage.GetComponent<RectTransform>();
+        if (rt != null)
+        {
+            rt.anchorMin = Vector2.zero;
+            rt.anchorMax = Vector2.one;
+            rt.offsetMin = Vector2.zero;
+            rt.offsetMax = Vector2.zero;
+        }
+
+        // Force canvas on top of everything
+        fadeCanvas = fadeImage.GetComponentInParent<Canvas>();
+        if (fadeCanvas != null)
+        {
+            fadeCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            fadeCanvas.sortingOrder = 999;
+        }
+        else
+        {
+            Debug.LogError("[SceneTransitionManager] No Canvas found on or above the fade Image!");
         }
 
         canvasGroup = fadeImage.GetComponent<CanvasGroup>();
@@ -74,80 +87,122 @@ public class SceneTransitionManager : MonoBehaviour
 
         canvasGroup.alpha = 1f;
         canvasGroup.blocksRaycasts = true;
+        canvasGroup.interactable = false;
     }
 
-    public void NavigateTo(string targetScene)
+    // Called by SceneNavigationSystem only
+    public void NavigateTo(string targetScene, bool useLoadingScreen)
     {
         if (isTransitioning)
+        {
+            Debug.LogWarning("[SceneTransitionManager] Already transitioning, ignoring NavigateTo call.");
             return;
+        }
 
-        StartCoroutine(TransitionRoutine(targetScene));
+        if (useLoadingScreen && !IsInFadeOnlyList(targetScene))
+            StartCoroutine(TransitionWithLoadingScreen(targetScene));
+        else
+            StartCoroutine(TransitionDirect(targetScene));
     }
 
-    private IEnumerator TransitionRoutine(string targetScene)
+    // PATH A: Fade out > load target scene directly > fade in
+    private IEnumerator TransitionDirect(string targetScene)
     {
         isTransitioning = true;
-
-        TransitionMode mode = GetTransitionMode(targetScene);
+        Debug.Log("[SceneTransitionManager] Direct transition to: " + targetScene);
 
         yield return Fade(1f);
 
-        if (mode == TransitionMode.FadeOnly)
-        {
-            yield return SceneManager.LoadSceneAsync(targetScene);
-        }
-        else
-        {
-            pendingTargetScene = targetScene;
-            yield return SceneManager.LoadSceneAsync(defaultLoadingSceneName);
-        }
+        yield return SceneManager.LoadSceneAsync(targetScene);
+
+        yield return null;
+        yield return null;
+
+        EnforceCanvasOnTop();
 
         yield return Fade(0f);
 
         isTransitioning = false;
+        Debug.Log("[SceneTransitionManager] Direct transition complete.");
     }
 
-    public void LoadPendingScene()
+    // PATH B: Fade out > load loading scene > fade in > wait for tap > fade out > load target scene > fade in
+    private IEnumerator TransitionWithLoadingScreen(string targetScene)
     {
-        if (string.IsNullOrEmpty(pendingTargetScene))
-            return;
+        isTransitioning = true;
+        PlayerTappedToContinue = false;
 
-        StartCoroutine(LoadPendingRoutine());
-    }
+        Debug.Log("[SceneTransitionManager] Transition with loading screen to: " + targetScene);
 
-    private IEnumerator LoadPendingRoutine()
-    {
+        // Step 1: Fade out of current scene
         yield return Fade(1f);
 
-        AsyncOperation operation = SceneManager.LoadSceneAsync(pendingTargetScene);
+        // Step 2: Load the loading scene
+        yield return SceneManager.LoadSceneAsync(defaultLoadingSceneName);
 
-        while (!operation.isDone)
+        yield return null;
+        yield return null;
+
+        EnforceCanvasOnTop();
+
+        // Step 3: Fade into loading scene
+        yield return Fade(0f);
+
+        // Step 4: Tell LoadingSceneController to start loading the target in background
+        // LoadingSceneController picks up targetScene from LoadingTargetScene static store
+        LoadingTargetScene.SetTarget(targetScene);
+
+        // Step 5: Wait until LoadingSceneController says the player tapped
+        Debug.Log("[SceneTransitionManager] Waiting for player tap...");
+        while (!PlayerTappedToContinue)
             yield return null;
 
+        Debug.Log("[SceneTransitionManager] Player tapped — transitioning to: " + targetScene);
+
+        // Step 6: Fade out of loading scene
+        yield return Fade(1f);
+
+        // Step 7: Load the actual target scene
+        yield return SceneManager.LoadSceneAsync(targetScene);
+
+        yield return null;
+        yield return null;
+
+        EnforceCanvasOnTop();
+
+        // Step 8: Fade into target scene
         yield return Fade(0f);
+
+        isTransitioning = false;
+        Debug.Log("[SceneTransitionManager] Loading screen transition complete.");
     }
 
-    private TransitionMode GetTransitionMode(string sceneName)
+    private void EnforceCanvasOnTop()
+    {
+        if (fadeCanvas != null)
+        {
+            fadeCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            fadeCanvas.sortingOrder = 999;
+        }
+    }
+
+    private bool IsInFadeOnlyList(string sceneName)
     {
         foreach (string name in fadeOnlySceneNames)
         {
-            if (name == sceneName)
-                return TransitionMode.FadeOnly;
+            if (name == sceneName) return true;
         }
-
-        foreach (string name in loadingSceneNames)
-        {
-            if (name == sceneName)
-                return TransitionMode.FadeWithLoadingScene;
-        }
-
-        return TransitionMode.FadeOnly;
+        return false;
     }
 
     private IEnumerator Fade(float target)
     {
+        if (canvasGroup == null) yield break;
+
         float start = canvasGroup.alpha;
         float time = 0f;
+
+        canvasGroup.blocksRaycasts = true;
 
         while (time < fadeDuration)
         {
@@ -170,16 +225,6 @@ public class SceneTransitionManager : MonoBehaviour
             {
                 if (fadeOnlyScenes[i] != null)
                     fadeOnlySceneNames[i] = fadeOnlyScenes[i].name;
-            }
-        }
-
-        if (loadingScenes != null)
-        {
-            loadingSceneNames = new string[loadingScenes.Length];
-            for (int i = 0; i < loadingScenes.Length; i++)
-            {
-                if (loadingScenes[i] != null)
-                    loadingSceneNames[i] = loadingScenes[i].name;
             }
         }
 

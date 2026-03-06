@@ -9,36 +9,27 @@ public class SceneNavigationSystem : MonoBehaviour
 #if UNITY_EDITOR
     [SerializeField] private SceneAsset targetSceneAsset;
 #endif
-
     [SerializeField] private string targetSceneName;
 
-    [Header("Loading Settings")]
-    [SerializeField] private bool useLoadingScreen = true;
-    [SerializeField] private string loadingSceneName = "LoadingScene";
+    [Header("Loading Screen")]
+    [Tooltip("ON = go through loading screen first. OFF = fade directly to target scene. Default is OFF.")]
+    [SerializeField] private bool useLoadingScreen = false;
 
     public void Navigate()
     {
         if (SceneTransitionManager.Instance == null)
         {
-            Debug.LogError("SceneTransitionManager not found in scene.");
+            Debug.LogError("[SceneNavigationSystem] SceneTransitionManager not found!");
             return;
         }
 
         if (string.IsNullOrEmpty(targetSceneName))
         {
-            Debug.LogError("Target scene name is empty.");
+            Debug.LogError("[SceneNavigationSystem] Target scene name is empty!");
             return;
         }
 
-        if (useLoadingScreen)
-        {
-            LoadingTargetScene.SetTarget(targetSceneName);
-            SceneTransitionManager.Instance.NavigateTo(loadingSceneName);
-        }
-        else
-        {
-            SceneTransitionManager.Instance.NavigateTo(targetSceneName);
-        }
+        SceneTransitionManager.Instance.NavigateTo(targetSceneName, useLoadingScreen);
     }
 
 #if UNITY_EDITOR
