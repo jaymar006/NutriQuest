@@ -41,26 +41,22 @@ public class QuestionGeneratorBeta : MonoBehaviour
             return;
         }
 
-        // Wait one frame so all other Awake/Start methods finish first
         StartCoroutine(InitWithDelay());
     }
 
     private IEnumerator InitWithDelay()
     {
-        // Wait one frame — guarantees QuestionDisplayBeta.Instance is ready
         yield return null;
 
         if (QuestionDisplayBeta.Instance == null)
         {
-            Debug.LogError("[QuestionGeneratorBeta] QuestionDisplayBeta.Instance is null! " +
-                "Make sure QuestionDisplayBeta GameObject is active in the scene.");
+            Debug.LogError("[QuestionGeneratorBeta] QuestionDisplayBeta.Instance is null!");
             yield break;
         }
 
         if (AnswerBTNFunction2.Instance == null)
         {
-            Debug.LogError("[QuestionGeneratorBeta] AnswerBTNFunction2.Instance is null! " +
-                "Make sure AnswerBTNFunction2 GameObject is active in the scene.");
+            Debug.LogError("[QuestionGeneratorBeta] AnswerBTNFunction2.Instance is null!");
             yield break;
         }
 
@@ -71,7 +67,6 @@ public class QuestionGeneratorBeta : MonoBehaviour
     {
         shuffledQuestions = new List<QuestionData>(questions);
 
-        // Fisher-Yates shuffle — no repeats
         for (int i = shuffledQuestions.Count - 1; i > 0; i--)
         {
             int randomIndex = Random.Range(0, i + 1);
@@ -103,6 +98,10 @@ public class QuestionGeneratorBeta : MonoBehaviour
 
         QuestionDisplayBeta.Instance.ShowQuestion();
 
+        // Cat goes back to idle with a new random line
+        if (CatCompanion.Instance != null)
+            CatCompanion.Instance.ShowIdle();
+
         Debug.Log("[QuestionGeneratorBeta] Question " + (currentIndex + 1) +
             "/" + shuffledQuestions.Count + " | Correct: " + correctAnswer);
     }
@@ -117,7 +116,6 @@ public class QuestionGeneratorBeta : MonoBehaviour
     {
         isWaiting = true;
 
-        // Player sees green/red result for this long
         yield return new WaitForSeconds(delayBeforeNextQuestion);
 
         currentIndex++;
@@ -129,10 +127,7 @@ public class QuestionGeneratorBeta : MonoBehaviour
             yield break;
         }
 
-        // Reset all buttons back to blue
         AnswerBTNFunction2.Instance.ResetButtons();
-
-        // Load next question
         DisplayCurrentQuestion();
 
         isWaiting = false;
