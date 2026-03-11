@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using System.Collections;
+using System.Collections.Generic;
 
 public class CatCompanion : MonoBehaviour
 {
@@ -104,7 +103,7 @@ public class CatCompanion : MonoBehaviour
             if (!string.IsNullOrEmpty(line))
                 ShowSpeech(line);
             else
-                Debug.LogWarning("[CatCompanion] Correct Lines list is empty! Add lines in the Inspector.");
+                Debug.LogWarning("[CatCompanion] Correct Lines list is empty!");
         }
         else
         {
@@ -113,7 +112,7 @@ public class CatCompanion : MonoBehaviour
             if (!string.IsNullOrEmpty(line))
                 ShowSpeech(line);
             else
-                Debug.LogWarning("[CatCompanion] Wrong Lines list is empty! Add lines in the Inspector.");
+                Debug.LogWarning("[CatCompanion] Wrong Lines list is empty!");
         }
     }
 
@@ -152,7 +151,15 @@ public class CatCompanion : MonoBehaviour
         if (lines.Count == 1) return lines[0];
 
         int index;
-        do { index = Random.Range(0, lines.Count); }
+        int attempts = 0;
+        int maxAttempts = lines.Count * 2;
+
+        do
+        {
+            index = Random.Range(0, lines.Count);
+            attempts++;
+            if (attempts >= maxAttempts) break;
+        }
         while (index == lastIndex);
 
         lastIndex = index;

@@ -44,4 +44,4 @@ public class QuestionDisplayBeta : MonoBehaviour
         if (answerC != null) answerC.text = newAnswerC;
         if (answerD != null) answerD.text = newAnswerD;
     }
-}
+}                                                                           

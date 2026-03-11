@@ -1,7 +1,6 @@
-using TMPro;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class HintSystem : MonoBehaviour
 {
@@ -59,7 +58,7 @@ public class HintSystem : MonoBehaviour
 
         if (AnswerBTNFunction2.Instance.IsAnswerLocked)
         {
-            Debug.Log("[HintSystem] Answer already selected — hint not used.");
+            Debug.Log("[HintSystem] Answer already selected - hint not used.");
             return;
         }
 
@@ -70,7 +69,6 @@ public class HintSystem : MonoBehaviour
             RemainingHints--;
             UpdateHintUI();
 
-            // Cat reacts to hint being used
             if (CatCompanion.Instance != null)
                 CatCompanion.Instance.ShowHint();
 
@@ -99,7 +97,7 @@ public class HintSystem : MonoBehaviour
         PlayerPrefs.DeleteAll();
         PlayerPrefs.Save();
         UpdateHintUI();
-        Debug.Log("[HintSystem] DEBUG — Hints reset to " + maxHints);
+        Debug.Log("[HintSystem] DEBUG - Hints reset to " + maxHints);
     }
 
     public void ResetForNewQuestion()

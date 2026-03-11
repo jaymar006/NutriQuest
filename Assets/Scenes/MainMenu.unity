@@ -2604,7 +2604,6 @@ GameObject:
   - component: {fileID: 808070269}
   - component: {fileID: 808070268}
   - component: {fileID: 808070272}
-  - component: {fileID: 808070267}
   - component: {fileID: 808070266}
   m_Layer: 5
   m_Name: Challenge
@@ -2690,18 +2689,6 @@ MonoBehaviour:
     m_RotationOrder: 4
   looping: 0
   loopingDelay: 0.5
---- !u!114 &808070267
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 808070263}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab782b713bc02b2419e9d2bd763f4cbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UISoundFX
 --- !u!82 &808070268
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2855,7 +2842,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 808070267}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UISoundFX, Assembly-CSharp
         m_MethodName: PlayClickSound
         m_Mode: 1
@@ -2929,9 +2916,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d2bbc9c722cb0148b0f1a431dc247a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneNavigationSystem
-  targetSceneAsset: {fileID: 0}
-  targetSceneName: 
-  useLoadingScreen: 0
+  targetSceneAsset: {fileID: 102900000, guid: 01e90143054a11546bfe753597e78a30, type: 3}
+  targetSceneName: Level 1
+  useLoadingScreen: 1
 --- !u!1 &819561017
 GameObject:
   m_ObjectHideFlags: 0
