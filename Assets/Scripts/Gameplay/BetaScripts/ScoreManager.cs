@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -16,8 +17,11 @@ public class ScoreManager : MonoBehaviour
     [Tooltip("0 = Tower1, 1 = Tower2, 2 = Tower3, 3 = Tower4")]
     [SerializeField] private int towerIndex = 0;
 
-    [Header("Navigation")]
-    [SerializeField] private string resultSceneName = "ResultScene";
+    // Public read-only access for TowerLevelTransition
+    public int TotalQuestions => totalQuestions;
+    public int WrongAnswers => wrongAnswers;
+    public string StageID => stageID;
+    public int TowerIndex => towerIndex;
 
     private int correctAnswers = 0;
     private int wrongAnswers = 0;
@@ -39,7 +43,6 @@ public class ScoreManager : MonoBehaviour
     public void RegisterAnswer(bool isCorrect)
     {
         answeredQuestions++;
-
         if (isCorrect) correctAnswers++;
         else wrongAnswers++;
 
@@ -54,22 +57,10 @@ public class ScoreManager : MonoBehaviour
 
     private void OnLevelComplete()
     {
-        Debug.Log("[ScoreManager] Level complete! Loading result scene.");
-
-        // Save result data for result scene
-        ResultData.Save(
-            correctAnswers,
-            wrongAnswers,
-            totalQuestions,
-            stageID,
-            towerIndex
-        );
-
-        // Load result scene
-        if (SceneTransitionManager.Instance != null)
-            SceneTransitionManager.Instance.NavigateTo(resultSceneName, false);
+        if (TowerLevelTransition.Instance != null)
+            TowerLevelTransition.Instance.OnLevelComplete();
         else
-            UnityEngine.SceneManagement.SceneManager.LoadScene(resultSceneName);
+            Debug.LogError("[ScoreManager] TowerLevelTransition Instance is null!");
     }
 
     private void UpdateScoreUI()

@@ -3321,30 +3321,6 @@ MonoBehaviour:
     answerC: 'C. Pork rinds '
     answerD: 'D. Donut '
     correctAnswer: B
-  - question: 'Which food is rich in vitamin C, good for immunity? '
-    answerA: A. Lollipop
-    answerB: B. Orange
-    answerC: C.. Biscuit
-    answerD: 'D. Soda '
-    correctAnswer: B
-  - question: 'Which is a junk food that should be avoided? '
-    answerA: 'A. Watermelon '
-    answerB: B. Potato chips
-    answerC: 'C. Egg '
-    answerD: 'D. Mung beans '
-    correctAnswer: B
-  - question: 'Which is a healthy food that comes from animals? '
-    answerA: A. Hotdog
-    answerB: B. Fish
-    answerC: 'C. Candy bar '
-    answerD: D. Ice cream
-    correctAnswer: B
-  - question: Which is a healthy snack for kids?
-    answerA: A. Sticky rice (suman)
-    answerB: B. Chocolate syrup
-    answerC: 'C. Sweet bread '
-    answerD: D. Instant Noodle
-    correctAnswer: A
   delayBeforeNextQuestion: 2
 --- !u!4 &949067932
 Transform:
@@ -4590,8 +4566,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoreManager
   scoreText: {fileID: 1341701434}
-  totalQuestions: 10
-  stageID: Stage_1
+  totalQuestions: 6
+  stageID: Stage_2
   towerIndex: 0
 --- !u!1 &1475436128
 GameObject:

@@ -6,11 +6,13 @@ public class ModalOnAndOF : MonoBehaviour
 
     public void OpenModal()
     {
+        if (modal == null) return;
         modal.Show();
     }
 
     public void CloseModal()
     {
+        if (modal == null) return;
         modal.Hide();
     }
 }

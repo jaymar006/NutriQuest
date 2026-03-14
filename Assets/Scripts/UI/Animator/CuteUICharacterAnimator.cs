@@ -14,10 +14,8 @@ public class CuteUICharacterAnimator : MonoBehaviour, IPointerClickHandler
     {
         public string milestoneName;
         public int tapsRequired;
-
         public Sprite milestoneSprite;
         public AudioClip milestoneSound;
-
         public bool triggerEvent;
         public UnityEvent onMilestoneTriggered;
     }
@@ -35,6 +33,10 @@ public class CuteUICharacterAnimator : MonoBehaviour, IPointerClickHandler
     [SerializeField] private Sprite idleSprite;
     [SerializeField] private Sprite tapSprite;
 
+    [Header("Idle Mode")]
+    [SerializeField] private bool useBreathing = true;
+    [SerializeField] private bool useLevitating = false;
+
     [Header("Tap Milestones")]
     [SerializeField] private bool enableMilestones = true;
     [SerializeField] private List<TapMilestone> milestones = new List<TapMilestone>();
@@ -46,47 +48,59 @@ public class CuteUICharacterAnimator : MonoBehaviour, IPointerClickHandler
     [Header("Audio")]
     [SerializeField] private bool enableTapSound = true;
     [SerializeField] private AudioClip tapSound;
-    [Range(0f, 1f)][SerializeField] private float volume = 1f;
+    [Range(0f, 1f)]
+    [SerializeField] private float volume = 1f;
 
     [Header("Reaction Animation")]
     [SerializeField] private float reactionTime = 0.35f;
     [SerializeField] private float reactionStretch = 1.3f;
 
-    [Header("Idle Breathing")]
-    [SerializeField] private StretchAxis idleAxis = StretchAxis.Y;
-    [SerializeField] private float idleDelay = 2f;
-    [SerializeField] private float idleTime = 0.8f;
-    [SerializeField] private float idleInitialScale = 1f;
-    [SerializeField] private float idleMaxScale = 1.05f;
-    [SerializeField] private bool reverseIdleCurve;
-
+    [Header("Breathing Settings")]
+    [SerializeField] private StretchAxis breathAxis = StretchAxis.Y;
+    [SerializeField] private float breathDelay = 2f;
+    [SerializeField] private float breathTime = 0.8f;
+    [SerializeField] private float breathInitialScale = 1f;
+    [SerializeField] private float breathMaxScale = 1.05f;
+    [SerializeField] private bool reverseBreathCurve;
     [SerializeField]
-    private AnimationCurve idleCurve = new AnimationCurve(
+    private AnimationCurve breathCurve = new AnimationCurve(
         new Keyframe(0f, 0f),
         new Keyframe(0.5f, 1f),
         new Keyframe(1f, 0f)
     );
 
+    [Header("Levitation Settings")]
+    [SerializeField] private float levitationHeight = 12f;
+    [SerializeField] private float levitationSpeed = 2f;
+    [SerializeField] private float levitationBlendSpeed = 3f;
+
     private Image img;
     private AudioSource audioSource;
     private Vector3 originalScale;
+    private Vector3 originalPosition;
 
     private int currentTapCount;
     private float lastTapTime;
     private bool isBusy;
-    private bool idleReversed;
+    private bool breathReversed;
 
-    private Coroutine idleRoutine;
+    private float levitationTime = 0f;
+    private float levitationWeight = 0f;
 
-    private bool AffectX => (idleAxis & StretchAxis.X) != 0;
-    private bool AffectY => (idleAxis & StretchAxis.Y) != 0;
-    private bool AffectZ => (idleAxis & StretchAxis.Z) != 0;
+    private Coroutine breathRoutine;
+    private Coroutine levitationRoutine;
+    private Coroutine blendRoutine;
+
+    private bool AffectX => (breathAxis & StretchAxis.X) != 0;
+    private bool AffectY => (breathAxis & StretchAxis.Y) != 0;
+    private bool AffectZ => (breathAxis & StretchAxis.Z) != 0;
 
     private void Awake()
     {
         img = GetComponent<Image>();
         audioSource = GetComponent<AudioSource>();
         originalScale = transform.localScale;
+        originalPosition = transform.localPosition;
 
         if (idleSprite != null)
             img.sprite = idleSprite;
@@ -96,19 +110,29 @@ public class CuteUICharacterAnimator : MonoBehaviour, IPointerClickHandler
 
     private void OnEnable()
     {
-        idleRoutine = StartCoroutine(IdleLoop());
+        if (useBreathing)
+            breathRoutine = StartCoroutine(BreathingLoop());
+
+        if (useLevitating)
+        {
+            levitationRoutine = StartCoroutine(LevitationLoop());
+            StartCoroutine(BlendLevitation(1f));
+        }
     }
 
     private void OnDisable()
     {
-        if (idleRoutine != null)
-            StopCoroutine(idleRoutine);
+        StopAllCoroutines();
+        transform.localScale = originalScale;
+        transform.localPosition = originalPosition;
+        levitationWeight = 0f;
     }
+
+    //Tap Handling
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (isBusy)
-            return;
+        if (isBusy) return;
 
         HandleTapTimeout();
 
@@ -125,9 +149,7 @@ public class CuteUICharacterAnimator : MonoBehaviour, IPointerClickHandler
 
     private void HandleTapTimeout()
     {
-        if (!enableTapTimeout)
-            return;
-
+        if (!enableTapTimeout) return;
         if (Time.time - lastTapTime > tapResetDelay)
             currentTapCount = 0;
     }
@@ -141,6 +163,8 @@ public class CuteUICharacterAnimator : MonoBehaviour, IPointerClickHandler
         }
         return null;
     }
+
+    // Reactions 
 
     private IEnumerator NormalReaction()
     {
@@ -181,43 +205,6 @@ public class CuteUICharacterAnimator : MonoBehaviour, IPointerClickHandler
         isBusy = false;
     }
 
-    private IEnumerator IdleLoop()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(idleDelay);
-
-            if (!isBusy)
-                yield return AnimateIdle();
-        }
-    }
-
-    private IEnumerator AnimateIdle()
-    {
-        if (reverseIdleCurve)
-            idleReversed = !idleReversed;
-
-        float elapsed = 0f;
-
-        while (elapsed < idleTime)
-        {
-            elapsed += Time.deltaTime;
-
-            float t = idleReversed
-                ? 1 - (elapsed / idleTime)
-                : elapsed / idleTime;
-
-            float curveValue = idleCurve.Evaluate(t);
-            float scaleMultiplier = idleInitialScale + (curveValue * (idleMaxScale - idleInitialScale));
-
-            ApplyScale(scaleMultiplier);
-
-            yield return null;
-        }
-
-        transform.localScale = originalScale;
-    }
-
     private IEnumerator AnimateReaction(float time, float stretch)
     {
         float t = 0f;
@@ -225,28 +212,97 @@ public class CuteUICharacterAnimator : MonoBehaviour, IPointerClickHandler
         while (t < time)
         {
             t += Time.deltaTime;
-            float p = t / time;
-
-            float s = 1f + (p * (stretch - 1f));
-            transform.localScale = originalScale * s;
-
+            float easedP = Mathf.Sin((t / time) * Mathf.PI);
+            transform.localScale = originalScale * (1f + easedP * (stretch - 1f));
             yield return null;
         }
 
         transform.localScale = originalScale;
     }
 
-    private void ApplyScale(float multiplier)
+    //Breathing 
+
+    private IEnumerator BreathingLoop()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(breathDelay);
+
+            if (!isBusy)
+                yield return AnimateBreath();
+        }
+    }
+
+    private IEnumerator AnimateBreath()
+    {
+        if (reverseBreathCurve)
+            breathReversed = !breathReversed;
+
+        float elapsed = 0f;
+
+        while (elapsed < breathTime)
+        {
+            elapsed += Time.deltaTime;
+
+            float t = breathReversed
+                ? 1 - (elapsed / breathTime)
+                : elapsed / breathTime;
+
+            float curve = breathCurve.Evaluate(t);
+            float scaleMultiplier = breathInitialScale +
+                (curve * (breathMaxScale - breathInitialScale));
+
+            ApplyBreathScale(scaleMultiplier);
+            yield return null;
+        }
+
+        transform.localScale = originalScale;
+    }
+
+    private void ApplyBreathScale(float multiplier)
     {
         Vector3 modified = originalScale;
-
-        if (AffectX)
-            modified.x *= multiplier;
-        if (AffectY)
-            modified.y *= multiplier;
-        if (AffectZ)
-            modified.z *= multiplier;
-
+        if (AffectX) modified.x *= multiplier;
+        if (AffectY) modified.y *= multiplier;
+        if (AffectZ) modified.z *= multiplier;
         transform.localScale = modified;
+    }
+
+    // Levitation 
+
+    private IEnumerator LevitationLoop()
+    {
+        while (true)
+        {
+            levitationTime += Time.deltaTime / levitationSpeed;
+
+            float sine = Mathf.Sin(levitationTime * Mathf.PI * 2f);
+            float offsetY = sine * levitationHeight * levitationWeight;
+
+            transform.localPosition = new Vector3(
+                originalPosition.x,
+                originalPosition.y + offsetY,
+                originalPosition.z);
+
+            yield return null;
+        }
+    }
+
+    private IEnumerator BlendLevitation(float target)
+    {
+        if (blendRoutine != null) StopCoroutine(blendRoutine);
+
+        while (!Mathf.Approximately(levitationWeight, target))
+        {
+            levitationWeight = Mathf.MoveTowards(
+                levitationWeight, target,
+                levitationBlendSpeed * Time.deltaTime);
+            yield return null;
+        }
+
+        levitationWeight = target;
+
+        if (target == 0f)
+            transform.localPosition = originalPosition;
     }
 }

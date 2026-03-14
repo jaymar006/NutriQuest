@@ -1,10 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 using System.Collections.Generic;
 
 public class ResultScreenManager : MonoBehaviour
 {
+    [Header("Fade Settings")]
+    [SerializeField] private Image fadeImage;
+    [SerializeField] private float fadeDuration = 0.8f;
+
     [Header("Tower Title Images")]
     [Tooltip("Assign in order: Tower1, Tower2, Tower3, Tower4")]
     [SerializeField] private List<Sprite> towerTitleSprites = new List<Sprite>();
@@ -14,28 +19,30 @@ public class ResultScreenManager : MonoBehaviour
     [SerializeField] private Image resultsImage;
 
     [Header("Score Values")]
-    [Tooltip("These are the NUMBER texts only — the ones showing 0")]
     [SerializeField] private TMP_Text correctAnswerValue;
     [SerializeField] private TMP_Text wrongAnswerValue;
     [SerializeField] private TMP_Text highScoreValue;
     [SerializeField] private TMP_Text totalScoreValue;
 
-    [Header("Achievement")]
-    [SerializeField] private GameObject achievementSection;
-    [SerializeField] private TMP_Text achievementTitleText;
-    [SerializeField] private TMP_Text achievementDescText;
-    [SerializeField] private Image achievementIcon;
-
-    [Header("Achievement Icons")]
-    [SerializeField] private Sprite geniusIcon;
-    [SerializeField] private Sprite conquerorIcon;
-    [SerializeField] private Sprite challengerIcon;
-    [SerializeField] private Sprite stepsIcon;
+    [Header("Achievement Buttons")]
+    [Tooltip("Assign in order: Genius, Conqueror, Challenger, Steps")]
+    [SerializeField] private List<Button> achievementButtons = new List<Button>();
+    [Tooltip("Assign matching modals in same order: Genius, Conqueror, Challenger, Steps")]
+    [SerializeField] private List<ModalWindowScript> achievementModals = new List<ModalWindowScript>();
 
     [Header("Rewards Section")]
     [SerializeField] private GameObject rewardsSection;
     [SerializeField] private Transform rewardsContainer;
-    [SerializeField] private List<GameObject> rewardItems = new List<GameObject>();
+
+    [System.Serializable]
+    public class RewardItem
+    {
+        public Sprite icon;
+        public string rewardName;
+    }
+
+    [SerializeField] private List<RewardItem> rewardItems = new List<RewardItem>();
+    [SerializeField] private GameObject rewardIconPrefab;
 
     [Header("Navigation")]
     [SerializeField] private Button tapToContinueButton;
@@ -47,6 +54,7 @@ public class ResultScreenManager : MonoBehaviour
     private const string HIGH_SCORE_PREFIX = "HighScore_";
     private const string FIRST_CLEAR_PREFIX = "FirstClear_";
     private const string ATTEMPT_PREFIX = "Attempts_";
+    private const string BADGE_PREFIX = "Badge_";
 
     private int correct;
     private int wrong;
@@ -55,46 +63,154 @@ public class ResultScreenManager : MonoBehaviour
     private int towerIndex;
     private bool isFirstClear;
     private bool isFirstAttempt;
+    private bool isTransitioning = false;
+
+    private AchievementType earnedThisRun = AchievementType.None;
 
     private void Start()
     {
-        // Load result data
+        if (tapToContinueButton != null)
+            tapToContinueButton.interactable = false;
+
         correct = ResultData.GetCorrect();
         wrong = ResultData.GetWrong();
         total = ResultData.GetTotal();
         stageID = ResultData.GetStageID();
         towerIndex = ResultData.GetTowerIndex();
 
-        // First clear and attempt tracking
         string firstClearKey = FIRST_CLEAR_PREFIX + stageID;
         string attemptKey = ATTEMPT_PREFIX + stageID;
         isFirstClear = PlayerPrefs.GetInt(firstClearKey, 0) == 0;
         isFirstAttempt = PlayerPrefs.GetInt(attemptKey, 0) == 0;
 
-        // Increment attempt counter
         int attempts = PlayerPrefs.GetInt(attemptKey, 0);
         PlayerPrefs.SetInt(attemptKey, attempts + 1);
         PlayerPrefs.Save();
 
-        // Update high score
         UpdateHighScore();
 
-        // Display everything
-        DisplayTowerTitle();
-        DisplayScores();
-        DisplayAchievement();
-        DisplayRewards();
+        // Evaluate this run's achievement
+        earnedThisRun = AchievementEvaluator.Evaluate(correct, total, isFirstAttempt);
 
-        // Mark as cleared if passed
+        // Save badge if earned
+        SaveBadgeIfEarned(earnedThisRun);
+
+        // Mark first clear
         if (isFirstClear && correct >= AchievementData.GetPassTarget(stageID))
         {
             PlayerPrefs.SetInt(firstClearKey, 1);
             PlayerPrefs.Save();
         }
 
-        // Hook up button
+        DisplayTowerTitle();
+        DisplayScores();
+        DisplayAchievements();
+        DisplayRewards();
+
+        StartCoroutine(FadeInSequence());
+    }
+
+    private void SaveBadgeIfEarned(AchievementType achievement)
+    {
+        if (achievement == AchievementType.None) return;
+
+        string key = BADGE_PREFIX + stageID + "_" + achievement.ToString();
+        PlayerPrefs.SetInt(key, 1);
+        PlayerPrefs.Save();
+
+        Debug.Log("[ResultScreenManager] Badge saved: " + key);
+    }
+
+    private bool IsBadgeEverEarned(AchievementType achievement)
+    {
+        string key = BADGE_PREFIX + stageID + "_" + achievement.ToString();
+        return PlayerPrefs.GetInt(key, 0) == 1;
+    }
+
+    private void SetupFadeImage()
+    {
+        if (fadeImage == null) return;
+
+        RectTransform rt = fadeImage.GetComponent<RectTransform>();
+        if (rt != null)
+        {
+            rt.anchorMin = Vector2.zero;
+            rt.anchorMax = Vector2.one;
+            rt.offsetMin = Vector2.zero;
+            rt.offsetMax = Vector2.zero;
+        }
+
+        Canvas canvas = fadeImage.GetComponentInParent<Canvas>();
+        if (canvas != null)
+        {
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.sortingOrder = 999;
+        }
+
+        fadeImage.color = Color.black;
+    }
+
+    private IEnumerator FadeIn()
+    {
+        if (fadeImage == null) yield break;
+
+        SetupFadeImage();
+        fadeImage.gameObject.SetActive(true);
+        fadeImage.canvasRenderer.SetAlpha(1f);
+
+        float time = 0f;
+        while (time < fadeDuration)
+        {
+            time += Time.deltaTime;
+            fadeImage.canvasRenderer.SetAlpha(Mathf.Lerp(1f, 0f, time / fadeDuration));
+            yield return null;
+        }
+
+        fadeImage.canvasRenderer.SetAlpha(0f);
+        fadeImage.gameObject.SetActive(false);
+    }
+
+    private IEnumerator FadeOut()
+    {
+        if (fadeImage == null) yield break;
+
+        SetupFadeImage();
+        fadeImage.gameObject.SetActive(true);
+        fadeImage.canvasRenderer.SetAlpha(0f);
+
+        float time = 0f;
+        while (time < fadeDuration)
+        {
+            time += Time.deltaTime;
+            fadeImage.canvasRenderer.SetAlpha(Mathf.Lerp(0f, 1f, time / fadeDuration));
+            yield return null;
+        }
+
+        fadeImage.canvasRenderer.SetAlpha(1f);
+    }
+
+    private IEnumerator FadeInSequence()
+    {
+        yield return StartCoroutine(FadeIn());
+
         if (tapToContinueButton != null)
+        {
+            tapToContinueButton.interactable = true;
             tapToContinueButton.onClick.AddListener(OnTapToContinue);
+        }
+    }
+
+    private IEnumerator FadeOutSequence()
+    {
+        isTransitioning = true;
+
+        if (tapToContinueButton != null)
+            tapToContinueButton.interactable = false;
+
+        yield return StartCoroutine(FadeOut());
+
+        Debug.Log("[ResultScreenManager] Loading: " + nextSceneName);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
     }
 
     private void DisplayTowerTitle()
@@ -115,7 +231,6 @@ public class ResultScreenManager : MonoBehaviour
 
     private void DisplayScores()
     {
-        // Only update the VALUE text — labels stay as designed in Unity
         if (correctAnswerValue != null)
             correctAnswerValue.text = correct.ToString();
 
@@ -125,7 +240,6 @@ public class ResultScreenManager : MonoBehaviour
         if (totalScoreValue != null)
             totalScoreValue.text = correct.ToString();
 
-        // High score value — only show on rechallenge
         int highScore = GetHighScore();
         if (highScoreValue != null)
         {
@@ -134,61 +248,47 @@ public class ResultScreenManager : MonoBehaviour
         }
     }
 
-    private void DisplayAchievement()
+    private void DisplayAchievements()
     {
-        if (achievementSection == null) return;
-
-        AchievementType achievement = AchievementEvaluator.Evaluate(
-            correct, total, stageID);
-
-        if (achievement == AchievementType.None)
+        AchievementType[] allTypes = new AchievementType[]
         {
-            achievementSection.SetActive(false);
-            return;
-        }
+            AchievementType.GeniusOfTheTower,
+            AchievementType.ConquerorOfTheTower,
+            AchievementType.ChallengerOfTheTower,
+            AchievementType.StepsTowardsSuccess
+        };
 
-        achievementSection.SetActive(true);
-
-        switch (achievement)
+        for (int i = 0; i < achievementButtons.Count; i++)
         {
-            case AchievementType.GeniusOfTheTower:
-                SetAchievement(
-                    "Genius of the Tower",
-                    "Perfect score! Absolutely brilliant!",
-                    geniusIcon);
-                break;
+            if (achievementButtons[i] == null) continue;
 
-            case AchievementType.ConquerorOfTheTower:
-                SetAchievement(
-                    "Conqueror of the Tower",
-                    "Cleared with an outstanding score!",
-                    conquerorIcon);
-                break;
+            AchievementType thisType = allTypes[i];
+            bool earnedThisAttempt = (earnedThisRun == thisType);
+            bool everEarned = IsBadgeEverEarned(thisType);
 
-            case AchievementType.ChallengerOfTheTower:
-                SetAchievement(
-                    "Challenger of the Tower",
-                    "Cleared the tower! Keep pushing!",
-                    challengerIcon);
-                break;
+            // Only show if earned at least once ever
+            achievementButtons[i].gameObject.SetActive(everEarned || earnedThisAttempt);
 
-            case AchievementType.StepsTowardsSuccess:
-                SetAchievement(
-                    "Steps Towards Success",
-                    "Every step counts. Keep trying!",
-                    stepsIcon);
-                break;
+            if (!everEarned && !earnedThisAttempt) continue;
+
+            if (earnedThisAttempt)
+            {
+                // Full color — earned this run
+                achievementButtons[i].image.color = Color.white;
+                achievementButtons[i].interactable = true;
+
+                int modalIndex = i;
+                achievementButtons[i].onClick.RemoveAllListeners();
+                achievementButtons[i].onClick.AddListener(() =>
+                    OpenAchievementModal(modalIndex));
+            }
+            else
+            {
+                // Greyed out — earned before but not this run
+                achievementButtons[i].image.color = new Color(0.4f, 0.4f, 0.4f, 1f);
+                achievementButtons[i].interactable = false;
+            }
         }
-
-        Debug.Log("[ResultScreenManager] Achievement: " + achievement);
-    }
-
-    private void SetAchievement(string title, string desc, Sprite icon)
-    {
-        if (achievementTitleText != null) achievementTitleText.text = title;
-        if (achievementDescText != null) achievementDescText.text = desc;
-        if (achievementIcon != null && icon != null)
-            achievementIcon.sprite = icon;
     }
 
     private void DisplayRewards()
@@ -203,39 +303,46 @@ public class ResultScreenManager : MonoBehaviour
 
         rewardsSection.SetActive(true);
 
-        if (rewardsContainer != null)
-        {
-            foreach (GameObject reward in rewardItems)
-            {
-                if (reward != null)
-                    Instantiate(reward, rewardsContainer).SetActive(true);
-            }
-        }
+        if (rewardsContainer == null || rewardIconPrefab == null) return;
 
-        // Replenish hint if 85%+
-        float scorePercent = (float)correct / total;
-        if (scorePercent >= replenishThreshold)
+        foreach (Transform child in rewardsContainer)
+            Destroy(child.gameObject);
+
+        foreach (RewardItem reward in rewardItems)
         {
-            int currentHints = PlayerPrefs.GetInt("PlayerHints", 3);
-            if (currentHints < 3)
-            {
-                PlayerPrefs.SetInt("PlayerHints", currentHints + 1);
-                PlayerPrefs.Save();
-                Debug.Log("[ResultScreenManager] Hint replenished!");
-            }
+            if (reward == null) continue;
+
+            GameObject iconGO = Instantiate(rewardIconPrefab, rewardsContainer);
+
+            Image iconImage = iconGO.GetComponent<Image>();
+            if (iconImage != null && reward.icon != null)
+                iconImage.sprite = reward.icon;
+
+            TMP_Text label = iconGO.GetComponentInChildren<TMP_Text>();
+            if (label != null)
+                label.text = reward.rewardName;
         }
+    }
+
+    private void OpenAchievementModal(int index)
+    {
+        if (index < 0 || index >= achievementModals.Count) return;
+
+        ModalWindowScript modal = achievementModals[index];
+        if (modal != null)
+            modal.Show();
+
+        Debug.Log("[ResultScreenManager] Opening achievement modal index: " + index);
     }
 
     private void UpdateHighScore()
     {
         string key = HIGH_SCORE_PREFIX + stageID;
-        int prevBest = PlayerPrefs.GetInt(key, 0);
-
-        if (correct > prevBest)
+        int current = PlayerPrefs.GetInt(key, 0);
+        if (correct > current)
         {
             PlayerPrefs.SetInt(key, correct);
             PlayerPrefs.Save();
-            Debug.Log("[ResultScreenManager] New high score: " + correct);
         }
     }
 
@@ -246,9 +353,7 @@ public class ResultScreenManager : MonoBehaviour
 
     private void OnTapToContinue()
     {
-        if (SceneTransitionManager.Instance != null)
-            SceneTransitionManager.Instance.NavigateTo(nextSceneName, false);
-        else
-            UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
+        if (isTransitioning) return;
+        StartCoroutine(FadeOutSequence());
     }
 }

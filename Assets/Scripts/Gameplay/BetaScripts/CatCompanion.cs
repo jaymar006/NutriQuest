@@ -14,6 +14,7 @@ public class CatCompanion : MonoBehaviour
     [SerializeField] private Sprite correctSprite;
     [SerializeField] private Sprite wrongSprite;
     [SerializeField] private Sprite hintSprite;
+    [SerializeField] private Sprite completionSprite;
 
     [Header("Speech Bubble")]
     [SerializeField] private GameObject speechBubble;
@@ -31,6 +32,9 @@ public class CatCompanion : MonoBehaviour
     [Header("Hint Lines")]
     [SerializeField] private List<string> hintLines = new List<string>();
 
+    [Header("Completion Lines")]
+    [SerializeField] private List<string> completionLines = new List<string>();
+
     [Header("Timing")]
     [SerializeField] private float reactionDelay = 0.5f;
     [SerializeField] private float typewriterSpeed = 0.04f;
@@ -42,6 +46,7 @@ public class CatCompanion : MonoBehaviour
     private int lastCorrectIndex = -1;
     private int lastWrongIndex = -1;
     private int lastHintIndex = -1;
+    private int lastCompletionIndex = -1;
 
     private void Awake()
     {
@@ -67,7 +72,7 @@ public class CatCompanion : MonoBehaviour
         if (!string.IsNullOrEmpty(line))
             ShowSpeech(line);
         else
-            Debug.LogWarning("[CatCompanion] Idle Lines list is empty! Add lines in the Inspector.");
+            Debug.LogWarning("[CatCompanion] Idle Lines list is empty!");
     }
 
     public void ReactToAnswer(bool isCorrect)
@@ -89,7 +94,31 @@ public class CatCompanion : MonoBehaviour
         if (!string.IsNullOrEmpty(line))
             ShowSpeech(line);
         else
-            Debug.LogWarning("[CatCompanion] Hint Lines list is empty! Add lines in the Inspector.");
+            Debug.LogWarning("[CatCompanion] Hint Lines list is empty!");
+    }
+
+    public void ShowCompletion()
+    {
+        // Stop any ongoing reaction
+        if (reactRoutineCoroutine != null)
+        {
+            StopCoroutine(reactRoutineCoroutine);
+            reactRoutineCoroutine = null;
+        }
+
+        if (typewriterCoroutine != null)
+        {
+            StopCoroutine(typewriterCoroutine);
+            typewriterCoroutine = null;
+        }
+
+        SetSprite(completionSprite != null ? completionSprite : idleSprite);
+
+        string line = GetRandomLine(completionLines, ref lastCompletionIndex);
+        if (!string.IsNullOrEmpty(line))
+            ShowSpeech(line);
+        else
+            Debug.LogWarning("[CatCompanion] Completion Lines list is empty! Add lines in Inspector.");
     }
 
     private IEnumerator ReactRoutine(bool isCorrect)
