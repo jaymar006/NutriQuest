@@ -83,9 +83,12 @@ public class DebugTool : MonoBehaviour
     {
         PlayerPrefs.DeleteAll();
         PlayerPrefs.Save();
-        ShowFeedback("✓ ALL progress reset!");
+
+        if (HintSystem.Instance != null)
+            HintSystem.Instance.ResetHints();
+
+        ShowFeedback("✓ All progress reset!");
         Debug.Log("[DebugTool] All PlayerPrefs cleared.");
-        RefreshLiveSystems();
     }
 
     public void ResetHints()

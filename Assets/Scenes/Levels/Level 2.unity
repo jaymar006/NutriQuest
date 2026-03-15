@@ -4567,8 +4567,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ScoreManager
   scoreText: {fileID: 1341701434}
   totalQuestions: 6
-  stageID: Stage_2
-  towerIndex: 0
+  stageID: Stage_1
+  towerIndex: 1
 --- !u!1 &1475436128
 GameObject:
   m_ObjectHideFlags: 0
@@ -6303,7 +6303,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 348.61417}
-  m_SizeDelta: {x: -346, y: 266.075}
+  m_SizeDelta: {x: 734, y: 266.075}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1389132248412229437
 GameObject:
@@ -7715,7 +7715,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DebugTool
   debugPanel: {fileID: 8519827910781290557}
   togglePanelButton: {fileID: 0}
-  resetAllButton: {fileID: 8651996295005200895}
+  resetAllButton: {fileID: 800755805}
   resetHintsButton: {fileID: 4866757551268255139}
   resetScoresButton: {fileID: 3449762795458141922}
   resetAchievementsButton: {fileID: 8730211377106607753}

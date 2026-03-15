@@ -10,10 +10,9 @@ public class ResultScreenManager : MonoBehaviour
     [SerializeField] private Image fadeImage;
     [SerializeField] private float fadeDuration = 0.8f;
 
-    [Header("Tower Title Images")]
+    [Header("Tower Title Objects")]
     [Tooltip("Assign in order: Tower1, Tower2, Tower3, Tower4")]
-    [SerializeField] private List<Sprite> towerTitleSprites = new List<Sprite>();
-    [SerializeField] private Image towerTitleImage;
+    [SerializeField] private List<GameObject> towerTitleObjects = new List<GameObject>();
 
     [Header("Results Image")]
     [SerializeField] private Image resultsImage;
@@ -37,12 +36,12 @@ public class ResultScreenManager : MonoBehaviour
     [System.Serializable]
     public class RewardItem
     {
-        public Sprite icon;
         public string rewardName;
+        public Button rewardButton;
+        public ModalWindowScript rewardModal;
     }
 
     [SerializeField] private List<RewardItem> rewardItems = new List<RewardItem>();
-    [SerializeField] private GameObject rewardIconPrefab;
 
     [Header("Navigation")]
     [SerializeField] private Button tapToContinueButton;
@@ -78,10 +77,19 @@ public class ResultScreenManager : MonoBehaviour
         stageID = ResultData.GetStageID();
         towerIndex = ResultData.GetTowerIndex();
 
+        Debug.Log("[ResultScreenManager] correct: " + correct);
+        Debug.Log("[ResultScreenManager] wrong: " + wrong);
+        Debug.Log("[ResultScreenManager] total: " + total);
+        Debug.Log("[ResultScreenManager] stageID: " + stageID);
+        Debug.Log("[ResultScreenManager] percent: " + ((float)correct / total));
+
         string firstClearKey = FIRST_CLEAR_PREFIX + stageID;
         string attemptKey = ATTEMPT_PREFIX + stageID;
         isFirstClear = PlayerPrefs.GetInt(firstClearKey, 0) == 0;
         isFirstAttempt = PlayerPrefs.GetInt(attemptKey, 0) == 0;
+
+        Debug.Log("[ResultScreenManager] isFirstClear: " + isFirstClear);
+        Debug.Log("[ResultScreenManager] isFirstAttempt: " + isFirstAttempt);
 
         int attempts = PlayerPrefs.GetInt(attemptKey, 0);
         PlayerPrefs.SetInt(attemptKey, attempts + 1);
@@ -89,13 +97,11 @@ public class ResultScreenManager : MonoBehaviour
 
         UpdateHighScore();
 
-        // Evaluate this run's achievement
         earnedThisRun = AchievementEvaluator.Evaluate(correct, total, isFirstAttempt);
+        Debug.Log("[ResultScreenManager] earnedThisRun: " + earnedThisRun);
 
-        // Save badge if earned
         SaveBadgeIfEarned(earnedThisRun);
 
-        // Mark first clear
         if (isFirstClear && correct >= AchievementData.GetPassTarget(stageID))
         {
             PlayerPrefs.SetInt(firstClearKey, 1);
@@ -215,16 +221,22 @@ public class ResultScreenManager : MonoBehaviour
 
     private void DisplayTowerTitle()
     {
-        if (towerTitleImage != null &&
-            towerTitleSprites != null &&
-            towerIndex < towerTitleSprites.Count &&
-            towerTitleSprites[towerIndex] != null)
+        foreach (GameObject obj in towerTitleObjects)
         {
-            towerTitleImage.sprite = towerTitleSprites[towerIndex];
+            if (obj != null)
+                obj.SetActive(false);
+        }
+
+        if (towerTitleObjects != null &&
+            towerIndex >= 0 &&
+            towerIndex < towerTitleObjects.Count &&
+            towerTitleObjects[towerIndex] != null)
+        {
+            towerTitleObjects[towerIndex].SetActive(true);
         }
         else
         {
-            Debug.LogWarning("[ResultScreenManager] Tower title sprite not found " +
+            Debug.LogWarning("[ResultScreenManager] Tower title object not found " +
                 "for index: " + towerIndex);
         }
     }
@@ -252,10 +264,10 @@ public class ResultScreenManager : MonoBehaviour
     {
         AchievementType[] allTypes = new AchievementType[]
         {
-            AchievementType.GeniusOfTheTower,
-            AchievementType.ConquerorOfTheTower,
-            AchievementType.ChallengerOfTheTower,
-            AchievementType.StepsTowardsSuccess
+        AchievementType.GeniusOfTheTower,
+        AchievementType.ConquerorOfTheTower,
+        AchievementType.ChallengerOfTheTower,
+        AchievementType.StepsTowardsSuccess
         };
 
         for (int i = 0; i < achievementButtons.Count; i++)
@@ -263,17 +275,14 @@ public class ResultScreenManager : MonoBehaviour
             if (achievementButtons[i] == null) continue;
 
             AchievementType thisType = allTypes[i];
-            bool earnedThisAttempt = (earnedThisRun == thisType);
             bool everEarned = IsBadgeEverEarned(thisType);
 
-            // Only show if earned at least once ever
-            achievementButtons[i].gameObject.SetActive(everEarned || earnedThisAttempt);
+            // Always show all badges
+            achievementButtons[i].gameObject.SetActive(true);
 
-            if (!everEarned && !earnedThisAttempt) continue;
-
-            if (earnedThisAttempt)
+            if (everEarned)
             {
-                // Full color — earned this run
+                // Player earned this badge in some run — full color, clickable
                 achievementButtons[i].image.color = Color.white;
                 achievementButtons[i].interactable = true;
 
@@ -284,46 +293,66 @@ public class ResultScreenManager : MonoBehaviour
             }
             else
             {
-                // Greyed out — earned before but not this run
+                // Never earned this badge — greyed out, not clickable
                 achievementButtons[i].image.color = new Color(0.4f, 0.4f, 0.4f, 1f);
                 achievementButtons[i].interactable = false;
+                achievementButtons[i].onClick.RemoveAllListeners();
             }
         }
     }
 
     private void DisplayRewards()
     {
-        if (rewardsSection == null) return;
-
-        if (!isFirstClear)
+        if (rewardsSection == null)
         {
-            rewardsSection.SetActive(false);
+            Debug.LogError("[ResultScreenManager] rewardsSection is null!");
             return;
         }
 
+        // Hide all reward buttons first
+        foreach (RewardItem reward in rewardItems)
+        {
+            if (reward.rewardButton != null)
+                reward.rewardButton.gameObject.SetActive(false);
+        }
+
+        // Check if rewards were already claimed using PlayerPrefs
+        string rewardKey = "RewardsClaimed_" + stageID;
+        bool rewardsAlreadyClaimed = PlayerPrefs.GetInt(rewardKey, 0) == 1;
+
+        if (!isFirstClear || rewardsAlreadyClaimed)
+        {
+            rewardsSection.SetActive(false);
+            Debug.Log("[ResultScreenManager] Rewards already claimed or not first clear.");
+            return;
+        }
+
+        // Mark rewards as claimed permanently
+        PlayerPrefs.SetInt(rewardKey, 1);
+        PlayerPrefs.Save();
+
         rewardsSection.SetActive(true);
-
-        if (rewardsContainer == null || rewardIconPrefab == null) return;
-
-        foreach (Transform child in rewardsContainer)
-            Destroy(child.gameObject);
+        Debug.Log("[ResultScreenManager] Rewards section activated — first time!");
 
         foreach (RewardItem reward in rewardItems)
         {
             if (reward == null) continue;
 
-            GameObject iconGO = Instantiate(rewardIconPrefab, rewardsContainer);
+            if (reward.rewardButton != null)
+            {
+                reward.rewardButton.gameObject.SetActive(true);
+                reward.rewardButton.onClick.RemoveAllListeners();
 
-            Image iconImage = iconGO.GetComponent<Image>();
-            if (iconImage != null && reward.icon != null)
-                iconImage.sprite = reward.icon;
+                if (reward.rewardModal != null)
+                {
+                    ModalWindowScript modal = reward.rewardModal;
+                    reward.rewardButton.onClick.AddListener(() => modal.Show());
+                }
 
-            TMP_Text label = iconGO.GetComponentInChildren<TMP_Text>();
-            if (label != null)
-                label.text = reward.rewardName;
+                Debug.Log("[ResultScreenManager] Reward shown: " + reward.rewardName);
+            }
         }
     }
-
     private void OpenAchievementModal(int index)
     {
         if (index < 0 || index >= achievementModals.Count) return;

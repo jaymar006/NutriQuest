@@ -18,10 +18,11 @@ public static class AchievementEvaluator
         if (percent >= 0.70f && percent < 0.80f)
             return AchievementType.ChallengerOfTheTower;
 
-        // Steps Towards Success — 60% to 69%
-        if (percent >= 0.60f && percent < 0.70f)
+        // Steps Towards Success — at least 1 correct but below 70%
+        if (correct >= 1 && percent < 0.70f)
             return AchievementType.StepsTowardsSuccess;
 
+        // Got zero correct — no badge
         return AchievementType.None;
     }
 }
