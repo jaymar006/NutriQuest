@@ -668,166 +668,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 137012819}
   m_CullTransparentMesh: 1
---- !u!1 &142521594
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 142521595}
-  - component: {fileID: 142521597}
-  - component: {fileID: 142521596}
-  m_Layer: 0
-  m_Name: UISFXManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &142521595
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 142521594}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 678.0491, y: 680.4134, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 713404770}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &142521596
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 142521594}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 955b39ca1a11c724abe548b8eec4d14f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UISFXManager
-  buttonGroups:
-  - groupName: BackButton
-    soundClip: {fileID: 8300000, guid: 7a66cbf2e4726134dbacbd356bd45b5b, type: 3}
-    buttonParent: {fileID: 734975568}
-    cachedButtons: []
-  - groupName: Hint
-    soundClip: {fileID: 8300000, guid: 1e6924876a7fe1b43b6dcbeee674e4c8, type: 3}
-    buttonParent: {fileID: 158910233}
-    cachedButtons: []
-  - groupName: NoButton
-    soundClip: {fileID: 8300000, guid: 7c53270bffc211b44a5d5531471e3201, type: 3}
-    buttonParent: {fileID: 158910233}
-    cachedButtons: []
-  - groupName: QuitButton
-    soundClip: {fileID: 8300000, guid: d567dbd85da999e4684323f294cd08a4, type: 3}
-    buttonParent: {fileID: 158910233}
-    cachedButtons: []
-  volume: 1
---- !u!82 &142521597
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 142521594}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &144339729
 GameObject:
   m_ObjectHideFlags: 0
@@ -932,7 +772,7 @@ RectTransform:
   m_GameObject: {fileID: 158910232}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8756523, y: 0.8756523, z: 0.8756523}
+  m_LocalScale: {x: 0.71716, y: 0.71716, z: 0.71716}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1415126899}
@@ -942,7 +782,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 16, y: 119}
+  m_AnchoredPosition: {x: 0, y: 80}
   m_SizeDelta: {x: 239.35675, y: 59.007202}
   m_Pivot: {x: 0, y: 0}
 --- !u!1 &160099966
@@ -1523,7 +1363,6 @@ GameObject:
   - component: {fileID: 336552439}
   - component: {fileID: 336552438}
   - component: {fileID: 336552437}
-  - component: {fileID: 336552440}
   m_Layer: 0
   m_Name: Answer C
   m_TagString: Untagged
@@ -1649,64 +1488,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 336552435}
   m_CullTransparentMesh: 1
---- !u!114 &336552440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 336552435}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e08b9c1e1d288749919a7bea370c2e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SquishSquashManager
-  transformToAffect: {fileID: 0}
-  axisToAffect: 2
-  animationDuration: 0.25
-  canBeOverwritten: 0
-  playOnStart: 0
-  playsEveryTime: 1
-  chanceToPlay: 100
-  initialScale: 1
-  maximumScale: 1.3
-  resetToInitialScaleAfterAnimation: 1
-  reverseAnimationCurveAfterPlaying: 0
-  squashAndStretchCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.5
-      value: 0.5023804
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  looping: 0
-  loopingDelay: 0.5
 --- !u!1 &347248492
 GameObject:
   m_ObjectHideFlags: 0
@@ -2210,7 +1991,7 @@ RectTransform:
   m_GameObject: {fileID: 429728487}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.30178925, y: 0.30178925, z: 0.30178925}
+  m_LocalScale: {x: 0.3626926, y: 0.3626926, z: 0.3626926}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 908303084}
@@ -3046,7 +2827,6 @@ GameObject:
   - component: {fileID: 658226301}
   - component: {fileID: 658226300}
   - component: {fileID: 658226299}
-  - component: {fileID: 658226302}
   m_Layer: 0
   m_Name: Answer D
   m_TagString: Untagged
@@ -3172,64 +2952,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 658226297}
   m_CullTransparentMesh: 1
---- !u!114 &658226302
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 658226297}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e08b9c1e1d288749919a7bea370c2e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SquishSquashManager
-  transformToAffect: {fileID: 0}
-  axisToAffect: 2
-  animationDuration: 0.25
-  canBeOverwritten: 0
-  playOnStart: 0
-  playsEveryTime: 1
-  chanceToPlay: 100
-  initialScale: 1
-  maximumScale: 1.3
-  resetToInitialScaleAfterAnimation: 1
-  reverseAnimationCurveAfterPlaying: 0
-  squashAndStretchCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.5
-      value: 0.5023804
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  looping: 0
-  loopingDelay: 0.5
 --- !u!1 &713404769
 GameObject:
   m_ObjectHideFlags: 0
@@ -3267,8 +2989,6 @@ Transform:
   - {fileID: 1924300089}
   - {fileID: 1004144401}
   - {fileID: 220633356}
-  - {fileID: 1925909241}
-  - {fileID: 142521595}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &734975567
@@ -3283,7 +3003,6 @@ GameObject:
   - component: {fileID: 734975571}
   - component: {fileID: 734975570}
   - component: {fileID: 734975569}
-  - component: {fileID: 734975572}
   m_Layer: 0
   m_Name: BackButton
   m_TagString: Untagged
@@ -3353,19 +3072,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 734975570}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 734975572}
-        m_TargetAssemblyTypeName: ModalOnAndOF, Assembly-CSharp
-        m_MethodName: OpenModal
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &734975570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3404,19 +3111,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 734975567}
   m_CullTransparentMesh: 1
---- !u!114 &734975572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 734975567}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f59a25f5474fe4488238009b05cf72f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOF
-  modal: {fileID: 908303085}
 --- !u!1 &797570662
 GameObject:
   m_ObjectHideFlags: 0
@@ -3961,7 +3655,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f59a25f5474fe4488238009b05cf72f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOF
-  modal: {fileID: 908303085}
+  modal: {fileID: 0}
 --- !u!1 &870132840
 GameObject:
   m_ObjectHideFlags: 0
@@ -4322,128 +4016,67 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c4e49120649a1b4ca7c4060bed01c58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QuestionGeneratorBeta
-  questionPool:
-  - question: 'Which is a healthier rice choice?   '
-    answerA: Rice and chocolate
-    answerB: Rice with lots of oil and hotdog
-    answerC: Rice and potato chips
-    answerD: 'White rice with a little vegetables on top  '
-    correctAnswer: D
-  - question: 'Which is the healthiest drink for kids?  '
-    answerA: Energy drink
-    answerB: Milk
-    answerC: 'Soda '
-    answerD: Sweetened juice
+  questions:
+  - question: Which of the following is a healthy food that comes from plants?
+    answerA: 'A. Hotdog '
+    answerB: B. Banana
+    answerC: C, Candy
+    answerD: D. Soda
+    correctAnswer: 'B '
+  - question: Which is a junk food high in sugar?
+    answerA: 'A. Spinach '
+    answerB: B. Chocolate bar
+    answerC: C. Rice
+    answerD: D. Chicken
+    correctAnswer: 'B '
+  - question: Which is an example of a healthy food in the Pinggang Pinoy?
+    answerA: 'A. Ice cream '
+    answerB: B. Eggplant
+    answerC: C. French fries
+    answerD: D. Cake
+    correctAnswer: 'B '
+  - question: 'Which is the healthiest drink for kids? '
+    answerA: A. Milk
+    answerB: B. Soda
+    answerC: C. Energy drink
+    answerD: D. Sweetened juice
+    correctAnswer: A
+  - question: 'Which food is less healthy because it is high in fat? '
+    answerA: A. Fish
+    answerB: 'B. Fried chicken '
+    answerC: 'C. Sweet potato '
+    answerD: 'D. Corn '
+    correctAnswer: B
+  - question: 'Which food is a healthy "Go" food in the Food Pyramid? '
+    answerA: A. Cupcake
+    answerB: 'B. Rice '
+    answerC: 'C. Pork rinds '
+    answerD: 'D. Donut '
     correctAnswer: B
   - question: 'Which food is rich in vitamin C, good for immunity? '
-    answerA: Soda
-    answerB: Biscuit
-    answerC: Orange
-    answerD: Lollipop
-    correctAnswer: C
-  - question: Which is a junk food high in sugar?
-    answerA: Spinach
-    answerB: Rice
-    answerC: Chicken
-    answerD: Chocolate bar
-    correctAnswer: D
-  - question: 'Which is a healthy food that comes from plants? '
-    answerA: Tokwa (tofu)
-    answerB: Bacon
-    answerC: Ham
-    answerD: 'Tocino '
+    answerA: A. Lollipop
+    answerB: B. Orange
+    answerC: C.. Biscuit
+    answerD: 'D. Soda '
+    correctAnswer: B
+  - question: 'Which is a junk food that should be avoided? '
+    answerA: 'A. Watermelon '
+    answerB: B. Potato chips
+    answerC: 'C. Egg '
+    answerD: 'D. Mung beans '
+    correctAnswer: B
+  - question: 'Which is a healthy food that comes from animals? '
+    answerA: A. Hotdog
+    answerB: B. Fish
+    answerC: 'C. Candy bar '
+    answerD: D. Ice cream
+    correctAnswer: B
+  - question: Which is a healthy snack for kids?
+    answerA: A. Sticky rice (suman)
+    answerB: B. Chocolate syrup
+    answerC: 'C. Sweet bread '
+    answerD: D. Instant Noodle
     correctAnswer: A
-  - question: 'Which should you eat every day, not just occasionally?  '
-    answerA: Vegetables
-    answerB: French fries
-    answerC: Chocolate
-    answerD: Soft drinks
-    correctAnswer: A
-  - question: 'Which is a healthy snack for kids? '
-    answerA: Sweet bread
-    answerB: Chocolate syrup
-    answerC: Sticky rice (suman)
-    answerD: 'Soda '
-    correctAnswer: C
-  - question: Which is the healthier viand (ulam)?
-    answerA: Fried longganisa
-    answerB: Hotdog
-    answerC: Chicharon
-    answerD: 'Grilled fish '
-    correctAnswer: D
-  - question: Which food is less healthy because it is high in fat?
-    answerA: Fish
-    answerB: Corn
-    answerC: Fried chicken
-    answerD: Sweet potato
-    correctAnswer: C
-  - question: Which is a junk food that should be avoided?
-    answerA: Mung beans
-    answerB: Potato chips
-    answerC: Egg
-    answerD: 'Watermelon '
-    correctAnswer: B
-  - question: 'Which is a healthier snack? '
-    answerA: Ice cream with syrup
-    answerB: Pack of potato chips
-    answerC: Mango fruit
-    answerD: Large slice of cake
-    correctAnswer: C
-  - question: 'Which is the better drink to bring to school? '
-    answerA: Sweet powdered juice
-    answerB: Water
-    answerC: Soft drinks
-    answerD: Energy drink
-    correctAnswer: B
-  - question: "Which of these is \u201Cjunk food\u201D?"
-    answerA: Boiled corn
-    answerB: Monggo stew
-    answerC: Saba banana
-    answerD: 'Very sweet kamote cue '
-    correctAnswer: D
-  - question: Which is an example of a healthy food in the Pinggang Pinoy?
-    answerA: Cake
-    answerB: Eggplant
-    answerC: Ice cream
-    answerD: French fries
-    correctAnswer: B
-  - question: Which of the following is a healthy food that comes from plants?
-    answerA: Candy
-    answerB: Banana
-    answerC: Hotdog
-    answerD: Soda
-    correctAnswer: B
-  - question: Which food should be limited because it is high in salt?
-    answerA: Stir-fried vegetables
-    answerB: Chicharon
-    answerC: Banana
-    answerD: Fresh fish
-    correctAnswer: B
-  - question: Which is a healthy food that comes from animals?
-    answerA: Candy bar
-    answerB: Fish
-    answerC: Ice cream
-    answerD: Hotdog
-    correctAnswer: D
-  - question: Which of these is an example of a fruit?
-    answerA: Pansit
-    answerB: Hotcake
-    answerC: Pandesal
-    answerD: Apple
-    correctAnswer: D
-  - question: Which food is a healthy "Go" food in the Food Pyramid?
-    answerA: Cupcake
-    answerB: Donut
-    answerC: Pork rinds
-    answerD: Rice
-    correctAnswer: D
-  - question: Which food is rich in vitamin C, good for immunity?
-    answerA: Soda
-    answerB: Biscuit
-    answerC: 'Orange '
-    answerD: Lollipop
-    correctAnswer: C
-  questionsPerGame: 10
   delayBeforeNextQuestion: 2
 --- !u!4 &949067932
 Transform:
@@ -4989,7 +4622,6 @@ GameObject:
   - component: {fileID: 1107194299}
   - component: {fileID: 1107194298}
   - component: {fileID: 1107194297}
-  - component: {fileID: 1107194300}
   m_Layer: 0
   m_Name: Answer B
   m_TagString: Untagged
@@ -5115,64 +4747,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1107194295}
   m_CullTransparentMesh: 1
---- !u!114 &1107194300
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1107194295}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e08b9c1e1d288749919a7bea370c2e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SquishSquashManager
-  transformToAffect: {fileID: 0}
-  axisToAffect: 2
-  animationDuration: 0.25
-  canBeOverwritten: 0
-  playOnStart: 0
-  playsEveryTime: 1
-  chanceToPlay: 100
-  initialScale: 1
-  maximumScale: 1.3
-  resetToInitialScaleAfterAnimation: 1
-  reverseAnimationCurveAfterPlaying: 0
-  squashAndStretchCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.5
-      value: 0.5023804
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  looping: 0
-  loopingDelay: 0.5
 --- !u!1 &1135060193
 GameObject:
   m_ObjectHideFlags: 0
@@ -5396,7 +4970,6 @@ GameObject:
   - component: {fileID: 1235147857}
   - component: {fileID: 1235147856}
   - component: {fileID: 1235147855}
-  - component: {fileID: 1235147858}
   m_Layer: 0
   m_Name: Answer A
   m_TagString: Untagged
@@ -5522,64 +5095,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1235147853}
   m_CullTransparentMesh: 1
---- !u!114 &1235147858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1235147853}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e08b9c1e1d288749919a7bea370c2e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SquishSquashManager
-  transformToAffect: {fileID: 0}
-  axisToAffect: 2
-  animationDuration: 0.25
-  canBeOverwritten: 0
-  playOnStart: 0
-  playsEveryTime: 1
-  chanceToPlay: 100
-  initialScale: 1
-  maximumScale: 1.3
-  resetToInitialScaleAfterAnimation: 1
-  reverseAnimationCurveAfterPlaying: 0
-  squashAndStretchCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.5
-      value: 0.5023804
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  looping: 0
-  loopingDelay: 0.5
 --- !u!1 &1259618294
 GameObject:
   m_ObjectHideFlags: 0
@@ -6299,13 +5814,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1493781967}
-  m_LocalRotation: {x: -0, y: -0, z: -0.05393214, w: 0.99854463}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5354737, y: 0.5354737, z: 0.5354737}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 158910233}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -6.183}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -6731,8 +6246,8 @@ GameObject:
   - component: {fileID: 1793910421}
   - component: {fileID: 1793910423}
   - component: {fileID: 1793910422}
-  - component: {fileID: 1793910424}
   - component: {fileID: 1793910425}
+  - component: {fileID: 1793910424}
   m_Layer: 0
   m_Name: Emby Chara
   m_TagString: Untagged
@@ -6912,18 +6427,57 @@ MonoBehaviour:
   tapSprite: {fileID: 0}
   useBreathing: 0
   useLevitating: 1
-  breathDelay: 2
-  breathDuration: 0.8
-  breathScale: 1.05
-  levitationHeight: 12
-  levitationSpeed: 2
-  reactionDuration: 0.35
-  reactionScale: 1.3
-  tapResetDelay: 3
-  tapSound: {fileID: 0}
-  volume: 1
   enableMilestones: 1
   milestones: []
+  enableTapTimeout: 1
+  tapResetDelay: 3
+  enableTapSound: 1
+  tapSound: {fileID: 0}
+  volume: 1
+  reactionTime: 0.35
+  reactionStretch: 1
+  breathAxis: 2
+  breathDelay: 2
+  breathTime: 0.8
+  breathInitialScale: 1
+  breathMaxScale: 1.05
+  reverseBreathCurve: 0
+  breathCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  levitationHeight: 12
+  levitationSpeed: 2
+  levitationBlendSpeed: 3
 --- !u!1 &1812102628
 GameObject:
   m_ObjectHideFlags: 0
@@ -7358,151 +6912,6 @@ MonoBehaviour:
   - 
   reactionDelay: 0.5
   typewriterSpeed: 0.04
---- !u!1 &1925909240
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1925909241}
-  - component: {fileID: 1925909243}
-  - component: {fileID: 1925909242}
-  m_Layer: 0
-  m_Name: QuizSFXManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1925909241
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1925909240}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 678.0491, y: 680.4134, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 713404770}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1925909242
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1925909240}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9fc8692567152445b910b0de21adbe6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::QuizSFXManager
-  correctSFX: {fileID: 8300000, guid: 51ea2cdb82e5d7a4d92725d6f519cb7c, type: 3}
-  wrongSFX: {fileID: 8300000, guid: d567dbd85da999e4684323f294cd08a4, type: 3}
-  volume: 1
---- !u!82 &1925909243
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1925909240}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &1967650195
 GameObject:
   m_ObjectHideFlags: 0

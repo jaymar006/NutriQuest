@@ -18,13 +18,16 @@ public class QuestionGeneratorBeta : MonoBehaviour
     public static string correctAnswer;
     public static QuestionGeneratorBeta Instance { get; private set; }
 
-    [Header("Questions")]
-    [SerializeField] private List<QuestionData> questions = new List<QuestionData>();
+    [Header("Question Pool")]
+    [Tooltip("Add all 20 questions here")]
+    [SerializeField] private List<QuestionData> questionPool = new List<QuestionData>();
 
     [Header("Settings")]
+    [Tooltip("How many questions to pick from the pool per game")]
+    [SerializeField] private int questionsPerGame = 10;
     [SerializeField] private float delayBeforeNextQuestion = 2f;
 
-    private List<QuestionData> shuffledQuestions = new List<QuestionData>();
+    private List<QuestionData> selectedQuestions = new List<QuestionData>();
     private int currentIndex = 0;
     private bool isWaiting = false;
 
@@ -35,10 +38,16 @@ public class QuestionGeneratorBeta : MonoBehaviour
 
     private void Start()
     {
-        if (questions.Count == 0)
+        if (questionPool.Count == 0)
         {
-            Debug.LogError("[QuestionGeneratorBeta] No questions added in the Inspector!");
+            Debug.LogError("[QuestionGeneratorBeta] No questions in pool!");
             return;
+        }
+
+        if (questionsPerGame > questionPool.Count)
+        {
+            Debug.LogWarning("[QuestionGeneratorBeta] questionsPerGame exceeds pool size! Using pool size.");
+            questionsPerGame = questionPool.Count;
         }
 
         StartCoroutine(InitWithDelay());
@@ -60,35 +69,40 @@ public class QuestionGeneratorBeta : MonoBehaviour
             yield break;
         }
 
-        ShuffleAndStart();
+        PickAndShuffleQuestions();
     }
 
-    private void ShuffleAndStart()
+    private void PickAndShuffleQuestions()
     {
-        shuffledQuestions = new List<QuestionData>(questions);
-
-        for (int i = shuffledQuestions.Count - 1; i > 0; i--)
+        // Shuffle the pool first
+        List<QuestionData> shuffledPool = new List<QuestionData>(questionPool);
+        for (int i = shuffledPool.Count - 1; i > 0; i--)
         {
             int randomIndex = Random.Range(0, i + 1);
-            QuestionData temp = shuffledQuestions[i];
-            shuffledQuestions[i] = shuffledQuestions[randomIndex];
-            shuffledQuestions[randomIndex] = temp;
+            QuestionData temp = shuffledPool[i];
+            shuffledPool[i] = shuffledPool[randomIndex];
+            shuffledPool[randomIndex] = temp;
         }
+
+        // Pick first N questions from shuffled pool
+        selectedQuestions = shuffledPool.GetRange(0, questionsPerGame);
 
         currentIndex = 0;
         DisplayCurrentQuestion();
+
+        Debug.Log("[QuestionGeneratorBeta] Picked " + questionsPerGame +
+            " questions from pool of " + questionPool.Count);
     }
 
     private void DisplayCurrentQuestion()
     {
-        if (currentIndex >= shuffledQuestions.Count)
+        if (currentIndex >= selectedQuestions.Count)
         {
             Debug.Log("[QuestionGeneratorBeta] All questions answered!");
             return;
         }
 
-        QuestionData picked = shuffledQuestions[currentIndex];
-
+        QuestionData picked = selectedQuestions[currentIndex];
         QuestionDisplayBeta.newQuestion = picked.question;
         QuestionDisplayBeta.newAnswerA = picked.answerA;
         QuestionDisplayBeta.newAnswerB = picked.answerB;
@@ -98,12 +112,11 @@ public class QuestionGeneratorBeta : MonoBehaviour
 
         QuestionDisplayBeta.Instance.ShowQuestion();
 
-        // Cat goes back to idle with a new random line
         if (CatCompanion.Instance != null)
             CatCompanion.Instance.ShowIdle();
 
         Debug.Log("[QuestionGeneratorBeta] Question " + (currentIndex + 1) +
-            "/" + shuffledQuestions.Count + " | Correct: " + correctAnswer);
+            "/" + selectedQuestions.Count + " | Correct: " + correctAnswer);
     }
 
     public void OnAnswerSelected()
@@ -115,12 +128,11 @@ public class QuestionGeneratorBeta : MonoBehaviour
     private IEnumerator WaitThenNextQuestion()
     {
         isWaiting = true;
-
         yield return new WaitForSeconds(delayBeforeNextQuestion);
 
         currentIndex++;
 
-        if (currentIndex >= shuffledQuestions.Count)
+        if (currentIndex >= selectedQuestions.Count)
         {
             Debug.Log("[QuestionGeneratorBeta] Reached last question. Stopping.");
             isWaiting = false;
@@ -129,7 +141,6 @@ public class QuestionGeneratorBeta : MonoBehaviour
 
         AnswerBTNFunction2.Instance.ResetButtons();
         DisplayCurrentQuestion();
-
         isWaiting = false;
     }
 }

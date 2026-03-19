@@ -159,7 +159,7 @@ public class AnswerBTNFunction2 : MonoBehaviour
     }
 
     private void HandleAnswer(string letter,
-        GameObject blue, GameObject red, GameObject green)
+     GameObject blue, GameObject red, GameObject green)
     {
         if (answerLocked) return;
         answerLocked = true;
@@ -167,15 +167,21 @@ public class AnswerBTNFunction2 : MonoBehaviour
         bool correct = IsCorrect(letter);
         ShowResult(correct, blue, red, green);
 
-        // Tell the cat to react
+        // Play SFX
+        if (QuizSFXManager.Instance != null)
+        {
+            if (correct)
+                QuizSFXManager.Instance.PlayCorrect();
+            else
+                QuizSFXManager.Instance.PlayWrong();
+        }
+
         if (CatCompanion.Instance != null)
             CatCompanion.Instance.ReactToAnswer(correct);
 
-        // Report score
         if (ScoreManager.Instance != null)
             ScoreManager.Instance.RegisterAnswer(correct);
 
-        // Move to next question
         if (QuestionGeneratorBeta.Instance != null)
             QuestionGeneratorBeta.Instance.OnAnswerSelected();
     }
