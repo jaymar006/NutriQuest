@@ -6233,7 +6233,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ScoreManager
   scoreText: {fileID: 1341701434}
   totalQuestions: 10
-  stageID: Stage_1
+  stageID: Stage_2
   towerIndex: 0
 --- !u!1 &1475436128
 GameObject:

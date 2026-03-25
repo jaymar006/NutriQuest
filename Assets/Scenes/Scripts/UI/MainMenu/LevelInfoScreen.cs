@@ -15,6 +15,12 @@ public class LevelInfoScreen : MonoBehaviour
     [Header("Stage Settings")]
     [SerializeField] private string stageID = "Stage_1";
 
+    [Header("Rune Key Settings")]
+    [SerializeField] private int runeCost = 1;
+    [SerializeField] private string levelSceneName;
+    [SerializeField] private Button challengeButton;
+    [SerializeField] private TMP_Text runeKeyWarningText;
+
     private const string HIGH_SCORE_PREFIX = "HighScore_";
     private const string BADGE_PREFIX = "Badge_";
 
@@ -25,6 +31,37 @@ public class LevelInfoScreen : MonoBehaviour
     {
         DisplayHighScore();
         DisplayBadges();
+
+        if (challengeButton != null)
+            challengeButton.onClick.AddListener(OnChallenge);
+
+        if (runeKeyWarningText != null)
+            runeKeyWarningText.gameObject.SetActive(false);
+    }
+
+    private void OnChallenge()
+    {
+        if (RuneKeySystem.Instance == null)
+        {
+            Debug.LogError("[LevelInfoScreen] RuneKeySystem not found!");
+            return;
+        }
+
+        if (!RuneKeySystem.Instance.HasEnoughKeys(runeCost))
+        {
+            Debug.Log("[LevelInfoScreen] Not enough rune keys!");
+
+            if (runeKeyWarningText != null)
+            {
+                runeKeyWarningText.gameObject.SetActive(true);
+                runeKeyWarningText.text = "Not enough Rune Keys!";
+            }
+            return;
+        }
+
+        bool spent = RuneKeySystem.Instance.SpendKey(runeCost);
+        if (spent)
+            UnityEngine.SceneManagement.SceneManager.LoadScene(levelSceneName);
     }
 
     private void DisplayHighScore()
@@ -47,7 +84,6 @@ public class LevelInfoScreen : MonoBehaviour
         for (int i = 0; i < badgeImages.Count; i++)
         {
             if (badgeImages[i] == null) continue;
-
             bool earned = IsBadgeEarned(allTypes[i]);
             badgeImages[i].color = earned ? unlockedColor : lockedColor;
         }

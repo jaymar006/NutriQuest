@@ -100,6 +100,9 @@ public class ResultScreenManager : MonoBehaviour
         earnedThisRun = AchievementEvaluator.Evaluate(correct, total, isFirstAttempt);
         Debug.Log("[ResultScreenManager] earnedThisRun: " + earnedThisRun);
 
+        if (TowerUnlockManager.Instance != null)
+            TowerUnlockManager.Instance.OnLevelCleared(stageID);
+
         SaveBadgeIfEarned(earnedThisRun);
 
         if (isFirstClear && correct >= AchievementData.GetPassTarget(stageID))
@@ -121,8 +124,34 @@ public class ResultScreenManager : MonoBehaviour
         if (achievement == AchievementType.None) return;
 
         string key = BADGE_PREFIX + stageID + "_" + achievement.ToString();
+        bool alreadyEarned = PlayerPrefs.GetInt(key, 0) == 1;
+
         PlayerPrefs.SetInt(key, 1);
         PlayerPrefs.Save();
+
+        if (achievement == AchievementType.GeniusOfTheTower)
+        {
+            if (!alreadyEarned)
+            {
+                // First time Genius — guaranteed rune key
+                if (RuneKeySystem.Instance != null)
+                    RuneKeySystem.Instance.GeniusReward();
+
+                Debug.Log("[ResultScreenManager] First Genius! Guaranteed rune key rewarded.");
+            }
+            else
+            {
+                // Repeat Genius — 55% chance
+                float roll = UnityEngine.Random.Range(0f, 1f);
+                bool dropped = roll <= 0.55f;
+
+                Debug.Log("[ResultScreenManager] Repeat Genius! Roll: " +
+                    roll.ToString("F2") + " — " + (dropped ? "DROPPED!" : "No drop."));
+
+                if (dropped && RuneKeySystem.Instance != null)
+                    RuneKeySystem.Instance.GeniusReward();
+            }
+        }
 
         Debug.Log("[ResultScreenManager] Badge saved: " + key);
     }
