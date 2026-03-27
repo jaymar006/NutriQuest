@@ -41,15 +41,48 @@ public class SquishSquashManager : MonoBehaviour
     [SerializeField] private bool looping;
     [SerializeField] private float loopingDelay = 0.5f;
 
+    [Header("Shake Animation")]
+    [Tooltip("Enable or disable the shake animation.")]
+    [SerializeField] private bool enableShake = false;
+    [Tooltip("Play shake on Start if enabled.")]
+    [SerializeField] private bool shakeOnStart = false;
+    [Tooltip("How far the object moves during shake.")]
+    [SerializeField] private float shakeStrength = 10f;
+    [Tooltip("How long the shake lasts.")]
+    [SerializeField, Range(0f, 2f)] private float shakeDuration = 0.3f;
+    [Tooltip("How many shakes per second.")]
+    [SerializeField] private float shakeFrequency = 20f;
+    [Tooltip("If true, shake loops until stopped manually.")]
+    [SerializeField] private bool shakeLooping = false;
+    [Tooltip("Delay between shake loops.")]
+    [SerializeField] private float shakeLoopDelay = 0.5f;
+    [Tooltip("Direction the shake moves.")]
+    [SerializeField] private ShakeDirection shakeDirection = ShakeDirection.Horizontal;
+    [Tooltip("If true, shake fades out smoothly toward the end.")]
+    [SerializeField] private bool shakeFadeOut = true;
+
+    public enum ShakeDirection
+    {
+        Horizontal,
+        Vertical,
+        Both,
+        Diagonal_UpRight,
+        Diagonal_UpLeft
+    }
+
     private Coroutine _squashAndStretchCoroutine;
+    private Coroutine _shakeCoroutine;
     private WaitForSeconds _loopingDelayWaitForSeconds;
+    private WaitForSeconds _shakeLoopDelayWaitForSeconds;
     private Vector3 _initialScaleVector;
+    private Vector3 _initialPositionVector;
 
     private bool affectX => (axisToAffect & SquashStretchAxis.X) != 0;
     private bool affectY => (axisToAffect & SquashStretchAxis.Y) != 0;
     private bool affectZ => (axisToAffect & SquashStretchAxis.Z) != 0;
 
     private static event Action _squashAndStretchAllObjectsLikeThis;
+    private static event Action _shakeAllObjectsLikeThis;
 
     private void Awake()
     {
@@ -57,17 +90,26 @@ public class SquishSquashManager : MonoBehaviour
             transformToAffect = transform;
 
         _initialScaleVector = transformToAffect.localScale;
+        _initialPositionVector = transformToAffect.localPosition;
         _loopingDelayWaitForSeconds = new WaitForSeconds(loopingDelay);
+        _shakeLoopDelayWaitForSeconds = new WaitForSeconds(shakeLoopDelay);
     }
 
+    // Static callers //
     public static void SquashAndStretchAllObjectsLikeThis()
     {
         _squashAndStretchAllObjectsLikeThis?.Invoke();
     }
 
+    public static void ShakeAllObjectsLikeThis()
+    {
+        _shakeAllObjectsLikeThis?.Invoke();
+    }
+
     private void OnEnable()
     {
         _squashAndStretchAllObjectsLikeThis += PlaySquashAndStretch;
+        _shakeAllObjectsLikeThis += PlayShake;
     }
 
     private void OnDisable()
@@ -75,15 +117,26 @@ public class SquishSquashManager : MonoBehaviour
         if (_squashAndStretchCoroutine != null)
             StopCoroutine(_squashAndStretchCoroutine);
 
+        if (_shakeCoroutine != null)
+        {
+            StopCoroutine(_shakeCoroutine);
+            transformToAffect.localPosition = _initialPositionVector;
+        }
+
         _squashAndStretchAllObjectsLikeThis -= PlaySquashAndStretch;
+        _shakeAllObjectsLikeThis -= PlayShake;
     }
 
     private void Start()
     {
         if (playOnStart)
             CheckForAndStartCoroutine();
+
+        if (enableShake && shakeOnStart)
+            PlayShake();
     }
 
+    // Squash and Stretch //
     public void PlaySquashAndStretch()
     {
         if (looping && !canBeOverwritten)
@@ -146,20 +199,17 @@ public class SquishSquashManager : MonoBehaviour
                 if (Mathf.Abs(remappedValue) < minimumThreshold)
                     remappedValue = minimumThreshold;
 
-                if (affectX)
-                    modifiedScale.x = originalScale.x * remappedValue;
-                else
-                    modifiedScale.x = originalScale.x / remappedValue;
+                modifiedScale.x = affectX
+                    ? originalScale.x * remappedValue
+                    : originalScale.x / remappedValue;
 
-                if (affectY)
-                    modifiedScale.y = originalScale.y * remappedValue;
-                else
-                    modifiedScale.y = originalScale.y / remappedValue;
+                modifiedScale.y = affectY
+                    ? originalScale.y * remappedValue
+                    : originalScale.y / remappedValue;
 
-                if (affectZ)
-                    modifiedScale.z = originalScale.z * remappedValue;
-                else
-                    modifiedScale.z = originalScale.z / remappedValue;
+                modifiedScale.z = affectZ
+                    ? originalScale.z * remappedValue
+                    : originalScale.z / remappedValue;
 
                 transformToAffect.localScale = modifiedScale;
 
@@ -175,8 +225,146 @@ public class SquishSquashManager : MonoBehaviour
         } while (looping);
     }
 
+    // Shake Animation //
+    public void PlayShake()
+    {
+        if (!enableShake) return;
+
+        if (_shakeCoroutine != null)
+        {
+            StopCoroutine(_shakeCoroutine);
+            transformToAffect.localPosition = _initialPositionVector;
+        }
+
+        _shakeCoroutine = StartCoroutine(ShakeEffect());
+    }
+
+    public void StopShake()
+    {
+        if (_shakeCoroutine != null)
+        {
+            StopCoroutine(_shakeCoroutine);
+            _shakeCoroutine = null;
+        }
+
+        transformToAffect.localPosition = _initialPositionVector;
+    }
+
+    // Get the shake direction vector based on selected direction //
+    private Vector3 GetShakeDirectionVector(float value)
+    {
+        switch (shakeDirection)
+        {
+            case ShakeDirection.Horizontal:
+                return new Vector3(value, 0f, 0f);
+
+            case ShakeDirection.Vertical:
+                return new Vector3(0f, value, 0f);
+
+            case ShakeDirection.Both:
+                return new Vector3(value, value, 0f);
+
+            case ShakeDirection.Diagonal_UpRight:
+                return new Vector3(value, value * 0.5f, 0f);
+
+            case ShakeDirection.Diagonal_UpLeft:
+                return new Vector3(-value, value * 0.5f, 0f);
+
+            default:
+                return new Vector3(value, 0f, 0f);
+        }
+    }
+
+    private IEnumerator ShakeEffect()
+    {
+        do
+        {
+            float elapsedTime = 0f;
+
+            while (elapsedTime < shakeDuration)
+            {
+                elapsedTime += Time.deltaTime;
+
+                // Fade out strength toward end if enabled //
+                float fadeMultiplier = shakeFadeOut
+                    ? 1f - (elapsedTime / shakeDuration)
+                    : 1f;
+
+                float sineValue = Mathf.Sin(elapsedTime * shakeFrequency)
+                    * shakeStrength
+                    * fadeMultiplier;
+
+                transformToAffect.localPosition = _initialPositionVector
+                    + GetShakeDirectionVector(sineValue);
+
+                yield return null;
+            }
+
+            // Snap back to original position //
+            transformToAffect.localPosition = _initialPositionVector;
+
+            if (shakeLooping)
+                yield return _shakeLoopDelayWaitForSeconds;
+
+        } while (shakeLooping);
+
+        _shakeCoroutine = null;
+    }
+
     public void SetLooping(bool shouldLoop)
     {
         looping = shouldLoop;
+    }
+
+    public void SetShakeLooping(bool shouldLoop)
+    {
+        shakeLooping = shouldLoop;
+    }
+
+    public void SetShakeEnabled(bool enabled)
+    {
+        enableShake = enabled;
+    }
+
+    // Enable or disable squash and stretch //
+    public void SetSquashStretchEnabled(bool enabled)
+    {
+        playOnStart = enabled;
+
+        if (!enabled)
+        {
+            if (_squashAndStretchCoroutine != null)
+            {
+                StopCoroutine(_squashAndStretchCoroutine);
+                _squashAndStretchCoroutine = null;
+            }
+
+            transformToAffect.localScale = _initialScaleVector;
+        }
+    }
+
+    // Toggle squash and stretch on/off //
+    public void ToggleSquashStretch()
+    {
+        SetSquashStretchEnabled(_squashAndStretchCoroutine == null);
+    }
+
+    // Toggle looping on/off and start/stop accordingly //
+    public void ToggleSquashStretchLooping()
+    {
+        looping = !looping;
+
+        if (looping)
+            CheckForAndStartCoroutine();
+        else
+        {
+            if (_squashAndStretchCoroutine != null)
+            {
+                StopCoroutine(_squashAndStretchCoroutine);
+                _squashAndStretchCoroutine = null;
+            }
+
+            transformToAffect.localScale = _initialScaleVector;
+        }
     }
 }
