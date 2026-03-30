@@ -51,8 +51,8 @@ public class RuneKeySystem : MonoBehaviour
 
     private void Start()
     {
-        // Auto-find all text displays
-        if (autoFindTexts)
+        // Only auto-find if enabled AND no texts were manually assigned
+        if (autoFindTexts && runeKeyTexts.Count == 0)
         {
             FindAllRuneKeyTexts();
         }
@@ -73,11 +73,16 @@ public class RuneKeySystem : MonoBehaviour
         runeKeyTexts.Clear();
 
         // Find all TMP_Text objects in the scene (including inactive)
-        TMP_Text[] allTexts = FindObjectsOfType<TMP_Text>(true);
+        TMP_Text[] allTexts = Resources.FindObjectsOfTypeAll<TMP_Text>();
 
         foreach (TMP_Text text in allTexts)
         {
+            // Skip if it's in a prefab or not in scene
+            if (text.gameObject.scene.name == null) continue;
+            if (!text.gameObject.activeInHierarchy && text.gameObject.hideFlags == HideFlags.HideAndDontSave) continue;
+
             string objName = text.gameObject.name;
+            bool found = false;
 
             // Check if this text object matches any of our tags
             foreach (string tag in textTags)
@@ -88,13 +93,38 @@ public class RuneKeySystem : MonoBehaviour
                     {
                         runeKeyTexts.Add(text);
                         Debug.Log($"[RuneKeySystem] Found rune key display: {objName}");
+                        found = true;
+                        break;
                     }
-                    break;
+                }
+            }
+
+            // Also check if it has a parent with matching name
+            if (!found && text.transform.parent != null)
+            {
+                string parentName = text.transform.parent.name;
+                foreach (string tag in textTags)
+                {
+                    if (parentName.Contains(tag) || parentName.Equals(tag))
+                    {
+                        if (!runeKeyTexts.Contains(text))
+                        {
+                            runeKeyTexts.Add(text);
+                            Debug.Log($"[RuneKeySystem] Found rune key display via parent: {parentName} -> {objName}");
+                        }
+                        break;
+                    }
                 }
             }
         }
 
         Debug.Log($"[RuneKeySystem] Auto-found {runeKeyTexts.Count} rune key displays");
+
+        // If still no texts found, try a different approach
+        if (runeKeyTexts.Count == 0)
+        {
+            Debug.LogWarning("[RuneKeySystem] No rune key displays found with auto-find. Make sure your text objects have names containing: " + string.Join(", ", textTags));
+        }
     }
 
     // Update all text displays with current key count
@@ -112,6 +142,12 @@ public class RuneKeySystem : MonoBehaviour
             {
                 text.text = $"{currentKeys}/{maxRuneKeys}";
             }
+        }
+
+        // Debug log to verify updates
+        if (runeKeyTexts.Count > 0)
+        {
+            Debug.Log($"[RuneKeySystem] Updated {runeKeyTexts.Count} displays to: {currentKeys}/{maxRuneKeys}");
         }
     }
 

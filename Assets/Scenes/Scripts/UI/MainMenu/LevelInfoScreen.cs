@@ -20,7 +20,19 @@ public class LevelInfoScreen : MonoBehaviour
     [Header("UI")]
     [SerializeField] private Button challengeButton;
     [SerializeField] private TMP_Text runeKeyWarningText;
-    [SerializeField] private TMP_Text costDisplayText;
+
+    [Header("Cost Display")]
+    [SerializeField] private List<TMP_Text> costDisplayTexts = new List<TMP_Text>();
+
+    [Header("Warning Animation")]
+    [SerializeField] private SquishSquashManager warningAnimation; // Assign your animation component here
+    [Tooltip("Play animation on the warning text itself")]
+    [SerializeField] private bool animateWarningText = true;
+    [Tooltip("Play animation on the button when warning appears")]
+    [SerializeField] private bool animateButton = false;
+    [SerializeField] private SquishSquashManager buttonAnimation; // Optional button animation
+    [Tooltip("Play shake animation on warning")]
+    [SerializeField] private bool shakeOnWarning = false; // Separate option for shake
 
     private const string HIGH_SCORE_PREFIX = "HighScore_";
     private const string BADGE_PREFIX = "Badge_";
@@ -29,7 +41,7 @@ public class LevelInfoScreen : MonoBehaviour
     private readonly Color unlockedColor = Color.white;
     private readonly Color lockedColor = new Color(0.4f, 0.4f, 0.4f, 1f);
 
-    // Cost constants //
+    // Cost constants
     private const int COST_NEW_TOWER = 2;
     private const int COST_RECHALLENGE_TOWER = 1;
     private const int COST_NEW_TOWER4 = 3;
@@ -52,7 +64,6 @@ public class LevelInfoScreen : MonoBehaviour
             runeKeyWarningText.gameObject.SetActive(false);
     }
 
-    // Calculate cost based on tower index and attempt history //
     private int CalculateCost()
     {
         bool hasAttempted = PlayerPrefs.GetInt(ATTEMPT_PREFIX + stageID, 0) > 0;
@@ -71,35 +82,78 @@ public class LevelInfoScreen : MonoBehaviour
             return;
         }
 
-        // Recalculate cost in case state changed //
         currentCost = CalculateCost();
 
         if (!RuneKeySystem.Instance.HasEnoughKeys(currentCost))
         {
-            Debug.Log("[LevelInfoScreen] Not enough rune keys! Need: " + currentCost);
-
+            // Show warning text
             if (runeKeyWarningText != null)
             {
                 runeKeyWarningText.gameObject.SetActive(true);
                 runeKeyWarningText.text = "Not enough Rune Keys! Need " + currentCost + ".";
+
+                // Play warning animation
+                PlayWarningAnimation();
             }
             return;
         }
 
-        bool spent = RuneKeySystem.Instance.SpendKey(currentCost);
-
-        if (spent)
-            Debug.Log("[LevelInfoScreen] Spent " + currentCost + " key(s).");
+        RuneKeySystem.Instance.SpendKey(currentCost);
     }
 
-    // Show cost on UI label if assigned //
+    // Play the warning animation
+    private void PlayWarningAnimation()
+    {
+        // Animate the warning text
+        if (animateWarningText && warningAnimation != null)
+        {
+            // Play squash and stretch
+            warningAnimation.PlaySquashAndStretch();
+
+            // Play shake if enabled
+            if (shakeOnWarning)
+            {
+                warningAnimation.PlayShake();
+            }
+        }
+        else if (animateWarningText && runeKeyWarningText != null)
+        {
+            // Try to get the component from the warning text itself
+            SquishSquashManager textAnim = runeKeyWarningText.GetComponent<SquishSquashManager>();
+            if (textAnim != null)
+            {
+                textAnim.PlaySquashAndStretch();
+
+                if (shakeOnWarning)
+                {
+                    textAnim.PlayShake();
+                }
+            }
+        }
+
+        // Animate the button
+        if (animateButton && buttonAnimation != null)
+        {
+            buttonAnimation.PlaySquashAndStretch();
+        }
+    }
+
+    // Public method to manually trigger warning animation (if needed)
+    public void TriggerWarningAnimation()
+    {
+        PlayWarningAnimation();
+    }
+
     private void DisplayCost()
     {
-        if (costDisplayText == null) return;
-
         string label = towerIndex == 3 ? "Rune Key" : "Stamina";
-        costDisplayText.text = "Cost: " + currentCost + " " + label
-            + (currentCost > 1 ? "s" : "");
+        string costText = $"Cost: {currentCost} {label}{(currentCost > 1 ? "s" : "")}";
+
+        foreach (TMP_Text text in costDisplayTexts)
+        {
+            if (text != null)
+                text.text = costText;
+        }
     }
 
     private void DisplayHighScore()
