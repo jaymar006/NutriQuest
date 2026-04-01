@@ -90,9 +90,29 @@ public class SquishSquashManager : MonoBehaviour
             transformToAffect = transform;
 
         _initialScaleVector = transformToAffect.localScale;
-        _initialPositionVector = transformToAffect.localPosition;
         _loopingDelayWaitForSeconds = new WaitForSeconds(loopingDelay);
         _shakeLoopDelayWaitForSeconds = new WaitForSeconds(shakeLoopDelay);
+    }
+
+    private void Start()
+    {
+        // Wait one frame for layout to fully settle before capturing position //
+        StartCoroutine(CaptureInitialPosition());
+    }
+
+    // Capture position after layout fully settles //
+    private IEnumerator CaptureInitialPosition()
+    {
+        yield return null;
+        yield return null;
+
+        _initialPositionVector = transformToAffect.localPosition;
+
+        if (playOnStart)
+            CheckForAndStartCoroutine();
+
+        if (enableShake && shakeOnStart)
+            PlayShake();
     }
 
     // Static callers //
@@ -125,15 +145,6 @@ public class SquishSquashManager : MonoBehaviour
 
         _squashAndStretchAllObjectsLikeThis -= PlaySquashAndStretch;
         _shakeAllObjectsLikeThis -= PlayShake;
-    }
-
-    private void Start()
-    {
-        if (playOnStart)
-            CheckForAndStartCoroutine();
-
-        if (enableShake && shakeOnStart)
-            PlayShake();
     }
 
     // Squash and Stretch //
