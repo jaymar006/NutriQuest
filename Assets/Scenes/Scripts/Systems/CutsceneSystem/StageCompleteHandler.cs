@@ -9,24 +9,25 @@ public class StageCompleteHandler : MonoBehaviour
     [SerializeField] private string cutsceneSceneName = "Cutscene_Stage1";
     [SerializeField] private string resultSceneName = "ResultScene";
 
-    [Tooltip("If true uses loading screen via SceneTransitionManager.")]
     [SerializeField] private bool useLoadingScreen = false;
 
     private const string FIRST_CLEAR_PREFIX = "FirstClear_";
 
-    // Call this when the player finishes the stage //
     public void OnStageComplete()
     {
+        if (string.IsNullOrEmpty(stageID))
+        {
+            Debug.LogError("[StageCompleteHandler] stageID is not set!");
+            return;
+        }
+
         bool isFirstClear = PlayerPrefs.GetInt(FIRST_CLEAR_PREFIX + stageID, 0) == 0;
 
         if (isFirstClear)
         {
             Debug.Log("[StageCompleteHandler] First clear! Loading cutscene for: " + stageID);
-
-            // Pass stage info to cutscene //
             CutsceneData.Set(stageID, resultSceneName);
 
-            // Load cutscene scene //
             if (SceneTransitionManager.Instance != null)
                 SceneTransitionManager.Instance.NavigateTo(cutsceneSceneName, useLoadingScreen);
             else
@@ -34,9 +35,7 @@ public class StageCompleteHandler : MonoBehaviour
         }
         else
         {
-            Debug.Log("[StageCompleteHandler] Not first clear — skipping cutscene.");
-
-            // Go directly to result screen //
+            Debug.Log("[StageCompleteHandler] Not first clear — going directly to result screen.");
             if (SceneTransitionManager.Instance != null)
                 SceneTransitionManager.Instance.NavigateTo(resultSceneName, useLoadingScreen);
             else

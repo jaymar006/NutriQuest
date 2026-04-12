@@ -17,7 +17,7 @@ public class DialogueCharacterAnimator : MonoBehaviour
     [SerializeField] private float shakeDuration = 0.4f;
     [SerializeField] private float shakeFrequency = 25f;
 
-    [Header("Idle Breathing Settings")]
+    [Header("Idle Breathing")]
     [SerializeField] private float breathScale = 1.04f;
     [SerializeField] private float breathSpeed = 1.2f;
     [SerializeField] private bool breathOnStart = true;
@@ -29,19 +29,16 @@ public class DialogueCharacterAnimator : MonoBehaviour
 
     private Vector3 _originalScale;
     private Vector3 _originalPosition;
+
     private Coroutine _breathCoroutine;
     private Coroutine _shakeCoroutine;
     private Coroutine _zoomCoroutine;
     private Coroutine _highlightCoroutine;
-    private bool _isZoomed = false;
 
     private void Awake()
     {
-        if (characterRect == null)
-            characterRect = GetComponent<RectTransform>();
-
-        if (characterImage == null)
-            characterImage = GetComponent<Image>();
+        if (characterRect == null) characterRect = GetComponent<RectTransform>();
+        if (characterImage == null) characterImage = GetComponent<Image>();
     }
 
     private void Start()
@@ -49,12 +46,9 @@ public class DialogueCharacterAnimator : MonoBehaviour
         StartCoroutine(CaptureAfterLayout());
     }
 
-    // Capture after layout settles //
     private IEnumerator CaptureAfterLayout()
     {
-        yield return null;
-        yield return null;
-
+        yield return null; // Wait for layout
         _originalScale = characterRect.localScale;
         _originalPosition = characterRect.localPosition;
 
@@ -62,12 +56,9 @@ public class DialogueCharacterAnimator : MonoBehaviour
             StartBreathing();
     }
 
-    // Idle Breathing //
     public void StartBreathing()
     {
-        if (_breathCoroutine != null)
-            StopCoroutine(_breathCoroutine);
-
+        StopBreathing();
         _breathCoroutine = StartCoroutine(BreathingLoop());
     }
 
@@ -78,14 +69,13 @@ public class DialogueCharacterAnimator : MonoBehaviour
             StopCoroutine(_breathCoroutine);
             _breathCoroutine = null;
         }
-
-        characterRect.localScale = _originalScale;
+        if (characterRect != null)
+            characterRect.localScale = _originalScale;
     }
 
     private IEnumerator BreathingLoop()
     {
         float time = 0f;
-
         while (true)
         {
             time += Time.deltaTime * breathSpeed;
@@ -95,7 +85,6 @@ public class DialogueCharacterAnimator : MonoBehaviour
         }
     }
 
-    // Shake //
     public void PlayShake()
     {
         if (_shakeCoroutine != null)
@@ -103,14 +92,12 @@ public class DialogueCharacterAnimator : MonoBehaviour
             StopCoroutine(_shakeCoroutine);
             characterRect.localPosition = _originalPosition;
         }
-
         _shakeCoroutine = StartCoroutine(ShakeEffect());
     }
 
     private IEnumerator ShakeEffect()
     {
         float elapsed = 0f;
-
         while (elapsed < shakeDuration)
         {
             elapsed += Time.deltaTime;
@@ -119,35 +106,22 @@ public class DialogueCharacterAnimator : MonoBehaviour
             characterRect.localPosition = _originalPosition + new Vector3(offset, 0f, 0f);
             yield return null;
         }
-
         characterRect.localPosition = _originalPosition;
-        _shakeCoroutine = null;
     }
 
-    // Zoom In on character sprite //
-    public void PlayZoomIn()
+    public void PlayZoomIn() => PlayZoom(_originalScale * zoomScale);
+    public void PlayZoomOut() => PlayZoom(_originalScale);
+
+    private void PlayZoom(Vector3 targetScale)
     {
-        if (_zoomCoroutine != null)
-            StopCoroutine(_zoomCoroutine);
-
-        _zoomCoroutine = StartCoroutine(ZoomTo(_originalScale * zoomScale, zoomDuration));
-        _isZoomed = true;
-    }
-
-    public void PlayZoomOut()
-    {
-        if (_zoomCoroutine != null)
-            StopCoroutine(_zoomCoroutine);
-
-        _zoomCoroutine = StartCoroutine(ZoomTo(_originalScale, zoomDuration));
-        _isZoomed = false;
+        if (_zoomCoroutine != null) StopCoroutine(_zoomCoroutine);
+        _zoomCoroutine = StartCoroutine(ZoomTo(targetScale, zoomDuration));
     }
 
     private IEnumerator ZoomTo(Vector3 targetScale, float duration)
     {
         Vector3 startScale = characterRect.localScale;
         float time = 0f;
-
         while (time < duration)
         {
             time += Time.deltaTime;
@@ -155,40 +129,35 @@ public class DialogueCharacterAnimator : MonoBehaviour
             characterRect.localScale = Vector3.Lerp(startScale, targetScale, t);
             yield return null;
         }
-
         characterRect.localScale = targetScale;
-        _zoomCoroutine = null;
     }
 
-    // Highlight / Dim //
     public void SetHighlight(bool isActive)
     {
         if (_highlightCoroutine != null)
             StopCoroutine(_highlightCoroutine);
 
-        _highlightCoroutine = StartCoroutine(
-            LerpColor(isActive ? activeColor : dimColor));
+        _highlightCoroutine = StartCoroutine(LerpColor(isActive ? activeColor : dimColor));
     }
 
     private IEnumerator LerpColor(Color target)
     {
+        if (characterImage == null) yield break;
+
         Color start = characterImage.color;
         float time = 0f;
-
         while (time < highlightSpeed)
         {
             time += Time.deltaTime;
             characterImage.color = Color.Lerp(start, target, time / highlightSpeed);
             yield return null;
         }
-
         characterImage.color = target;
-        _highlightCoroutine = null;
     }
 
     public void SetSprite(Sprite sprite)
     {
-        if (sprite != null && characterImage != null)
+        if (characterImage != null && sprite != null)
             characterImage.sprite = sprite;
     }
 }

@@ -24,8 +24,7 @@ public class UniversalMusicManager : MonoBehaviour
 #if UNITY_EDITOR
         public SceneAsset[] scenes;
 #endif
-        [HideInInspector] public string[] sceneNames;
-
+        public string[] sceneNames;
         public AudioClip[] musicClips;
         public PlaybackMode playbackMode = PlaybackMode.Sequential;
     }
@@ -39,10 +38,8 @@ public class UniversalMusicManager : MonoBehaviour
     [SerializeField] private float maxVolume = 1f;
 
     private AudioSource audioSource;
-
     private MusicGroup currentGroup;
     private int currentTrackIndex = -1;
-
     private Coroutine playRoutine;
     private Coroutine fadeRoutine;
 
@@ -81,19 +78,18 @@ public class UniversalMusicManager : MonoBehaviour
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        if (musicGroups == null)
-            return;
+        if (musicGroups == null) return;
 
         foreach (var group in musicGroups)
         {
-            if (group.scenes == null)
-                continue;
+            if (group.scenes == null) continue;
 
             group.sceneNames = new string[group.scenes.Length];
-
             for (int i = 0; i < group.scenes.Length; i++)
             {
-                group.sceneNames[i] = group.scenes[i] != null ? group.scenes[i].name : string.Empty;
+                group.sceneNames[i] = group.scenes[i] != null
+                    ? group.scenes[i].name
+                    : string.Empty;
             }
         }
     }
@@ -108,24 +104,24 @@ public class UniversalMusicManager : MonoBehaviour
     {
         MusicGroup newGroup = GetGroup(sceneName);
 
-        if (newGroup == currentGroup)
-            return;
+        Debug.Log("[MusicManager] Scene: " + sceneName +
+            " | Group found: " + (newGroup != null ? newGroup.groupName : "NONE"));
 
-        if (playRoutine != null)
-            StopCoroutine(playRoutine);
+        if (newGroup == currentGroup) return;
 
-        if (fadeRoutine != null)
-            StopCoroutine(fadeRoutine);
+        if (playRoutine != null) StopCoroutine(playRoutine);
+        if (fadeRoutine != null) StopCoroutine(fadeRoutine);
 
         fadeRoutine = StartCoroutine(SwitchGroupRoutine(newGroup));
     }
 
     private MusicGroup GetGroup(string sceneName)
     {
+        if (musicGroups == null) return null;
+
         foreach (var group in musicGroups)
         {
-            if (group.sceneNames == null)
-                continue;
+            if (group.sceneNames == null) continue;
 
             foreach (var name in group.sceneNames)
             {
@@ -144,8 +140,13 @@ public class UniversalMusicManager : MonoBehaviour
         currentGroup = newGroup;
         currentTrackIndex = -1;
 
-        if (currentGroup == null || currentGroup.musicClips == null || currentGroup.musicClips.Length == 0)
+        if (currentGroup == null ||
+            currentGroup.musicClips == null ||
+            currentGroup.musicClips.Length == 0)
+        {
+            Debug.LogWarning("[MusicManager] No music clips assigned for this group!");
             yield break;
+        }
 
         playRoutine = StartCoroutine(PlayGroupRoutine());
     }
@@ -158,9 +159,19 @@ public class UniversalMusicManager : MonoBehaviour
 
             AudioClip clip = currentGroup.musicClips[currentTrackIndex];
 
+            if (clip == null)
+            {
+                Debug.LogWarning("[MusicManager] Clip at index " +
+                    currentTrackIndex + " is null!");
+                yield return new WaitForSeconds(1f);
+                continue;
+            }
+
             audioSource.clip = clip;
             audioSource.volume = maxVolume;
             audioSource.Play();
+
+            Debug.Log("[MusicManager] Playing: " + clip.name);
 
             yield return new WaitForSeconds(clip.length);
         }
@@ -177,12 +188,12 @@ public class UniversalMusicManager : MonoBehaviour
         else
         {
             int newIndex;
-
             do
             {
                 newIndex = Random.Range(0, currentGroup.musicClips.Length);
             }
-            while (newIndex == currentTrackIndex && currentGroup.musicClips.Length > 1);
+            while (newIndex == currentTrackIndex &&
+                   currentGroup.musicClips.Length > 1);
 
             currentTrackIndex = newIndex;
         }
@@ -190,20 +201,19 @@ public class UniversalMusicManager : MonoBehaviour
 
     private IEnumerator FadeOut()
     {
-        float startVolume = audioSource.volume;
-        float time = 0f;
-
-        if (fadeDuration <= 0f)
+        if (fadeDuration <= 0f || !audioSource.isPlaying)
         {
             audioSource.Stop();
             yield break;
         }
 
+        float startVolume = audioSource.volume;
+        float time = 0f;
+
         while (time < fadeDuration)
         {
             time += Time.deltaTime;
-            float t = time / fadeDuration;
-            audioSource.volume = Mathf.Lerp(startVolume, 0f, t);
+            audioSource.volume = Mathf.Lerp(startVolume, 0f, time / fadeDuration);
             yield return null;
         }
 
@@ -216,8 +226,5 @@ public class UniversalMusicManager : MonoBehaviour
         audioSource.volume = maxVolume;
     }
 
-    public float GetVolume()
-    {
-        return maxVolume;
-    }
+    public float GetVolume() => maxVolume;
 }

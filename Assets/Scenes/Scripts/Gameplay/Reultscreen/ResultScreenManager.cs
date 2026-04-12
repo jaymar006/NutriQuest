@@ -85,19 +85,20 @@ public class ResultScreenManager : MonoBehaviour
 
         string firstClearKey = FIRST_CLEAR_PREFIX + stageID;
         string attemptKey = ATTEMPT_PREFIX + stageID;
+
         isFirstClear = PlayerPrefs.GetInt(firstClearKey, 0) == 0;
         isFirstAttempt = PlayerPrefs.GetInt(attemptKey, 0) == 0;
 
-        Debug.Log("[ResultScreenManager] isFirstClear: " + isFirstClear);
-        Debug.Log("[ResultScreenManager] isFirstAttempt: " + isFirstAttempt);
-
+        // Increment attempt count
         int attempts = PlayerPrefs.GetInt(attemptKey, 0);
         PlayerPrefs.SetInt(attemptKey, attempts + 1);
         PlayerPrefs.Save();
 
         UpdateHighScore();
 
-        earnedThisRun = AchievementEvaluator.Evaluate(correct, total, isFirstAttempt);
+        // UPDATED CALL - isFirstAttempt is no longer needed for Genius
+        earnedThisRun = AchievementEvaluator.Evaluate(correct, total);
+
         Debug.Log("[ResultScreenManager] earnedThisRun: " + earnedThisRun);
 
         if (TowerUnlockManager.Instance != null)
@@ -115,7 +116,6 @@ public class ResultScreenManager : MonoBehaviour
         DisplayScores();
         DisplayAchievements();
         DisplayRewards();
-
         StartCoroutine(FadeInSequence());
     }
 

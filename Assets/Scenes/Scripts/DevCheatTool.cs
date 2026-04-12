@@ -21,6 +21,11 @@ public class DevCheatTool : MonoBehaviour
     [SerializeField] private Button setScoreStage3Button;
     [SerializeField] private TMP_InputField scoreInputField;
 
+    [Header("Stage Specific Badges")]
+    [SerializeField] private Button unlockBadgesStage1Button;
+    [SerializeField] private Button unlockBadgesStage2Button;
+    [SerializeField] private Button unlockBadgesStage3Button;
+
     [Header("Tower Unlock")]
     [SerializeField] private Button unlockAllTowersButton;
     [SerializeField] private Button lockAllTowersButton;
@@ -46,9 +51,11 @@ public class DevCheatTool : MonoBehaviour
     private const string BADGE_PREFIX = "Badge_";
     private const string UNLOCK_TIME_PREFIX = "UnlockTime_";
     private const string UNLOCKED_PREFIX = "Unlocked_";
+    private const string ATTEMPT_PREFIX = "Attempts_";
 
+    // Must match EXACTLY what you typed in TowerEntry.towerName in Inspector //
     private string[] stageIDs = { "Stage_1", "Stage_2", "Stage_3", "Stage_4" };
-    private string[] towerNames = { "Tower1", "Tower2", "Tower3", "Tower4" };
+    private string[] towerNames = { "Tower_1", "Tower_2", "Tower_3", "Tower_4" };
 
     private AchievementType[] allBadges = new AchievementType[]
     {
@@ -80,7 +87,7 @@ public class DevCheatTool : MonoBehaviour
             closeButton.onClick.AddListener(() =>
                 cheatPanel.SetActive(false));
 
-        // Rune Keys
+        // Rune Keys //
         if (addRuneKeyButton != null)
             addRuneKeyButton.onClick.AddListener(AddRuneKey);
 
@@ -90,7 +97,7 @@ public class DevCheatTool : MonoBehaviour
         if (zeroRuneKeysButton != null)
             zeroRuneKeysButton.onClick.AddListener(ZeroRuneKeys);
 
-        // Scores
+        // Scores //
         if (setScoreStage1Button != null)
             setScoreStage1Button.onClick.AddListener(() => SetScore("Stage_1"));
 
@@ -100,7 +107,17 @@ public class DevCheatTool : MonoBehaviour
         if (setScoreStage3Button != null)
             setScoreStage3Button.onClick.AddListener(() => SetScore("Stage_3"));
 
-        // Tower Unlock
+        // Stage Specific Badges //
+        if (unlockBadgesStage1Button != null)
+            unlockBadgesStage1Button.onClick.AddListener(() => UnlockBadgesForStage("Stage_1"));
+
+        if (unlockBadgesStage2Button != null)
+            unlockBadgesStage2Button.onClick.AddListener(() => UnlockBadgesForStage("Stage_2"));
+
+        if (unlockBadgesStage3Button != null)
+            unlockBadgesStage3Button.onClick.AddListener(() => UnlockBadgesForStage("Stage_3"));
+
+        // Tower Unlock //
         if (unlockAllTowersButton != null)
             unlockAllTowersButton.onClick.AddListener(UnlockAllTowers);
 
@@ -110,21 +127,21 @@ public class DevCheatTool : MonoBehaviour
         if (skipWaitTimerButton != null)
             skipWaitTimerButton.onClick.AddListener(SkipWaitTimers);
 
-        // Recipes
+        // Recipes //
         if (unlockAllRecipesButton != null)
             unlockAllRecipesButton.onClick.AddListener(UnlockAllRecipes);
 
         if (lockAllRecipesButton != null)
             lockAllRecipesButton.onClick.AddListener(LockAllRecipes);
 
-        // Badges
+        // Badges //
         if (unlockAllBadgesButton != null)
             unlockAllBadgesButton.onClick.AddListener(UnlockAllBadges);
 
         if (clearAllBadgesButton != null)
             clearAllBadgesButton.onClick.AddListener(ClearAllBadges);
 
-        // General
+        // General //
         if (resetEverythingButton != null)
             resetEverythingButton.onClick.AddListener(ResetEverything);
     }
@@ -147,27 +164,88 @@ public class DevCheatTool : MonoBehaviour
     {
         PlayerPrefs.SetInt("RuneKeys", 0);
         PlayerPrefs.Save();
+
+        if (RuneKeySystem.Instance != null)
+            RuneKeySystem.Instance.RefreshAllDisplays();
+
         ShowFeedback("Rune Keys set to 0!");
     }
 
     private void SetScore(string stageID)
     {
-        if (scoreInputField == null) return;
-
-        if (int.TryParse(scoreInputField.text, out int score))
+        if (scoreInputField == null)
         {
-            PlayerPrefs.SetInt(HIGH_SCORE_PREFIX + stageID, score);
-            PlayerPrefs.Save();
-
-            if (TowerUnlockManager.Instance != null)
-                TowerUnlockManager.Instance.RefreshUnlockStates();
-
-            ShowFeedback(stageID + " score set to " + score + "!");
+            ShowFeedback("Score input not assigned!");
+            return;
         }
-        else
+
+        string input = scoreInputField.text.Trim();
+
+        if (string.IsNullOrEmpty(input))
         {
-            ShowFeedback("Invalid score input!");
+            ShowFeedback("Enter a score first!");
+            return;
         }
+
+        if (!int.TryParse(input, out int score))
+        {
+            ShowFeedback("Numbers only!");
+            return;
+        }
+
+        // Check first attempt BEFORE saving //
+        bool isFirstAttempt = PlayerPrefs.GetInt(ATTEMPT_PREFIX + stageID, 0) == 0;
+
+        // Save score and attempts //
+        PlayerPrefs.SetInt(HIGH_SCORE_PREFIX + stageID, score);
+        PlayerPrefs.SetInt(ATTEMPT_PREFIX + stageID, 1);
+
+        // Evaluate badge using correct isFirstAttempt //
+        AchievementType earned = AchievementEvaluator.Evaluate(score, 10);
+
+        if (earned != AchievementType.None)
+        {
+            string badgeKey = BADGE_PREFIX + stageID + "_" + earned.ToString();
+            PlayerPrefs.SetInt(badgeKey, 1);
+            Debug.Log("[DevCheatTool] Badge earned: " + earned.ToString());
+        }
+
+        PlayerPrefs.Save();
+
+        // Trigger tower timer + refresh //
+        if (TowerUnlockManager.Instance != null)
+            TowerUnlockManager.Instance.OnLevelCleared(stageID);
+
+        // Refresh all LevelInfoScreens in scene //
+        foreach (LevelInfoScreen screen in FindObjectsByType<LevelInfoScreen>(FindObjectsSortMode.None))
+            screen.RefreshDisplay();
+
+        ShowFeedback(stageID + " score set to " + score + "!");
+    }
+
+    // Unlock all badges for a specific stage //
+    private void UnlockBadgesForStage(string stageID)
+    {
+        foreach (AchievementType badge in allBadges)
+        {
+            string key = BADGE_PREFIX + stageID + "_" + badge.ToString();
+            PlayerPrefs.SetInt(key, 1);
+        }
+
+        // Save score and attempts so everything is consistent //
+        PlayerPrefs.SetInt(HIGH_SCORE_PREFIX + stageID, 10);
+        PlayerPrefs.SetInt(ATTEMPT_PREFIX + stageID, 1);
+        PlayerPrefs.SetInt(FIRST_CLEAR_PREFIX + stageID, 1);
+        PlayerPrefs.Save();
+
+        if (TowerUnlockManager.Instance != null)
+            TowerUnlockManager.Instance.RefreshUnlockStates();
+
+        if (RecipeUnlockManager.Instance != null)
+            RecipeUnlockManager.Instance.RefreshUnlockStates();
+
+        ShowFeedback("Badges unlocked for " + stageID + "!");
+        Debug.Log("[DevCheatTool] Badges unlocked for: " + stageID);
     }
 
     private void UnlockAllTowers()
@@ -178,9 +256,11 @@ public class DevCheatTool : MonoBehaviour
             PlayerPrefs.DeleteKey(UNLOCK_TIME_PREFIX + tower);
         }
 
-        // Set max scores for all stages
         foreach (string stage in stageIDs)
+        {
             PlayerPrefs.SetInt(HIGH_SCORE_PREFIX + stage, 10);
+            PlayerPrefs.SetInt(ATTEMPT_PREFIX + stage, 1);
+        }
 
         PlayerPrefs.Save();
 
@@ -199,7 +279,10 @@ public class DevCheatTool : MonoBehaviour
         }
 
         foreach (string stage in stageIDs)
+        {
             PlayerPrefs.DeleteKey(HIGH_SCORE_PREFIX + stage);
+            PlayerPrefs.DeleteKey(ATTEMPT_PREFIX + stage);
+        }
 
         PlayerPrefs.Save();
 
@@ -216,7 +299,6 @@ public class DevCheatTool : MonoBehaviour
             string key = UNLOCK_TIME_PREFIX + tower;
             if (!string.IsNullOrEmpty(PlayerPrefs.GetString(key, "")))
             {
-                // Set time to 10 minutes ago so timer expires immediately
                 DateTime pastTime = DateTime.UtcNow.AddMinutes(-10);
                 PlayerPrefs.SetString(key, pastTime.ToString());
             }
@@ -235,6 +317,7 @@ public class DevCheatTool : MonoBehaviour
         foreach (string stage in stageIDs)
         {
             PlayerPrefs.SetInt(FIRST_CLEAR_PREFIX + stage, 1);
+            PlayerPrefs.SetInt(ATTEMPT_PREFIX + stage, 1);
         }
 
         PlayerPrefs.Save();
@@ -290,12 +373,11 @@ public class DevCheatTool : MonoBehaviour
 
     private void ResetEverything()
     {
+        // Wipe everything //
         PlayerPrefs.DeleteAll();
         PlayerPrefs.Save();
 
-        if (HintSystem.Instance != null)
-            HintSystem.Instance.ResetHints();
-
+        // Safely refresh all managers //
         if (TowerUnlockManager.Instance != null)
             TowerUnlockManager.Instance.RefreshUnlockStates();
 

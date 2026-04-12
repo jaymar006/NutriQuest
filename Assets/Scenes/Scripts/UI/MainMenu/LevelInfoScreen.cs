@@ -49,17 +49,26 @@ public class LevelInfoScreen : MonoBehaviour
 
     private void Start()
     {
-        currentCost = CalculateCost();
-
-        DisplayHighScore();
-        DisplayBadges();
-        DisplayCost();
-
         if (challengeButton != null)
             challengeButton.onClick.AddListener(OnChallenge);
 
         if (runeKeyWarningText != null)
             runeKeyWarningText.gameObject.SetActive(false);
+    }
+
+    // Refresh every time this screen becomes active //
+    private void OnEnable()
+    {
+        RefreshDisplay();
+    }
+
+    // Refresh all display elements //
+    public void RefreshDisplay()
+    {
+        currentCost = CalculateCost();
+        DisplayHighScore();
+        DisplayBadges();
+        DisplayCost();
     }
 
     // Calculate cost based on tower index and attempt history //
@@ -90,7 +99,7 @@ public class LevelInfoScreen : MonoBehaviour
             return;
         }
 
-        // Enough keys — play squash stretch on button then spend //
+        // Enough keys - play squash stretch on button then spend //
         if (warningShakeAnimation != null)
         {
             warningShakeAnimation.StopShake();
@@ -113,7 +122,7 @@ public class LevelInfoScreen : MonoBehaviour
             runeKeyWarningText.text = message;
         }
 
-        // Not enough keys — play shake //
+        // Not enough keys - play shake //
         if (warningShakeAnimation != null)
         {
             warningShakeAnimation.StopShake();

@@ -5,8 +5,6 @@ public class DialogueCameraAnimator : MonoBehaviour
 {
     public static DialogueCameraAnimator Instance { get; private set; }
 
-    [Header("Camera Reference")]
-    [Tooltip("Assign your UI Canvas RectTransform to simulate camera zoom.")]
     [SerializeField] private RectTransform canvasRect;
 
     [Header("Zoom Settings")]
@@ -26,7 +24,6 @@ public class DialogueCameraAnimator : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-
         if (canvasRect == null)
             canvasRect = GetComponent<RectTransform>();
     }
@@ -36,36 +33,37 @@ public class DialogueCameraAnimator : MonoBehaviour
         StartCoroutine(CaptureAfterLayout());
     }
 
-    // Capture after layout settles //
     private IEnumerator CaptureAfterLayout()
     {
         yield return null;
         yield return null;
-
         _originalScale = canvasRect.localScale;
         _originalPosition = canvasRect.localPosition;
     }
 
-    // Zoom entire scene (canvas) //
-    public void PlayZoomIn()
-    {
-        if (_zoomCoroutine != null)
-            StopCoroutine(_zoomCoroutine);
+    public void PlayZoomIn() => PlayZoom(_originalScale * zoomInScale);
+    public void PlayZoomOut() => PlayZoom(_originalScale);
 
-        _zoomCoroutine = StartCoroutine(
-            ZoomTo(canvasRect, _originalScale * zoomInScale, zoomDuration));
+    private void PlayZoom(Vector3 targetScale)
+    {
+        if (_zoomCoroutine != null) StopCoroutine(_zoomCoroutine);
+        _zoomCoroutine = StartCoroutine(ZoomTo(targetScale, zoomDuration));
     }
 
-    public void PlayZoomOut()
+    private IEnumerator ZoomTo(Vector3 targetScale, float duration)
     {
-        if (_zoomCoroutine != null)
-            StopCoroutine(_zoomCoroutine);
-
-        _zoomCoroutine = StartCoroutine(
-            ZoomTo(canvasRect, _originalScale, zoomDuration));
+        Vector3 start = canvasRect.localScale;
+        float time = 0f;
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            float t = Mathf.SmoothStep(0f, 1f, time / duration);
+            canvasRect.localScale = Vector3.Lerp(start, targetScale, t);
+            yield return null;
+        }
+        canvasRect.localScale = targetScale;
     }
 
-    // Shake entire scene //
     public void PlayShake()
     {
         if (_shakeCoroutine != null)
@@ -73,42 +71,22 @@ public class DialogueCameraAnimator : MonoBehaviour
             StopCoroutine(_shakeCoroutine);
             canvasRect.localPosition = _originalPosition;
         }
-
         _shakeCoroutine = StartCoroutine(ShakeEffect());
-    }
-
-    private IEnumerator ZoomTo(RectTransform target, Vector3 targetScale, float duration)
-    {
-        Vector3 startScale = target.localScale;
-        float time = 0f;
-
-        while (time < duration)
-        {
-            time += Time.deltaTime;
-            float t = Mathf.SmoothStep(0f, 1f, time / duration);
-            target.localScale = Vector3.Lerp(startScale, targetScale, t);
-            yield return null;
-        }
-
-        target.localScale = targetScale;
-        _zoomCoroutine = null;
     }
 
     private IEnumerator ShakeEffect()
     {
         float elapsed = 0f;
-
         while (elapsed < shakeDuration)
         {
             elapsed += Time.deltaTime;
             float fade = 1f - (elapsed / shakeDuration);
             float offsetX = Mathf.Sin(elapsed * shakeFrequency) * shakeStrength * fade;
             float offsetY = Mathf.Cos(elapsed * shakeFrequency) * shakeStrength * fade;
+
             canvasRect.localPosition = _originalPosition + new Vector3(offsetX, offsetY, 0f);
             yield return null;
         }
-
         canvasRect.localPosition = _originalPosition;
-        _shakeCoroutine = null;
     }
 }

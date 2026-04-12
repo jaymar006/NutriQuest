@@ -28,7 +28,6 @@ public class TowerUnlockManager : MonoBehaviour
     [SerializeField] private int tower4RequiredTotal = 26;
 
     [Header("Wait Time Settings")]
-    [Tooltip("Wait time in minutes after beating a level")]
     [SerializeField] private float waitTimeInMinutes = 3f;
 
     private const string HIGH_SCORE_PREFIX = "HighScore_";
@@ -37,6 +36,11 @@ public class TowerUnlockManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
         Instance = this;
     }
 
@@ -49,58 +53,58 @@ public class TowerUnlockManager : MonoBehaviour
     public void RefreshUnlockStates()
     {
         for (int i = 0; i < towers.Count; i++)
-        {
-            TowerEntry tower = towers[i];
-            UpdateTowerState(i, tower);
-        }
+            UpdateTowerState(i);
     }
 
-    private void UpdateTowerState(int index, TowerEntry tower)
+    private void UpdateTowerState(int index)
     {
+        if (index < 0 || index >= towers.Count) return;
+
+        TowerEntry tower = towers[index];
         if (tower.towerButton == null) return;
 
-        // Tower 1 always unlocked
         if (index == 0)
         {
             SetTowerUnlocked(tower, true);
-            return;
-        }
-
-        // Tower 4 special logic
-        if (index == 3)
-        {
-            bool tower4Unlocked = CheckTower4();
-            SetTowerUnlocked(tower, tower4Unlocked);
-            return;
-        }
-
-        // Tower 2 and 3
-        bool scoremet = CheckScoreRequirement(tower);
-        bool alreadyUnlocked = PlayerPrefs.GetInt(UNLOCKED_PREFIX + tower.towerName, 0) == 1;
-
-        if (alreadyUnlocked)
-        {
-            SetTowerUnlocked(tower, true);
-            return;
-        }
-
-        if (!scoremet)
-        {
-            SetTowerUnlocked(tower, false);
+            ShowLockIcon(tower, false);
             ShowTimer(tower, false);
             return;
         }
 
-        // Score met — check wait time
-        string unlockTimeStr = PlayerPrefs.GetString(UNLOCK_TIME_PREFIX + tower.towerName, "");
+        if (index == 3)
+        {
+            bool unlocked = CheckTower4();
+            SetTowerUnlocked(tower, unlocked);
+            ShowLockIcon(tower, !unlocked);
+            ShowTimer(tower, false);
+            return;
+        }
 
+        bool alreadyUnlocked = PlayerPrefs.GetInt(UNLOCKED_PREFIX + tower.towerName, 0) == 1;
+        if (alreadyUnlocked)
+        {
+            SetTowerUnlocked(tower, true);
+            ShowLockIcon(tower, false);
+            ShowTimer(tower, false);
+            return;
+        }
+
+        bool scoreMet = CheckScoreRequirement(tower);
+        if (!scoreMet)
+        {
+            SetTowerUnlocked(tower, false);
+            ShowLockIcon(tower, true);
+            ShowTimer(tower, false);
+            return;
+        }
+
+        string unlockTimeStr = PlayerPrefs.GetString(UNLOCK_TIME_PREFIX + tower.towerName, "");
         if (string.IsNullOrEmpty(unlockTimeStr))
         {
-            // Start the wait timer
-            PlayerPrefs.SetString(UNLOCK_TIME_PREFIX + tower.towerName,
-                DateTime.UtcNow.ToString());
+            PlayerPrefs.SetString(UNLOCK_TIME_PREFIX + tower.towerName, DateTime.UtcNow.ToString());
             PlayerPrefs.Save();
             SetTowerUnlocked(tower, false);
+            ShowLockIcon(tower, true);
             ShowTimer(tower, true);
             return;
         }
@@ -110,19 +114,32 @@ public class TowerUnlockManager : MonoBehaviour
 
         if (minutesPassed >= waitTimeInMinutes)
         {
-            // Wait complete — unlock!
             PlayerPrefs.SetInt(UNLOCKED_PREFIX + tower.towerName, 1);
             PlayerPrefs.Save();
             SetTowerUnlocked(tower, true);
+            ShowLockIcon(tower, false);
             ShowTimer(tower, false);
-            Debug.Log("[TowerUnlockManager] " + tower.towerName + " unlocked!");
+            Debug.Log("[TowerUnlockManager] " + tower.towerName + " fully unlocked!");
         }
         else
         {
-            // Still waiting
             SetTowerUnlocked(tower, false);
+            ShowLockIcon(tower, true);
             ShowTimer(tower, true);
+            UpdateTimerText(tower, minutesPassed);
         }
+    }
+
+    private void UpdateTimerText(TowerEntry tower, double minutesPassed)
+    {
+        if (tower.timerText == null) return;
+
+        double remainingSeconds = (waitTimeInMinutes - minutesPassed) * 60;
+        if (remainingSeconds < 0) remainingSeconds = 0;
+
+        int mins = Mathf.FloorToInt((float)remainingSeconds / 60f);
+        int secs = Mathf.FloorToInt((float)remainingSeconds % 60f);
+        tower.timerText.text = string.Format("{0}:{1:00}", mins, secs);
     }
 
     private bool CheckScoreRequirement(TowerEntry tower)
@@ -134,24 +151,22 @@ public class TowerUnlockManager : MonoBehaviour
 
     private bool CheckTower4()
     {
-        int stage1Best = PlayerPrefs.GetInt(HIGH_SCORE_PREFIX + "Stage_1", 0);
-        int stage2Best = PlayerPrefs.GetInt(HIGH_SCORE_PREFIX + "Stage_2", 0);
-        int stage3Best = PlayerPrefs.GetInt(HIGH_SCORE_PREFIX + "Stage_3", 0);
-        int total = stage1Best + stage2Best + stage3Best;
-
-        Debug.Log("[TowerUnlockManager] Tower 4 total: " + total +
-            "/" + tower4RequiredTotal);
-
-        return total >= tower4RequiredTotal;
+        int s1 = PlayerPrefs.GetInt(HIGH_SCORE_PREFIX + "Stage_1", 0);
+        int s2 = PlayerPrefs.GetInt(HIGH_SCORE_PREFIX + "Stage_2", 0);
+        int s3 = PlayerPrefs.GetInt(HIGH_SCORE_PREFIX + "Stage_3", 0);
+        return (s1 + s2 + s3) >= tower4RequiredTotal;
     }
 
     private void SetTowerUnlocked(TowerEntry tower, bool unlocked)
     {
         if (tower.towerButton != null)
             tower.towerButton.interactable = unlocked;
+    }
 
+    private void ShowLockIcon(TowerEntry tower, bool show)
+    {
         if (tower.lockIcon != null)
-            tower.lockIcon.SetActive(!unlocked);
+            tower.lockIcon.SetActive(show);
     }
 
     private void ShowTimer(TowerEntry tower, bool show)
@@ -166,16 +181,11 @@ public class TowerUnlockManager : MonoBehaviour
         {
             yield return new WaitForSeconds(1f);
 
-            for (int i = 1; i < towers.Count - 1; i++)
+            for (int i = 1; i <= 2; i++)
             {
+                if (i >= towers.Count) continue;
+
                 TowerEntry tower = towers[i];
-                if (tower.timerText == null) continue;
-
-                string unlockTimeStr = PlayerPrefs.GetString(
-                    UNLOCK_TIME_PREFIX + tower.towerName, "");
-
-                if (string.IsNullOrEmpty(unlockTimeStr)) continue;
-
                 bool alreadyUnlocked = PlayerPrefs.GetInt(
                     UNLOCKED_PREFIX + tower.towerName, 0) == 1;
 
@@ -185,53 +195,34 @@ public class TowerUnlockManager : MonoBehaviour
                     continue;
                 }
 
+                string unlockTimeStr = PlayerPrefs.GetString(
+                    UNLOCK_TIME_PREFIX + tower.towerName, "");
+
+                if (string.IsNullOrEmpty(unlockTimeStr)) continue;
+
                 DateTime unlockTime = DateTime.Parse(unlockTimeStr);
                 double minutesPassed = (DateTime.UtcNow - unlockTime).TotalMinutes;
-                double remaining = (waitTimeInMinutes - minutesPassed) * 60;
 
-                if (remaining <= 0)
+                if (minutesPassed >= waitTimeInMinutes)
                 {
-                    // Timer expired — unlock
                     PlayerPrefs.SetInt(UNLOCKED_PREFIX + tower.towerName, 1);
                     PlayerPrefs.Save();
                     SetTowerUnlocked(tower, true);
+                    ShowLockIcon(tower, false);
                     ShowTimer(tower, false);
-                    Debug.Log("[TowerUnlockManager] " + tower.towerName + " unlocked!");
+                    Debug.Log("[TowerUnlockManager] " + tower.towerName + " unlocked by timer!");
                 }
                 else
                 {
-                    int mins = Mathf.FloorToInt((float)remaining / 60f);
-                    int secs = Mathf.FloorToInt((float)remaining % 60f);
-                    tower.timerText.text = string.Format("{0}:{1:00}", mins, secs);
+                    ShowTimer(tower, true);
+                    UpdateTimerText(tower, minutesPassed);
                 }
             }
         }
     }
 
-    // Call this from ResultScreenManager after level complete
     public void OnLevelCleared(string stageID)
     {
-        // Find matching tower and start its wait timer if score is met
-        foreach (TowerEntry tower in towers)
-        {
-            if (tower.requiredStageID == stageID)
-            {
-                string key = UNLOCK_TIME_PREFIX + tower.towerName;
-                bool timerStarted = !string.IsNullOrEmpty(
-                    PlayerPrefs.GetString(key, ""));
-                bool alreadyUnlocked = PlayerPrefs.GetInt(
-                    UNLOCKED_PREFIX + tower.towerName, 0) == 1;
-
-                if (!timerStarted && !alreadyUnlocked)
-                {
-                    PlayerPrefs.SetString(key, DateTime.UtcNow.ToString());
-                    PlayerPrefs.Save();
-                    Debug.Log("[TowerUnlockManager] Wait timer started for: " +
-                        tower.towerName);
-                }
-            }
-        }
-
         RefreshUnlockStates();
     }
 }

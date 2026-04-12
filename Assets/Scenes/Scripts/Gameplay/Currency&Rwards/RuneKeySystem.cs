@@ -285,8 +285,11 @@ public class RuneKeySystem : MonoBehaviour
 
     public void AddKey(int amount = 1)
     {
-        CurrentKeys = Mathf.Min(CurrentKeys + amount, maxRuneKeys);
-        Debug.Log($"[RuneKeySystem] Added {amount} key(s). Now: {CurrentKeys}");
+        int newValue = Mathf.Clamp(CurrentKeys + amount, 0, maxRuneKeys);
+        PlayerPrefs.SetInt(RUNE_KEY, newValue);
+        PlayerPrefs.Save();
+        UpdateAllKeyDisplays();
+        Debug.Log("[RuneKeySystem] Added keys. Now: " + newValue);
     }
 
     public void GeniusReward()

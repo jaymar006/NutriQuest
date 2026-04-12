@@ -1,4 +1,3 @@
-// Static store that carries stage info into the cutscene scene //
 public static class CutsceneData
 {
     private static string _stageID = "";
@@ -6,8 +5,8 @@ public static class CutsceneData
 
     public static void Set(string stageID, string nextScene)
     {
-        _stageID = stageID;
-        _nextScene = nextScene;
+        _stageID = stageID ?? "";
+        _nextScene = nextScene ?? "";
     }
 
     public static string GetStageID() => _stageID;
