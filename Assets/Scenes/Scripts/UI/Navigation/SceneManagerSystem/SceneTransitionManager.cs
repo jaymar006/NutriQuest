@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using System.Collections.Generic;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -30,7 +31,11 @@ public class SceneTransitionManager : MonoBehaviour
     private Canvas fadeCanvas;
     private bool isTransitioning;
 
-    // LoadingSceneController sets this to true when player taps
+    // Back system
+    private Stack<string> sceneHistory = new Stack<string>();
+    private bool isGoingBack = false;
+
+    // Loading control
     public bool PlayerTappedToContinue { get; set; }
 
     private void Awake()
@@ -51,15 +56,22 @@ public class SceneTransitionManager : MonoBehaviour
         StartCoroutine(Fade(0f));
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            HandleBackButton();
+        }
+    }
+
     private void InitializeFade()
     {
         if (fadeImage == null)
         {
-            Debug.LogError("[SceneTransitionManager] Fade Image not assigned in Inspector!");
+            Debug.LogError("[SceneTransitionManager] Fade Image not assigned!");
             return;
         }
 
-        // Force fade image to cover full screen
         RectTransform rt = fadeImage.GetComponent<RectTransform>();
         if (rt != null)
         {
@@ -69,16 +81,11 @@ public class SceneTransitionManager : MonoBehaviour
             rt.offsetMax = Vector2.zero;
         }
 
-        // Force canvas on top of everything
         fadeCanvas = fadeImage.GetComponentInParent<Canvas>();
         if (fadeCanvas != null)
         {
             fadeCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
             fadeCanvas.sortingOrder = 999;
-        }
-        else
-        {
-            Debug.LogError("[SceneTransitionManager] No Canvas found on or above the fade Image!");
         }
 
         canvasGroup = fadeImage.GetComponent<CanvasGroup>();
@@ -90,13 +97,23 @@ public class SceneTransitionManager : MonoBehaviour
         canvasGroup.interactable = false;
     }
 
-    // Called by SceneNavigationSystem only
     public void NavigateTo(string targetScene, bool useLoadingScreen)
     {
         if (isTransitioning)
         {
-            Debug.LogWarning("[SceneTransitionManager] Already transitioning, ignoring NavigateTo call.");
+            Debug.LogWarning("[SceneTransitionManager] Already transitioning.");
             return;
+        }
+
+        // Save history only if not going back
+        if (!isGoingBack)
+        {
+            string currentScene = SceneManager.GetActiveScene().name;
+
+            if (sceneHistory.Count == 0 || sceneHistory.Peek() != currentScene)
+            {
+                sceneHistory.Push(currentScene);
+            }
         }
 
         if (useLoadingScreen && !IsInFadeOnlyList(targetScene))
@@ -105,11 +122,9 @@ public class SceneTransitionManager : MonoBehaviour
             StartCoroutine(TransitionDirect(targetScene));
     }
 
-    // PATH A: Fade out > load target scene directly > fade in
     private IEnumerator TransitionDirect(string targetScene)
     {
         isTransitioning = true;
-        Debug.Log("[SceneTransitionManager] Direct transition to: " + targetScene);
 
         yield return Fade(1f);
 
@@ -123,21 +138,23 @@ public class SceneTransitionManager : MonoBehaviour
         yield return Fade(0f);
 
         isTransitioning = false;
-        Debug.Log("[SceneTransitionManager] Direct transition complete.");
     }
 
-    // PATH B: Fade out > load loading scene > fade in > wait for tap > fade out > load target scene > fade in
     private IEnumerator TransitionWithLoadingScreen(string targetScene)
     {
         isTransitioning = true;
         PlayerTappedToContinue = false;
 
-        Debug.Log("[SceneTransitionManager] Transition with loading screen to: " + targetScene);
+        if (string.IsNullOrEmpty(defaultLoadingSceneName))
+        {
+            Debug.LogError("Loading scene not assigned!");
+            yield break;
+        }
 
-        // Step 1: Fade out of current scene
+        // Fade out
         yield return Fade(1f);
 
-        // Step 2: Load the loading scene
+        // Load loading scene
         yield return SceneManager.LoadSceneAsync(defaultLoadingSceneName);
 
         yield return null;
@@ -145,24 +162,33 @@ public class SceneTransitionManager : MonoBehaviour
 
         EnforceCanvasOnTop();
 
-        // Step 3: Fade into loading scene
+        // Fade in loading scene
         yield return Fade(0f);
 
-        // Step 4: Tell LoadingSceneController to start loading the target in background
-        // LoadingSceneController picks up targetScene from LoadingTargetScene static store
+        // Set target for loading scene
         LoadingTargetScene.SetTarget(targetScene);
 
-        // Step 5: Wait until LoadingSceneController says the player tapped
+        // Wait for tap OR timeout
+        float timer = 0f;
+        float maxWait = 10f;
+
         Debug.Log("[SceneTransitionManager] Waiting for player tap...");
-        while (!PlayerTappedToContinue)
+
+        while (!PlayerTappedToContinue && timer < maxWait)
+        {
+            timer += Time.deltaTime;
             yield return null;
+        }
 
-        Debug.Log("[SceneTransitionManager] Player tapped — transitioning to: " + targetScene);
+        if (!PlayerTappedToContinue)
+        {
+            Debug.LogWarning("[SceneTransitionManager] Auto-continue after timeout.");
+        }
 
-        // Step 6: Fade out of loading scene
+        // Fade out loading scene
         yield return Fade(1f);
 
-        // Step 7: Load the actual target scene
+        // Load actual scene
         yield return SceneManager.LoadSceneAsync(targetScene);
 
         yield return null;
@@ -170,11 +196,46 @@ public class SceneTransitionManager : MonoBehaviour
 
         EnforceCanvasOnTop();
 
-        // Step 8: Fade into target scene
+        // Fade in
         yield return Fade(0f);
 
         isTransitioning = false;
-        Debug.Log("[SceneTransitionManager] Loading screen transition complete.");
+    }
+
+    public void GoBack()
+    {
+        if (isTransitioning) return;
+
+        if (sceneHistory.Count > 0)
+        {
+            string previousScene = sceneHistory.Pop();
+
+            isGoingBack = true;
+
+            NavigateTo(previousScene, false);
+
+            isGoingBack = false;
+        }
+        else
+        {
+            Application.Quit();
+        }
+    }
+
+    private void HandleBackButton()
+    {
+        if (isTransitioning) return;
+
+        string current = SceneManager.GetActiveScene().name;
+
+        if (current == "MainMenu")
+        {
+            Application.Quit();
+        }
+        else
+        {
+            GoBack();
+        }
     }
 
     private void EnforceCanvasOnTop()
@@ -198,6 +259,12 @@ public class SceneTransitionManager : MonoBehaviour
     private IEnumerator Fade(float target)
     {
         if (canvasGroup == null) yield break;
+
+        if (fadeDuration <= 0f)
+        {
+            canvasGroup.alpha = target;
+            yield break;
+        }
 
         float start = canvasGroup.alpha;
         float time = 0f;
