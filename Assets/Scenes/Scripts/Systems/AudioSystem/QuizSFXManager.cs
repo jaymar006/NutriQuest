@@ -41,7 +41,6 @@ public class QuizSFXManager : MonoBehaviour
         }
         audioSource.PlayOneShot(wrongSFX, volume);
     }
-
     public void SetVolume(float newVolume)
     {
         volume = Mathf.Clamp01(newVolume);
