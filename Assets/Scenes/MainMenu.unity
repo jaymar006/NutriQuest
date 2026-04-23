@@ -22553,11 +22553,11 @@ Transform:
   m_GameObject: {fileID: 1915545917}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 437.3697, y: 298.11743, z: 10}
+  m_LocalPosition: {x: 437.3697, y: 299.11743, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1968396466}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1915545919
 MonoBehaviour:
@@ -22582,6 +22582,27 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 971690b119122ba4fa721edb9e5ddb52, type: 3}
     - {fileID: 8300000, guid: a39bf12075b61174c94494158a0e6d9b, type: 3}
     playbackMode: 0
+  - groupName: Library Module
+    scenes:
+    - {fileID: 102900000, guid: b90e665c8f6d11d4a8d43c8730955af0, type: 3}
+    - {fileID: 102900000, guid: 16a934d48c2436545bfee927179eff16, type: 3}
+    - {fileID: 102900000, guid: 370fb3d053abb964eab9b3ad3ee5932e, type: 3}
+    - {fileID: 102900000, guid: 5311244a3117a944b9fc1bf3b7523f1d, type: 3}
+    - {fileID: 102900000, guid: d5872b7ade5345c4d86b69bb3554d9ef, type: 3}
+    - {fileID: 102900000, guid: ee67cebdf434177479c6f7610509dcbc, type: 3}
+    - {fileID: 102900000, guid: c1493dfb80ed14f4f8aceb024c063d05, type: 3}
+    sceneNames:
+    - TriviaSection
+    - LibraryMenu
+    - RecipeChoice
+    - Recipe 1
+    - Recipe 2
+    - Recipe 3
+    - Recipe 4
+    musicClips:
+    - {fileID: 8300000, guid: efcc879d57c5882428ef0480f1fac3df, type: 3}
+    - {fileID: 8300000, guid: ea9c12d41612dd0428347d5089770b82, type: 3}
+    playbackMode: 1
   fadeDuration: 1
   maxVolume: 1
 --- !u!1 &1919037374
@@ -23397,7 +23418,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1915545918}
   - {fileID: 891397877}
   - {fileID: 388816349}
   m_Father: {fileID: 1159073043}
@@ -31771,6 +31791,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 150665307}
+  - {fileID: 1915545918}
   - {fileID: 1200163582}
   - {fileID: 1053455762}
   - {fileID: 1159073043}

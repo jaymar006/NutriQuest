@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(AudioSource))]
@@ -11,10 +12,8 @@ public class UISFXManager : MonoBehaviour
     {
         public string groupName;
         public AudioClip soundClip;
-
         [Tooltip("Parent object containing buttons")]
         public Transform buttonParent;
-
         [HideInInspector] public List<Button> cachedButtons = new List<Button>();
     }
 
@@ -26,11 +25,18 @@ public class UISFXManager : MonoBehaviour
     private AudioSource audioSource;
     private Dictionary<Button, UnityAction> registeredListeners = new Dictionary<Button, UnityAction>();
 
+    // Shared PlayerPrefs key — same key SoundSettingsManager uses
+    private const string SFX_KEY = "SFXVolume";
+
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
         audioSource.playOnAwake = false;
         audioSource.loop = false;
+
+        // FIX: Restore saved SFX volume immediately on Awake so this scene's UI
+        //      plays at the correct volume even if the settings panel was never opened.
+        volume = PlayerPrefs.GetFloat(SFX_KEY, volume);
     }
 
     private void OnEnable()
@@ -65,9 +71,7 @@ public class UISFXManager : MonoBehaviour
                     continue;
 
                 group.cachedButtons.Add(button);
-
                 UnityAction action = () => Play(group.soundClip);
-
                 button.onClick.AddListener(action);
                 registeredListeners.Add(button, action);
             }
@@ -81,7 +85,6 @@ public class UISFXManager : MonoBehaviour
             if (pair.Key != null)
                 pair.Key.onClick.RemoveListener(pair.Value);
         }
-
         registeredListeners.Clear();
     }
 

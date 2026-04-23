@@ -14,42 +14,32 @@ public class SoundSettingsManager : MonoBehaviour
     [SerializeField] private TMP_Text soundFXTXT;
     [SerializeField] private TMP_Text valueSFXTXT;
 
-    // PlayerPrefs keys
     private const string MUSIC_KEY = "MusicVolume";
     private const string SFX_KEY = "SFXVolume";
 
     private void Start()
     {
-        // Load saved values, default to 1 if none saved
         float savedMusic = PlayerPrefs.GetFloat(MUSIC_KEY, 1f);
         float savedSFX = PlayerPrefs.GetFloat(SFX_KEY, 1f);
 
-        // Init sliders without triggering listeners yet
         sliderMusic.SetValueWithoutNotify(savedMusic);
         sliderSFX.SetValueWithoutNotify(savedSFX);
 
-        // Apply to managers
         ApplyMusicVolume(savedMusic);
         ApplySFXVolume(savedSFX);
 
-        // Update display labels
         UpdateMusicLabel(savedMusic);
         UpdateSFXLabel(savedSFX);
 
-        // Hook up listeners
         sliderMusic.onValueChanged.AddListener(OnMusicSliderChanged);
         sliderSFX.onValueChanged.AddListener(OnSFXSliderChanged);
     }
 
     private void OnDestroy()
     {
-        sliderMusic.onValueChanged.RemoveListener(OnMusicSliderChanged);
-        sliderSFX.onValueChanged.RemoveListener(OnSFXSliderChanged);
+        if (sliderMusic != null) sliderMusic.onValueChanged.RemoveListener(OnMusicSliderChanged);
+        if (sliderSFX != null) sliderSFX.onValueChanged.RemoveListener(OnSFXSliderChanged);
     }
-
-    // -------------------------------------------------------
-    // Slider Callbacks
-    // -------------------------------------------------------
 
     private void OnMusicSliderChanged(float value)
     {
@@ -67,10 +57,6 @@ public class SoundSettingsManager : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    // -------------------------------------------------------
-    // Apply Volume to Managers
-    // -------------------------------------------------------
-
     private void ApplyMusicVolume(float value)
     {
         if (UniversalMusicManager.Instance != null)
@@ -81,29 +67,29 @@ public class SoundSettingsManager : MonoBehaviour
 
     private void ApplySFXVolume(float value)
     {
-        // UISFXManager - find in scene (not a singleton, so we use FindObjectOfType)
-        UISFXManager uiSFX = FindObjectOfType<UISFXManager>();
-        if (uiSFX != null)
-            uiSFX.SetVolume(value);
+        // FIX: Use FindObjectsOfType (plural) to catch ALL UISFXManagers in the scene,
+        //      not just the first one. A scene may have multiple (one per canvas/panel).
+        UISFXManager[] uiSFXManagers = FindObjectsOfType<UISFXManager>();
+        if (uiSFXManagers.Length > 0)
+        {
+            foreach (UISFXManager uiSFX in uiSFXManagers)
+                uiSFX.SetVolume(value);
+        }
         else
-            Debug.LogWarning("[SoundSettings] UISFXManager not found in scene!");
+        {
+            Debug.LogWarning("[SoundSettings] No UISFXManager found in scene!");
+        }
 
-        // QuizSFXManager - has a singleton instance
         if (QuizSFXManager.Instance != null)
             QuizSFXManager.Instance.SetVolume(value);
         else
             Debug.LogWarning("[SoundSettings] QuizSFXManager instance not found!");
     }
 
-    // -------------------------------------------------------
-    // Label Helpers
-    // -------------------------------------------------------
-
     private void UpdateMusicLabel(float value)
     {
         int percent = Mathf.RoundToInt(value * 100f);
         string display = percent + "%";
-
         if (musicTXT != null) musicTXT.text = display;
         if (valueMusicTXT != null) valueMusicTXT.text = display;
     }
@@ -112,14 +98,9 @@ public class SoundSettingsManager : MonoBehaviour
     {
         int percent = Mathf.RoundToInt(value * 100f);
         string display = percent + "%";
-
         if (soundFXTXT != null) soundFXTXT.text = display;
         if (valueSFXTXT != null) valueSFXTXT.text = display;
     }
-
-    // -------------------------------------------------------
-    // Public helpers (call from buttons if needed)
-    // -------------------------------------------------------
 
     public void ResetToDefaults()
     {
