@@ -289,6 +289,7 @@ public class ResultScreenManager : MonoBehaviour
         }
     }
 
+
     private void DisplayAchievements()
     {
         AchievementType[] allTypes = new AchievementType[]
@@ -402,6 +403,11 @@ public class ResultScreenManager : MonoBehaviour
             PlayerPrefs.SetInt(key, correct);
             PlayerPrefs.Save();
         }
+
+        // Cumulative lifetime correct answers
+        int totalAnswered = PlayerPrefs.GetInt("TotalQuestionsAnswered", 0);
+        PlayerPrefs.SetInt("TotalQuestionsAnswered", totalAnswered + correct);
+        PlayerPrefs.Save();
     }
 
     private int GetHighScore()

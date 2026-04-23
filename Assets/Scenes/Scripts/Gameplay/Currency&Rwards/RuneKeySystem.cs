@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 using System;
 using System.Collections;
@@ -7,6 +8,9 @@ using System.Collections.Generic;
 public class RuneKeySystem : MonoBehaviour
 {
     public static RuneKeySystem Instance { get; private set; }
+
+    // FIX: Event so any script (e.g. LevelInfoScreen) can react when keys change
+    public static event Action OnKeysChanged;
 
     [Header("Rune Key Settings")]
     [SerializeField] private int maxRuneKeys = 3;
@@ -22,6 +26,15 @@ public class RuneKeySystem : MonoBehaviour
     [Header("Optional Timer UI")]
     [SerializeField] private TMP_Text regenTimerText;
 
+    private List<string> persistentDisplayNames = new List<string>();
+    private string persistentTimerName = null;
+
+    // FIX: Prevents OnSceneLoaded from clearing the timer ref before Start() saves its name
+    private bool hasStartedOnce = false;
+
+    // Track the RegenLoop coroutine so we can stop it reliably
+    private Coroutine regenLoopCoroutine = null;
+
     private const string RUNE_KEY = "RuneKeys";
     private const string RUNE_LAST_REGEN = "RuneLastRegen";
 
@@ -34,12 +47,13 @@ public class RuneKeySystem : MonoBehaviour
             PlayerPrefs.SetInt(RUNE_KEY, newValue);
             PlayerPrefs.Save();
             UpdateAllKeyDisplays();
+            // FIX: Broadcast so LevelInfoScreen buttons update immediately
+            OnKeysChanged?.Invoke();
         }
     }
 
     private void Awake()
     {
-        // Singleton pattern
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -47,44 +61,131 @@ public class RuneKeySystem : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log($"[RuneKeySystem] Scene loaded: {scene.name}");
+
+        runeKeyTexts.RemoveAll(item => item == null);
+
+        // FIX: Only wipe the timer ref on scene TRANSITIONS (after first Start() ran).
+        //      On the very first scene load, Start() hasn't fired yet so persistentTimerName
+        //      hasn't been saved — clearing here would destroy the manually assigned reference.
+        if (hasStartedOnce)
+            regenTimerText = null;
+
+        StartCoroutine(RefreshAfterSceneLoad());
+    }
+
+    private IEnumerator RefreshAfterSceneLoad()
+    {
+        yield return new WaitForEndOfFrame();
+
+        RelinkPersistentDisplays();
+
+        if (autoFindTexts)
+            FindAllRuneKeyTexts();
+
+        UpdateAllKeyDisplays();
+
+        // Notify listeners so buttons reflect the current key count on new scene
+        OnKeysChanged?.Invoke();
+
+        if (regenLoopCoroutine != null)
+        {
+            StopCoroutine(regenLoopCoroutine);
+            regenLoopCoroutine = null;
+        }
+
+        regenLoopCoroutine = StartCoroutine(RegenLoop());
     }
 
     private void Start()
     {
-        // Only auto-find if enabled AND no texts were manually assigned
+        // Save inspector-assigned names BEFORE anything else can clear them
+        SavePersistentDisplayNames();
+
+        // Mark that Start has run — OnSceneLoaded can now safely clear timer on future loads
+        hasStartedOnce = true;
+
         if (autoFindTexts && runeKeyTexts.Count == 0)
-        {
             FindAllRuneKeyTexts();
-        }
 
         ProcessOfflineRegen();
         UpdateAllKeyDisplays();
 
-        // Start timer loop only if we have a timer display
+        OnKeysChanged?.Invoke();
+
+        regenLoopCoroutine = StartCoroutine(RegenLoop());
+    }
+
+    private void SavePersistentDisplayNames()
+    {
+        foreach (TMP_Text t in runeKeyTexts)
+        {
+            if (t != null && !persistentDisplayNames.Contains(t.gameObject.name))
+            {
+                persistentDisplayNames.Add(t.gameObject.name);
+                Debug.Log($"[RuneKeySystem] Remembered display name: {t.gameObject.name}");
+            }
+        }
+
         if (regenTimerText != null)
         {
-            StartCoroutine(RegenLoop());
+            persistentTimerName = regenTimerText.gameObject.name;
+            Debug.Log($"[RuneKeySystem] Remembered timer name: {persistentTimerName}");
         }
     }
 
-    // Find all text objects that should display rune keys
-    private void FindAllRuneKeyTexts()
+    private void RelinkPersistentDisplays()
     {
-        runeKeyTexts.Clear();
+        if (persistentDisplayNames.Count == 0 && persistentTimerName == null) return;
 
-        // Find all TMP_Text objects in the scene (including inactive)
         TMP_Text[] allTexts = Resources.FindObjectsOfTypeAll<TMP_Text>();
 
         foreach (TMP_Text text in allTexts)
         {
-            // Skip if it's in a prefab or not in scene
+            if (text.gameObject.scene.name == null) continue;
+            if (text.gameObject.scene.name == "DontDestroyOnLoad") continue;
+
+            string objName = text.gameObject.name;
+
+            if (persistentDisplayNames.Contains(objName) && !runeKeyTexts.Contains(text))
+            {
+                runeKeyTexts.Add(text);
+                Debug.Log($"[RuneKeySystem] Re-linked display: {objName}");
+            }
+
+            if (persistentTimerName != null && objName == persistentTimerName && regenTimerText == null)
+            {
+                regenTimerText = text;
+                Debug.Log($"[RuneKeySystem] Re-linked timer: {objName}");
+            }
+        }
+    }
+
+    private void FindAllRuneKeyTexts()
+    {
+        runeKeyTexts.RemoveAll(item => item == null);
+
+        TMP_Text[] allTexts = Resources.FindObjectsOfTypeAll<TMP_Text>();
+
+        foreach (TMP_Text text in allTexts)
+        {
             if (text.gameObject.scene.name == null) continue;
             if (!text.gameObject.activeInHierarchy && text.gameObject.hideFlags == HideFlags.HideAndDontSave) continue;
+            if (text.gameObject.scene.name == "DontDestroyOnLoad") continue;
 
             string objName = text.gameObject.name;
             bool found = false;
 
-            // Check if this text object matches any of our tags
             foreach (string tag in textTags)
             {
                 if (objName.Contains(tag) || objName.Equals(tag))
@@ -99,7 +200,6 @@ public class RuneKeySystem : MonoBehaviour
                 }
             }
 
-            // Also check if it has a parent with matching name
             if (!found && text.transform.parent != null)
             {
                 string parentName = text.transform.parent.name;
@@ -111,6 +211,9 @@ public class RuneKeySystem : MonoBehaviour
                         {
                             runeKeyTexts.Add(text);
                             Debug.Log($"[RuneKeySystem] Found rune key display via parent: {parentName} -> {objName}");
+
+                            if (regenTimerText == null && objName.Contains("Timer"))
+                                regenTimerText = text;
                         }
                         break;
                     }
@@ -120,55 +223,41 @@ public class RuneKeySystem : MonoBehaviour
 
         Debug.Log($"[RuneKeySystem] Auto-found {runeKeyTexts.Count} rune key displays");
 
-        // If still no texts found, try a different approach
         if (runeKeyTexts.Count == 0)
-        {
-            Debug.LogWarning("[RuneKeySystem] No rune key displays found with auto-find. Make sure your text objects have names containing: " + string.Join(", ", textTags));
-        }
+            Debug.LogWarning("[RuneKeySystem] No displays found. Name your texts with: " + string.Join(", ", textTags));
     }
 
-    // Update all text displays with current key count
     private void UpdateAllKeyDisplays()
     {
         int currentKeys = CurrentKeys;
-
-        // Remove any null references
         runeKeyTexts.RemoveAll(item => item == null);
 
-        // Update all displays
         foreach (TMP_Text text in runeKeyTexts)
         {
             if (text != null)
-            {
                 text.text = $"{currentKeys}/{maxRuneKeys}";
-            }
         }
 
-        // Debug log to verify updates
         if (runeKeyTexts.Count > 0)
-        {
             Debug.Log($"[RuneKeySystem] Updated {runeKeyTexts.Count} displays to: {currentKeys}/{maxRuneKeys}");
-        }
     }
 
-    // Public method to manually register a text display
     public void RegisterKeyDisplay(TMP_Text textDisplay)
     {
         if (textDisplay == null) return;
-
         if (!runeKeyTexts.Contains(textDisplay))
         {
             runeKeyTexts.Add(textDisplay);
             textDisplay.text = $"{CurrentKeys}/{maxRuneKeys}";
+            if (!persistentDisplayNames.Contains(textDisplay.gameObject.name))
+                persistentDisplayNames.Add(textDisplay.gameObject.name);
             Debug.Log($"[RuneKeySystem] Registered key display: {textDisplay.gameObject.name}");
         }
     }
 
-    // Public method to remove a text display
     public void UnregisterKeyDisplay(TMP_Text textDisplay)
     {
         if (textDisplay == null) return;
-
         if (runeKeyTexts.Contains(textDisplay))
         {
             runeKeyTexts.Remove(textDisplay);
@@ -176,10 +265,10 @@ public class RuneKeySystem : MonoBehaviour
         }
     }
 
-    // Manually refresh all displays (call if needed)
     public void RefreshAllDisplays()
     {
         UpdateAllKeyDisplays();
+        OnKeysChanged?.Invoke();
     }
 
     private void ProcessOfflineRegen()
@@ -289,6 +378,7 @@ public class RuneKeySystem : MonoBehaviour
         PlayerPrefs.SetInt(RUNE_KEY, newValue);
         PlayerPrefs.Save();
         UpdateAllKeyDisplays();
+        OnKeysChanged?.Invoke();
         Debug.Log("[RuneKeySystem] Added keys. Now: " + newValue);
     }
 

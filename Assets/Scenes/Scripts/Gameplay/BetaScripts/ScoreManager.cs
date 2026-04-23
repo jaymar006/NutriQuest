@@ -63,6 +63,8 @@ public class ScoreManager : MonoBehaviour
             Debug.LogError("[ScoreManager] TowerLevelTransition Instance is null!");
     }
 
+    public int CorrectAnswers => correctAnswers;
+
     private void UpdateScoreUI()
     {
         if (scoreText != null)

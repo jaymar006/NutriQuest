@@ -22,6 +22,9 @@ public class LevelInfoScreen : MonoBehaviour
     [SerializeField] private Button challengeButton;
     [SerializeField] private TMP_Text runeKeyWarningText;
 
+    [Header("Navigation")]
+    [SerializeField] private SceneNavigationSystem sceneNavigation;
+
     [Header("Cost Display")]
     [SerializeField] private List<TMP_Text> costDisplayTexts = new List<TMP_Text>();
 
@@ -38,7 +41,6 @@ public class LevelInfoScreen : MonoBehaviour
     private readonly Color unlockedColor = Color.white;
     private readonly Color lockedColor = new Color(0.4f, 0.4f, 0.4f, 1f);
 
-    // Cost constants //
     private const int COST_NEW_TOWER = 2;
     private const int COST_RECHALLENGE_TOWER = 1;
     private const int COST_NEW_TOWER4 = 3;
@@ -47,31 +49,106 @@ public class LevelInfoScreen : MonoBehaviour
     private int currentCost = 1;
     private Coroutine _warningDismissCoroutine;
 
+    private void OnEnable()
+    {
+        // FIX: Subscribe to key change events so the button updates the moment keys change,
+        //      even when this modal is already open
+        RuneKeySystem.OnKeysChanged += OnKeysChanged;
+        RefreshDisplay();
+    }
+
+    private void OnDisable()
+    {
+        // FIX: Always unsubscribe to avoid ghost callbacks after the modal closes
+        RuneKeySystem.OnKeysChanged -= OnKeysChanged;
+    }
+
     private void Start()
     {
         if (challengeButton != null)
-            challengeButton.onClick.AddListener(OnChallenge);
+        {
+            challengeButton.onClick.RemoveAllListeners();
+            challengeButton.onClick.AddListener(OnChallengeButtonClicked);
+        }
 
         if (runeKeyWarningText != null)
             runeKeyWarningText.gameObject.SetActive(false);
     }
 
-    // Refresh every time this screen becomes active //
-    private void OnEnable()
+    // FIX: Called every time RuneKeySystem fires OnKeysChanged
+    private void OnKeysChanged()
     {
-        RefreshDisplay();
+        currentCost = CalculateCost();
+        UpdateButtonState();
+        DisplayCost();
     }
 
-    // Refresh all display elements //
+    // Called when challenge button is clicked
+    // FIX: No key-check blocking here — the button is already disabled if keys are insufficient.
+    //      This only runs when the player legitimately has enough keys.
+    private void OnChallengeButtonClicked()
+    {
+        if (RuneKeySystem.Instance == null)
+        {
+            Debug.LogError("[LevelInfoScreen] RuneKeySystem not found!");
+            return;
+        }
+
+        currentCost = CalculateCost();
+
+        bool spent = RuneKeySystem.Instance.SpendKey(currentCost);
+
+        if (spent)
+        {
+            Debug.Log("[LevelInfoScreen] Spent " + currentCost + " key(s). Proceeding to level...");
+            HideWarning();
+
+            if (warningShakeAnimation != null)
+                warningShakeAnimation.PlaySquashAndStretch();
+
+            NavigateToScene();
+        }
+        else
+        {
+            // Safety fallback — should not normally happen since button was interactable
+            Debug.LogWarning("[LevelInfoScreen] SpendKey failed unexpectedly. Refreshing button state.");
+            UpdateButtonState();
+        }
+    }
+
+    private void NavigateToScene()
+    {
+        if (sceneNavigation != null)
+            sceneNavigation.Navigate();
+        else
+            Debug.LogError("[LevelInfoScreen] SceneNavigationSystem not assigned!");
+    }
+
     public void RefreshDisplay()
     {
         currentCost = CalculateCost();
         DisplayHighScore();
         DisplayBadges();
         DisplayCost();
+        UpdateButtonState();
     }
 
-    // Calculate cost based on tower index and attempt history //
+    // FIX: Button interactability is the sole gatekeeper — no warning popup needed for blocking.
+    //      The button is simply unclickable when the player lacks keys.
+    private void UpdateButtonState()
+    {
+        if (challengeButton == null) return;
+
+        bool hasEnough = RuneKeySystem.Instance != null && RuneKeySystem.Instance.HasEnoughKeys(currentCost);
+        challengeButton.interactable = hasEnough;
+
+        ColorBlock colors = challengeButton.colors;
+        colors.disabledColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
+        challengeButton.colors = colors;
+
+        Debug.Log($"[LevelInfoScreen] Button interactable: {hasEnough} (need {currentCost} key(s), have {(RuneKeySystem.Instance != null ? RuneKeySystem.Instance.CurrentKeys : 0)})");
+    }
+
     private int CalculateCost()
     {
         bool hasAttempted = PlayerPrefs.GetInt(ATTEMPT_PREFIX + stageID, 0) > 0;
@@ -82,38 +159,6 @@ public class LevelInfoScreen : MonoBehaviour
             return hasAttempted ? COST_RECHALLENGE_TOWER : COST_NEW_TOWER;
     }
 
-    private void OnChallenge()
-    {
-        if (RuneKeySystem.Instance == null)
-        {
-            Debug.LogError("[LevelInfoScreen] RuneKeySystem not found!");
-            return;
-        }
-
-        currentCost = CalculateCost();
-
-        if (!RuneKeySystem.Instance.HasEnoughKeys(currentCost))
-        {
-            Debug.Log("[LevelInfoScreen] Not enough keys! Need: " + currentCost);
-            ShowWarning("Not enough Rune Keys! Need " + currentCost + ".");
-            return;
-        }
-
-        // Enough keys - play squash stretch on button then spend //
-        if (warningShakeAnimation != null)
-        {
-            warningShakeAnimation.StopShake();
-            warningShakeAnimation.PlaySquashAndStretch();
-        }
-
-        HideWarning();
-        bool spent = RuneKeySystem.Instance.SpendKey(currentCost);
-
-        if (spent)
-            Debug.Log("[LevelInfoScreen] Spent " + currentCost + " key(s).");
-    }
-
-    // Show warning text and play shake on warning ONLY //
     private void ShowWarning(string message)
     {
         if (runeKeyWarningText != null)
@@ -122,24 +167,14 @@ public class LevelInfoScreen : MonoBehaviour
             runeKeyWarningText.text = message;
         }
 
-        // Not enough keys - play shake //
-        if (warningShakeAnimation != null)
-        {
-            warningShakeAnimation.StopShake();
-            warningShakeAnimation.PlayShake();
-        }
-
-        // Auto dismiss if set //
         if (warningAutoDismiss > 0f)
         {
             if (_warningDismissCoroutine != null)
                 StopCoroutine(_warningDismissCoroutine);
-
             _warningDismissCoroutine = StartCoroutine(AutoDismissWarning());
         }
     }
 
-    // Hide warning text //
     private void HideWarning()
     {
         if (_warningDismissCoroutine != null)
@@ -152,14 +187,12 @@ public class LevelInfoScreen : MonoBehaviour
             runeKeyWarningText.gameObject.SetActive(false);
     }
 
-    // Auto hide warning after delay //
     private IEnumerator AutoDismissWarning()
     {
         yield return new WaitForSeconds(warningAutoDismiss);
         HideWarning();
     }
 
-    // Show cost as number only //
     private void DisplayCost()
     {
         foreach (TMP_Text text in costDisplayTexts)
@@ -198,5 +231,12 @@ public class LevelInfoScreen : MonoBehaviour
     {
         string key = BADGE_PREFIX + stageID + "_" + type.ToString();
         return PlayerPrefs.GetInt(key, 0) == 1;
+    }
+
+    public bool CanProceed()
+    {
+        if (RuneKeySystem.Instance == null) return false;
+        currentCost = CalculateCost();
+        return RuneKeySystem.Instance.HasEnoughKeys(currentCost);
     }
 }

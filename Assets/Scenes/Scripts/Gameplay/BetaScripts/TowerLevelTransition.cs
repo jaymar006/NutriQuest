@@ -85,17 +85,22 @@ public class TowerLevelTransition : MonoBehaviour
 
     private void SaveResults()
     {
-        if (ScoreManager.Instance != null)
+        if (ScoreManager.Instance == null)
         {
-            ResultData.Save(
-                Mathf.RoundToInt(ScoreManager.Instance.GetScorePercent() *
-                    ScoreManager.Instance.TotalQuestions),
-                ScoreManager.Instance.WrongAnswers,
-                ScoreManager.Instance.TotalQuestions,
-                ScoreManager.Instance.StageID,
-                ScoreManager.Instance.TowerIndex
-            );
+            Debug.LogError("[TowerLevelTransition] ScoreManager instance is null!");
+            return;
         }
+
+        int correct = ScoreManager.Instance.CorrectAnswers;
+        int wrong = ScoreManager.Instance.WrongAnswers;
+        int total = ScoreManager.Instance.TotalQuestions;
+        string stageID = ScoreManager.Instance.StageID;
+        int towerIndex = ScoreManager.Instance.TowerIndex;
+
+        Debug.Log("[TowerLevelTransition] Saving — correct: " + correct +
+            " wrong: " + wrong + " total: " + total + " stage: " + stageID);
+
+        ResultData.Save(correct, wrong, total, stageID, towerIndex);
     }
 
     private IEnumerator FadeTo(float targetAlpha)
