@@ -43,6 +43,12 @@ public class DevCheatTool : MonoBehaviour
     [SerializeField] private Button resetEverythingButton;
     [SerializeField] private TMP_Text feedbackText;
 
+    // FIX: Direct reference to ProfileProgressDisplay so every action refreshes the profile.
+    //      Assign this in the Inspector if the profile panel is in the same scene.
+    //      If it's in a different scene, the FindObjectOfType fallback handles it automatically.
+    [Header("Profile (assign if in same scene)")]
+    [SerializeField] private ProfileProgressDisplay profileDisplay;
+
     [Header("Settings")]
     [SerializeField] private bool enableInBuild = false;
 
@@ -53,9 +59,17 @@ public class DevCheatTool : MonoBehaviour
     private const string UNLOCKED_PREFIX = "Unlocked_";
     private const string ATTEMPT_PREFIX = "Attempts_";
 
-    // Must match EXACTLY what you typed in TowerEntry.towerName in Inspector //
-    private string[] stageIDs = { "Stage_1", "Stage_2", "Stage_3", "Stage_4" };
-    private string[] towerNames = { "Tower_1", "Tower_2", "Tower_3", "Tower_4" };
+    // Tower/badge stage IDs
+    [Header("Stage IDs (towers + badges)")]
+    [SerializeField] private string[] stageIDs = { "Stage_1", "Stage_2", "Stage_3", "Stage_4" };
+    [SerializeField] private string[] towerNames = { "Tower_1", "Tower_2", "Tower_3", "Tower_4" };
+
+    // FIX: Separate recipe stage IDs that match RecipeUnlockManager.requiredStageID exactly.
+    //      These are often different from tower stageIDs (e.g. "Tower1_Stage1" vs "Stage_1").
+    //      The old code was writing FIRST_CLEAR_Stage_1 but RecipeUnlockManager was reading
+    //      FIRST_CLEAR_Tower1_Stage1, so unlock/lock had no effect on recipes.
+    [Header("Recipe Stage IDs (must match RecipeUnlockManager requiredStageID values)")]
+    [SerializeField] private string[] recipeStageIDs;
 
     private AchievementType[] allBadges = new AchievementType[]
     {
@@ -87,69 +101,80 @@ public class DevCheatTool : MonoBehaviour
             closeButton.onClick.AddListener(() =>
                 cheatPanel.SetActive(false));
 
-        // Rune Keys //
+        // Rune Keys
         if (addRuneKeyButton != null)
             addRuneKeyButton.onClick.AddListener(AddRuneKey);
-
         if (maxRuneKeysButton != null)
             maxRuneKeysButton.onClick.AddListener(MaxRuneKeys);
-
         if (zeroRuneKeysButton != null)
             zeroRuneKeysButton.onClick.AddListener(ZeroRuneKeys);
 
-        // Scores //
+        // Scores
         if (setScoreStage1Button != null)
             setScoreStage1Button.onClick.AddListener(() => SetScore("Stage_1"));
-
         if (setScoreStage2Button != null)
             setScoreStage2Button.onClick.AddListener(() => SetScore("Stage_2"));
-
         if (setScoreStage3Button != null)
             setScoreStage3Button.onClick.AddListener(() => SetScore("Stage_3"));
 
-        // Stage Specific Badges //
+        // Stage Specific Badges
         if (unlockBadgesStage1Button != null)
             unlockBadgesStage1Button.onClick.AddListener(() => UnlockBadgesForStage("Stage_1"));
-
         if (unlockBadgesStage2Button != null)
             unlockBadgesStage2Button.onClick.AddListener(() => UnlockBadgesForStage("Stage_2"));
-
         if (unlockBadgesStage3Button != null)
             unlockBadgesStage3Button.onClick.AddListener(() => UnlockBadgesForStage("Stage_3"));
 
-        // Tower Unlock //
+        // Tower Unlock
         if (unlockAllTowersButton != null)
             unlockAllTowersButton.onClick.AddListener(UnlockAllTowers);
-
         if (lockAllTowersButton != null)
             lockAllTowersButton.onClick.AddListener(LockAllTowers);
-
         if (skipWaitTimerButton != null)
             skipWaitTimerButton.onClick.AddListener(SkipWaitTimers);
 
-        // Recipes //
+        // Recipes
         if (unlockAllRecipesButton != null)
             unlockAllRecipesButton.onClick.AddListener(UnlockAllRecipes);
-
         if (lockAllRecipesButton != null)
             lockAllRecipesButton.onClick.AddListener(LockAllRecipes);
 
-        // Badges //
+        // Badges
         if (unlockAllBadgesButton != null)
             unlockAllBadgesButton.onClick.AddListener(UnlockAllBadges);
-
         if (clearAllBadgesButton != null)
             clearAllBadgesButton.onClick.AddListener(ClearAllBadges);
 
-        // General //
+        // General
         if (resetEverythingButton != null)
             resetEverythingButton.onClick.AddListener(ResetEverything);
     }
+
+    // -------------------------------------------------------------------------
+    // FIX: Central profile refresh helper. Finds ProfileProgressDisplay in scene
+    //      if not assigned in Inspector. Called at the end of every single action
+    //      so the profile page is never stale after a cheat is applied.
+    // -------------------------------------------------------------------------
+    private void RefreshProfile()
+    {
+        // Use the assigned reference first, fall back to scene search
+        ProfileProgressDisplay display = profileDisplay != null
+            ? profileDisplay
+            : FindFirstObjectByType<ProfileProgressDisplay>();
+
+        if (display != null)
+            display.RefreshAll();
+    }
+
+    // -------------------------------------------------------------------------
+    // Rune Keys
+    // -------------------------------------------------------------------------
 
     private void AddRuneKey()
     {
         if (RuneKeySystem.Instance != null)
             RuneKeySystem.Instance.AddKey(1);
+        RefreshProfile();
         ShowFeedback("+1 Rune Key added!");
     }
 
@@ -157,6 +182,7 @@ public class DevCheatTool : MonoBehaviour
     {
         if (RuneKeySystem.Instance != null)
             RuneKeySystem.Instance.AddKey(99);
+        RefreshProfile();
         ShowFeedback("Rune Keys maxed!");
     }
 
@@ -168,8 +194,13 @@ public class DevCheatTool : MonoBehaviour
         if (RuneKeySystem.Instance != null)
             RuneKeySystem.Instance.RefreshAllDisplays();
 
+        RefreshProfile();
         ShowFeedback("Rune Keys set to 0!");
     }
+
+    // -------------------------------------------------------------------------
+    // Scores
+    // -------------------------------------------------------------------------
 
     private void SetScore(string stageID)
     {
@@ -193,16 +224,12 @@ public class DevCheatTool : MonoBehaviour
             return;
         }
 
-        // Check first attempt BEFORE saving //
         bool isFirstAttempt = PlayerPrefs.GetInt(ATTEMPT_PREFIX + stageID, 0) == 0;
 
-        // Save score and attempts //
         PlayerPrefs.SetInt(HIGH_SCORE_PREFIX + stageID, score);
         PlayerPrefs.SetInt(ATTEMPT_PREFIX + stageID, 1);
 
-        // Evaluate badge using correct isFirstAttempt //
         AchievementType earned = AchievementEvaluator.Evaluate(score, 10);
-
         if (earned != AchievementType.None)
         {
             string badgeKey = BADGE_PREFIX + stageID + "_" + earned.ToString();
@@ -212,18 +239,20 @@ public class DevCheatTool : MonoBehaviour
 
         PlayerPrefs.Save();
 
-        // Trigger tower timer + refresh //
         if (TowerUnlockManager.Instance != null)
             TowerUnlockManager.Instance.OnLevelCleared(stageID);
 
-        // Refresh all LevelInfoScreens in scene //
         foreach (LevelInfoScreen screen in FindObjectsByType<LevelInfoScreen>(FindObjectsSortMode.None))
             screen.RefreshDisplay();
 
+        RefreshProfile();
         ShowFeedback(stageID + " score set to " + score + "!");
     }
 
-    // Unlock all badges for a specific stage //
+    // -------------------------------------------------------------------------
+    // Badges
+    // -------------------------------------------------------------------------
+
     private void UnlockBadgesForStage(string stageID)
     {
         foreach (AchievementType badge in allBadges)
@@ -232,7 +261,6 @@ public class DevCheatTool : MonoBehaviour
             PlayerPrefs.SetInt(key, 1);
         }
 
-        // Save score and attempts so everything is consistent //
         PlayerPrefs.SetInt(HIGH_SCORE_PREFIX + stageID, 10);
         PlayerPrefs.SetInt(ATTEMPT_PREFIX + stageID, 1);
         PlayerPrefs.SetInt(FIRST_CLEAR_PREFIX + stageID, 1);
@@ -240,13 +268,49 @@ public class DevCheatTool : MonoBehaviour
 
         if (TowerUnlockManager.Instance != null)
             TowerUnlockManager.Instance.RefreshUnlockStates();
-
         if (RecipeUnlockManager.Instance != null)
             RecipeUnlockManager.Instance.RefreshUnlockStates();
 
+        RefreshProfile();
         ShowFeedback("Badges unlocked for " + stageID + "!");
         Debug.Log("[DevCheatTool] Badges unlocked for: " + stageID);
     }
+
+    private void UnlockAllBadges()
+    {
+        foreach (string stage in stageIDs)
+        {
+            foreach (AchievementType badge in allBadges)
+            {
+                string key = BADGE_PREFIX + stage + "_" + badge.ToString();
+                PlayerPrefs.SetInt(key, 1);
+            }
+        }
+
+        PlayerPrefs.Save();
+        RefreshProfile();
+        ShowFeedback("All badges unlocked!");
+    }
+
+    private void ClearAllBadges()
+    {
+        foreach (string stage in stageIDs)
+        {
+            foreach (AchievementType badge in allBadges)
+            {
+                string key = BADGE_PREFIX + stage + "_" + badge.ToString();
+                PlayerPrefs.DeleteKey(key);
+            }
+        }
+
+        PlayerPrefs.Save();
+        RefreshProfile();
+        ShowFeedback("All badges cleared!");
+    }
+
+    // -------------------------------------------------------------------------
+    // Towers
+    // -------------------------------------------------------------------------
 
     private void UnlockAllTowers()
     {
@@ -267,6 +331,7 @@ public class DevCheatTool : MonoBehaviour
         if (TowerUnlockManager.Instance != null)
             TowerUnlockManager.Instance.RefreshUnlockStates();
 
+        RefreshProfile();
         ShowFeedback("All towers unlocked!");
     }
 
@@ -289,6 +354,7 @@ public class DevCheatTool : MonoBehaviour
         if (TowerUnlockManager.Instance != null)
             TowerUnlockManager.Instance.RefreshUnlockStates();
 
+        RefreshProfile();
         ShowFeedback("All towers locked!");
     }
 
@@ -309,15 +375,26 @@ public class DevCheatTool : MonoBehaviour
         if (TowerUnlockManager.Instance != null)
             TowerUnlockManager.Instance.RefreshUnlockStates();
 
+        RefreshProfile();
         ShowFeedback("Wait timers skipped!");
     }
 
+    // -------------------------------------------------------------------------
+    // Recipes
+    // -------------------------------------------------------------------------
+
     private void UnlockAllRecipes()
     {
-        foreach (string stage in stageIDs)
+        // FIX: Use recipeStageIDs (not stageIDs) so the correct FIRST_CLEAR_ keys
+        //      are written — the ones RecipeUnlockManager actually reads.
+        if (recipeStageIDs != null)
         {
-            PlayerPrefs.SetInt(FIRST_CLEAR_PREFIX + stage, 1);
-            PlayerPrefs.SetInt(ATTEMPT_PREFIX + stage, 1);
+            foreach (string stage in recipeStageIDs)
+            {
+                if (string.IsNullOrEmpty(stage)) continue;
+                PlayerPrefs.SetInt(FIRST_CLEAR_PREFIX + stage, 1);
+                PlayerPrefs.SetInt(ATTEMPT_PREFIX + stage, 1);
+            }
         }
 
         PlayerPrefs.Save();
@@ -325,68 +402,59 @@ public class DevCheatTool : MonoBehaviour
         if (RecipeUnlockManager.Instance != null)
             RecipeUnlockManager.Instance.RefreshUnlockStates();
 
+        RefreshProfile();
         ShowFeedback("All recipes unlocked!");
     }
 
     private void LockAllRecipes()
     {
-        foreach (string stage in stageIDs)
-            PlayerPrefs.DeleteKey(FIRST_CLEAR_PREFIX + stage);
+        // FIX: Use recipeStageIDs for the same reason as above
+        if (recipeStageIDs != null)
+        {
+            foreach (string stage in recipeStageIDs)
+            {
+                if (string.IsNullOrEmpty(stage)) continue;
+                PlayerPrefs.DeleteKey(FIRST_CLEAR_PREFIX + stage);
+            }
+        }
 
         PlayerPrefs.Save();
 
         if (RecipeUnlockManager.Instance != null)
             RecipeUnlockManager.Instance.RefreshUnlockStates();
 
+        RefreshProfile();
         ShowFeedback("All recipes locked!");
     }
 
-    private void UnlockAllBadges()
-    {
-        foreach (string stage in stageIDs)
-        {
-            foreach (AchievementType badge in allBadges)
-            {
-                string key = BADGE_PREFIX + stage + "_" + badge.ToString();
-                PlayerPrefs.SetInt(key, 1);
-            }
-        }
-
-        PlayerPrefs.Save();
-        ShowFeedback("All badges unlocked!");
-    }
-
-    private void ClearAllBadges()
-    {
-        foreach (string stage in stageIDs)
-        {
-            foreach (AchievementType badge in allBadges)
-            {
-                string key = BADGE_PREFIX + stage + "_" + badge.ToString();
-                PlayerPrefs.DeleteKey(key);
-            }
-        }
-
-        PlayerPrefs.Save();
-        ShowFeedback("All badges cleared!");
-    }
+    // -------------------------------------------------------------------------
+    // Reset
+    // -------------------------------------------------------------------------
 
     private void ResetEverything()
     {
-        // Wipe everything //
         PlayerPrefs.DeleteAll();
         PlayerPrefs.Save();
 
-        // Safely refresh all managers //
         if (TowerUnlockManager.Instance != null)
             TowerUnlockManager.Instance.RefreshUnlockStates();
 
         if (RecipeUnlockManager.Instance != null)
             RecipeUnlockManager.Instance.RefreshUnlockStates();
 
+        if (RuneKeySystem.Instance != null)
+            RuneKeySystem.Instance.RefreshAllDisplays();
+
+        // FIX: Refresh profile display so it shows zeroed values immediately
+        RefreshProfile();
+
         ShowFeedback("Everything reset!");
         Debug.Log("[DevCheatTool] Full reset done.");
     }
+
+    // -------------------------------------------------------------------------
+    // Feedback
+    // -------------------------------------------------------------------------
 
     private void ShowFeedback(string message)
     {

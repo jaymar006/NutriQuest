@@ -41,10 +41,10 @@ public class LevelInfoScreen : MonoBehaviour
     private readonly Color unlockedColor = Color.white;
     private readonly Color lockedColor = new Color(0.4f, 0.4f, 0.4f, 1f);
 
-    private const int COST_NEW_TOWER = 2;
-    private const int COST_RECHALLENGE_TOWER = 1;
-    private const int COST_NEW_TOWER4 = 3;
-    private const int COST_RECHALLENGE_TOWER4 = 2;
+    private const int COST_NEW_TOWER = 3;
+    private const int COST_RECHALLENGE_TOWER = 2;
+    private const int COST_NEW_TOWER4 = 4;
+    private const int COST_RECHALLENGE_TOWER4 = 3;
 
     private int currentCost = 1;
     private Coroutine _warningDismissCoroutine;

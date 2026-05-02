@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro;
-using System.Collections;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -22,6 +21,7 @@ public class ScoreManager : MonoBehaviour
     public int WrongAnswers => wrongAnswers;
     public string StageID => stageID;
     public int TowerIndex => towerIndex;
+    public int CorrectAnswers => correctAnswers;
 
     private int correctAnswers = 0;
     private int wrongAnswers = 0;
@@ -43,8 +43,11 @@ public class ScoreManager : MonoBehaviour
     public void RegisterAnswer(bool isCorrect)
     {
         answeredQuestions++;
-        if (isCorrect) correctAnswers++;
-        else wrongAnswers++;
+
+        if (isCorrect)
+            correctAnswers++;
+        else
+            wrongAnswers++;
 
         UpdateScoreUI();
 
@@ -57,13 +60,21 @@ public class ScoreManager : MonoBehaviour
 
     private void OnLevelComplete()
     {
+        // Save results so ResultScreenManager can read them
+        // Use the Save method instead of individual setters
+        ResultData.Save(correctAnswers, wrongAnswers, totalQuestions, stageID, towerIndex);
+
+        Debug.Log("[ScoreManager] ResultData saved. correct=" + correctAnswers +
+            " wrong=" + wrongAnswers +
+            " total=" + totalQuestions +
+            " stageID=" + stageID +
+            " towerIndex=" + towerIndex);
+
         if (TowerLevelTransition.Instance != null)
             TowerLevelTransition.Instance.OnLevelComplete();
         else
             Debug.LogError("[ScoreManager] TowerLevelTransition Instance is null!");
     }
-
-    public int CorrectAnswers => correctAnswers;
 
     private void UpdateScoreUI()
     {

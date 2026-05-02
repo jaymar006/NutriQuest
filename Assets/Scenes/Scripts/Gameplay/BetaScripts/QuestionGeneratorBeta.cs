@@ -112,6 +112,10 @@ public class QuestionGeneratorBeta : MonoBehaviour
 
         QuestionDisplayBeta.Instance.ShowQuestion();
 
+        // Start timer for this question //
+        if (QuestionTimer.Instance != null)
+            QuestionTimer.Instance.StartTimer();
+
         if (CatCompanion.Instance != null)
             CatCompanion.Instance.ShowIdle();
 
@@ -119,15 +123,14 @@ public class QuestionGeneratorBeta : MonoBehaviour
             "/" + selectedQuestions.Count + " | Correct: " + correctAnswer);
     }
 
-    public void OnAnswerSelected()
-    {
-        if (isWaiting) return;
-        StartCoroutine(WaitThenNextQuestion());
-    }
-
     private IEnumerator WaitThenNextQuestion()
     {
         isWaiting = true;
+
+        // Stop timer when answer is selected //
+        if (QuestionTimer.Instance != null)
+            QuestionTimer.Instance.StopTimer();
+
         yield return new WaitForSeconds(delayBeforeNextQuestion);
 
         currentIndex++;
@@ -142,5 +145,11 @@ public class QuestionGeneratorBeta : MonoBehaviour
         AnswerBTNFunction2.Instance.ResetButtons();
         DisplayCurrentQuestion();
         isWaiting = false;
+    }
+
+    public void OnAnswerSelected()
+    {
+        if (isWaiting) return;
+        StartCoroutine(WaitThenNextQuestion());
     }
 }

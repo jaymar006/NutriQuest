@@ -419,6 +419,15 @@ MonoBehaviour:
     m_RotationOrder: 4
   looping: 0
   loopingDelay: 0.5
+  enableShake: 0
+  shakeOnStart: 0
+  shakeStrength: 10
+  shakeDuration: 0.3
+  shakeFrequency: 20
+  shakeLooping: 0
+  shakeLoopDelay: 0.5
+  shakeDirection: 0
+  shakeFadeOut: 1
 --- !u!114 &313995231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -680,6 +689,15 @@ MonoBehaviour:
     m_RotationOrder: 4
   looping: 0
   loopingDelay: 0.5
+  enableShake: 0
+  shakeOnStart: 0
+  shakeStrength: 10
+  shakeDuration: 0.3
+  shakeFrequency: 20
+  shakeLooping: 0
+  shakeLoopDelay: 0.5
+  shakeDirection: 0
+  shakeFadeOut: 1
 --- !u!114 &360885049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -885,6 +903,63 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!1 &543526176
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 543526177}
+  - component: {fileID: 543526178}
+  m_Layer: 0
+  m_Name: RecipeUnlockManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &543526177
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543526176}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.08117998, y: 1.03925, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &543526178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 543526176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce15ce400fef1c043b832b3e2a653adb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RecipeUnlockManager
+  recipes:
+  - recipeName: "Kid\u2011Friendly Sinabawang Gulay"
+    requiredStageID: Stage_1
+    recipeButton: {fileID: 1016366869}
+  - recipeName: 'Filipino Fruit Salad '
+    requiredStageID: Stage_2
+    recipeButton: {fileID: 313995231}
+  - recipeName: Filipino Clubhouse Sandwich
+    requiredStageID: Stage_3
+    recipeButton: {fileID: 360885049}
+  - recipeName: 'Veggie Stir-fried Chicken Meal for Kids '
+    requiredStageID: Stage_4
+    recipeButton: {fileID: 1276782764}
 --- !u!1 &567727923
 GameObject:
   m_ObjectHideFlags: 0
@@ -1232,6 +1307,15 @@ MonoBehaviour:
     m_RotationOrder: 4
   looping: 0
   loopingDelay: 0.5
+  enableShake: 0
+  shakeOnStart: 0
+  shakeStrength: 10
+  shakeDuration: 0.3
+  shakeFrequency: 20
+  shakeLooping: 0
+  shakeLoopDelay: 0.5
+  shakeDirection: 0
+  shakeFadeOut: 1
 --- !u!114 &1016366869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1690,6 +1774,15 @@ MonoBehaviour:
     m_RotationOrder: 4
   looping: 0
   loopingDelay: 0.5
+  enableShake: 0
+  shakeOnStart: 0
+  shakeStrength: 10
+  shakeDuration: 0.3
+  shakeFrequency: 20
+  shakeLooping: 0
+  shakeLoopDelay: 0.5
+  shakeDirection: 0
+  shakeFadeOut: 1
 --- !u!114 &1276782764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2235,6 +2328,15 @@ MonoBehaviour:
     m_RotationOrder: 4
   looping: 0
   loopingDelay: 0.5
+  enableShake: 0
+  shakeOnStart: 0
+  shakeStrength: 10
+  shakeDuration: 0.3
+  shakeFrequency: 20
+  shakeLooping: 0
+  shakeLoopDelay: 0.5
+  shakeDirection: 0
+  shakeFadeOut: 1
 --- !u!222 &4303842068442613034
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7368,6 +7470,7 @@ ParticleSystem:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 543526177}
   - {fileID: 307962838}
   - {fileID: 517859712}
   - {fileID: 1722104460}

@@ -404,6 +404,15 @@ MonoBehaviour:
     m_RotationOrder: 4
   looping: 0
   loopingDelay: 0.5
+  enableShake: 0
+  shakeOnStart: 0
+  shakeStrength: 10
+  shakeDuration: 0.3
+  shakeFrequency: 20
+  shakeLooping: 0
+  shakeLoopDelay: 0.5
+  shakeDirection: 0
+  shakeFadeOut: 1
 --- !u!114 &378640156
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3398,11 +3407,8 @@ MonoBehaviour:
     condensed milk and all-purpose cream.
 
 
-
-
     2. Add the rest of the ingredients
     and toss until well combined.
-
 
 
     3. Cover the bowl with cling wrap and chill
@@ -3779,6 +3785,15 @@ MonoBehaviour:
     m_RotationOrder: 4
   looping: 0
   loopingDelay: 0.5
+  enableShake: 0
+  shakeOnStart: 0
+  shakeStrength: 10
+  shakeDuration: 0.3
+  shakeFrequency: 20
+  shakeLooping: 0
+  shakeLoopDelay: 0.5
+  shakeDirection: 0
+  shakeFadeOut: 1
 --- !u!114 &7582004982175715313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4179,7 +4194,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 4888.4}
+  m_SizeDelta: {x: 200, y: 1550}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

@@ -309,6 +309,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOF
   modal: {fileID: 682085393}
+  backButtonManager: {fileID: 0}
 --- !u!82 &88834998
 AudioSource:
   m_ObjectHideFlags: 0
@@ -464,6 +465,15 @@ MonoBehaviour:
     m_RotationOrder: 4
   looping: 0
   loopingDelay: 0.5
+  enableShake: 0
+  shakeOnStart: 0
+  shakeStrength: 10
+  shakeDuration: 0.3
+  shakeFrequency: 20
+  shakeLooping: 0
+  shakeLoopDelay: 0.5
+  shakeDirection: 0
+  shakeFadeOut: 1
 --- !u!114 &88835000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -703,6 +713,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOF
   modal: {fileID: 1883701795}
+  backButtonManager: {fileID: 0}
 --- !u!114 &115443448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -829,6 +840,7 @@ GameObject:
   - component: {fileID: 182641168}
   - component: {fileID: 182641167}
   - component: {fileID: 182641166}
+  - component: {fileID: 182641170}
   m_Layer: 0
   m_Name: RuneKey
   m_TagString: Untagged
@@ -845,7 +857,7 @@ RectTransform:
   m_GameObject: {fileID: 182641164}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.0797265, y: 2.7997808, z: 2.8872433}
+  m_LocalScale: {x: 3.379076, y: 3.0719197, z: 3.1678834}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1944199590}
@@ -913,6 +925,15 @@ MonoBehaviour:
     m_RotationOrder: 4
   looping: 0
   loopingDelay: 0.5
+  enableShake: 0
+  shakeOnStart: 0
+  shakeStrength: 10
+  shakeDuration: 0.3
+  shakeFrequency: 20
+  shakeLooping: 0
+  shakeLoopDelay: 0.5
+  shakeDirection: 0
+  shakeFadeOut: 1
 --- !u!114 &182641167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -969,6 +990,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 182641170}
+        m_TargetAssemblyTypeName: ModalOnAndOff, Assembly-CSharp
+        m_MethodName: OpenModal
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &182641168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -989,9 +1022,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c331637c26883b444b650ab0f9332cd8, type: 3}
+  m_Sprite: {fileID: 6613406034280834080, guid: 6052e2e1b746ae242a8c2186298f82a3, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -1007,6 +1040,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 182641164}
   m_CullTransparentMesh: 1
+--- !u!114 &182641170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 182641164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f59a25f5474fe4488238009b05cf72f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOff
+  modal: {fileID: 1883701795}
+  backButtonManager: {fileID: 0}
 --- !u!1 &209573820
 GameObject:
   m_ObjectHideFlags: 0
@@ -1088,6 +1135,7 @@ GameObject:
   - component: {fileID: 212235802}
   - component: {fileID: 212235801}
   - component: {fileID: 212235800}
+  - component: {fileID: 212235804}
   m_Layer: 0
   m_Name: Recipe
   m_TagString: Untagged
@@ -1104,14 +1152,14 @@ RectTransform:
   m_GameObject: {fileID: 212235798}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.2917514, y: 2.0834322, z: 2.1485167}
+  m_LocalScale: {x: 3.3920448, y: 3.0837095, z: 3.1800418}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1944199590}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 327.1, y: -96.49093}
+  m_AnchoredPosition: {x: 388.91998, y: -96.49093}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &212235800
@@ -1172,6 +1220,15 @@ MonoBehaviour:
     m_RotationOrder: 4
   looping: 0
   loopingDelay: 0.5
+  enableShake: 0
+  shakeOnStart: 0
+  shakeStrength: 10
+  shakeDuration: 0.3
+  shakeFrequency: 20
+  shakeLooping: 0
+  shakeLoopDelay: 0.5
+  shakeDirection: 0
+  shakeFadeOut: 1
 --- !u!114 &212235801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1228,6 +1285,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 212235804}
+        m_TargetAssemblyTypeName: ModalOnAndOff, Assembly-CSharp
+        m_MethodName: OpenModal
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &212235802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1248,9 +1317,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 613afcbda8ca0ce4ebef34e6b4355878, type: 3}
+  m_Sprite: {fileID: -5395461364961910070, guid: d172c5a90814875459fe9740af3482d9, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -1266,6 +1335,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 212235798}
   m_CullTransparentMesh: 1
+--- !u!114 &212235804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 212235798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f59a25f5474fe4488238009b05cf72f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOff
+  modal: {fileID: 209573822}
+  backButtonManager: {fileID: 0}
 --- !u!1 &236831358
 GameObject:
   m_ObjectHideFlags: 0
@@ -1789,6 +1872,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOF
   modal: {fileID: 750253705}
+  backButtonManager: {fileID: 0}
 --- !u!114 &322958757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3349,6 +3433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOF
   modal: {fileID: 209573822}
+  backButtonManager: {fileID: 0}
 --- !u!114 &720849790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4505,7 +4590,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2057580771}
   - {fileID: 1478321624}
   - {fileID: 1701492223}
   - {fileID: 8799645653481646885}
@@ -5113,7 +5197,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1271963042
 Transform:
   m_ObjectHideFlags: 0
@@ -6152,6 +6236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOF
   modal: {fileID: 1577630767}
+  backButtonManager: {fileID: 0}
 --- !u!114 &1434365631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6509,6 +6594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOF
   modal: {fileID: 682085393}
+  backButtonManager: {fileID: 0}
 --- !u!114 &1545261934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7355,6 +7441,15 @@ MonoBehaviour:
     m_RotationOrder: 4
   looping: 0
   loopingDelay: 0.5
+  enableShake: 0
+  shakeOnStart: 0
+  shakeStrength: 10
+  shakeDuration: 0.3
+  shakeFrequency: 20
+  shakeLooping: 0
+  shakeLoopDelay: 0.5
+  shakeDirection: 0
+  shakeFadeOut: 1
 --- !u!114 &1596250761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7368,6 +7463,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOF
   modal: {fileID: 433408903}
+  backButtonManager: {fileID: 0}
 --- !u!1 &1609348622
 GameObject:
   m_ObjectHideFlags: 0
@@ -7570,6 +7666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOF
   modal: {fileID: 433408903}
+  backButtonManager: {fileID: 0}
 --- !u!114 &1633063044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8414,6 +8511,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOF
   modal: {fileID: 1577630767}
+  backButtonManager: {fileID: 0}
 --- !u!82 &1796885309
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8569,6 +8667,15 @@ MonoBehaviour:
     m_RotationOrder: 4
   looping: 0
   loopingDelay: 0.5
+  enableShake: 0
+  shakeOnStart: 0
+  shakeStrength: 10
+  shakeDuration: 0.3
+  shakeFrequency: 20
+  shakeLooping: 0
+  shakeLoopDelay: 0.5
+  shakeDirection: 0
+  shakeFadeOut: 1
 --- !u!114 &1796885311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8891,6 +8998,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOF
   modal: {fileID: 750253705}
+  backButtonManager: {fileID: 0}
 --- !u!82 &1871897408
 AudioSource:
   m_ObjectHideFlags: 0
@@ -9046,6 +9154,15 @@ MonoBehaviour:
     m_RotationOrder: 4
   looping: 0
   loopingDelay: 0.5
+  enableShake: 0
+  shakeOnStart: 0
+  shakeStrength: 10
+  shakeDuration: 0.3
+  shakeFrequency: 20
+  shakeLooping: 0
+  shakeLoopDelay: 0.5
+  shakeDirection: 0
+  shakeFadeOut: 1
 --- !u!114 &1871897410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9289,7 +9406,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -2572324535764620152, guid: 687aa6647b7f2454f9ced6947fd836e2, type: 3}
+  m_Sprite: {fileID: 5193082058301561653, guid: f53b7aa81a236d547a74638a8871e515, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -9364,7 +9481,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 4052924116000931259, guid: 4e4bb3407ef6a89458048f7e9a74ad35, type: 3}
+  m_Sprite: {fileID: -7544321156238911255, guid: e74897a9ce8e98f40bdb6100e1206ac0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -9664,7 +9781,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 177.1
+  m_Spacing: 238.92
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -10308,12 +10425,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2057580770}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 536.5, y: 956.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1125685603}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2057580772
 MonoBehaviour:
@@ -11536,6 +11653,9 @@ MonoBehaviour:
   setScoreStage2Button: {fileID: 5522220397479793620}
   setScoreStage3Button: {fileID: 532882757578366983}
   scoreInputField: {fileID: 7645661346180397481}
+  unlockBadgesStage1Button: {fileID: 0}
+  unlockBadgesStage2Button: {fileID: 0}
+  unlockBadgesStage3Button: {fileID: 0}
   unlockAllTowersButton: {fileID: 3844720782712219660}
   lockAllTowersButton: {fileID: 6931898742624221829}
   skipWaitTimerButton: {fileID: 5649316956809043888}
@@ -16434,6 +16554,7 @@ MonoBehaviour:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 2057580771}
   - {fileID: 1125685603}
   - {fileID: 751210401}
   - {fileID: 1583480646}

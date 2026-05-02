@@ -186,6 +186,26 @@ public class AnswerBTNFunction2 : MonoBehaviour
             QuestionGeneratorBeta.Instance.OnAnswerSelected();
     }
 
+    // Lock all buttons when timer expires //
+    public void LockAllButtons()
+    {
+        answerLocked = true;
+
+        // Show all as blocked //
+        if (answerBlockA != null) answerBlockA.SetActive(true);
+        if (answerBlockB != null) answerBlockB.SetActive(true);
+        if (answerBlockC != null) answerBlockC.SetActive(true);
+        if (answerBlockD != null) answerBlockD.SetActive(true);
+
+        // Hide blue states //
+        if (answerBlueA != null) answerBlueA.SetActive(false);
+        if (answerBlueB != null) answerBlueB.SetActive(false);
+        if (answerBlueC != null) answerBlueC.SetActive(false);
+        if (answerBlueD != null) answerBlueD.SetActive(false);
+
+        Debug.Log("[AnswerBTNFunction2] All buttons locked by timer.");
+    }
+
     public void AnswerA() { HandleAnswer("A", answerBlueA, answerRedA, answerGreenA); }
     public void AnswerB() { HandleAnswer("B", answerBlueB, answerRedB, answerGreenB); }
     public void AnswerC() { HandleAnswer("C", answerBlueC, answerRedC, answerGreenC); }

@@ -248,6 +248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOF
   modal: {fileID: 1730903521}
+  backButtonManager: {fileID: 0}
 --- !u!114 &213641455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2702,6 +2703,15 @@ MonoBehaviour:
     m_RotationOrder: 4
   looping: 0
   loopingDelay: 0.5
+  enableShake: 0
+  shakeOnStart: 0
+  shakeStrength: 10
+  shakeDuration: 0.3
+  shakeFrequency: 20
+  shakeLooping: 0
+  shakeLoopDelay: 0.5
+  shakeDirection: 0
+  shakeFadeOut: 1
 --- !u!114 &2564526324725091849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3213,8 +3223,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2, y: -719.1}
-  m_SizeDelta: {x: 1297, y: 1178.7}
+  m_AnchoredPosition: {x: 2, y: -585.3}
+  m_SizeDelta: {x: 1297, y: 1030.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &5397545288455988610
 Transform:
@@ -3630,6 +3640,15 @@ MonoBehaviour:
     m_RotationOrder: 4
   looping: 0
   loopingDelay: 0.5
+  enableShake: 0
+  shakeOnStart: 0
+  shakeStrength: 10
+  shakeDuration: 0.3
+  shakeFrequency: 20
+  shakeLooping: 0
+  shakeLoopDelay: 0.5
+  shakeDirection: 0
+  shakeFadeOut: 1
 --- !u!1 &7464742229370161028
 GameObject:
   m_ObjectHideFlags: 0
@@ -3963,6 +3982,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOF
   modal: {fileID: 1730903521}
+  backButtonManager: {fileID: 0}
 --- !u!114 &8920268598036250103
 MonoBehaviour:
   m_ObjectHideFlags: 0

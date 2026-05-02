@@ -33,10 +33,18 @@ public class ResultScreenManager : MonoBehaviour
     [SerializeField] private GameObject rewardsSection;
     [SerializeField] private Transform rewardsContainer;
 
+    // ---------------------------------------------------------------
+    // RewardType tells the system what to actually GRANT when a reward
+    // button is tapped. Set this per-item in the Inspector.
+    // ---------------------------------------------------------------
+    public enum RewardType { None, RuneKey, Recipe }
+
     [System.Serializable]
     public class RewardItem
     {
         public string rewardName;
+        [Tooltip("What this reward actually grants when collected")]
+        public RewardType rewardType;
         public Button rewardButton;
         public ModalWindowScript rewardModal;
     }
@@ -47,78 +55,138 @@ public class ResultScreenManager : MonoBehaviour
     [SerializeField] private Button tapToContinueButton;
     [SerializeField] private string nextSceneName = "MapScene";
 
-    [Header("Settings")]
-    [SerializeField] private float replenishThreshold = 0.85f;
-
+    // ---------------------------------------------------------------
+    // PlayerPrefs key prefixes
+    // ---------------------------------------------------------------
     private const string HIGH_SCORE_PREFIX = "HighScore_";
     private const string FIRST_CLEAR_PREFIX = "FirstClear_";
     private const string ATTEMPT_PREFIX = "Attempts_";
     private const string BADGE_PREFIX = "Badge_";
+    private const string REWARDS_CLAIMED_PREFIX = "RewardsClaimed_";
 
+    // ---------------------------------------------------------------
+    // Runtime state (populated in Start, never changed after)
+    // ---------------------------------------------------------------
     private int correct;
     private int wrong;
     private int total;
     private string stageID;
     private int towerIndex;
+
+    // True when this is the very first time the player finishes this stage
+    // (read BEFORE we write FirstClear_ to PlayerPrefs)
     private bool isFirstClear;
     private bool isFirstAttempt;
     private bool isTransitioning = false;
 
     private AchievementType earnedThisRun = AchievementType.None;
 
+    // ---------------------------------------------------------------
+    // Start — single entry point, order matters
+    // ---------------------------------------------------------------
     private void Start()
     {
         if (tapToContinueButton != null)
             tapToContinueButton.interactable = false;
 
+        // 1. Read result data
         correct = ResultData.GetCorrect();
         wrong = ResultData.GetWrong();
         total = ResultData.GetTotal();
         stageID = ResultData.GetStageID();
         towerIndex = ResultData.GetTowerIndex();
 
-        Debug.Log("[ResultScreenManager] correct: " + correct);
-        Debug.Log("[ResultScreenManager] wrong: " + wrong);
-        Debug.Log("[ResultScreenManager] total: " + total);
-        Debug.Log("[ResultScreenManager] stageID: " + stageID);
-        Debug.Log("[ResultScreenManager] percent: " + ((float)correct / total));
+        Debug.Log($"[ResultScreenManager] stageID={stageID} correct={correct}/{total} towerIndex={towerIndex}");
 
         string firstClearKey = FIRST_CLEAR_PREFIX + stageID;
         string attemptKey = ATTEMPT_PREFIX + stageID;
 
+        // 2. Snapshot flags BEFORE writing anything
         isFirstClear = PlayerPrefs.GetInt(firstClearKey, 0) == 0;
         isFirstAttempt = PlayerPrefs.GetInt(attemptKey, 0) == 0;
 
-        // Increment attempt count
+        // 3. Increment attempt counter
         int attempts = PlayerPrefs.GetInt(attemptKey, 0);
         PlayerPrefs.SetInt(attemptKey, attempts + 1);
         PlayerPrefs.Save();
 
+        // 4. Update high score
         UpdateHighScore();
 
-        // UPDATED CALL - isFirstAttempt is no longer needed for Genius
+        // 5. Evaluate achievement for this run
         earnedThisRun = AchievementEvaluator.Evaluate(correct, total);
+        Debug.Log($"[ResultScreenManager] earnedThisRun={earnedThisRun}  isFirstClear={isFirstClear}");
 
-        Debug.Log("[ResultScreenManager] earnedThisRun: " + earnedThisRun);
-
+        // 6. Notify tower unlock system
         if (TowerUnlockManager.Instance != null)
             TowerUnlockManager.Instance.OnLevelCleared(stageID);
 
-        SaveBadgeIfEarned(earnedThisRun);
-
-        if (isFirstClear && correct >= AchievementData.GetPassTarget(stageID))
+        // 7. Handle first-clear rewards (rune key + recipe unlock)
+        //    This runs regardless of score — clearing ANY tower for the
+        //    first time always grants a rune key and unlocks its recipe.
+        if (isFirstClear)
         {
+            // a) Persist first-clear flag NOW so everything below reads it correctly
             PlayerPrefs.SetInt(firstClearKey, 1);
             PlayerPrefs.Save();
+            Debug.Log($"[ResultScreenManager] First clear! Saved {firstClearKey}=1");
+
+            // b) Grant rune key automatically — the reward button just shows the notification
+            GrantFirstClearRuneKey();
+
+            // c) Refresh recipe unlock states so the recipe screen reflects the new unlock
+            RefreshRecipeUnlocks();
         }
 
+        // 8. Save badge and handle repeat-Genius rune key drop
+        SaveBadgeIfEarned(earnedThisRun);
+
+        // 9. Build UI
         DisplayTowerTitle();
         DisplayScores();
         DisplayAchievements();
         DisplayRewards();
+
         StartCoroutine(FadeInSequence());
     }
 
+    // ---------------------------------------------------------------
+    // First-clear rune key — always +1, no conditions
+    // ---------------------------------------------------------------
+    private void GrantFirstClearRuneKey()
+    {
+        if (RuneKeySystem.Instance != null)
+        {
+            RuneKeySystem.Instance.AddKey(1);
+            Debug.Log("[ResultScreenManager] First-clear rune key granted (+1).");
+        }
+        else
+        {
+            Debug.LogWarning("[ResultScreenManager] RuneKeySystem.Instance is null — rune key NOT granted!");
+        }
+    }
+
+    // ---------------------------------------------------------------
+    // Recipe unlock
+    // ---------------------------------------------------------------
+    private void RefreshRecipeUnlocks()
+    {
+        if (RecipeUnlockManager.Instance != null)
+        {
+            RecipeUnlockManager.Instance.RefreshUnlockStates();
+            Debug.Log($"[ResultScreenManager] Recipe unlock refreshed for stage: {stageID}");
+        }
+        else
+        {
+            Debug.LogWarning("[ResultScreenManager] RecipeUnlockManager.Instance is null — recipe NOT refreshed!");
+        }
+    }
+
+    // ---------------------------------------------------------------
+    // Badge save + repeat-Genius rune key drop (70 % chance)
+    // This is separate from the first-clear reward above.
+    // Genius on a RETRY tower = 70 % drop (not guaranteed).
+    // ---------------------------------------------------------------
     private void SaveBadgeIfEarned(AchievementType achievement)
     {
         if (achievement == AchievementType.None) return;
@@ -128,40 +196,194 @@ public class ResultScreenManager : MonoBehaviour
 
         PlayerPrefs.SetInt(key, 1);
         PlayerPrefs.Save();
+        Debug.Log($"[ResultScreenManager] Badge saved: {key}");
 
-        if (achievement == AchievementType.GeniusOfTheTower)
+        // Only the Genius badge triggers a rune key drop on retries
+        if (achievement != AchievementType.GeniusOfTheTower) return;
+
+        if (isFirstClear)
         {
-            if (!alreadyEarned)
-            {
-                // First time Genius — guaranteed rune key
-                if (RuneKeySystem.Instance != null)
-                    RuneKeySystem.Instance.GeniusReward();
+            // First clear already gave a guaranteed rune key above.
+            // Genius on first clear does NOT give a second key.
+            Debug.Log("[ResultScreenManager] Genius on first clear — rune key already granted, no extra drop.");
+            return;
+        }
 
-                Debug.Log("[ResultScreenManager] First Genius! Guaranteed rune key rewarded.");
+        // Retry run with Genius achievement — 70 % drop chance
+        float roll = UnityEngine.Random.Range(0f, 1f);
+        bool dropped = roll <= 0.70f;
+
+        Debug.Log($"[ResultScreenManager] Repeat Genius! Roll={roll:F2} — {(dropped ? "KEY DROPPED!" : "No drop.")}");
+
+        if (dropped && RuneKeySystem.Instance != null)
+            RuneKeySystem.Instance.AddKey(1);
+    }
+
+    // ---------------------------------------------------------------
+    // Display: tower title
+    // ---------------------------------------------------------------
+    private void DisplayTowerTitle()
+    {
+        foreach (GameObject obj in towerTitleObjects)
+            if (obj != null) obj.SetActive(false);
+
+        if (towerIndex >= 0 && towerIndex < towerTitleObjects.Count
+            && towerTitleObjects[towerIndex] != null)
+        {
+            towerTitleObjects[towerIndex].SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning($"[ResultScreenManager] No tower title object for index {towerIndex}");
+        }
+    }
+
+    // ---------------------------------------------------------------
+    // Display: scores
+    // ---------------------------------------------------------------
+    private void DisplayScores()
+    {
+        if (correctAnswerValue != null) correctAnswerValue.text = correct.ToString();
+        if (wrongAnswerValue != null) wrongAnswerValue.text = wrong.ToString();
+        if (totalScoreValue != null) totalScoreValue.text = correct.ToString();
+
+        int highScore = GetHighScore();
+        if (highScoreValue != null)
+        {
+            highScoreValue.gameObject.SetActive(!isFirstAttempt);
+            highScoreValue.text = highScore.ToString();
+        }
+    }
+
+    // ---------------------------------------------------------------
+    // Display: achievement badges
+    // ---------------------------------------------------------------
+    private void DisplayAchievements()
+    {
+        AchievementType[] allTypes =
+        {
+            AchievementType.GeniusOfTheTower,
+            AchievementType.ConquerorOfTheTower,
+            AchievementType.ChallengerOfTheTower,
+            AchievementType.StepsTowardsSuccess
+        };
+
+        for (int i = 0; i < achievementButtons.Count; i++)
+        {
+            if (achievementButtons[i] == null) continue;
+
+            bool everEarned = IsBadgeEverEarned(allTypes[i]);
+            achievementButtons[i].gameObject.SetActive(true);
+
+            if (everEarned)
+            {
+                achievementButtons[i].image.color = Color.white;
+                achievementButtons[i].interactable = true;
+
+                int capturedIndex = i;
+                achievementButtons[i].onClick.RemoveAllListeners();
+                achievementButtons[i].onClick.AddListener(() => OpenAchievementModal(capturedIndex));
             }
             else
             {
-                // Repeat Genius — 55% chance
-                float roll = UnityEngine.Random.Range(0f, 1f);
-                bool dropped = roll <= 0.55f;
-
-                Debug.Log("[ResultScreenManager] Repeat Genius! Roll: " +
-                    roll.ToString("F2") + " — " + (dropped ? "DROPPED!" : "No drop."));
-
-                if (dropped && RuneKeySystem.Instance != null)
-                    RuneKeySystem.Instance.GeniusReward();
+                achievementButtons[i].image.color = new Color(0.4f, 0.4f, 0.4f, 1f);
+                achievementButtons[i].interactable = false;
+                achievementButtons[i].onClick.RemoveAllListeners();
             }
         }
+    }
 
-        Debug.Log("[ResultScreenManager] Badge saved: " + key);
+    // ---------------------------------------------------------------
+    // Display: first-clear reward buttons
+    //
+    // The rune key has ALREADY been granted in Start() above.
+    // These buttons are just visual notifications / modals —
+    // they do NOT grant anything again when tapped.
+    // ---------------------------------------------------------------
+    private void DisplayRewards()
+    {
+        if (rewardsSection == null)
+        {
+            Debug.LogError("[ResultScreenManager] rewardsSection is null!");
+            return;
+        }
+
+        // Hide all reward buttons first
+        foreach (RewardItem reward in rewardItems)
+            if (reward?.rewardButton != null)
+                reward.rewardButton.gameObject.SetActive(false);
+
+        string rewardKey = REWARDS_CLAIMED_PREFIX + stageID;
+        bool rewardsAlreadyShown = PlayerPrefs.GetInt(rewardKey, 0) == 1;
+
+        // Only show rewards panel on the very first clear,
+        // and only once (never on subsequent visits to this result screen).
+        if (!isFirstClear || rewardsAlreadyShown)
+        {
+            rewardsSection.SetActive(false);
+            Debug.Log($"[ResultScreenManager] Rewards panel hidden. isFirstClear={isFirstClear} alreadyShown={rewardsAlreadyShown}");
+            return;
+        }
+
+        // Mark as shown permanently
+        PlayerPrefs.SetInt(rewardKey, 1);
+        PlayerPrefs.Save();
+
+        rewardsSection.SetActive(true);
+        Debug.Log("[ResultScreenManager] Showing first-clear rewards panel.");
+
+        foreach (RewardItem reward in rewardItems)
+        {
+            if (reward?.rewardButton == null) continue;
+
+            reward.rewardButton.gameObject.SetActive(true);
+            reward.rewardButton.onClick.RemoveAllListeners();
+
+            // Tapping just opens the info modal — the reward itself was granted in Start()
+            if (reward.rewardModal != null)
+            {
+                ModalWindowScript capturedModal = reward.rewardModal;
+                reward.rewardButton.onClick.AddListener(() => capturedModal.Show());
+            }
+
+            Debug.Log($"[ResultScreenManager] Reward button shown: {reward.rewardName} ({reward.rewardType})");
+        }
+    }
+
+    // ---------------------------------------------------------------
+    // Helpers
+    // ---------------------------------------------------------------
+    private void OpenAchievementModal(int index)
+    {
+        if (index < 0 || index >= achievementModals.Count) return;
+        achievementModals[index]?.Show();
     }
 
     private bool IsBadgeEverEarned(AchievementType achievement)
     {
-        string key = BADGE_PREFIX + stageID + "_" + achievement.ToString();
-        return PlayerPrefs.GetInt(key, 0) == 1;
+        return PlayerPrefs.GetInt(BADGE_PREFIX + stageID + "_" + achievement.ToString(), 0) == 1;
     }
 
+    private void UpdateHighScore()
+    {
+        string key = HIGH_SCORE_PREFIX + stageID;
+        int current = PlayerPrefs.GetInt(key, 0);
+        if (correct > current)
+        {
+            PlayerPrefs.SetInt(key, correct);
+            PlayerPrefs.Save();
+        }
+
+        int totalAnswered = PlayerPrefs.GetInt("TotalQuestionsAnswered", 0);
+        PlayerPrefs.SetInt("TotalQuestionsAnswered", totalAnswered + correct);
+        PlayerPrefs.Save();
+    }
+
+    private int GetHighScore() => PlayerPrefs.GetInt(HIGH_SCORE_PREFIX + stageID, 0);
+
+    // ---------------------------------------------------------------
+    // Fade helpers
+    // ---------------------------------------------------------------
     private void SetupFadeImage()
     {
         if (fadeImage == null) return;
@@ -188,7 +410,6 @@ public class ResultScreenManager : MonoBehaviour
     private IEnumerator FadeIn()
     {
         if (fadeImage == null) yield break;
-
         SetupFadeImage();
         fadeImage.gameObject.SetActive(true);
         fadeImage.canvasRenderer.SetAlpha(1f);
@@ -208,7 +429,6 @@ public class ResultScreenManager : MonoBehaviour
     private IEnumerator FadeOut()
     {
         if (fadeImage == null) yield break;
-
         SetupFadeImage();
         fadeImage.gameObject.SetActive(true);
         fadeImage.canvasRenderer.SetAlpha(0f);
@@ -246,173 +466,6 @@ public class ResultScreenManager : MonoBehaviour
 
         Debug.Log("[ResultScreenManager] Loading: " + nextSceneName);
         UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
-    }
-
-    private void DisplayTowerTitle()
-    {
-        foreach (GameObject obj in towerTitleObjects)
-        {
-            if (obj != null)
-                obj.SetActive(false);
-        }
-
-        if (towerTitleObjects != null &&
-            towerIndex >= 0 &&
-            towerIndex < towerTitleObjects.Count &&
-            towerTitleObjects[towerIndex] != null)
-        {
-            towerTitleObjects[towerIndex].SetActive(true);
-        }
-        else
-        {
-            Debug.LogWarning("[ResultScreenManager] Tower title object not found " +
-                "for index: " + towerIndex);
-        }
-    }
-
-    private void DisplayScores()
-    {
-        if (correctAnswerValue != null)
-            correctAnswerValue.text = correct.ToString();
-
-        if (wrongAnswerValue != null)
-            wrongAnswerValue.text = wrong.ToString();
-
-        if (totalScoreValue != null)
-            totalScoreValue.text = correct.ToString();
-
-        int highScore = GetHighScore();
-        if (highScoreValue != null)
-        {
-            highScoreValue.gameObject.SetActive(!isFirstAttempt);
-            highScoreValue.text = highScore.ToString();
-        }
-    }
-
-
-    private void DisplayAchievements()
-    {
-        AchievementType[] allTypes = new AchievementType[]
-        {
-        AchievementType.GeniusOfTheTower,
-        AchievementType.ConquerorOfTheTower,
-        AchievementType.ChallengerOfTheTower,
-        AchievementType.StepsTowardsSuccess
-        };
-
-        for (int i = 0; i < achievementButtons.Count; i++)
-        {
-            if (achievementButtons[i] == null) continue;
-
-            AchievementType thisType = allTypes[i];
-            bool everEarned = IsBadgeEverEarned(thisType);
-
-            // Always show all badges
-            achievementButtons[i].gameObject.SetActive(true);
-
-            if (everEarned)
-            {
-                // Player earned this badge in some run — full color, clickable
-                achievementButtons[i].image.color = Color.white;
-                achievementButtons[i].interactable = true;
-
-                int modalIndex = i;
-                achievementButtons[i].onClick.RemoveAllListeners();
-                achievementButtons[i].onClick.AddListener(() =>
-                    OpenAchievementModal(modalIndex));
-            }
-            else
-            {
-                // Never earned this badge — greyed out, not clickable
-                achievementButtons[i].image.color = new Color(0.4f, 0.4f, 0.4f, 1f);
-                achievementButtons[i].interactable = false;
-                achievementButtons[i].onClick.RemoveAllListeners();
-            }
-        }
-    }
-
-    private void DisplayRewards()
-    {
-        if (rewardsSection == null)
-        {
-            Debug.LogError("[ResultScreenManager] rewardsSection is null!");
-            return;
-        }
-
-        // Hide all reward buttons first
-        foreach (RewardItem reward in rewardItems)
-        {
-            if (reward.rewardButton != null)
-                reward.rewardButton.gameObject.SetActive(false);
-        }
-
-        // Check if rewards were already claimed using PlayerPrefs
-        string rewardKey = "RewardsClaimed_" + stageID;
-        bool rewardsAlreadyClaimed = PlayerPrefs.GetInt(rewardKey, 0) == 1;
-
-        if (!isFirstClear || rewardsAlreadyClaimed)
-        {
-            rewardsSection.SetActive(false);
-            Debug.Log("[ResultScreenManager] Rewards already claimed or not first clear.");
-            return;
-        }
-
-        // Mark rewards as claimed permanently
-        PlayerPrefs.SetInt(rewardKey, 1);
-        PlayerPrefs.Save();
-
-        rewardsSection.SetActive(true);
-        Debug.Log("[ResultScreenManager] Rewards section activated — first time!");
-
-        foreach (RewardItem reward in rewardItems)
-        {
-            if (reward == null) continue;
-
-            if (reward.rewardButton != null)
-            {
-                reward.rewardButton.gameObject.SetActive(true);
-                reward.rewardButton.onClick.RemoveAllListeners();
-
-                if (reward.rewardModal != null)
-                {
-                    ModalWindowScript modal = reward.rewardModal;
-                    reward.rewardButton.onClick.AddListener(() => modal.Show());
-                }
-
-                Debug.Log("[ResultScreenManager] Reward shown: " + reward.rewardName);
-            }
-        }
-    }
-    private void OpenAchievementModal(int index)
-    {
-        if (index < 0 || index >= achievementModals.Count) return;
-
-        ModalWindowScript modal = achievementModals[index];
-        if (modal != null)
-            modal.Show();
-
-        Debug.Log("[ResultScreenManager] Opening achievement modal index: " + index);
-    }
-
-    private void UpdateHighScore()
-    {
-        string key = HIGH_SCORE_PREFIX + stageID;
-        int current = PlayerPrefs.GetInt(key, 0);
-        if (correct > current)
-        {
-            PlayerPrefs.SetInt(key, correct);
-            PlayerPrefs.Save();
-        }
-
-        // Cumulative lifetime correct answers
-        int totalAnswered = PlayerPrefs.GetInt("TotalQuestionsAnswered", 0);
-        PlayerPrefs.SetInt("TotalQuestionsAnswered", totalAnswered + correct);
-        PlayerPrefs.Save();
-    }
-
-    private int GetHighScore()
-    {
-        return PlayerPrefs.GetInt(HIGH_SCORE_PREFIX + stageID, 0);
     }
 
     private void OnTapToContinue()

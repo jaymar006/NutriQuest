@@ -896,7 +896,7 @@ RectTransform:
   m_GameObject: {fileID: 35205323}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1149, y: 1.1149, z: 1.1149}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 460422176}
@@ -1184,9 +1184,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0ba56ff9dfa27694b8561f067fb75420, type: 3}
+  m_Sprite: {fileID: 4679470278362337216, guid: 0925069ada8847041a0e2683c1be1715, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -1265,7 +1265,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -17, y: 19}
+  m_AnchoredPosition: {x: -38, y: 19}
   m_SizeDelta: {x: 874.69824, y: 342.21478}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!1 &65076660
@@ -1500,8 +1500,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 42.282486, y: -11.082397}
-  m_SizeDelta: {x: 354, y: 346}
+  m_AnchoredPosition: {x: 47, y: 8}
+  m_SizeDelta: {x: 453.7644, y: 357.16}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &98251340
 MonoBehaviour:
@@ -1603,7 +1603,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1072071239456008496, guid: b87edb38ffa5b574eb7ea96a759bb658, type: 3}
+  m_Sprite: {fileID: 1072071239456008496, guid: df72d512398f03a4182c329f88a0e4a5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2025,7 +2025,7 @@ MonoBehaviour:
   - {fileID: 1336031407}
   - {fileID: 1601183991}
   stageID: Stage_3
-  towerIndex: 2
+  towerIndex: 3
   challengeButton: {fileID: 625467852}
   runeKeyWarningText: {fileID: 0}
   sceneNavigation: {fileID: 0}
@@ -2199,7 +2199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RuneKeySystem
   maxRuneKeys: 5
-  regenTimeInMinutes: 1
+  regenTimeInMinutes: 10
   runeKeyTexts:
   - {fileID: 1067000998}
   - {fileID: 2142180834}
@@ -2509,7 +2509,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -48, y: -36.6}
+  m_AnchoredPosition: {x: -54.299988, y: -6.999901}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &232365955
@@ -2541,8 +2541,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278245119
+  m_fontColor: {r: 1, g: 0.8392157, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5489,7 +5489,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 25.6, y: 23.7}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &483021359
@@ -7283,9 +7283,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d2bbc9c722cb0148b0f1a431dc247a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneNavigationSystem
-  targetSceneAsset: {fileID: 102900000, guid: ba9ee68d6af90fa438b1bdb7a910a4f7, type: 3}
+  targetSceneAsset: {fileID: 102900000, guid: 47488d7440b83af4ba6f0929ee54925e, type: 3}
   targetSceneName: Level 3
-  useLoadingScreen: 0
+  useLoadingScreen: 1
 --- !u!82 &625467851
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7535,7 +7535,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 7.4597, y: -41.109}
+  m_AnchoredPosition: {x: 31.199997, y: 0.5999985}
   m_SizeDelta: {x: 185.9962, y: -59.019}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &639304177
@@ -7551,7 +7551,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.49803922}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.8039216}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -8700,7 +8700,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Passing Score: 7 points
 
-    Time Limit:   10 minutes
+    Time Limit:   5 minutes
 
 '
   m_isRightToLeft: 0
@@ -9198,14 +9198,14 @@ RectTransform:
   m_GameObject: {fileID: 819561017}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1149, y: 1.1149, z: 1.1149}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 460422176}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -13, y: -305}
+  m_AnchoredPosition: {x: -31.254, y: -305}
   m_SizeDelta: {x: 343.71497, y: 242.77808}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &819561019
@@ -9308,9 +9308,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 76b49b285dbd75e498ffada71d3831e0, type: 3}
+  m_Sprite: {fileID: -7381207880946769129, guid: 1221c328e0e799240acb7389e94a2ce7, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -9621,7 +9621,7 @@ MonoBehaviour:
   - {fileID: 1335610868}
   - {fileID: 301734227}
   stageID: Stage_2
-  towerIndex: 1
+  towerIndex: 2
   challengeButton: {fileID: 1621548185}
   runeKeyWarningText: {fileID: 0}
   sceneNavigation: {fileID: 0}
@@ -11306,7 +11306,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2, y: -43.8}
+  m_AnchoredPosition: {x: -4.3, y: -14.2}
   m_SizeDelta: {x: 185.99622, y: -59.019043}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &933198507
@@ -11322,7 +11322,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.49803922}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.8039216}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -13020,7 +13020,7 @@ RectTransform:
   m_GameObject: {fileID: 1080314608}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1149, y: 1.1149, z: 1.1149}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 460422176}
@@ -13308,9 +13308,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9b809ba31f1801a4b882371cbb19c769, type: 3}
+  m_Sprite: {fileID: 8604380266436714250, guid: e61da6154632dbd468e3439179156e35, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -13609,9 +13609,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Passing Score: 7 points
-
-    Time Limit:   10 minutes
+  m_text: 'Time Limit:   15 minutes
 
 '
   m_isRightToLeft: 0
@@ -13640,7 +13638,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 61.2
+  m_fontSize: 72
   m_fontSizeBase: 59.5
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -13957,9 +13955,9 @@ MonoBehaviour:
   rankImage: {fileID: 741633745}
   rankSprites:
   - {fileID: 21300000, guid: 9e3a7c1835bc71b4bb7d2373b4bd72e9, type: 3}
+  - {fileID: 21300000, guid: e15b693a78a7fba4faf5929a7fecf10a, type: 3}
   - {fileID: 21300000, guid: b8aa5ae4964a8824d8e7a9e88d6bf755, type: 3}
-  - {fileID: 21300000, guid: e15b693a78a7fba4faf5929a7fecf10a, type: 3}
-  - {fileID: 21300000, guid: e15b693a78a7fba4faf5929a7fecf10a, type: 3}
+  - {fileID: 21300000, guid: 9f625824ea92c6846866cb901d69a2e4, type: 3}
   totalTowers: 4
   totalRecipes: 6
   totalBadges: 4
@@ -13976,10 +13974,10 @@ MonoBehaviour:
   - Tower3
   - Tower4
   recipeStageIDs:
-  - 
-  - 
-  - 
-  - 
+  - Stage_1
+  - Stage_2
+  - Stage_3
+  - Stage_4
 --- !u!1 &1143094437
 GameObject:
   m_ObjectHideFlags: 0
@@ -14108,9 +14106,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d2bbc9c722cb0148b0f1a431dc247a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneNavigationSystem
-  targetSceneAsset: {fileID: 102900000, guid: 8fe170c0e7b817b4fbe7f44aa4fac151, type: 3}
+  targetSceneAsset: {fileID: 102900000, guid: 125a4dc206e0690438a5a03e7fbfd1e5, type: 3}
   targetSceneName: Level 4
-  useLoadingScreen: 0
+  useLoadingScreen: 1
 --- !u!82 &1145058895
 AudioSource:
   m_ObjectHideFlags: 0
@@ -16094,7 +16092,7 @@ MonoBehaviour:
   - {fileID: 1540081564}
   - {fileID: 1884875390}
   stageID: Stage_4
-  towerIndex: 3
+  towerIndex: 4
   challengeButton: {fileID: 1145058896}
   runeKeyWarningText: {fileID: 0}
   sceneNavigation: {fileID: 0}
@@ -16672,7 +16670,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Passing Score: 7 points
 
-    Time Limit:   10 minutes
+    Time Limit:   5 minutes
 
 '
   m_isRightToLeft: 0
@@ -17934,7 +17932,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -48, y: -36.6}
+  m_AnchoredPosition: {x: -17.6, y: 3.2}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1571744656
@@ -17966,8 +17964,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278245119
+  m_fontColor: {r: 1, g: 0.8400959, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -19075,9 +19073,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d2bbc9c722cb0148b0f1a431dc247a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneNavigationSystem
-  targetSceneAsset: {fileID: 102900000, guid: f998a648a424744428c66cc94b9ca823, type: 3}
+  targetSceneAsset: {fileID: 102900000, guid: 7e6297d1e63c5854fad996bc23558161, type: 3}
   targetSceneName: Level 2
-  useLoadingScreen: 0
+  useLoadingScreen: 1
 --- !u!82 &1621548184
 AudioSource:
   m_ObjectHideFlags: 0
@@ -19243,18 +19241,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ModalOnAndOF, Assembly-CSharp
-        m_MethodName: CloseModal
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &1621548186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19402,7 +19388,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 46.396}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 27.1, y: -74.8}
+  m_AnchoredPosition: {x: 27.099976, y: -74.8}
   m_SizeDelta: {x: 227, y: 353}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1661599450
@@ -20334,7 +20320,7 @@ RectTransform:
   m_GameObject: {fileID: 1749087636}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1149, y: 1.1149, z: 1.1149}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 460422176}
@@ -20622,9 +20608,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: bc2781acda7f85442bb21038b30853fc, type: 3}
+  m_Sprite: {fileID: -3384107634686620113, guid: 5b93de10e6eb07d41a82156bff9d6ce2, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -22582,7 +22568,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 971690b119122ba4fa721edb9e5ddb52, type: 3}
     - {fileID: 8300000, guid: a39bf12075b61174c94494158a0e6d9b, type: 3}
     playbackMode: 0
-  - groupName: Library Module
+  - groupName: LibraryPart
     scenes:
     - {fileID: 102900000, guid: b90e665c8f6d11d4a8d43c8730955af0, type: 3}
     - {fileID: 102900000, guid: 16a934d48c2436545bfee927179eff16, type: 3}
@@ -22591,6 +22577,7 @@ MonoBehaviour:
     - {fileID: 102900000, guid: d5872b7ade5345c4d86b69bb3554d9ef, type: 3}
     - {fileID: 102900000, guid: ee67cebdf434177479c6f7610509dcbc, type: 3}
     - {fileID: 102900000, guid: c1493dfb80ed14f4f8aceb024c063d05, type: 3}
+    - {fileID: 102900000, guid: ac84b322bd5ce0442996193fe181b573, type: 3}
     sceneNames:
     - TriviaSection
     - LibraryMenu
@@ -22599,12 +22586,54 @@ MonoBehaviour:
     - Recipe 2
     - Recipe 3
     - Recipe 4
+    - HelpArchive
     musicClips:
     - {fileID: 8300000, guid: efcc879d57c5882428ef0480f1fac3df, type: 3}
     - {fileID: 8300000, guid: ea9c12d41612dd0428347d5089770b82, type: 3}
     playbackMode: 1
+  - groupName: Level1
+    scenes:
+    - {fileID: 102900000, guid: 01e90143054a11546bfe753597e78a30, type: 3}
+    sceneNames:
+    - Level 1
+    musicClips:
+    - {fileID: 8300000, guid: 26a7e0f1ab422ed479ef0753f10657fd, type: 3}
+    playbackMode: 0
+  - groupName: Level2
+    scenes:
+    - {fileID: 102900000, guid: 7e6297d1e63c5854fad996bc23558161, type: 3}
+    sceneNames:
+    - Level 2
+    musicClips:
+    - {fileID: 8300000, guid: b6333eaf5a12c6a4e80d7b8c6571d912, type: 3}
+    playbackMode: 0
+  - groupName: Level3
+    scenes:
+    - {fileID: 102900000, guid: 47488d7440b83af4ba6f0929ee54925e, type: 3}
+    sceneNames:
+    - Level 3
+    musicClips:
+    - {fileID: 8300000, guid: 72bcaeb8d6012e54fa9b9b697a590a64, type: 3}
+    playbackMode: 0
+  - groupName: Level4
+    scenes:
+    - {fileID: 102900000, guid: 01e90143054a11546bfe753597e78a30, type: 3}
+    sceneNames:
+    - Level 1
+    musicClips:
+    - {fileID: 8300000, guid: efcc879d57c5882428ef0480f1fac3df, type: 3}
+    - {fileID: 8300000, guid: ea9c12d41612dd0428347d5089770b82, type: 3}
+    playbackMode: 0
+  - groupName: Level4
+    scenes:
+    - {fileID: 102900000, guid: 125a4dc206e0690438a5a03e7fbfd1e5, type: 3}
+    sceneNames:
+    - Level 4
+    musicClips:
+    - {fileID: 8300000, guid: 1f416e4402a87394e8f104fb727ae19e, type: 3}
+    playbackMode: 0
   fadeDuration: 1
-  maxVolume: 1
+  maxVolume: 0.9
 --- !u!1 &1919037374
 GameObject:
   m_ObjectHideFlags: 0
@@ -23280,6 +23309,7 @@ GameObject:
   - component: {fileID: 1960119794}
   - component: {fileID: 1960119793}
   - component: {fileID: 1960119792}
+  - component: {fileID: 1960119795}
   m_Layer: 5
   m_Name: ExitTheApp
   m_TagString: Untagged
@@ -23350,7 +23380,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1960119793}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1960119795}
+        m_TargetAssemblyTypeName: UI.Navigation.QuitButton, Assembly-CSharp
+        m_MethodName: QuitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1960119793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23389,6 +23431,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1960119790}
   m_CullTransparentMesh: 1
+--- !u!114 &1960119795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1960119790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d35a44f55776204fa7ae880c88d6c85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UI.Navigation.QuitButton
 --- !u!1 &1968396465
 GameObject:
   m_ObjectHideFlags: 0
@@ -23646,7 +23700,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Passing Score: 7 points
 
-    Time Limit:   10 minutes
+    Time Limit:   5 minutes
 
 '
   m_isRightToLeft: 0
@@ -23961,8 +24015,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 332.15057, y: -17.292236}
-  m_SizeDelta: {x: 267.171, y: 285.34}
+  m_AnchoredPosition: {x: 356, y: -6.170105}
+  m_SizeDelta: {x: 423.1337, y: 293.3499}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2037366550
 MonoBehaviour:
@@ -24064,7 +24118,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: de6df224f268a484085a366011c29e9c, type: 3}
+  m_Sprite: {fileID: -6275694640504684209, guid: 11f64b4d8c5589342b6525dcdad70764, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -24969,7 +25023,7 @@ GameObject:
   - component: {fileID: 2126755441}
   - component: {fileID: 2126755440}
   m_Layer: 5
-  m_Name: Achievement Button
+  m_Name: GuideBookButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24984,15 +25038,15 @@ RectTransform:
   m_GameObject: {fileID: 2126755433}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.80718756, y: 1.05, z: 1}
+  m_LocalScale: {x: 0.6074248, y: 0.790146, z: 0.75252}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 58742719}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -248.6795, y: 1.5376587}
-  m_SizeDelta: {x: 467.474, y: 322.99}
+  m_AnchoredPosition: {x: -262, y: -29}
+  m_SizeDelta: {x: 421.35, y: 322.99}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2126755435
 MonoBehaviour:
@@ -25094,7 +25148,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: bab7ecb5af0cf5942abe72947a06bd50, type: 3}
+  m_Sprite: {fileID: -5555253591894845422, guid: 0d850cb033c5b7a47a21f9d25f58d15f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -25192,7 +25246,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneNavigationSystem
   targetSceneAsset: {fileID: 102900000, guid: ac84b322bd5ce0442996193fe181b573, type: 3}
-  targetSceneName: Achievements
+  targetSceneName: HelpArchive
   useLoadingScreen: 1
 --- !u!1 &2142180832
 GameObject:
@@ -27403,7 +27457,19 @@ MonoBehaviour:
   clearAllBadgesButton: {fileID: 2219955995970563961}
   resetEverythingButton: {fileID: 1955248724032541376}
   feedbackText: {fileID: 8301342559922881518}
+  profileDisplay: {fileID: 0}
   enableInBuild: 1
+  stageIDs:
+  - Stage_1
+  - Stage_2
+  - Stage_3
+  - Stage_4
+  towerNames:
+  - Tower_1
+  - Tower_2
+  - Tower_3
+  - Tower_4
+  recipeStageIDs: []
 --- !u!114 &2698452606811196528
 MonoBehaviour:
   m_ObjectHideFlags: 0
