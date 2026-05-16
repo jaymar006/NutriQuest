@@ -4,6 +4,10 @@ using TMPro;
 
 public class ProfileProgressDisplay : MonoBehaviour
 {
+    // Player Name
+    [Header("Player Name")]
+    [SerializeField] private TMP_Text playerNameTXT;
+
     // Progress Percentage
     [Header("Progress Percentage")]
     [SerializeField] private TMP_Text percentageTXT;
@@ -62,7 +66,6 @@ public class ProfileProgressDisplay : MonoBehaviour
     [Header("Recipe Stage IDs (must match RecipeUnlockManager)")]
     [SerializeField] private string[] recipeStageIDs;
 
-    // Unity
     private void OnEnable()
     {
         RefreshAll();
@@ -71,6 +74,8 @@ public class ProfileProgressDisplay : MonoBehaviour
     // Public Entry Point
     public void RefreshAll()
     {
+        RefreshPlayerName();
+
         int towersCompleted = CountTowersCompleted();
         int badgesEarned = CountBadgesEarned();
         int totalQAnswered = GetTotalQuestionsAnswered();
@@ -79,6 +84,18 @@ public class ProfileProgressDisplay : MonoBehaviour
         DisplayInts(towersCompleted, badgesEarned, totalQAnswered, recipesUnlocked);
         DisplayPercentage(towersCompleted, badgesEarned, recipesUnlocked);
         DisplayRank(badgesEarned, totalBadges);
+    }
+
+    // Updates only the name field — call this after the player changes their name
+    public void RefreshPlayerName()
+    {
+        if (playerNameTXT == null) return;
+
+        string name = PlayerNameManager.Instance != null
+            ? PlayerNameManager.Instance.GetPlayerName()
+            : PlayerPrefs.GetString("PlayerName", "Player");
+
+        playerNameTXT.text = name;
     }
 
     // Counters
@@ -154,7 +171,6 @@ public class ProfileProgressDisplay : MonoBehaviour
     {
         if (percentageTXT == null) return;
 
-        // Only towers, badges, and recipes count toward overall progress
         float towerRatio = totalTowers > 0 ? (float)towers / totalTowers : 0f;
         float badgeRatio = totalBadges > 0 ? (float)badges / totalBadges : 0f;
         float recipeRatio = totalRecipes > 0 ? (float)recipes / totalRecipes : 0f;

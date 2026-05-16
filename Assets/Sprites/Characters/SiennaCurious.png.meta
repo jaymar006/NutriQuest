@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6c8819791ab726547afd6b1552f14be2
+guid: 0125f37827e2a4c4a9a27fbf7650cc59
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3558426360782879648
-    second: Mambo_0
+      213: -1362437897567091854
+    second: SiennaCurious_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,12 +100,12 @@ TextureImporter:
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 50
     textureCompression: 1
-    compressionQuality: 50
+    compressionQuality: 100
     crunchedCompression: 0
     allowsAlphaSplitting: 0
-    overridden: 0
+    overridden: 1
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Mambo_0
+      name: SiennaCurious_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 407
-        height: 400
+        x: 14
+        y: 39
+        width: 2249
+        height: 1651
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0ab79d9fbe1126130800000000000000
-      internalID: 3558426360782879648
+      spriteID: 273cbfe53f5a71de0800000000000000
+      internalID: -1362437897567091854
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Mambo_0: 3558426360782879648
+      SiennaCurious_0: -1362437897567091854
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

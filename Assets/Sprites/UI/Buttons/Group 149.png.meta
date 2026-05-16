@@ -1,7 +1,16 @@
 fileFormatVersion: 2
-guid: 9de1f1aaccad6bc4a898a35883449d91
+guid: 169981ea14d17704e91a67575ca1783d
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 3830565682483415335
+    second: Group 149_0
+  - first:
+      213: -2851808209004500349
+    second: Group 149_1
+  - first:
+      213: 5259252602660656601
+    second: Group 149_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -39,11 +48,11 @@ TextureImporter:
     mipBias: 0
     wrapU: 1
     wrapV: 1
-    wrapW: 0
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -99,7 +108,7 @@ TextureImporter:
     resizeAlgorithm: 0
     textureFormat: 50
     textureCompression: 1
-    compressionQuality: 100
+    compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 1
@@ -121,12 +130,78 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Back button 2
+      rect:
+        serializedVersion: 2
+        x: 185
+        y: 174
+        width: 725
+        height: 679
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 729c9396137e82530800000000000000
+      internalID: 3830565682483415335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Group 149_1
+      rect:
+        serializedVersion: 2
+        x: 737
+        y: 662
+        width: 119
+        height: 126
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38a6ebe1b875c68d0800000000000000
+      internalID: -2851808209004500349
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Group 149_2
+      rect:
+        serializedVersion: 2
+        x: 758
+        y: 495
+        width: 157
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d513ad906e9cf840800000000000000
+      internalID: 5259252602660656601
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: e8944683f62f3ee4db9c41914a3c70b9
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +210,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Back button 2: 3830565682483415335
+      Group 149_1: -2851808209004500349
+      Group 149_2: 5259252602660656601
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

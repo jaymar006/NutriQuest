@@ -6,6 +6,7 @@ TagManager:
   tags:
   - GameMusic
   - KeyCount
+  - Title
   layers:
   - Default
   - TransparentFX

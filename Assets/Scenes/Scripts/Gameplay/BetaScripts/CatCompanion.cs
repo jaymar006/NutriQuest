@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 
 public class CatCompanion : MonoBehaviour
 {
@@ -99,7 +100,6 @@ public class CatCompanion : MonoBehaviour
 
     public void ShowCompletion()
     {
-        // Stop any ongoing reaction
         if (reactRoutineCoroutine != null)
         {
             StopCoroutine(reactRoutineCoroutine);
@@ -163,14 +163,25 @@ public class CatCompanion : MonoBehaviour
             typewriterCoroutine = StartCoroutine(TypewriterEffect(line));
     }
 
+    // FIX: Use maxVisibleCharacters instead of string concatenation.
+    // The old approach rebuilt the string every frame causing memory allocations
+    // and garbage collection spikes which caused the lag.
     private IEnumerator TypewriterEffect(string line)
     {
-        speechText.text = "";
+        speechText.text = line;
+        speechText.maxVisibleCharacters = 0;
+        speechText.ForceMeshUpdate();
 
-        foreach (char letter in line)
+        int totalChars = speechText.textInfo.characterCount;
+        int visibleCount = 0;
+
+        WaitForSeconds wait = new WaitForSeconds(typewriterSpeed);
+
+        while (visibleCount <= totalChars)
         {
-            speechText.text += letter;
-            yield return new WaitForSeconds(typewriterSpeed);
+            speechText.maxVisibleCharacters = visibleCount;
+            visibleCount++;
+            yield return wait;
         }
     }
 

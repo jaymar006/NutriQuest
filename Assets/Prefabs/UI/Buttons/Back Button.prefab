@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5047705196371471653
+--- !u!1 &6611895034008547675
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,17 +8,16 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 122138663676992786}
-  - component: {fileID: 217485114484136079}
-  - component: {fileID: 4476464457347953704}
-  - component: {fileID: 4867390413631327828}
-  - component: {fileID: 3007262900911473415}
-  - component: {fileID: 8910437341819718402}
-  - component: {fileID: 9100364375190133723}
-  - component: {fileID: 5736990810668626453}
-  - component: {fileID: 4332284739294156639}
-  - component: {fileID: 8633909653126389280}
-  - component: {fileID: 1099888174305246063}
+  - component: {fileID: 6165763066148000471}
+  - component: {fileID: 336976828821398020}
+  - component: {fileID: 3432977902449795903}
+  - component: {fileID: 4646826426367962570}
+  - component: {fileID: 4629166870942615901}
+  - component: {fileID: 184912632351178154}
+  - component: {fileID: 368514818810682329}
+  - component: {fileID: 8119995533174459451}
+  - component: {fileID: 1782448968032498809}
+  - component: {fileID: 8192443537778869092}
   m_Layer: 5
   m_Name: Back Button
   m_TagString: Untagged
@@ -26,40 +25,40 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &122138663676992786
+--- !u!224 &6165763066148000471
 RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5047705196371471653}
+  m_GameObject: {fileID: 6611895034008547675}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1039.2305}
-  m_LocalScale: {x: 0.054244, y: 0.054244, z: 0.054244}
+  m_LocalPosition: {x: 0, y: 0, z: -17280.004}
+  m_LocalScale: {x: 1.7590622, y: 1.7590622, z: 1.7590622}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -25, y: -0.09000015}
+  m_AnchoredPosition: {x: -0, y: -8}
   m_SizeDelta: {x: 152, y: 152}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!222 &217485114484136079
+  m_Pivot: {x: 1, y: 1}
+--- !u!222 &336976828821398020
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5047705196371471653}
+  m_GameObject: {fileID: 6611895034008547675}
   m_CullTransparentMesh: 1
---- !u!114 &4476464457347953704
+--- !u!114 &3432977902449795903
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5047705196371471653}
+  m_GameObject: {fileID: 6611895034008547675}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
@@ -73,9 +72,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9a2b3e9fa9eaf0146b19c2426fc4c963, type: 3}
+  m_Sprite: {fileID: 3830565682483415335, guid: 169981ea14d17704e91a67575ca1783d, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -83,13 +82,13 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4867390413631327828
+--- !u!114 &4646826426367962570
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5047705196371471653}
+  m_GameObject: {fileID: 6611895034008547675}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
@@ -123,11 +122,11 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 4476464457347953704}
+  m_TargetGraphic: {fileID: 3432977902449795903}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3007262900911473415}
+      - m_Target: {fileID: 4629166870942615901}
         m_TargetAssemblyTypeName: SceneNavigationRequest, Assembly-CSharp
         m_MethodName: Navigate
         m_Mode: 1
@@ -139,7 +138,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 8910437341819718402}
+      - m_Target: {fileID: 184912632351178154}
         m_TargetAssemblyTypeName: SquishSquashManager, Assembly-CSharp
         m_MethodName: PlaySquashAndStretch
         m_Mode: 1
@@ -151,46 +150,35 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 4332284739294156639}
-        m_TargetAssemblyTypeName: UISoundFX, Assembly-CSharp
-        m_MethodName: PlayClickSound
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &3007262900911473415
+--- !u!114 &4629166870942615901
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5047705196371471653}
+  m_GameObject: {fileID: 6611895034008547675}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d2bbc9c722cb0148b0f1a431dc247a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneNavigationRequest
-  targetSceneAsset: {fileID: 0}
-  targetSceneName: 
---- !u!114 &8910437341819718402
+  targetSceneAsset: {fileID: 102900000, guid: 16a934d48c2436545bfee927179eff16, type: 3}
+  targetSceneName: LibraryMenu
+  useLoadingScreen: 0
+--- !u!114 &184912632351178154
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5047705196371471653}
+  m_GameObject: {fileID: 6611895034008547675}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7e08b9c1e1d288749919a7bea370c2e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SquishSquashManager
   transformToAffect: {fileID: 0}
-  axisToAffect: 3
+  axisToAffect: 2
   animationDuration: 0.25
   canBeOverwritten: 0
   playOnStart: 0
@@ -235,26 +223,35 @@ MonoBehaviour:
     m_RotationOrder: 4
   looping: 0
   loopingDelay: 0.5
---- !u!114 &9100364375190133723
+  enableShake: 0
+  shakeOnStart: 0
+  shakeStrength: 10
+  shakeDuration: 0.3
+  shakeFrequency: 20
+  shakeLooping: 0
+  shakeLoopDelay: 0.5
+  shakeDirection: 0
+  shakeFadeOut: 1
+--- !u!114 &368514818810682329
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5047705196371471653}
+  m_GameObject: {fileID: 6611895034008547675}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
   m_Delegates: []
---- !u!82 &5736990810668626453
+--- !u!82 &8119995533174459451
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5047705196371471653}
+  m_GameObject: {fileID: 6611895034008547675}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
@@ -345,26 +342,13 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &4332284739294156639
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5047705196371471653}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab782b713bc02b2419e9d2bd763f4cbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UISoundFX
-  clickSound: {fileID: 8300000, guid: 7a66cbf2e4726134dbacbd356bd45b5b, type: 3}
---- !u!223 &8633909653126389280
+--- !u!223 &1782448968032498809
 Canvas:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5047705196371471653}
+  m_GameObject: {fileID: 6611895034008547675}
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
@@ -381,13 +365,13 @@ Canvas:
   m_SortingLayerID: -396560639
   m_SortingOrder: 15
   m_TargetDisplay: 0
---- !u!114 &1099888174305246063
+--- !u!114 &8192443537778869092
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5047705196371471653}
+  m_GameObject: {fileID: 6611895034008547675}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
