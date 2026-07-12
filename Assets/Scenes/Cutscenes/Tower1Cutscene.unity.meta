@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scenes/Cutscenes/Tower1Cutscene.unity.meta
 guid: 8738003609fc49e4baa321c8951b5c9c
+========
+guid: 3e57f5de1aa50b341976ddef29ecc52b
+>>>>>>>> bd6b86b (Alpha V 1.0.2):Assets/Scenes/Cutscenes/Tower1CutsceneIntro.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

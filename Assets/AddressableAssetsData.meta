@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/AddressableAssetsData.meta
 guid: 75a55eb7f1074564e8e5fb7e36faaab9
+========
+guid: 746845325650eb349bce7cd9286761ad
+>>>>>>>> bd6b86b (Alpha V 1.0.2):Assets/Prefabs/UI/DialogueBox.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
