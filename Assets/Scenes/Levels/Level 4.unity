@@ -4893,6 +4893,10 @@ MonoBehaviour:
   fadeDuration: 0.8
   catSpeakDuration: 2.5
   resultSceneName: ResultsScene
+  outroCutscene:
+    sceneAsset: {fileID: 102900000, guid: 1fa20e66ef066924895d9328f20c181c, type: 3}
+    sceneName: Tower4Cutscene
+    useLoadingScreen: 0
 --- !u!1 &1013850524
 GameObject:
   m_ObjectHideFlags: 0
@@ -6496,7 +6500,7 @@ MonoBehaviour:
   scoreText: {fileID: 1341701434}
   totalQuestions: 30
   stageID: Stage_4
-  towerIndex: 4
+  towerIndex: 3
 --- !u!1 &1475436128
 GameObject:
   m_ObjectHideFlags: 0

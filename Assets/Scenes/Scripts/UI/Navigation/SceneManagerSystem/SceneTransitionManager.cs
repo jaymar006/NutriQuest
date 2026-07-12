@@ -32,6 +32,22 @@ public class SceneTransitionManager : MonoBehaviour
     private Canvas fadeCanvas;
     private bool isTransitioning;
 
+    // FIX: Watchdog so isTransitioning can never get permanently stuck true
+    // (e.g. if a transition coroutine gets interrupted by a script recompile
+    // during Play Mode, an unhandled exception, or any other edge case we
+    // haven't anticipated). If a transition has been "in progress" for
+    // longer than any real transition should ever take, we force-reset it
+    // and log loudly, instead of silently blocking all navigation forever.
+    private float transitionStartTime = -1f;
+    private const float MAX_TRANSITION_SECONDS = 20f;
+    private string lastTransitionStep = "(none)";
+
+    private void SetStep(string step)
+    {
+        lastTransitionStep = step;
+        Debug.Log("[SceneTransitionManager] " + step);
+    }
+
     // Back system
     private Stack<string> sceneHistory = new Stack<string>();
     private bool isGoingBack = false;
@@ -63,6 +79,38 @@ public class SceneTransitionManager : MonoBehaviour
         {
             HandleBackButton();
         }
+
+        // FIX: Watchdog check. If isTransitioning has been true for far
+        // longer than any real transition (fades + optional 10s loading-
+        // screen wait) should ever take, something went wrong upstream —
+        // recover instead of staying stuck forever.
+        if (isTransitioning && transitionStartTime > 0f &&
+            Time.unscaledTime - transitionStartTime > MAX_TRANSITION_SECONDS)
+        {
+            Debug.LogError("[SceneTransitionManager] isTransitioning has been stuck true for over " +
+                           MAX_TRANSITION_SECONDS + "s. Last known step was: \"" + lastTransitionStep +
+                           "\". Force-resetting so navigation can continue. Whatever step is named " +
+                           "above is where the coroutine froze — that's the thing to investigate.");
+            SetTransitioning(false);
+        }
+    }
+
+    // FIX: Centralized setter so transitionStartTime always stays in sync
+    // with isTransitioning, no matter which coroutine/branch sets it.
+    private void SetTransitioning(bool value)
+    {
+        isTransitioning = value;
+        transitionStartTime = value ? Time.unscaledTime : -1f;
+    }
+
+    // Manual escape hatch for testing — call from a debug button or the
+    // Inspector's context menu if navigation ever seems stuck and you don't
+    // want to wait for the watchdog or restart Play Mode.
+    [ContextMenu("Force Reset Transition State (debug)")]
+    public void ForceResetTransitionState()
+    {
+        Debug.LogWarning("[SceneTransitionManager] isTransitioning manually force-reset.");
+        SetTransitioning(false);
     }
 
     private void InitializeFade()
@@ -102,8 +150,36 @@ public class SceneTransitionManager : MonoBehaviour
     {
         if (isTransitioning)
         {
-            Debug.LogWarning("[SceneTransitionManager] Already transitioning.");
+            Debug.LogWarning("[SceneTransitionManager] Already transitioning. Ignoring request to " +
+                             "navigate to: " + targetScene + ". If this happens repeatedly, " +
+                             "isTransitioning may be stuck true from a previous failed transition.");
             return;
+        }
+
+        // FIX: Fail loudly and immediately if the target scene isn't valid,
+        // instead of discovering it deep inside a coroutine later (which
+        // could leave isTransitioning stuck true and the game frozen on a
+        // loading/fade screen forever).
+        if (string.IsNullOrEmpty(targetScene))
+        {
+            Debug.LogError("[SceneTransitionManager] NavigateTo called with an empty scene name!");
+            return;
+        }
+
+        // Validate the target scene and WARN (not block) if it looks like it's
+        // not in Build Settings. This used to hard-abort here, but that check
+        // can false-positive depending on how scene paths/names are matched,
+        // which would silently block every transition. Warn loudly instead so
+        // you still get a clear signal in the Console, without the transition
+        // itself ever getting stuck or refusing to run.
+        if (!IsSceneInBuildSettings(targetScene))
+        {
+            Debug.LogWarning("[SceneTransitionManager] NavigateTo: scene '" + targetScene + "' " +
+                             "did not match any scene in Build Settings during validation. " +
+                             "Attempting to load it anyway — if this scene genuinely doesn't " +
+                             "exist in Build Settings, the load will fail with its own error " +
+                             "below. If it DOES exist, this warning itself points to a bug in " +
+                             "the validation check (e.g. case mismatch) rather than your scene setup.");
         }
 
         // Save history only if not going back
@@ -123,13 +199,56 @@ public class SceneTransitionManager : MonoBehaviour
             StartCoroutine(TransitionDirect(targetScene));
     }
 
+    // FIX: Checks whether a scene name is actually loadable before we commit
+    // to a transition. Uses the scene's build index as the source of truth —
+    // returns -1 if the scene isn't in Build Settings at all.
+    private bool IsSceneInBuildSettings(string sceneName)
+    {
+        return SceneUtility.GetBuildIndexByScenePath(sceneName) != -1 ||
+               IsSceneNameInBuildList(sceneName);
+    }
+
+    // GetBuildIndexByScenePath expects a path, not just a name, in some Unity
+    // versions/setups. As a fallback, scan all build scenes by name too.
+    private bool IsSceneNameInBuildList(string sceneName)
+    {
+        int count = SceneManager.sceneCountInBuildSettings;
+        for (int i = 0; i < count; i++)
+        {
+            string path = SceneUtility.GetScenePathByBuildIndex(i);
+            string name = System.IO.Path.GetFileNameWithoutExtension(path);
+            if (name == sceneName)
+                return true;
+        }
+        return false;
+    }
+
     private IEnumerator TransitionDirect(string targetScene)
     {
-        isTransitioning = true;
+        SetTransitioning(true);
+        SetStep("TransitionDirect: starting fade out");
 
         yield return Fade(1f);
 
-        yield return SceneManager.LoadSceneAsync(targetScene);
+        SetStep("TransitionDirect: calling LoadSceneAsync('" + targetScene + "')");
+
+        // FIX: Guard against LoadSceneAsync failing (returns null) so we
+        // don't throw inside the coroutine and skip the rest of the fade
+        // cleanup, which would leave isTransitioning stuck true.
+        AsyncOperation op = SceneManager.LoadSceneAsync(targetScene);
+        if (op == null)
+        {
+            Debug.LogError("[SceneTransitionManager] TransitionDirect: LoadSceneAsync returned " +
+                           "null for '" + targetScene + "'. Aborting transition and recovering.");
+            yield return Fade(0f);
+            SetTransitioning(false);
+            yield break;
+        }
+
+        SetStep("TransitionDirect: waiting on LoadSceneAsync('" + targetScene + "') to finish (isDone)");
+        yield return op;
+
+        SetStep("TransitionDirect: scene loaded, fading in");
 
         yield return null;
         yield return null;
@@ -138,25 +257,44 @@ public class SceneTransitionManager : MonoBehaviour
 
         yield return Fade(0f);
 
-        isTransitioning = false;
+        SetStep("TransitionDirect: complete");
+        SetTransitioning(false);
     }
 
     private IEnumerator TransitionWithLoadingScreen(string targetScene)
     {
-        isTransitioning = true;
+        SetTransitioning(true);
         PlayerTappedToContinue = false;
+        SetStep("TransitionWithLoadingScreen: starting, target='" + targetScene + "'");
 
         if (string.IsNullOrEmpty(defaultLoadingSceneName))
         {
-            Debug.LogError("Loading scene not assigned!");
+            Debug.LogError("[SceneTransitionManager] Loading scene not assigned! Aborting and recovering.");
+            SetTransitioning(false);
             yield break;
         }
 
         // Fade out
+        SetStep("TransitionWithLoadingScreen: fading out before loading screen");
         yield return Fade(1f);
 
         // Load loading scene
-        yield return SceneManager.LoadSceneAsync(defaultLoadingSceneName);
+        SetStep("TransitionWithLoadingScreen: calling LoadSceneAsync('" + defaultLoadingSceneName + "')");
+        AsyncOperation loadingOp = SceneManager.LoadSceneAsync(defaultLoadingSceneName);
+        if (loadingOp == null)
+        {
+            Debug.LogError("[SceneTransitionManager] Could not load loading scene '" +
+                           defaultLoadingSceneName + "'. Is it in Build Settings? Aborting and recovering.");
+            yield return Fade(0f);
+            SetTransitioning(false);
+            yield break;
+        }
+
+        SetStep("TransitionWithLoadingScreen: waiting on loading scene '" +
+                defaultLoadingSceneName + "' to finish loading (isDone)");
+        yield return loadingOp;
+
+        SetStep("TransitionWithLoadingScreen: loading scene loaded, fading in");
 
         yield return null;
         yield return null;
@@ -173,6 +311,7 @@ public class SceneTransitionManager : MonoBehaviour
         float timer = 0f;
         float maxWait = 10f;
 
+        SetStep("TransitionWithLoadingScreen: waiting for player tap or " + maxWait + "s timeout");
         Debug.Log("[SceneTransitionManager] Waiting for player tap...");
 
         while (!PlayerTappedToContinue && timer < maxWait)
@@ -187,10 +326,29 @@ public class SceneTransitionManager : MonoBehaviour
         }
 
         // Fade out loading scene
+        SetStep("TransitionWithLoadingScreen: fading out loading scene");
         yield return Fade(1f);
 
-        // Load actual scene
-        yield return SceneManager.LoadSceneAsync(targetScene);
+        // FIX: Guard the actual target scene load too — this is the scene
+        // that was already validated in NavigateTo(), but guarding here as
+        // well protects against edge cases (e.g. scene removed from Build
+        // Settings mid-session in the Editor).
+        SetStep("TransitionWithLoadingScreen: calling LoadSceneAsync('" + targetScene + "')");
+        AsyncOperation targetOp = SceneManager.LoadSceneAsync(targetScene);
+        if (targetOp == null)
+        {
+            Debug.LogError("[SceneTransitionManager] Could not load target scene '" + targetScene +
+                           "' after loading screen. Aborting and recovering.");
+            yield return Fade(0f);
+            SetTransitioning(false);
+            yield break;
+        }
+
+        SetStep("TransitionWithLoadingScreen: waiting on target scene '" + targetScene +
+                "' to finish loading (isDone)");
+        yield return targetOp;
+
+        SetStep("TransitionWithLoadingScreen: target scene loaded, fading in");
 
         yield return null;
         yield return null;
@@ -200,7 +358,8 @@ public class SceneTransitionManager : MonoBehaviour
         // Fade in
         yield return Fade(0f);
 
-        isTransitioning = false;
+        SetStep("TransitionWithLoadingScreen: complete");
+        SetTransitioning(false);
     }
 
     public void GoBack()

@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using TMPro;
 using System;
+using Gameplay.CutsceneManager;
 
 public class NameInputScreen : MonoBehaviour
 {
@@ -50,13 +51,12 @@ public class NameInputScreen : MonoBehaviour
             Debug.LogError("[NameInputScreen] panelRoot is null! Assign it in the Inspector.");
         }
 
-        string currentName = PlayerNameManager.Instance != null
-            ? PlayerNameManager.Instance.GetPlayerName()
-            : defaultName;
-
         if (nameInputField != null)
         {
-            nameInputField.text = currentName;
+            nameInputField.text = PlayerNameManager.Instance != null
+                ? PlayerNameManager.Instance.GetPlayerName()
+                : PlayerPrefs.GetString("PlayerName", defaultName);
+
             nameInputField.Select();
             nameInputField.ActivateInputField();
         }
@@ -72,7 +72,9 @@ public class NameInputScreen : MonoBehaviour
 
     private void OnConfirmClicked()
     {
-        string enteredName = nameInputField != null ? nameInputField.text.Trim() : "";
+        string enteredName = nameInputField != null
+            ? nameInputField.text.Trim()
+            : "";
 
         if (string.IsNullOrEmpty(enteredName))
             enteredName = defaultName;
@@ -89,7 +91,8 @@ public class NameInputScreen : MonoBehaviour
 
     private void Update()
     {
-        if (panelRoot == null || !panelRoot.activeSelf) return;
+        if (panelRoot == null || !panelRoot.activeSelf)
+            return;
 
         if (Keyboard.current != null)
         {
@@ -97,18 +100,6 @@ public class NameInputScreen : MonoBehaviour
                 Keyboard.current.numpadEnterKey.wasPressedThisFrame)
             {
                 OnConfirmClicked();
-            }
-        }
-
-        if (blockOutsideClicks)
-        {
-            if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
-            {
-            }
-
-            if (Touchscreen.current != null &&
-                Touchscreen.current.primaryTouch.press.wasPressedThisFrame)
-            {
             }
         }
     }

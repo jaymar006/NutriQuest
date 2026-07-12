@@ -1,0 +1,390 @@
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.InputSystem;
+using TMPro;
+using System.Collections;
+using Gameplay.CutsceneManager;
+
+// ---------------------------------------------------------------------------
+// TitleScreenManager
+//
+// Attach this to a GameObject in your Title/MainMenu scene.
+//
+// Handles two states automatically based on PlayerPrefs:
+//
+//   FRESH INSTALL  (no PlayerName saved)
+//     - Hides the welcome bar and user info footer
+//     - Shows "Touch to Continue" prompt
+//     - On tap -> opens NameInputScreen for first-time setup
+//     - After name is confirmed:
+//         - If a newPlayerIntroCutscene is assigned, plays it (once per save)
+//           and that cutscene scene's own DialogueManager knows where to go next.
+//         - If none is assigned, navigates directly to newPlayerNextScene as
+//           before (use this if newPlayerNextScene is just MapScene with no
+//           VN dialogue in it).
+//
+//   RETURNING PLAYER  (PlayerName exists)
+//     - Shows "Welcome : <Name>" at the top
+//     - Shows "START THE QUEST" heading above the tap prompt
+//     - Shows masked display name in the footer
+//     - Shows current rune key count
+//     - On tap -> navigates directly to MapScene
+//
+// All scene names and UI references are assigned in the Inspector.
+// No hardcoded strings except the PlayerPrefs key fallback "Player".
+// ---------------------------------------------------------------------------
+public class TitleScreenManager : MonoBehaviour
+{
+    // -------------------------------------------------------------------------
+    // Inspector — Navigation
+    // -------------------------------------------------------------------------
+    [Header("Navigation")]
+    [Tooltip("Scene to load for returning players (your world map / level select scene).")]
+    [SerializeField] private string mapSceneName = "MapScene";
+
+    [Tooltip("Use the loading screen when transitioning to the map? Default OFF for title screen.")]
+    [SerializeField] private bool useLoadingScreenForMap = false;
+
+    [Tooltip("Scene to load after name input for brand new players (can be an intro cutscene scene or MapScene).")]
+    [SerializeField] private string newPlayerNextScene = "MapScene";
+
+    [Tooltip("Use the loading screen for the new-player transition? Only used when " +
+             "no newPlayerIntroCutscene is assigned, since the cutscene trigger handles its own fades.")]
+    [SerializeField] private bool useLoadingScreenForNewPlayer = false;
+
+    [Header("New Player Cutscene Routing")]
+    [Tooltip("Drag the new-player intro cutscene scene here. If assigned, the intro plays " +
+             "through it (once per save) and that cutscene scene's own DialogueManager knows " +
+             "to load MapScene next. If left empty, newPlayerNextScene is loaded directly instead. " +
+             "No separate CutsceneManager GameObject needed.")]
+    [SerializeField] private CutsceneTrigger newPlayerIntroCutscene = new CutsceneTrigger();
+
+    // -------------------------------------------------------------------------
+    // Inspector — Always-visible UI
+    // -------------------------------------------------------------------------
+    [Header("Always Visible")]
+    [Tooltip("The 'Touch to Continue' text shown in both states.")]
+    [SerializeField] private TMP_Text touchToContinueText;
+
+    [Tooltip("Optional pulse/bounce animator on the Touch to Continue text.")]
+    [SerializeField] private SquishSquashManager touchToContinuePulse;
+
+    [Tooltip("Version label at the bottom left. Text is set automatically from Application.version.")]
+    [SerializeField] private TMP_Text versionText;
+
+    [Tooltip("Quit / power button. Always visible.")]
+    [SerializeField] private Button quitButton;
+
+    // -------------------------------------------------------------------------
+    // Inspector — Returning player UI (hidden on fresh install)
+    // -------------------------------------------------------------------------
+    [Header("Returning Player UI")]
+    [Tooltip("Root object for the top welcome bar. Shown only for returning players.")]
+    [SerializeField] private GameObject welcomeBarRoot;
+
+    [Tooltip("'Welcome : <Name>' label inside the welcome bar.")]
+    [SerializeField] private TMP_Text welcomeNameText;
+
+    [Tooltip("'START THE QUEST' heading shown above Touch to Continue for returning players.")]
+    [SerializeField] private GameObject startTheQuestLabel;
+
+    [Tooltip("Footer bar shown at the bottom for returning players (contains masked name + rune key count).")]
+    [SerializeField] private GameObject footerRoot;
+
+    [Tooltip("Masked display name label in the footer, e.g. Ja****oe.")]
+    [SerializeField] private TMP_Text maskedNameText;
+
+    [Tooltip("Rune key count label in the footer, e.g. x3.")]
+    [SerializeField] private TMP_Text runeKeyCountText;
+
+    [Tooltip("Rune key icon in the footer (optional — shown/hidden with footer).")]
+    [SerializeField] private GameObject runeKeyIcon;
+
+    // -------------------------------------------------------------------------
+    // Inspector — First-time name input
+    // -------------------------------------------------------------------------
+    [Header("Name Input (First Time)")]
+    [Tooltip("The NameInputScreen component. Shown only on fresh install when player taps.")]
+    [SerializeField] private NameInputScreen nameInputScreen;
+
+    // -------------------------------------------------------------------------
+    // Inspector — Tap sound
+    // -------------------------------------------------------------------------
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip tapSound;
+
+    // -------------------------------------------------------------------------
+    // Private state
+    // -------------------------------------------------------------------------
+    private bool isReturningPlayer = false;
+    private bool inputLocked = false;   // prevents double-tap during transition
+    private bool waitingForName = false; // true while NameInputScreen is open
+
+    // -------------------------------------------------------------------------
+    // Unity lifecycle
+    // -------------------------------------------------------------------------
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        newPlayerIntroCutscene?.EditorSyncSceneName();
+    }
+#endif
+
+    private void Start()
+    {
+        // Version label
+        if (versionText != null)
+            versionText.text = "Version " + Application.version;
+
+        // Quit button
+        if (quitButton != null)
+            quitButton.onClick.AddListener(OnQuitPressed);
+
+        // Determine state
+        isReturningPlayer = PlayerNameManager.Instance != null
+            ? PlayerNameManager.Instance.HasPlayerName()
+            : PlayerPrefs.HasKey("PlayerName");
+
+        // Build UI for the detected state
+        if (isReturningPlayer)
+            SetupReturningPlayerUI();
+        else
+            SetupFreshInstallUI();
+
+        // Hook name input callback
+        if (nameInputScreen != null)
+            nameInputScreen.OnNameConfirmed += OnNameConfirmed;
+
+        // Start tap prompt pulse if assigned
+        if (touchToContinuePulse != null)
+            touchToContinuePulse.PlaySquashAndStretch();
+    }
+
+    private void OnDestroy()
+    {
+        if (nameInputScreen != null)
+            nameInputScreen.OnNameConfirmed -= OnNameConfirmed;
+
+        if (quitButton != null)
+            quitButton.onClick.RemoveListener(OnQuitPressed);
+    }
+
+    private void Update()
+    {
+        if (inputLocked || waitingForName) return;
+
+        // Detect tap (touch or mouse click or Enter key)
+        bool tapped = false;
+
+        if (Touchscreen.current != null &&
+            Touchscreen.current.primaryTouch.press.wasPressedThisFrame)
+            tapped = true;
+
+        if (Mouse.current != null &&
+            Mouse.current.leftButton.wasPressedThisFrame)
+            tapped = true;
+
+        if (Keyboard.current != null &&
+            (Keyboard.current.enterKey.wasPressedThisFrame ||
+             Keyboard.current.spaceKey.wasPressedThisFrame))
+            tapped = true;
+
+        if (tapped)
+            OnScreenTapped();
+    }
+
+    // -------------------------------------------------------------------------
+    // UI setup
+    // -------------------------------------------------------------------------
+
+    private void SetupFreshInstallUI()
+    {
+        // Hide all returning-player elements
+        SetActive(welcomeBarRoot, false);
+        SetActive(startTheQuestLabel, false);
+        SetActive(footerRoot, false);
+        SetActive(runeKeyIcon, false);
+
+        // Touch to Continue is already visible by default in the prefab
+        if (touchToContinueText != null)
+            touchToContinueText.gameObject.SetActive(true);
+    }
+
+    private void SetupReturningPlayerUI()
+    {
+        string playerName = GetPlayerName();
+
+        // Welcome bar
+        SetActive(welcomeBarRoot, true);
+        if (welcomeNameText != null)
+            welcomeNameText.text = "Welcome Back " + playerName;
+
+        // START THE QUEST label above the tap prompt
+        SetActive(startTheQuestLabel, true);
+
+        // Footer
+        SetActive(footerRoot, true);
+        SetActive(runeKeyIcon, true);
+
+        if (maskedNameText != null)
+            maskedNameText.text = MaskName(playerName);
+
+        RefreshRuneKeyCount();
+    }
+
+    private void RefreshRuneKeyCount()
+    {
+        if (runeKeyCountText == null) return;
+
+        int keys = RuneKeySystem.Instance != null
+            ? RuneKeySystem.Instance.CurrentKeys
+            : PlayerPrefs.GetInt("RuneKeys", 0);
+
+        runeKeyCountText.text = "x" + keys;
+    }
+
+    // -------------------------------------------------------------------------
+    // Tap handling
+    // -------------------------------------------------------------------------
+
+    private void OnScreenTapped()
+    {
+        PlayTapSound();
+
+        if (isReturningPlayer)
+        {
+            // Returning player — go straight to map
+            inputLocked = true;
+            NavigateTo(mapSceneName, useLoadingScreenForMap);
+        }
+        else
+        {
+            // Fresh install — open name input screen
+            waitingForName = true;
+            if (nameInputScreen != null)
+                nameInputScreen.Show();
+            else
+            {
+                // No name input screen assigned — skip to next scene with default name
+                Debug.LogWarning("[TitleScreenManager] NameInputScreen not assigned. Skipping to next scene.");
+                inputLocked = true;
+                ProceedToNewPlayerNextScene();
+            }
+        }
+    }
+
+    // Called by NameInputScreen.OnNameConfirmed after the player enters their name
+    private void OnNameConfirmed(string confirmedName)
+    {
+        waitingForName = false;
+        inputLocked = true;
+
+        Debug.Log("[TitleScreenManager] Name confirmed: " + confirmedName + ". Proceeding...");
+
+        ProceedToNewPlayerNextScene();
+    }
+
+    // FIX: newPlayerIntroCutscene is a plain embedded field now — no separate
+    // GameObject/component to wire up. If a scene is assigned and unseen, it
+    // plays (once per save) — that cutscene scene's own DialogueManager
+    // already knows to load MapScene next. If none is assigned, falls back
+    // to loading newPlayerNextScene directly.
+    private void ProceedToNewPlayerNextScene()
+    {
+        newPlayerIntroCutscene.PlayIfNotSeen(() =>
+        {
+            NavigateTo(newPlayerNextScene, useLoadingScreenForNewPlayer);
+        });
+    }
+
+    private void OnQuitPressed()
+    {
+        Debug.Log("[TitleScreenManager] Quit pressed.");
+        Application.Quit();
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+    }
+
+    // -------------------------------------------------------------------------
+    // Navigation
+    // -------------------------------------------------------------------------
+
+    private void NavigateTo(string sceneName, bool withLoadingScreen)
+    {
+        if (SceneTransitionManager.Instance != null)
+        {
+            SceneTransitionManager.Instance.NavigateTo(sceneName, withLoadingScreen);
+        }
+        else
+        {
+            // Fallback if SceneTransitionManager hasn't been created yet
+            Debug.LogWarning("[TitleScreenManager] SceneTransitionManager not found. Loading scene directly.");
+            UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+        }
+    }
+
+    // -------------------------------------------------------------------------
+    // Helpers
+    // -------------------------------------------------------------------------
+
+    private string GetPlayerName()
+    {
+        if (PlayerNameManager.Instance != null)
+            return PlayerNameManager.Instance.GetPlayerName();
+
+        return PlayerPrefs.GetString("PlayerName", "Player");
+    }
+
+    // Masks a name for display in the footer.
+    // "Jane Doe" -> "Ja****oe"
+    // Works on any name length, minimum 2 visible chars on each end.
+    private string MaskName(string name)
+    {
+        if (string.IsNullOrEmpty(name)) return "****";
+
+        // Remove spaces for masking purposes, then reattach last word
+        string[] parts = name.Trim().Split(' ');
+
+        if (parts.Length == 1)
+        {
+            return MaskWord(parts[0]);
+        }
+        else
+        {
+            // First word + last word, masked together
+            string first = parts[0];
+            string last = parts[parts.Length - 1];
+            return MaskWord(first) + MaskWord(last);
+        }
+    }
+
+    private string MaskWord(string word)
+    {
+        if (word.Length <= 2) return word + "**";
+        if (word.Length <= 4) return word[0] + "**" + word[word.Length - 1];
+
+        int showStart = 2;
+        int showEnd = 2;
+        int maskCount = Mathf.Max(2, word.Length - showStart - showEnd);
+
+        return word.Substring(0, showStart)
+             + new string('*', maskCount)
+             + word.Substring(word.Length - showEnd);
+    }
+
+    private void PlayTapSound()
+    {
+        if (audioSource != null && tapSound != null)
+            audioSource.PlayOneShot(tapSound);
+    }
+
+    private void SetActive(GameObject obj, bool active)
+    {
+        if (obj != null)
+            obj.SetActive(active);
+    }
+}

@@ -1,8 +1,9 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
 using System.Collections.Generic;
+using Gameplay.CutsceneManager;
 
 public class LevelInfoScreen : MonoBehaviour
 {
@@ -24,6 +25,11 @@ public class LevelInfoScreen : MonoBehaviour
 
     [Header("Navigation")]
     [SerializeField] private SceneNavigationSystem sceneNavigation;
+
+    [Header("Intro Cutscene")]
+    [Tooltip("Drag the intro cutscene scene here. Leave empty if this tower has no intro cutscene. " +
+             "No separate CutsceneManager GameObject needed — this field handles it directly.")]
+    [SerializeField] private CutsceneTrigger introCutscene = new CutsceneTrigger();
 
     [Header("Cost Display")]
     [SerializeField] private List<TMP_Text> costDisplayTexts = new List<TMP_Text>();
@@ -49,8 +55,29 @@ public class LevelInfoScreen : MonoBehaviour
     private int currentCost = 1;
     private Coroutine _warningDismissCoroutine;
 
+    // FIX: Guards against a second click/navigation firing while we're already
+    // mid-transition. Without this, OnKeysChanged (fired by SpendKey) can
+    // re-enable challengeButton before the scene transition finishes, letting
+    // a fast double-tap call NavigateToScene() twice — the second call reaches
+    // SceneTransitionManager.NavigateTo() while it's still transitioning from
+    // the first, and gets silently dropped with a console warning.
+    private bool isNavigating = false;
+
+#if UNITY_EDITOR
+    // Keeps introCutscene's stored scene name in sync with whatever
+    // SceneAsset is dragged into the Inspector.
+    private void OnValidate()
+    {
+        introCutscene?.EditorSyncSceneName();
+    }
+#endif
+
     private void OnEnable()
     {
+        // FIX: Reset the navigation guard every time this screen opens, so a
+        // stale "true" from a previous visit can't block a legitimate click.
+        isNavigating = false;
+
         // FIX: Subscribe to key change events so the button updates the moment keys change,
         //      even when this modal is already open
         RuneKeySystem.OnKeysChanged += OnKeysChanged;
@@ -79,15 +106,29 @@ public class LevelInfoScreen : MonoBehaviour
     private void OnKeysChanged()
     {
         currentCost = CalculateCost();
-        UpdateButtonState();
+
+        // FIX: Don't let a key-count change re-enable the challenge button
+        // while we're already navigating away from this screen. Without this
+        // guard, SpendKey() reducing the player's key count fires this event
+        // mid-navigation, UpdateButtonState() re-enables the button (if the
+        // player still has enough keys for another attempt), and a second
+        // tap can slip through and call NavigateToScene() again.
+        if (!isNavigating)
+            UpdateButtonState();
+
         DisplayCost();
     }
 
     // Called when challenge button is clicked
-    // FIX: No key-check blocking here � the button is already disabled if keys are insufficient.
+    // FIX: No key-check blocking here — the button is already disabled if keys are insufficient.
     //      This only runs when the player legitimately has enough keys.
     private void OnChallengeButtonClicked()
     {
+        // FIX: Hard guard at the top — if we're already navigating, ignore
+        // any further clicks entirely, regardless of button state.
+        if (isNavigating)
+            return;
+
         if (RuneKeySystem.Instance == null)
         {
             Debug.LogError("[LevelInfoScreen] RuneKeySystem not found!");
@@ -103,6 +144,15 @@ public class LevelInfoScreen : MonoBehaviour
             Debug.Log("[LevelInfoScreen] Spent " + currentCost + " key(s). Proceeding to level...");
             HideWarning();
 
+            // FIX: Lock navigation and disable the button immediately, before
+            // OnKeysChanged (fired by SpendKey above) has a chance to
+            // re-enable it. This is what actually stops the double-tap from
+            // reaching SceneTransitionManager.NavigateTo() a second time.
+            isNavigating = true;
+
+            if (challengeButton != null)
+                challengeButton.interactable = false;
+
             if (warningShakeAnimation != null)
                 warningShakeAnimation.PlaySquashAndStretch();
 
@@ -110,7 +160,7 @@ public class LevelInfoScreen : MonoBehaviour
         }
         else
         {
-            // Safety fallback � should not normally happen since button was interactable
+            // Safety fallback — should not normally happen since button was interactable
             Debug.LogWarning("[LevelInfoScreen] SpendKey failed unexpectedly. Refreshing button state.");
             UpdateButtonState();
         }
@@ -118,10 +168,18 @@ public class LevelInfoScreen : MonoBehaviour
 
     private void NavigateToScene()
     {
-        if (sceneNavigation != null)
-            sceneNavigation.Navigate();
-        else
+        if (sceneNavigation == null)
+        {
             Debug.LogError("[LevelInfoScreen] SceneNavigationSystem not assigned!");
+            return;
+        }
+
+        // FIX: introCutscene is a plain embedded field now — no separate
+        // GameObject/component to find or null-check for existence. If a
+        // scene is assigned and unseen, it plays (and that cutscene scene's
+        // own DialogueManager already knows to load gameplay next). If not,
+        // go straight to gameplay.
+        introCutscene.PlayIfNotSeen(() => sceneNavigation.Navigate());
     }
 
     public void RefreshDisplay()
@@ -133,11 +191,20 @@ public class LevelInfoScreen : MonoBehaviour
         UpdateButtonState();
     }
 
-    // FIX: Button interactability is the sole gatekeeper � no warning popup needed for blocking.
+    // FIX: Button interactability is the sole gatekeeper — no warning popup needed for blocking.
     //      The button is simply unclickable when the player lacks keys.
     private void UpdateButtonState()
     {
         if (challengeButton == null) return;
+
+        // FIX: Never let this override the "navigating away" lock, even if
+        // something calls UpdateButtonState() directly from outside this
+        // script while a transition is in flight.
+        if (isNavigating)
+        {
+            challengeButton.interactable = false;
+            return;
+        }
 
         bool hasEnough = RuneKeySystem.Instance != null && RuneKeySystem.Instance.HasEnoughKeys(currentCost);
         challengeButton.interactable = hasEnough;

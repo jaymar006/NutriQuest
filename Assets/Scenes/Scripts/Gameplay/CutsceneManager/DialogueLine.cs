@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Gameplay.CutsceneManager
 {
@@ -12,7 +13,6 @@ namespace Gameplay.CutsceneManager
         [Header("Custom Speaker Override")]
         [Tooltip("Enable to use a custom name instead of character name")]
         public bool useCustomSpeakerName = false;
-
         [Tooltip("Custom name shown in dialogue box")]
         public string customSpeakerName = "";
 
@@ -28,14 +28,43 @@ namespace Gameplay.CutsceneManager
         [Tooltip("Specific emotion portrait for this line")]
         public Sprite emotionPortrait;
 
-        public EntranceType entranceType;
+        [Header("Entrance Animation")]
+        public EntranceType entranceType = EntranceType.None;
+        [Tooltip("How long the slide/fade entrance takes (seconds)")]
+        public float entranceDuration = 0.3f;
+       
+
+        [Header("Reaction Animation")]
+        [Tooltip("Uncheck to suppress the tap-reaction animation for this line")]
+        public bool enableReaction = false;
+        public float reactionDuration = 0.35f;
+        public float reactionScaleTarget = 1.3f;
+        public bool enableShake = false;
+        [Tooltip("Shake movement intensity in pixels")]
+        public float shakeIntensity = 10f;
+        public float shakeDuration = 0.2f;
+
+        [Header("Outro Animation")]
+        public OutroType outroType = OutroType.None;
+        public float outroDuration = 0.4f;
+
+        [Header("Custom Animation (Optional)")]
+        [Tooltip("If assigned, plays on the portrait Animator instead of the built-in entrance animation")]
+        public AnimationClip customEntranceClip;
+
+        [Header("Optional UI Image")]
+        [Tooltip("Optional UI Image to show during this line (e.g., background, decoration, icon)")]
+        public Image optionalUIImage;
 
         [Header("Audio")]
         public AudioClip soundClip;
 
+        [Header("Typing Sound Effect")]
+        [Tooltip("Sound effect played during typewriter effect for this line")]
+        public AudioClip typingSFX;
+
         [Header("Black Screen")]
         public bool useBlackScreen = false;
-
         [Tooltip("If true, dialogue box stays visible during black screen")]
         public bool excludeDialogueBoxFromBlackout = false;
 
@@ -61,10 +90,8 @@ namespace Gameplay.CutsceneManager
         {
             if (ShouldUseCustomName())
                 return customSpeakerName;
-
             if (character != null)
                 return character.characterName;
-
             return "";
         }
     }
@@ -75,5 +102,12 @@ namespace Gameplay.CutsceneManager
         SlideFromLeft,
         SlideFromRight,
         FadeIn
+    }
+
+    public enum OutroType
+    {
+        None,
+        SlideLeft,
+        SlideRight
     }
 }

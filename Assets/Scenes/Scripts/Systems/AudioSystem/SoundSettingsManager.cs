@@ -67,9 +67,7 @@ public class SoundSettingsManager : MonoBehaviour
 
     private void ApplySFXVolume(float value)
     {
-        // FIX: Use FindObjectsOfType (plural) to catch ALL UISFXManagers in the scene,
-        //      not just the first one. A scene may have multiple (one per canvas/panel).
-        UISFXManager[] uiSFXManagers = FindObjectsOfType<UISFXManager>();
+        UISFXManager[] uiSFXManagers = FindObjectsByType<UISFXManager>(FindObjectsSortMode.None);
         if (uiSFXManagers.Length > 0)
         {
             foreach (UISFXManager uiSFX in uiSFXManagers)
@@ -84,6 +82,13 @@ public class SoundSettingsManager : MonoBehaviour
             QuizSFXManager.Instance.SetVolume(value);
         else
             Debug.LogWarning("[SoundSettings] QuizSFXManager instance not found!");
+
+        Gameplay.CutsceneManager.DialogueManager[] dialogueManagers = FindObjectsByType<Gameplay.CutsceneManager.DialogueManager>(FindObjectsSortMode.None);
+        if (dialogueManagers.Length > 0)
+        {
+            foreach (Gameplay.CutsceneManager.DialogueManager dm in dialogueManagers)
+                dm.SetSFXVolume(value);
+        }
     }
 
     private void UpdateMusicLabel(float value)

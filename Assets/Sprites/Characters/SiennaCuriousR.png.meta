@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 36915c68f86706e47af726470fed4311
+guid: 77df6d75fd6e66a4caffa8feaa8e64bb
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7425364454227891634
-    second: Dialogue box_0
+      213: 567208320214954000
+    second: SiennaCuriousR_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -126,13 +126,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Dialogue box_0
+      name: SiennaCuriousR_0
       rect:
         serializedVersion: 2
-        x: 7
-        y: 1
-        width: 4082
-        height: 2335
+        x: 14
+        y: 39
+        width: 2249
+        height: 1651
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -141,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e4a2fe1ce5ec3f890800000000000000
-      internalID: -7425364454227891634
+      spriteID: 010fe0846f02fd700800000000000000
+      internalID: 567208320214954000
       vertices: []
       indices: 
       edges: []
@@ -161,7 +161,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Dialogue box_0: -7425364454227891634
+      SiennaCuriousR_0: 567208320214954000
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

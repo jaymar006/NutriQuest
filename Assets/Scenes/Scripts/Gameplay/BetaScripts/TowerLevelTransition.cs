@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using Gameplay.CutsceneManager;
 
 public class TowerLevelTransition : MonoBehaviour
 {
@@ -18,7 +19,19 @@ public class TowerLevelTransition : MonoBehaviour
     [Header("Scenes")]
     [SerializeField] private string resultSceneName = "ResultScene";
 
+    [Header("Outro Cutscene")]
+    [Tooltip("Drag this tower's outro cutscene scene here. Leave empty if this tower has no " +
+             "outro cutscene. No separate CutsceneManager GameObject needed.")]
+    [SerializeField] private CutsceneTrigger outroCutscene = new CutsceneTrigger();
+
     private bool isTransitioning = false;
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        outroCutscene?.EditorSyncSceneName();
+    }
+#endif
 
     private void Awake()
     {
@@ -75,12 +88,20 @@ public class TowerLevelTransition : MonoBehaviour
         Debug.Log("[TowerLevelTransition] Fading out...");
         yield return StartCoroutine(FadeTo(1f));
 
-        // Step 4 — Save result data
+        // Step 4 — Save result data (do this regardless of whether an outro plays,
+        // so ResultScene has correct data no matter which path we take below)
         SaveResults();
 
-        // Step 5 — Load result scene
-        Debug.Log("[TowerLevelTransition] Loading: " + resultSceneName);
-        yield return SceneManager.LoadSceneAsync(resultSceneName);
+        // Step 5 — FIX: outroCutscene is a plain embedded field now — no
+        // separate GameObject/component to wire up. If a scene is assigned
+        // and unseen, it plays (that cutscene scene's own DialogueManager
+        // already knows to load ResultScene — or Credits, for Tower 4 —
+        // next). If not, go straight to results as before.
+        outroCutscene.PlayIfNotSeen(() =>
+        {
+            Debug.Log("[TowerLevelTransition] No outro to play. Loading: " + resultSceneName);
+            SceneManager.LoadScene(resultSceneName);
+        });
     }
 
     private void SaveResults()
@@ -111,7 +132,6 @@ public class TowerLevelTransition : MonoBehaviour
         fadeImage.canvasRenderer.SetAlpha(0f);
 
         float time = 0f;
-
         while (time < fadeDuration)
         {
             time += Time.deltaTime;

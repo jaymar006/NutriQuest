@@ -1,0 +1,123 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3963549043214921030
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8186692373953651372}
+  - component: {fileID: 8035096431053354250}
+  m_Layer: 0
+  m_Name: UniversalMusicManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8186692373953651372
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3963549043214921030}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 437.3697, y: 299.11743, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8035096431053354250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3963549043214921030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1eb572ca344b0949b985b4acdf4703d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UniversalMusicManager
+  musicGroups:
+  - groupName: MainMenu
+    scenes:
+    - {fileID: 102900000, guid: aa9431d2b1eeac140a59082124d31abd, type: 3}
+    sceneNames:
+    - MainMenu
+    musicClips:
+    - {fileID: 8300000, guid: e83bb908c254e904b914e854ed5e0994, type: 3}
+    - {fileID: 8300000, guid: 971690b119122ba4fa721edb9e5ddb52, type: 3}
+    - {fileID: 8300000, guid: a39bf12075b61174c94494158a0e6d9b, type: 3}
+    playbackMode: 0
+  - groupName: LibraryPart
+    scenes:
+    - {fileID: 102900000, guid: b90e665c8f6d11d4a8d43c8730955af0, type: 3}
+    - {fileID: 102900000, guid: 16a934d48c2436545bfee927179eff16, type: 3}
+    - {fileID: 102900000, guid: 370fb3d053abb964eab9b3ad3ee5932e, type: 3}
+    - {fileID: 102900000, guid: 5311244a3117a944b9fc1bf3b7523f1d, type: 3}
+    - {fileID: 102900000, guid: d5872b7ade5345c4d86b69bb3554d9ef, type: 3}
+    - {fileID: 102900000, guid: ee67cebdf434177479c6f7610509dcbc, type: 3}
+    - {fileID: 102900000, guid: c1493dfb80ed14f4f8aceb024c063d05, type: 3}
+    - {fileID: 102900000, guid: ac84b322bd5ce0442996193fe181b573, type: 3}
+    sceneNames:
+    - TriviaSection
+    - LibraryMenu
+    - RecipeChoice
+    - Recipe 1
+    - Recipe 2
+    - Recipe 3
+    - Recipe 4
+    - HelpArchive
+    musicClips:
+    - {fileID: 8300000, guid: efcc879d57c5882428ef0480f1fac3df, type: 3}
+    - {fileID: 8300000, guid: ea9c12d41612dd0428347d5089770b82, type: 3}
+    playbackMode: 1
+  - groupName: Level1
+    scenes:
+    - {fileID: 102900000, guid: 01e90143054a11546bfe753597e78a30, type: 3}
+    sceneNames:
+    - Level 1
+    musicClips:
+    - {fileID: 8300000, guid: 26a7e0f1ab422ed479ef0753f10657fd, type: 3}
+    playbackMode: 0
+  - groupName: Level2
+    scenes:
+    - {fileID: 102900000, guid: 7e6297d1e63c5854fad996bc23558161, type: 3}
+    sceneNames:
+    - Level 2
+    musicClips:
+    - {fileID: 8300000, guid: b6333eaf5a12c6a4e80d7b8c6571d912, type: 3}
+    playbackMode: 0
+  - groupName: Level3
+    scenes:
+    - {fileID: 102900000, guid: 47488d7440b83af4ba6f0929ee54925e, type: 3}
+    sceneNames:
+    - Level 3
+    musicClips:
+    - {fileID: 8300000, guid: 72bcaeb8d6012e54fa9b9b697a590a64, type: 3}
+    playbackMode: 0
+  - groupName: Level4
+    scenes:
+    - {fileID: 102900000, guid: 01e90143054a11546bfe753597e78a30, type: 3}
+    sceneNames:
+    - Level 1
+    musicClips:
+    - {fileID: 8300000, guid: efcc879d57c5882428ef0480f1fac3df, type: 3}
+    - {fileID: 8300000, guid: ea9c12d41612dd0428347d5089770b82, type: 3}
+    playbackMode: 0
+  - groupName: Level4
+    scenes:
+    - {fileID: 102900000, guid: 125a4dc206e0690438a5a03e7fbfd1e5, type: 3}
+    sceneNames:
+    - Level 4
+    musicClips:
+    - {fileID: 8300000, guid: 1f416e4402a87394e8f104fb727ae19e, type: 3}
+    playbackMode: 0
+  fadeDuration: 1
+  maxVolume: 0.9

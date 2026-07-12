@@ -1,51 +1,95 @@
 using UnityEngine;
 
-public class PlayerNameManager : MonoBehaviour
+namespace Gameplay.CutsceneManager
 {
-    public static PlayerNameManager Instance { get; private set; }
-
-    private const string PLAYER_NAME_KEY = "PlayerName";
-    private const string DEFAULT_NAME = "Player";
-
-    private void Awake()
+    public class PlayerNameManager : MonoBehaviour
     {
-        if (Instance == null)
+        // -----------------------------------------------------------------------
+        // Singleton
+        // -----------------------------------------------------------------------
+        public static PlayerNameManager Instance { get; private set; }
+
+        // -----------------------------------------------------------------------
+        // Private constants
+        // -----------------------------------------------------------------------
+
+        private const string PLAYER_NAME_KEY = "PlayerName";
+        private const string DEFAULT_NAME = "Player";
+
+        // Placeholder tag used inside dialogue lines
+        // Type {player} anywhere in your dialogue text to inject the player name
+        private const string NAME_TAG = "{player}";
+
+        // -----------------------------------------------------------------------
+        // Unity lifecycle
+        // -----------------------------------------------------------------------
+
+        private void Awake()
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
-        else
+
+        // -----------------------------------------------------------------------
+        // Public instance methods
+        // Called by NameInputScreen via PlayerNameManager.Instance
+        // -----------------------------------------------------------------------
+
+        // Returns the saved name, or DEFAULT_NAME if none has been set yet
+        public string GetPlayerName()
         {
-            Destroy(gameObject);
+            return PlayerPrefs.GetString(PLAYER_NAME_KEY, DEFAULT_NAME);
         }
-    }
 
-    // Returns saved name or default if none saved
-    public string GetPlayerName()
-    {
-        return PlayerPrefs.GetString(PLAYER_NAME_KEY, DEFAULT_NAME);
-    }
+        // Saves the player name - trims whitespace, falls back to default if empty
+        // Called by NameInputScreen when the player confirms their name
+        public void SetPlayerName(string newName)
+        {
+            string trimmed = newName != null ? newName.Trim() : "";
+            string nameToSave = trimmed.Length > 0 ? trimmed : DEFAULT_NAME;
+            PlayerPrefs.SetString(PLAYER_NAME_KEY, nameToSave);
+            PlayerPrefs.Save();
+            Debug.Log("[PlayerNameManager] Player name saved: " + nameToSave);
+        }
 
-    // Saves a new player name — trims whitespace, falls back to default if empty
-    public void SetPlayerName(string newName)
-    {
-        string trimmed = newName != null ? newName.Trim() : "";
-        string nameToSave = trimmed.Length > 0 ? trimmed : DEFAULT_NAME;
-        PlayerPrefs.SetString(PLAYER_NAME_KEY, nameToSave);
-        PlayerPrefs.Save();
-        Debug.Log("[PlayerNameManager] Player name saved: " + nameToSave);
-    }
+        // Returns true if the player has already set a name
+        // Useful for skipping the name input screen on returning sessions
+        public bool HasPlayerName()
+        {
+            return PlayerPrefs.HasKey(PLAYER_NAME_KEY);
+        }
 
-    // Replaces {player} in any string with the saved player name
-    // Call this anywhere before displaying text
-    public static string InjectPlayerName(string rawText)
-    {
-        if (string.IsNullOrEmpty(rawText)) return rawText;
+        // Clears the saved name
+        // Call this when starting a new game or resetting save data
+        public void ClearPlayerName()
+        {
+            PlayerPrefs.DeleteKey(PLAYER_NAME_KEY);
+            PlayerPrefs.Save();
+            Debug.Log("[PlayerNameManager] Player name cleared.");
+        }
 
-        string name = Instance != null
-            ? Instance.GetPlayerName()
-            : DEFAULT_NAME;
+        // -----------------------------------------------------------------------
+        // Public static method
+        // Called by DialogueManager.BuildFormattedText() on every dialogue line
+        // Replaces every {player} tag in the text with the saved name
+        // Works even if Instance is null by falling back to DEFAULT_NAME
+        // -----------------------------------------------------------------------
+        public static string InjectPlayerName(string rawText)
+        {
+            if (string.IsNullOrEmpty(rawText)) return rawText;
 
-        return rawText.Replace("{player}", name);
+            string name = Instance != null
+                ? Instance.GetPlayerName()
+                : PlayerPrefs.GetString(PLAYER_NAME_KEY, DEFAULT_NAME);
+
+            return rawText.Replace(NAME_TAG, name);
+        }
     }
 }

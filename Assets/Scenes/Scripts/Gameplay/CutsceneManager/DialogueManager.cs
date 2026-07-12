@@ -5,6 +5,10 @@ using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 namespace Gameplay.CutsceneManager
 {
     public class DialogueManager : MonoBehaviour
@@ -32,6 +36,15 @@ namespace Gameplay.CutsceneManager
 
         [Header("Audio")]
         public AudioSource audioSource;
+        public AudioSource typingSFXSource;
+
+        [Header("Typing SFX Settings")]
+        [Tooltip("Default typing sound if line has no typingSFX assigned")]
+        public AudioClip defaultTypingSFX;
+        [Tooltip("Play typing sound every N characters (1 = every character)")]
+        public int typingSFXInterval = 2;
+        [Tooltip("Stop typing SFX when player skips typing")]
+        public bool stopSFXOnSkip = true;
 
         [Header("Name Input Screen")]
         public NameInputScreen nameInputScreen;
@@ -40,8 +53,12 @@ namespace Gameplay.CutsceneManager
         public float typingSpeed = 0.04f;
 
         [Header("Entrance Animation")]
+        [Tooltip("Slide distance used by SlideFromLeft / SlideFromRight entrance types")]
         public float slideDistance = 200f;
-        public float animationDuration = 0.3f;
+
+        [Header("Portrait Settings")]
+        [Tooltip("Container holding all portraits")]
+        public GameObject portraitContainer;
 
         [Header("Dialogue Lines")]
         public DialogueLine[] dialogueLines;
@@ -49,18 +66,58 @@ namespace Gameplay.CutsceneManager
         [Header("Auto Start")]
         public bool autoStartOnAwake = true;
 
-        [Header("Portrait Settings")]
-        [Tooltip("Container holding all portraits")]
-        public GameObject portraitContainer;
+        [Header("Input Debounce")]
+        [Tooltip("Minimum seconds between taps being accepted. Prevents rapid " +
+                 "double-taps from advancing two lines almost instantly — especially " +
+                 "noticeable with fast typing speeds or when Continue Indicator is " +
+                 "unassigned, since the player has no visual cue for when it's safe " +
+                 "to tap again.")]
+        public float minTimeBetweenTaps = 0.15f;
 
+        [Header("Where This Cutscene Leads")]
+        [Tooltip("When true, fades to black and loads 'On Finish Load Scene' after the " +
+                 "last dialogue line. This is how every cutscene scene is self-contained — " +
+                 "it directly knows where it leads, with no external manager needed.")]
+        public bool autoAdvanceOnEnd = true;
+
+#if UNITY_EDITOR
+        [Tooltip("Drag the scene this cutscene should load once it finishes (e.g. the intro " +
+                 "cutscene's value should be the tower's gameplay scene, or MainMenu for a title " +
+                 "intro; the outro's should be ResultScene or Credits for Tower 4's outro).")]
+        [SerializeField] private SceneAsset onFinishLoadSceneAsset;
+#endif
+
+        // Backing field actually used at runtime. Kept in sync with
+        // onFinishLoadSceneAsset via OnValidate below — you never need to
+        // type this by hand, which is what was causing the stuck-black-screen
+        // bug (a typo'd or mismatched scene name means SceneManager.LoadScene
+        // never finds a match, so the fade-to-black never gets followed by
+        // anything, and the screen just stays black).
+        [SerializeField, HideInInspector] private string onFinishLoadScene = "";
+
+        [Tooltip("Show the loading screen while loading the scene above? Usually OFF here " +
+                 "since the loading screen typically already happened before THIS cutscene " +
+                 "started, per the pipeline: Challenge -> Loading Scene -> Intro Cutscene -> " +
+                 "Gameplay (no second loading screen needed for that last hop).")]
+        public bool onFinishUseLoadingScreen = false;
+
+        // Public state
         public bool isTyping { get; private set; }
         public bool dialogueFinished { get; private set; }
 
+        // Read-only accessor in case any other script needs to inspect this.
+        public string OnFinishLoadScene => onFinishLoadScene;
+
+        // Private state
         private int currentIndex = 0;
+        private DialogueLine currentLine = null;
 
         private Coroutine typingCoroutine;
         private Coroutine entranceCoroutine;
         private Coroutine blackScreenCoroutine;
+        private Coroutine reactionCoroutine;
+
+        private Coroutine portraitOutroCoroutine;
 
         private CharacterVN currentSpeaker;
 
@@ -68,8 +125,67 @@ namespace Gameplay.CutsceneManager
         private bool previousLineWasBlackScreen = false;
         private bool waitingForNameInput = false;
 
-        private RectTransform textContentRect;
+        // FIX: Guards against a new reaction interrupting an in-progress shake.
+        // When true, Advance() will not start another reaction coroutine.
+        private bool isReacting = false;
 
+        // FIX: Debounce timer — tracks the last time a tap was accepted so rapid
+        // double-taps can't each independently trigger Advance() within the same
+        // fraction of a second.
+        private float lastAcceptedTapTime = -999f;
+
+        private RectTransform textContentRect;
+        private Image currentOptionalImage;
+        private AudioClip currentTypingSFX;
+
+        private RectTransform currentPortraitRect;
+        private Vector3 originalPortraitPosition;
+        private Vector3 originalPortraitScale;
+
+        // -------------------------------------------------------------------------
+        // Editor
+        // -------------------------------------------------------------------------
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (onFinishLoadSceneAsset != null)
+            {
+                onFinishLoadScene = onFinishLoadSceneAsset.name;
+
+                // Dragging a scene into this field does NOT automatically add it to
+                // Build Settings — that's the other common cause of a cutscene that
+                // fades to black and then never goes anywhere. Warn immediately.
+                string assetPath = AssetDatabase.GetAssetPath(onFinishLoadSceneAsset);
+                bool inBuildSettingsAndEnabled = false;
+
+                foreach (EditorBuildSettingsScene s in EditorBuildSettings.scenes)
+                {
+                    if (s.path == assetPath && s.enabled)
+                    {
+                        inBuildSettingsAndEnabled = true;
+                        break;
+                    }
+                }
+
+                if (!inBuildSettingsAndEnabled)
+                {
+                    Debug.LogWarning("[DialogueManager] '" + onFinishLoadSceneAsset.name +
+                                     "' is assigned as On Finish Load Scene on " + gameObject.name +
+                                     ", but it is not enabled in File > Build Settings. It will " +
+                                     "fail to load at runtime — add it there (or enable it if it's " +
+                                     "already listed but unchecked).");
+                }
+            }
+            else
+            {
+                onFinishLoadScene = "";
+            }
+        }
+#endif
+
+        // -------------------------------------------------------------------------
+        // Unity lifecycle
+        // -------------------------------------------------------------------------
         private void Awake()
         {
             if (instance == null)
@@ -86,8 +202,15 @@ namespace Gameplay.CutsceneManager
                 if (audioSource == null)
                     audioSource = gameObject.AddComponent<AudioSource>();
             }
-
             audioSource.playOnAwake = false;
+
+            if (typingSFXSource == null)
+            {
+                GameObject sfxObj = new GameObject("TypingSFXSource");
+                sfxObj.transform.SetParent(transform);
+                typingSFXSource = sfxObj.AddComponent<AudioSource>();
+                typingSFXSource.playOnAwake = false;
+            }
 
             if (blackScreenImage != null)
             {
@@ -102,6 +225,8 @@ namespace Gameplay.CutsceneManager
                 nameInputScreen.OnNameConfirmed = OnPlayerNameConfirmed;
                 nameInputScreen.Hide();
             }
+
+            InitializeSFXVolume();
         }
 
         private void Start()
@@ -112,39 +237,51 @@ namespace Gameplay.CutsceneManager
 
         private void Update()
         {
-            if (dialogueFinished)
-                return;
-
-            if (inputBlocked)
-                return;
-
-            if (waitingForNameInput)
+            if (dialogueFinished || inputBlocked || waitingForNameInput)
                 return;
 
             bool advance = false;
 
             if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
-            {
                 advance = true;
-            }
 
             if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.wasPressedThisFrame)
-            {
                 advance = true;
-            }
 
-            if (Keyboard.current != null)
-            {
-                if (Keyboard.current.spaceKey.wasPressedThisFrame || Keyboard.current.enterKey.wasPressedThisFrame)
-                {
-                    advance = true;
-                }
-            }
+            if (Keyboard.current != null &&
+                (Keyboard.current.spaceKey.wasPressedThisFrame || Keyboard.current.enterKey.wasPressedThisFrame))
+                advance = true;
 
-            if (advance)
-                Advance();
+            if (!advance) return;
+
+            // FIX: Debounce rapid taps so a fast double-tap can't advance two
+            // lines almost instantly.
+            if (Time.unscaledTime - lastAcceptedTapTime < minTimeBetweenTaps)
+                return;
+
+            lastAcceptedTapTime = Time.unscaledTime;
+            Advance();
         }
 
+        // -------------------------------------------------------------------------
+        // Volume helpers
+        // -------------------------------------------------------------------------
+        private void InitializeSFXVolume()
+        {
+            float vol = PlayerPrefs.GetFloat("SFXVolume", 1f);
+            if (audioSource != null) audioSource.volume = vol;
+            if (typingSFXSource != null) typingSFXSource.volume = vol;
+        }
+
+        public void SetSFXVolume(float volume)
+        {
+            if (audioSource != null) audioSource.volume = volume;
+            if (typingSFXSource != null) typingSFXSource.volume = volume;
+        }
+
+        // -------------------------------------------------------------------------
+        // Public API
+        // -------------------------------------------------------------------------
         public void StartDialogue()
         {
             if (dialogueLines == null || dialogueLines.Length == 0)
@@ -155,9 +292,13 @@ namespace Gameplay.CutsceneManager
 
             currentIndex = 0;
             dialogueFinished = false;
+            currentLine = null;
             currentSpeaker = null;
             previousLineWasBlackScreen = false;
             waitingForNameInput = false;
+            currentOptionalImage = null;
+            currentTypingSFX = null;
+            isReacting = false;
 
             if (dialoguePanel != null)
                 dialoguePanel.SetActive(true);
@@ -167,10 +308,14 @@ namespace Gameplay.CutsceneManager
 
             DimAll();
             ResetAllPopOut();
+            HideAllOptionalImages();
 
             ShowLine(dialogueLines[currentIndex]);
         }
 
+        // -------------------------------------------------------------------------
+        // Advance
+        // -------------------------------------------------------------------------
         private void Advance()
         {
             if (isTyping)
@@ -179,56 +324,80 @@ namespace Gameplay.CutsceneManager
                 return;
             }
 
+            if (currentPortraitRect != null &&
+                currentLine != null &&
+                (currentLine.enableReaction || currentLine.enableShake))
+            {
+                if (isReacting && reactionCoroutine != null)
+                {
+                    StopCoroutine(reactionCoroutine);
+                    ResetPortraitTransform();
+                    isReacting = false;
+                }
+
+                reactionCoroutine = StartCoroutine(PlayReaction(currentLine));
+            }
+
             if (currentIndex < dialogueLines.Length && dialogueLines[currentIndex].openNameInputAfterThisLine)
             {
                 OpenNameInput();
                 return;
             }
 
+            StartCoroutine(AdvanceWithOutro());
+        }
+
+        private IEnumerator AdvanceWithOutro()
+        {
+            if (currentLine != null &&
+                currentPortraitRect != null &&
+                currentLine.outroType != OutroType.None)
+            {
+                if (portraitOutroCoroutine != null)
+                    StopCoroutine(portraitOutroCoroutine);
+
+                portraitOutroCoroutine = StartCoroutine(PlayPortraitOutro(currentLine));
+                yield return new WaitForSeconds(currentLine.outroDuration);
+            }
+
             currentIndex++;
 
             if (currentIndex < dialogueLines.Length)
-            {
                 ShowLine(dialogueLines[currentIndex]);
-            }
             else
-            {
                 EndDialogue();
-            }
         }
 
-        private string BuildFormattedText(DialogueLine line)
-        {
-            string text = PlayerNameManager.InjectPlayerName(line.dialogueText);
-
-            if (line.useBold && line.useItalic)
-            {
-                text = "<b><i>" + text + "</i></b>";
-            }
-            else if (line.useBold)
-            {
-                text = "<b>" + text + "</b>";
-            }
-            else if (line.useItalic)
-            {
-                text = "<i>" + text + "</i>";
-            }
-
-            return text;
-        }
-
+        // -------------------------------------------------------------------------
+        // ShowLine and sub-handlers
+        // -------------------------------------------------------------------------
         private void ShowLine(DialogueLine line)
         {
+            currentLine = line;
+
             StartCoroutine(BlockInputForOneFrame());
 
             if (continueIndicator != null)
                 continueIndicator.SetActive(false);
 
             if (dialoguePanel != null)
-            {
                 dialoguePanel.SetActive(!line.hideDialoguePanel);
-            }
 
+            HandleBlackScreen(line);
+            HandleNameDisplay(line);
+            HandlePortraitDisplay(line);
+            HandleOptionalImageDisplay(line);
+            SetupTypingSFX(line);
+            PlayLineSound(line);
+
+            if (typingCoroutine != null)
+                StopCoroutine(typingCoroutine);
+
+            typingCoroutine = StartCoroutine(TypeLine(line));
+        }
+
+        private void HandleBlackScreen(DialogueLine line)
+        {
             bool currentIsBlack = line.useBlackScreen;
             bool needsFadeToBlack = currentIsBlack && !previousLineWasBlackScreen;
             bool needsFadeToClear = !currentIsBlack && previousLineWasBlackScreen;
@@ -240,14 +409,12 @@ namespace Gameplay.CutsceneManager
             {
                 if (sceneVisualsRoot != null)
                     sceneVisualsRoot.SetActive(false);
-
                 blackScreenCoroutine = StartCoroutine(FadeBlackScreen(0f, 1f, fadeDuration));
             }
             else if (needsFadeToClear)
             {
                 if (sceneVisualsRoot != null)
                     sceneVisualsRoot.SetActive(true);
-
                 blackScreenCoroutine = StartCoroutine(FadeBlackScreen(1f, 0f, fadeDuration));
             }
             else if (!currentIsBlack)
@@ -258,37 +425,20 @@ namespace Gameplay.CutsceneManager
 
             previousLineWasBlackScreen = currentIsBlack;
 
-            HandleNameDisplay(line);
-            HandlePortraitDisplay(line);
-
-            if (currentIsBlack)
-            {
-                if (portraitContainer != null)
-                    portraitContainer.SetActive(false);
-            }
-
-            PlayLineSound(line);
-
-            if (typingCoroutine != null)
-                StopCoroutine(typingCoroutine);
-
-            typingCoroutine = StartCoroutine(TypeLine(line));
+            if (currentIsBlack && portraitContainer != null)
+                portraitContainer.SetActive(false);
         }
 
         private void HandleNameDisplay(DialogueLine line)
         {
+            if (nameBox == null) return;
+
             if (line.ShouldUseCustomName())
-            {
                 nameBox.text = line.customSpeakerName;
-            }
             else if (line.character != null)
-            {
                 nameBox.text = line.character.characterName;
-            }
             else
-            {
                 nameBox.text = "";
-            }
         }
 
         private void HandlePortraitDisplay(DialogueLine line)
@@ -304,9 +454,7 @@ namespace Gameplay.CutsceneManager
                 if (hasCharacter)
                 {
                     if (currentSpeaker != null && currentSpeaker != line.character)
-                    {
                         currentSpeaker.SetActive(false);
-                    }
 
                     currentSpeaker = line.character;
                     DimAllExcept(currentSpeaker);
@@ -315,19 +463,13 @@ namespace Gameplay.CutsceneManager
                     currentSpeaker.PopOut();
 
                     if (hasEmotionPortrait)
-                    {
                         currentSpeaker.SetPortrait(line.emotionPortrait);
-                    }
 
                     if (entranceCoroutine != null)
-                    {
                         StopCoroutine(entranceCoroutine);
-                    }
 
                     if (line.entranceType != EntranceType.None)
-                    {
-                        entranceCoroutine = StartCoroutine(PlayEntrance(currentSpeaker.portraitImage, line.entranceType));
-                    }
+                        entranceCoroutine = StartCoroutine(PlayEntrance(currentSpeaker.portraitImage, line));
                 }
                 else if (hasEmotionPortrait)
                 {
@@ -345,16 +487,14 @@ namespace Gameplay.CutsceneManager
                         currentSpeaker = tempCharacter;
 
                         if (entranceCoroutine != null)
-                        {
                             StopCoroutine(entranceCoroutine);
-                        }
 
                         if (line.entranceType != EntranceType.None)
-                        {
-                            entranceCoroutine = StartCoroutine(PlayEntrance(tempCharacter.portraitImage, line.entranceType));
-                        }
+                            entranceCoroutine = StartCoroutine(PlayEntrance(tempCharacter.portraitImage, line));
                     }
                 }
+
+                CachePortraitReferences();
             }
             else
             {
@@ -368,147 +508,253 @@ namespace Gameplay.CutsceneManager
 
                 if (portraitContainer != null)
                     portraitContainer.SetActive(false);
+
+                currentPortraitRect = null;
             }
         }
 
-        private void OpenNameInput()
+        private void CachePortraitReferences()
         {
-            if (nameInputScreen == null)
+            if (currentSpeaker != null && currentSpeaker.portraitImage != null)
             {
-                Debug.LogWarning("[DialogueManager] Name input screen missing.");
-                currentIndex++;
-
-                if (currentIndex < dialogueLines.Length)
+                currentPortraitRect = currentSpeaker.portraitImage.GetComponent<RectTransform>();
+                if (currentPortraitRect != null)
                 {
-                    ShowLine(dialogueLines[currentIndex]);
+                    originalPortraitPosition = currentPortraitRect.anchoredPosition;
+                    originalPortraitScale = currentPortraitRect.localScale;
                 }
-                else
-                {
-                    EndDialogue();
-                }
-
-                return;
-            }
-
-            waitingForNameInput = true;
-            nameInputScreen.Show();
-        }
-
-        private void OnPlayerNameConfirmed(string confirmedName)
-        {
-            waitingForNameInput = false;
-            currentIndex++;
-
-            if (currentIndex < dialogueLines.Length)
-            {
-                ShowLine(dialogueLines[currentIndex]);
             }
             else
             {
-                EndDialogue();
+                currentPortraitRect = null;
             }
+        }
+
+        private void ResetPortraitTransform()
+        {
+            if (currentPortraitRect == null) return;
+            currentPortraitRect.localScale = originalPortraitScale;
+            currentPortraitRect.anchoredPosition = originalPortraitPosition;
+        }
+
+        private void HandleOptionalImageDisplay(DialogueLine line)
+        {
+            if (currentOptionalImage != null && currentOptionalImage != line.optionalUIImage)
+                currentOptionalImage.gameObject.SetActive(false);
+
+            currentOptionalImage = line.optionalUIImage;
+
+            if (currentOptionalImage != null)
+                currentOptionalImage.gameObject.SetActive(true);
+        }
+
+        private void HideAllOptionalImages()
+        {
+            if (currentOptionalImage != null)
+            {
+                currentOptionalImage.gameObject.SetActive(false);
+                currentOptionalImage = null;
+            }
+
+            if (dialogueLines == null) return;
+
+            foreach (DialogueLine line in dialogueLines)
+            {
+                if (line.optionalUIImage != null)
+                    line.optionalUIImage.gameObject.SetActive(false);
+            }
+        }
+
+        // -------------------------------------------------------------------------
+        // Audio helpers
+        // -------------------------------------------------------------------------
+        private void SetupTypingSFX(DialogueLine line)
+        {
+            currentTypingSFX = line.typingSFX != null ? line.typingSFX : defaultTypingSFX;
+        }
+
+        private void PlayTypingSFX()
+        {
+            if (currentTypingSFX != null && typingSFXSource != null)
+                typingSFXSource.PlayOneShot(currentTypingSFX);
+        }
+
+        private void StopTypingSFX()
+        {
+            if (typingSFXSource != null)
+                typingSFXSource.Stop();
         }
 
         private void PlayLineSound(DialogueLine line)
         {
-            if (line.soundClip == null)
-                return;
-
-            if (audioSource == null)
-                return;
-
+            if (line.soundClip == null || audioSource == null) return;
             audioSource.PlayOneShot(line.soundClip);
         }
 
-        private IEnumerator FadeBlackScreen(float startAlpha, float endAlpha, float duration)
+        // -------------------------------------------------------------------------
+        // PlayReaction
+        // -------------------------------------------------------------------------
+        private IEnumerator PlayReaction(DialogueLine line)
         {
-            if (blackScreenImage == null)
-                yield break;
+            if (currentPortraitRect == null) yield break;
 
-            blackScreenImage.gameObject.SetActive(true);
+            isReacting = true;
+
+            if (line.enableReaction)
+            {
+                float elapsed = 0f;
+                Vector3 startScale = currentPortraitRect.localScale;
+                Vector3 targetScale = originalPortraitScale * line.reactionScaleTarget;
+
+                while (elapsed < line.reactionDuration * 0.5f)
+                {
+                    elapsed += Time.deltaTime;
+                    float t = elapsed / (line.reactionDuration * 0.5f);
+                    currentPortraitRect.localScale = Vector3.Lerp(startScale, targetScale,
+                        1f - Mathf.Cos(t * Mathf.PI * 0.5f));
+                    yield return null;
+                }
+                currentPortraitRect.localScale = targetScale;
+            }
+
+            if (line.enableShake)
+            {
+                float clampedShakeDuration = Mathf.Max(line.shakeDuration, 0.05f);
+                float shakeElapsed = 0f;
+
+                while (shakeElapsed < clampedShakeDuration)
+                {
+                    shakeElapsed += Time.deltaTime;
+                    currentPortraitRect.anchoredPosition = new Vector2(
+                        originalPortraitPosition.x + Random.Range(-line.shakeIntensity, line.shakeIntensity),
+                        originalPortraitPosition.y + Random.Range(-line.shakeIntensity, line.shakeIntensity));
+                    yield return null;
+                }
+
+                currentPortraitRect.anchoredPosition = originalPortraitPosition;
+            }
+
+            if (line.enableReaction)
+            {
+                float elapsed = 0f;
+                Vector3 startScale = currentPortraitRect.localScale;
+
+                while (elapsed < line.reactionDuration * 0.5f)
+                {
+                    elapsed += Time.deltaTime;
+                    float t = elapsed / (line.reactionDuration * 0.5f);
+                    currentPortraitRect.localScale = Vector3.Lerp(startScale, originalPortraitScale,
+                        Mathf.Sin(t * Mathf.PI * 0.5f));
+                    yield return null;
+                }
+                currentPortraitRect.localScale = originalPortraitScale;
+            }
+
+            isReacting = false;
+        }
+
+        // -------------------------------------------------------------------------
+        // Portrait outro
+        // -------------------------------------------------------------------------
+        private IEnumerator PlayPortraitOutro(DialogueLine line)
+        {
+            if (currentPortraitRect == null || line.outroType == OutroType.None) yield break;
 
             float elapsed = 0f;
-            Color c = blackScreenImage.color;
+            Vector2 startPos = currentPortraitRect.anchoredPosition;
 
-            while (elapsed < duration)
+            Canvas canvas = currentPortraitRect.GetComponentInParent<Canvas>();
+            float canvasWidth = canvas != null ? canvas.pixelRect.width : Screen.width;
+            float slideDist = canvasWidth + currentPortraitRect.rect.width;
+
+            float dir = line.outroType == OutroType.SlideLeft ? -1f : 1f;
+            Vector2 targetPos = new Vector2(startPos.x + slideDist * dir, startPos.y);
+
+            while (elapsed < line.outroDuration)
             {
                 elapsed += Time.deltaTime;
-                float t = Mathf.Clamp01(elapsed / duration);
-                c.a = Mathf.Lerp(startAlpha, endAlpha, t);
-                blackScreenImage.color = c;
+                float t = elapsed / line.outroDuration;
+                float eased = t * t * (3f - 2f * t);
+                currentPortraitRect.anchoredPosition = Vector2.Lerp(startPos, targetPos, eased);
                 yield return null;
             }
 
-            c.a = endAlpha;
-            blackScreenImage.color = c;
+            currentPortraitRect.anchoredPosition = targetPos;
+            currentPortraitRect.anchoredPosition = originalPortraitPosition;
+        }
 
-            if (endAlpha <= 0f)
+        // -------------------------------------------------------------------------
+        // PlayEntrance
+        // -------------------------------------------------------------------------
+        private IEnumerator PlayEntrance(Image target, DialogueLine line)
+        {
+            if (target == null) yield break;
+
+            RectTransform rect = target.GetComponent<RectTransform>();
+            if (rect == null) yield break;
+
+            if (line.customEntranceClip != null)
             {
-                blackScreenImage.gameObject.SetActive(false);
-            }
-        }
+                Animator anim = target.GetComponent<Animator>();
+                if (anim == null)
+                    anim = target.gameObject.AddComponent<Animator>();
 
-        private IEnumerator BlockInputForOneFrame()
-        {
-            inputBlocked = true;
-            yield return null;
-            inputBlocked = false;
-        }
-
-        private void SnapToFull()
-        {
-            if (typingCoroutine != null)
-                StopCoroutine(typingCoroutine);
-
-            isTyping = false;
-
-            string displayText = BuildFormattedText(dialogueLines[currentIndex]);
-            textBox.text = displayText;
-            textBox.maxVisibleCharacters = int.MaxValue;
-
-            RebuildTextLayout();
-            ScrollToBottom();
-
-            if (continueIndicator != null)
-                continueIndicator.SetActive(true);
-        }
-
-        private void EndDialogue()
-        {
-            dialogueFinished = true;
-            isTyping = false;
-
-            if (previousLineWasBlackScreen && blackScreenImage != null)
-            {
-                if (blackScreenCoroutine != null)
+                if (anim.runtimeAnimatorController != null)
                 {
-                    StopCoroutine(blackScreenCoroutine);
+                    AnimatorOverrideController overrideCtrl =
+                        new AnimatorOverrideController(anim.runtimeAnimatorController);
+                    overrideCtrl["CustomEntrance"] = line.customEntranceClip;
+                    anim.runtimeAnimatorController = overrideCtrl;
+                    anim.Play("CustomEntrance", 0, 0f);
+                    yield return new WaitForSeconds(line.customEntranceClip.length);
+                }
+                else
+                {
+                    Debug.LogWarning("[DialogueManager] customEntranceClip assigned but Animator has no controller. Falling back to procedural entrance.");
                 }
 
-                blackScreenCoroutine = StartCoroutine(FadeBlackScreen(1f, 0f, fadeDuration));
-
-                if (sceneVisualsRoot != null)
-                    sceneVisualsRoot.SetActive(true);
+                yield break;
             }
 
-            if (currentSpeaker != null)
+            float elapsed = 0f;
+            Vector2 originalPos = rect.anchoredPosition;
+
+            if (line.entranceType == EntranceType.SlideFromLeft || line.entranceType == EntranceType.SlideFromRight)
             {
-                currentSpeaker.SetActive(false);
+                float dir = line.entranceType == EntranceType.SlideFromLeft ? -1f : 1f;
+                Vector2 startPos = originalPos + new Vector2(dir * slideDistance, 0f);
+
+                while (elapsed < line.entranceDuration)
+                {
+                    elapsed += Time.deltaTime;
+                    float t = Mathf.SmoothStep(0f, 1f, elapsed / line.entranceDuration);
+                    rect.anchoredPosition = Vector2.Lerp(startPos, originalPos, t);
+                    yield return null;
+                }
+                rect.anchoredPosition = originalPos;
             }
+            else if (line.entranceType == EntranceType.FadeIn)
+            {
+                Color c = target.color;
+                c.a = 0f;
+                target.color = c;
 
-            DimAll();
-            ResetAllPopOut();
+                while (elapsed < line.entranceDuration)
+                {
+                    elapsed += Time.deltaTime;
+                    c.a = Mathf.SmoothStep(0f, 1f, elapsed / line.entranceDuration);
+                    target.color = c;
+                    yield return null;
+                }
 
-            if (portraitContainer != null)
-                portraitContainer.SetActive(true);
-
-            if (continueIndicator != null)
-                continueIndicator.SetActive(false);
-
-            if (dialoguePanel != null)
-                dialoguePanel.SetActive(false);
+                c.a = 1f;
+                target.color = c;
+            }
         }
 
+        // -------------------------------------------------------------------------
+        // Typewriter
+        // -------------------------------------------------------------------------
         private IEnumerator TypeLine(DialogueLine line)
         {
             isTyping = true;
@@ -528,6 +774,9 @@ namespace Gameplay.CutsceneManager
             {
                 textBox.maxVisibleCharacters = i;
 
+                if (i > 0 && i % typingSFXInterval == 0)
+                    PlayTypingSFX();
+
                 if (i % 5 == 0)
                 {
                     RebuildTextLayout();
@@ -545,34 +794,224 @@ namespace Gameplay.CutsceneManager
                 continueIndicator.SetActive(true);
         }
 
+        private string BuildFormattedText(DialogueLine line)
+        {
+            string text = PlayerNameManager.InjectPlayerName(line.dialogueText);
+
+            if (line.useBold && line.useItalic)
+                text = "<b><i>" + text + "</i></b>";
+            else if (line.useBold)
+                text = "<b>" + text + "</b>";
+            else if (line.useItalic)
+                text = "<i>" + text + "</i>";
+
+            return text;
+        }
+
+        private void SnapToFull()
+        {
+            if (typingCoroutine != null)
+                StopCoroutine(typingCoroutine);
+
+            isTyping = false;
+
+            if (stopSFXOnSkip)
+                StopTypingSFX();
+
+            textBox.text = BuildFormattedText(dialogueLines[currentIndex]);
+            textBox.maxVisibleCharacters = int.MaxValue;
+
+            RebuildTextLayout();
+            ScrollToBottom();
+
+            if (continueIndicator != null)
+                continueIndicator.SetActive(true);
+        }
+
+        // -------------------------------------------------------------------------
+        // End dialogue
+        // -------------------------------------------------------------------------
+        private void EndDialogue()
+        {
+            if (reactionCoroutine != null) StopCoroutine(reactionCoroutine);
+            if (portraitOutroCoroutine != null) StopCoroutine(portraitOutroCoroutine);
+
+            isReacting = false;
+            ResetPortraitTransform();
+
+            dialogueFinished = true;
+            isTyping = false;
+            currentLine = null;
+
+            StopTypingSFX();
+
+            if (currentSpeaker != null)
+                currentSpeaker.SetActive(false);
+
+            DimAll();
+            ResetAllPopOut();
+            HideAllOptionalImages();
+
+            if (continueIndicator != null)
+                continueIndicator.SetActive(false);
+
+            // FIX: Replaced the old CutsceneManager.Instance.OnDialogueFinished()
+            // handoff with a direct scene load. Each cutscene scene now knows
+            // exactly where it leads via onFinishLoadScene, configured right
+            // here in the Inspector — no external manager, no singleton, no
+            // cross-scene callback required.
+            if (autoAdvanceOnEnd)
+            {
+                if (blackScreenCoroutine != null)
+                    StopCoroutine(blackScreenCoroutine);
+
+                blackScreenCoroutine = StartCoroutine(FadeAndLoadNextScene());
+            }
+            else
+            {
+                if (previousLineWasBlackScreen && blackScreenImage != null)
+                {
+                    if (blackScreenCoroutine != null)
+                        StopCoroutine(blackScreenCoroutine);
+
+                    blackScreenCoroutine = StartCoroutine(FadeBlackScreen(1f, 0f, fadeDuration));
+
+                    if (sceneVisualsRoot != null)
+                        sceneVisualsRoot.SetActive(true);
+                }
+
+                if (portraitContainer != null)
+                    portraitContainer.SetActive(true);
+
+                if (dialoguePanel != null)
+                    dialoguePanel.SetActive(false);
+            }
+
+            currentTypingSFX = null;
+        }
+
+        // -------------------------------------------------------------------------
+        // Name input
+        // -------------------------------------------------------------------------
+        private void OpenNameInput()
+        {
+            if (nameInputScreen == null)
+            {
+                Debug.LogWarning("[DialogueManager] Name input screen missing.");
+                currentIndex++;
+
+                if (currentIndex < dialogueLines.Length)
+                    ShowLine(dialogueLines[currentIndex]);
+                else
+                    EndDialogue();
+
+                return;
+            }
+
+            waitingForNameInput = true;
+            nameInputScreen.Show();
+        }
+
+        private void OnPlayerNameConfirmed(string confirmedName)
+        {
+            waitingForNameInput = false;
+            currentIndex++;
+
+            if (currentIndex < dialogueLines.Length)
+                ShowLine(dialogueLines[currentIndex]);
+            else
+                EndDialogue();
+        }
+
+        // -------------------------------------------------------------------------
+        // Black screen fade
+        // -------------------------------------------------------------------------
+        private IEnumerator FadeBlackScreen(float startAlpha, float endAlpha, float duration)
+        {
+            if (blackScreenImage == null) yield break;
+
+            blackScreenImage.gameObject.SetActive(true);
+
+            float elapsed = 0f;
+            Color c = blackScreenImage.color;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.deltaTime;
+                c.a = Mathf.Lerp(startAlpha, endAlpha, Mathf.Clamp01(elapsed / duration));
+                blackScreenImage.color = c;
+                yield return null;
+            }
+
+            c.a = endAlpha;
+            blackScreenImage.color = c;
+
+            if (endAlpha <= 0f)
+                blackScreenImage.gameObject.SetActive(false);
+        }
+
+        // -------------------------------------------------------------------------
+        // FIX: Fades to black using the existing blackScreenImage, then loads
+        // onFinishLoadScene directly via SceneTransitionManager. No external
+        // manager or singleton is involved — this scene fully owns its own
+        // "what happens when I'm done" behaviour.
+        //
+        // If onFinishLoadScene ends up empty OR the scene isn't in Build
+        // Settings, this now logs a loud, specific error instead of quietly
+        // leaving the player stuck on a black screen forever.
+        // -------------------------------------------------------------------------
+        private IEnumerator FadeAndLoadNextScene()
+        {
+            yield return StartCoroutine(FadeBlackScreen(0f, 1f, fadeDuration));
+
+            if (string.IsNullOrEmpty(onFinishLoadScene))
+            {
+                Debug.LogError("[DialogueManager] On Finish Load Scene is empty on " + gameObject.name +
+                                ". The screen will stay black — drag the scene you want to load " +
+                                "into the 'On Finish Load Scene' field in the Inspector.");
+                if (dialoguePanel != null)
+                    dialoguePanel.SetActive(false);
+                yield break;
+            }
+
+            if (SceneTransitionManager.Instance != null)
+            {
+                SceneTransitionManager.Instance.NavigateTo(onFinishLoadScene, onFinishUseLoadingScreen);
+            }
+            else
+            {
+                Debug.LogWarning("[DialogueManager] SceneTransitionManager not found. Loading '" +
+                                 onFinishLoadScene + "' directly.");
+                UnityEngine.SceneManagement.SceneManager.LoadScene(onFinishLoadScene);
+            }
+        }
+
+        // -------------------------------------------------------------------------
+        // Scroll and layout helpers
+        // -------------------------------------------------------------------------
         private void RebuildTextLayout()
         {
             if (textContentRect != null)
-            {
                 LayoutRebuilder.ForceRebuildLayoutImmediate(textContentRect);
-            }
             else if (textBox != null)
-            {
                 LayoutRebuilder.ForceRebuildLayoutImmediate(textBox.GetComponent<RectTransform>());
-            }
         }
 
         private void ScrollToBottom()
         {
             if (textScrollRect != null)
-            {
                 textScrollRect.normalizedPosition = new Vector2(0f, 0f);
-            }
         }
 
         private void ScrollToTop()
         {
             if (textScrollRect != null)
-            {
                 textScrollRect.normalizedPosition = new Vector2(0f, 1f);
-            }
         }
 
+        // -------------------------------------------------------------------------
+        // Character visibility helpers
+        // -------------------------------------------------------------------------
         private void DimAll()
         {
             foreach (CharacterVN c in allCharacters)
@@ -600,52 +1039,14 @@ namespace Gameplay.CutsceneManager
             }
         }
 
-        private IEnumerator PlayEntrance(Image target, EntranceType type)
+        // -------------------------------------------------------------------------
+        // Misc helpers
+        // -------------------------------------------------------------------------
+        private IEnumerator BlockInputForOneFrame()
         {
-            if (target == null)
-                yield break;
-
-            RectTransform rect = target.GetComponent<RectTransform>();
-
-            if (rect == null)
-                yield break;
-
-            float elapsed = 0f;
-            Vector2 originalPos = rect.anchoredPosition;
-
-            if (type == EntranceType.SlideFromLeft || type == EntranceType.SlideFromRight)
-            {
-                float dir = type == EntranceType.SlideFromLeft ? -1f : 1f;
-                Vector2 startPos = originalPos + new Vector2(dir * slideDistance, 0f);
-
-                while (elapsed < animationDuration)
-                {
-                    elapsed += Time.deltaTime;
-                    float t = Mathf.SmoothStep(0f, 1f, elapsed / animationDuration);
-                    rect.anchoredPosition = Vector2.Lerp(startPos, originalPos, t);
-                    yield return null;
-                }
-
-                rect.anchoredPosition = originalPos;
-            }
-            else if (type == EntranceType.FadeIn)
-            {
-                Color c = target.color;
-                c.a = 0f;
-                target.color = c;
-
-                while (elapsed < animationDuration)
-                {
-                    elapsed += Time.deltaTime;
-                    float t = Mathf.SmoothStep(0f, 1f, elapsed / animationDuration);
-                    c.a = Mathf.Lerp(0f, 1f, t);
-                    target.color = c;
-                    yield return null;
-                }
-
-                c.a = 1f;
-                target.color = c;
-            }
+            inputBlocked = true;
+            yield return null;
+            inputBlocked = false;
         }
     }
 }
