@@ -2174,7 +2174,7 @@ MonoBehaviour:
     cachedButtons: []
   - groupName: Back
     soundClip: {fileID: 8300000, guid: 7a66cbf2e4726134dbacbd356bd45b5b, type: 3}
-    buttonParent: {fileID: 0}
+    buttonParent: {fileID: 6246220042825282410}
     cachedButtons: []
   volume: 1
 --- !u!224 &6246220042825282410

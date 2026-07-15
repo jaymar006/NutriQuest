@@ -287,6 +287,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BootstrapManager
   sceneTransitionManagerPrefab: {fileID: 2705782413640103578, guid: 01ebbf96b66f7a54ab5caf057f38adf6, type: 3}
   universalMusicManagerPrefab: {fileID: 3963549043214921030, guid: bda1f2e28aef429448bb83746f6013f5, type: 3}
+  quizSFXManagerPrefab: {fileID: 0}
   cutsceneManagerPrefab: {fileID: 7626538993478510251, guid: 4ebba066b4760b0489ed5444258bd16c, type: 3}
   titleSceneName: MainTitle
 --- !u!4 &632494004

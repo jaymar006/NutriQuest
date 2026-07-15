@@ -5,17 +5,21 @@ using UnityEngine.SceneManagement;
 // =============================================================================
 // BootstrapManager — NutriQuest
 //
-// Spawns CutsceneManager, SceneTransitionManager, and UniversalMusicManager
-// as persistent singletons, then loads the Title scene.
+// Spawns persistent singletons in dependency order, then loads the Title scene.
 //
 // SETUP
 //   1. Create a scene called "Bootstrap", set it as index 0 in
 //      File > Build Settings (drag it to the top of the list).
 //   2. Create an empty GameObject called "Bootstrap" in that scene.
 //   3. Attach this script to it.
-//   4. Drag your CutsceneManager, SceneTransitionManager, and
-//      UniversalMusicManager prefabs into their matching slots.
+//   4. Drag your prefabs into their matching slots in the Inspector.
 //   5. Set "Title Scene Name" to the exact name of your title scene.
+//
+// SPAWN ORDER (matters — do not reorder)
+//   1. SceneTransitionManager  — everything else may call NavigateTo()
+//   2. UniversalMusicManager   — BGM ready before title screen fades in
+//   3. QuizSFXManager          — SFX ready before any scene plays sound
+//   4. CutsceneManager         — depends on SceneTransitionManager for its fade
 //
 // WHY THE ONE-FRAME DELAY
 //   SceneTransitionManager.Awake() sets the fade canvas to alpha = 1
@@ -33,6 +37,10 @@ public class BootstrapManager : MonoBehaviour
     [Tooltip("Drag your UniversalMusicManager prefab here")]
     [SerializeField] private GameObject universalMusicManagerPrefab;
 
+    [Tooltip("Drag your QuizSFXManager prefab here — needed so SoundSettingsManager " +
+             "can find it from the main menu settings panel")]
+    [SerializeField] private GameObject quizSFXManagerPrefab;
+
     [Tooltip("Drag your CutsceneManager prefab here")]
     [SerializeField] private GameObject cutsceneManagerPrefab;
 
@@ -41,12 +49,9 @@ public class BootstrapManager : MonoBehaviour
 
     private void Start()
     {
-        // Spawn order matters:
-        // SceneTransitionManager first so everything else can call NavigateTo()
-        // UniversalMusicManager second so BGM is ready on the title screen
-        // CutsceneManager last — depends on SceneTransitionManager for its fade
         Spawn(sceneTransitionManagerPrefab, "SceneTransitionManager");
         Spawn(universalMusicManagerPrefab, "UniversalMusicManager");
+        Spawn(quizSFXManagerPrefab, "QuizSFXManager");
         Spawn(cutsceneManagerPrefab, "CutsceneManager");
 
         // Wait one frame so each manager's Start() runs (especially
