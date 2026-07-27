@@ -2397,6 +2397,7 @@ MonoBehaviour:
     useCustomSpeakerName: 1
     customSpeakerName: ???
     dialogueText: "No no no no no\u2014 where did they all go?!"
+    filipinoText: "Nako nako\u2014  Saan sila napunta!"
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 0}
@@ -2423,6 +2424,8 @@ MonoBehaviour:
     customSpeakerName: ???
     dialogueText: "The arrays are unstable, the pages are missing, the tower is locked
       and I\u2014 I\u2014"
+    filipinoText: "Hindi na stable ang mga magic array, nawawala ang mga recipe page,
+      nakakandado ang tore at ako\u2014 ako\u2014"
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: 24483481de76af745bd34839b2fa3a44, type: 3}
@@ -2449,6 +2452,8 @@ MonoBehaviour:
     customSpeakerName: Narrator
     dialogueText: You finally opened your eyes and you notice a fluffy creature with
       a magical hat.
+    filipinoText: Sa wakas, nagmulat ka ng mga mata at napansin mo ang isang mabalahibong
+      nilalang na may suot na mahiwagang sombrero.
     useItalic: 1
     useBold: 0
     emotionPortrait: {fileID: -7564531368924530369, guid: a160d0077108791478aa9c2b5a03f01b, type: 3}
@@ -2474,6 +2479,7 @@ MonoBehaviour:
     useCustomSpeakerName: 1
     customSpeakerName: Narrator
     dialogueText: She freezes as she notice you and lets out a startled shriek
+    filipinoText: Natigilan siya nang mapansin ka, saka napasigaw sa gulat.
     useItalic: 1
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: 1df127ed37de0b449a48725d021b3ea0, type: 3}
@@ -2484,7 +2490,7 @@ MonoBehaviour:
     reactionScaleTarget: 1.3
     enableShake: 1
     shakeIntensity: 10
-    shakeDuration: 2.18
+    shakeDuration: 1.5
     outroType: 0
     outroDuration: 0.4
     customEntranceClip: {fileID: 0}
@@ -2499,6 +2505,7 @@ MonoBehaviour:
     useCustomSpeakerName: 1
     customSpeakerName: Puppy?
     dialogueText: "WAAAH \u2014 W-Who are you?! How did you get in here?!"
+    filipinoText: "WAAAH\u2014 I-Ikaw?! Sino ka?! Paano ka nakapasok dito?!"
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: 1df127ed37de0b449a48725d021b3ea0, type: 3}
@@ -2507,7 +2514,7 @@ MonoBehaviour:
     enableReaction: 0
     reactionDuration: 0.35
     reactionScaleTarget: 1.3
-    enableShake: 0
+    enableShake: 1
     shakeIntensity: 10
     shakeDuration: 0.2
     outroType: 0
@@ -2524,6 +2531,8 @@ MonoBehaviour:
     useCustomSpeakerName: 1
     customSpeakerName: Narrator
     dialogueText: You notice she squints suspiciously and looks at you up and down
+    filipinoText: Napansin mong pinagmasdan ka niya mula ulo hanggang paa habang
+      nakakunot ang noo.
     useItalic: 1
     useBold: 0
     emotionPortrait: {fileID: -7564531368924530369, guid: a160d0077108791478aa9c2b5a03f01b, type: 3}
@@ -2549,6 +2558,7 @@ MonoBehaviour:
     useCustomSpeakerName: 1
     customSpeakerName: Puppy?
     dialogueText: Wait a moment... You are not from this world are you?
+    filipinoText: Sandali lang... Hindi ka taga-mundong ito, hindi ba?
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -1362437897567091854, guid: 0125f37827e2a4c4a9a27fbf7650cc59, type: 3}
@@ -2574,6 +2584,8 @@ MonoBehaviour:
     useCustomSpeakerName: 1
     customSpeakerName: Narrator
     dialogueText: She gasps and learns something interesting in you.
+    filipinoText: Napasinghap siya na para bang may mahalaga siyang natuklasan tungkol
+      sa'yo.
     useItalic: 1
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: e11ba7758047c2d429ff471c32ddfa62, type: 3}
@@ -2600,6 +2612,8 @@ MonoBehaviour:
     customSpeakerName: Puppy?
     dialogueText: Fascinating! You can actually interact with this world even though
       you are from the outside!
+    filipinoText: Ang galing! Nakikipag-ugnayan ka sa mundong ito kahit galing ka
+      sa labas!
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: 24483481de76af745bd34839b2fa3a44, type: 3}
@@ -2625,6 +2639,7 @@ MonoBehaviour:
     useCustomSpeakerName: 1
     customSpeakerName: Puppy?
     dialogueText: "How did you even get this app \u2014"
+    filipinoText: Saan lupalok mo dinownload ang app na ito?
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -1362437897567091854, guid: 0125f37827e2a4c4a9a27fbf7650cc59, type: 3}
@@ -2647,9 +2662,10 @@ MonoBehaviour:
     hideDialoguePanel: 0
     openNameInputAfterThisLine: 0
   - character: {fileID: 166775541}
-    useCustomSpeakerName: 1
-    customSpeakerName: System
+    useCustomSpeakerName: 0
+    customSpeakerName: Sienna
     dialogueText: You know what, it doesn't matter right now!
+    filipinoText: Alam mo? Hindi na muna mahalaga 'yan ngayon!
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -2101606179557248710, guid: 3bbc0cd91b4224547a3088bffc13f955, type: 3}
@@ -2675,6 +2691,7 @@ MonoBehaviour:
     useCustomSpeakerName: 1
     customSpeakerName: Narrator
     dialogueText: She straightens up proudly and clears her throat
+    filipinoText: Tumayo siya nang tuwid at naglinis ng lalamunan.
     useItalic: 1
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: 24483481de76af745bd34839b2fa3a44, type: 3}
@@ -2701,6 +2718,8 @@ MonoBehaviour:
     customSpeakerName: Sienna
     dialogueText: 'My name is Sienna! The most powerful AND most adorable witch in
       this world! '
+    filipinoText: Ako si Sienna! Ang pinakamakapangyarihan AT pinaka-cute na mahikera
+      sa buong mundong ito!
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -2101606179557248710, guid: 3bbc0cd91b4224547a3088bffc13f955, type: 3}
@@ -2726,6 +2745,7 @@ MonoBehaviour:
     useCustomSpeakerName: 1
     customSpeakerName: Sienna
     dialogueText: Also the creator of this tower!
+    filipinoText: At ako rin ang lumikha ng toreng ito!
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: 24483481de76af745bd34839b2fa3a44, type: 3}
@@ -2751,6 +2771,7 @@ MonoBehaviour:
     useCustomSpeakerName: 1
     customSpeakerName: Sienna
     dialogueText: So what's your name??
+    filipinoText: Kaya... ano ang pangalan mo?
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -1362437897567091854, guid: 0125f37827e2a4c4a9a27fbf7650cc59, type: 3}
@@ -2776,6 +2797,8 @@ MonoBehaviour:
     useCustomSpeakerName: 1
     customSpeakerName: Sienna
     dialogueText: Nice to meet you {player}! And welcome to my tower!
+    filipinoText: Ikinagagalak kitang makilala, {player}! Maligayang pagdating sa
+      aking tore!
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -2101606179557248710, guid: 3bbc0cd91b4224547a3088bffc13f955, type: 3}
@@ -2801,6 +2824,7 @@ MonoBehaviour:
     useCustomSpeakerName: 1
     customSpeakerName: Sienna
     dialogueText: It seems I forgoting something... About the tower...
+    filipinoText: Parang may nakalimutan ako... Tungkol sa tore...
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -1362437897567091854, guid: 0125f37827e2a4c4a9a27fbf7650cc59, type: 3}
@@ -2826,6 +2850,7 @@ MonoBehaviour:
     useCustomSpeakerName: 1
     customSpeakerName: Sienna
     dialogueText: 'My spell fumbled and now the tower is locked! '
+    filipinoText: Nagkamali ang mahika ko kaya nakakandado na ang tore!
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: 1df127ed37de0b449a48725d021b3ea0, type: 3}
@@ -2852,6 +2877,8 @@ MonoBehaviour:
     customSpeakerName: Sienna
     dialogueText: "And worse \u2014 my recipe pages! They were scattered all across
       the tower when it happened!"
+    filipinoText: "At mas malala pa\u2014 ang mga recipe page ko! Nagkalat ang mga
+      ito sa buong tore nang mangyari iyon!"
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: 1df127ed37de0b449a48725d021b3ea0, type: 3}
@@ -2878,6 +2905,8 @@ MonoBehaviour:
     customSpeakerName: Sienna
     dialogueText: Those pages are everything to me! Every single one is a recipe
       I collected from my travels around the world!
+    filipinoText: Napakahalaga ng mga recipe page na iyon sa akin! Bawat isa ay recipe
+      na nakolekta ko sa aking paglalakbay sa iba't ibang panig ng mundo!
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -2101606179557248710, guid: 3bbc0cd91b4224547a3088bffc13f955, type: 3}
@@ -2904,6 +2933,8 @@ MonoBehaviour:
     customSpeakerName: Sienna
     dialogueText: 'I traveled across mountains, oceans and forests tasting every
       wonderful meal I could find! '
+    filipinoText: Naglakbay ako sa mga bundok, karagatan, at kagubatan para tikman
+      ang lahat ng masasarap na pagkaing natagpuan ko!
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: 24483481de76af745bd34839b2fa3a44, type: 3}
@@ -2930,6 +2961,8 @@ MonoBehaviour:
     customSpeakerName: Sienna
     dialogueText: But I also learned the hard way that eating without care... makes
       you very very unhealthy.
+    filipinoText: Pero natutunan ko rin sa mahirap na paraan na ang pagkain nang
+      walang pag-iingat... ay maaaring makasama sa kalusugan.
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -7564531368924530369, guid: a160d0077108791478aa9c2b5a03f01b, type: 3}
@@ -2956,6 +2989,8 @@ MonoBehaviour:
     customSpeakerName: Sienna
     dialogueText: 'Because I eat too many snacks I once got mistaken for a pig. Multiple
       times! '
+    filipinoText: Dahil naparami ang kain ko ng meryenda, napagkamalan pa akong baboy
+      noon. Ilang beses pa!
     useItalic: 0
     useBold: 1
     emotionPortrait: {fileID: 2714347358834775429, guid: 8a203a67669c120449e84f110620d9d2, type: 3}
@@ -2982,6 +3017,8 @@ MonoBehaviour:
     customSpeakerName: Sienna
     dialogueText: THAT is why this tower exists! To teach everyone about healthy
       eating so nobody has to go through what I went through!
+    filipinoText: KAYA ginawa ko ang toreng ito! Para turuan ang lahat tungkol sa
+      masustansyang pagkain, nang wala nang makaranas ng pinagdaanan ko!
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -2101606179557248710, guid: 3bbc0cd91b4224547a3088bffc13f955, type: 3}
@@ -3007,6 +3044,8 @@ MonoBehaviour:
     useCustomSpeakerName: 1
     customSpeakerName: Sienna
     dialogueText: And now it is locked and falling apart and I need help!
+    filipinoText: Pero ngayon, nakakandado na ito, unti-unti nang nasisira, at kailangan
+      ko ng tulong!
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -7564531368924530369, guid: a160d0077108791478aa9c2b5a03f01b, type: 3}
@@ -3033,6 +3072,8 @@ MonoBehaviour:
     customSpeakerName: Sienna
     dialogueText: Which is where YOU come in! I have a partner who went inside Tower
       1 to investigate before everything got worse.
+    filipinoText: At dito ka papasok! Meron akong kaibigan na pumasok sa Tower 1
+      para mag imbestiga pero biglang nagkagulo.
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: 24483481de76af745bd34839b2fa3a44, type: 3}
@@ -3059,6 +3100,8 @@ MonoBehaviour:
     customSpeakerName: Sienna
     dialogueText: A cat with a red cape and a tiny sword. His name is Emby and he
       has the keys to the tower gates!
+    filipinoText: Isa syang pusa na may pulang kapa na may maliit na espada sa kanyang
+      hita. Ang pangalan nya ay Emby, meron syang mga susi sa mga tower gates!
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -2101606179557248710, guid: 3bbc0cd91b4224547a3088bffc13f955, type: 3}
@@ -3085,6 +3128,8 @@ MonoBehaviour:
     customSpeakerName: Sienna
     dialogueText: But he has not come back yet. Knowing Emby he probably got distracted
       by something...
+    filipinoText: Pero hindi pa sya nakakabalik kaya nag aalala ako sa kanya. Pero
+      kilala ko si Emby baka nabaling lang ang kanyang atensyon ng kung ano man iyon.
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -1362437897567091854, guid: 0125f37827e2a4c4a9a27fbf7650cc59, type: 3}
@@ -3109,7 +3154,10 @@ MonoBehaviour:
   - character: {fileID: 166775541}
     useCustomSpeakerName: 1
     customSpeakerName: Sienna
-    dialogueText: "Oh! Speaking of keys \u2014 Emby left me some before he went inside!"
+    dialogueText: "Oh! Speaking of keys \u2014 Emby left me some before he went inside!
+      Use it!"
+    filipinoText: Ay! May naalala ako tungkol sa Susi, nag iwan sya sa akin ng Susi
+      bago sya pumasok ng tore. Gamitin mo oh.
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -2101606179557248710, guid: 3bbc0cd91b4224547a3088bffc13f955, type: 3}
@@ -3135,6 +3183,7 @@ MonoBehaviour:
     useCustomSpeakerName: 1
     customSpeakerName: System
     dialogueText: You received 3 Rune keys!
+    filipinoText: Nakatanggap ka ng 3 Rune Keys!
     useItalic: 1
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: 24483481de76af745bd34839b2fa3a44, type: 3}
@@ -3161,6 +3210,9 @@ MonoBehaviour:
     customSpeakerName: Sienna
     dialogueText: 'These are Rune  Keys! You will need them to enter a tower, unlock
       the next one, or retry if you want to earn more merits. '
+    filipinoText: Ito ang mga Rune Keys! Kakailanganin mo ang mga ito para makapasok
+      sa isang tore, mabuksan ang susunod na tore, o sumubok muli kung gusto mong
+      makakuha ng mas maraming Merit.
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -2101606179557248710, guid: 3bbc0cd91b4224547a3088bffc13f955, type: 3}
@@ -3187,6 +3239,8 @@ MonoBehaviour:
     customSpeakerName: Sienna
     dialogueText: 'Do not worry if you run out though! Keys will slowly regenerate
       on their own over time. '
+    filipinoText: Huwag kang mag-alala kapag naubusan ka! Kusang babalik ang mga
+      susi paglipas ng oras.
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -2101606179557248710, guid: 3bbc0cd91b4224547a3088bffc13f955, type: 3}
@@ -3213,6 +3267,8 @@ MonoBehaviour:
     customSpeakerName: Sienna
     dialogueText: And if you do really well inside the towers you will earn more
       too!
+    filipinoText: At kung mahusay ang magiging performance mo sa loob ng mga tore,
+      makakakuha ka pa ng dagdag na Rune Keys!
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: 24483481de76af745bd34839b2fa3a44, type: 3}
@@ -3239,6 +3295,9 @@ MonoBehaviour:
     customSpeakerName: Sienna
     dialogueText: "Your mission is this \u2014 find Emby inside Tower 1, clear each
       tower floor, and collect my missing recipe pages along the way!"
+    filipinoText: "Ito ang misyon mo\u2014 hanapin si Emby sa Tower 1, tapusin ang
+      bawat palapag ng tore, at tipunin ang nawawala kong mga recipe page habang
+      nasa daan!"
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -2101606179557248710, guid: 3bbc0cd91b4224547a3088bffc13f955, type: 3}
@@ -3264,6 +3323,8 @@ MonoBehaviour:
     useCustomSpeakerName: 1
     customSpeakerName: Sienna
     dialogueText: Fix the tower AND bring back my pages. That is all I ask!
+    filipinoText: Ayusin mo ang tore AT ibalik ang mga recipe page ko. Iyon lang
+      ang hinihiling ko!
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -2101606179557248710, guid: 3bbc0cd91b4224547a3088bffc13f955, type: 3}
@@ -3290,6 +3351,8 @@ MonoBehaviour:
     customSpeakerName: Sienna
     dialogueText: I cannot go inside myself because I need to stay here and monitor
       the magical arrays to make sure nothing gets worse.
+    filipinoText: Hindi ako puwedeng pumasok dahil kailangan kong manatili rito at
+      bantayan ang mga magic array para matiyak na hindi na lalala ang sitwasyon.
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -7564531368924530369, guid: a160d0077108791478aa9c2b5a03f01b, type: 3}
@@ -3316,6 +3379,8 @@ MonoBehaviour:
     customSpeakerName: Sienna
     dialogueText: I know this is a lot to ask of someone who just got here. But somehow
       I feel like you were brought here for a reason!
+    filipinoText: Alam kong napakalaki ng hinihingi ko sa isang kararating pa lang.
+      Pero pakiramdam ko... may dahilan kung bakit ka napunta rito.
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -2101606179557248710, guid: 3bbc0cd91b4224547a3088bffc13f955, type: 3}
@@ -3342,6 +3407,8 @@ MonoBehaviour:
     customSpeakerName: Sienna
     dialogueText: 'Oh hero from another world. Please help this little witch to save
       her tower! '
+    filipinoText: O bayani mula sa ibang mundo... tulungan mo sana ang munting mahikerang
+      ito na iligtas ang kanyang tore!
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -2101606179557248710, guid: 3bbc0cd91b4224547a3088bffc13f955, type: 3}
@@ -3367,6 +3434,7 @@ MonoBehaviour:
     useCustomSpeakerName: 1
     customSpeakerName: Sienna
     dialogueText: 'And I hope that you enjoy your journey! '
+    filipinoText: 'At sana mag enjoy ka sa iyong pag lalakbay. '
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: 24483481de76af745bd34839b2fa3a44, type: 3}
@@ -3388,37 +3456,13 @@ MonoBehaviour:
     excludeDialogueBoxFromBlackout: 0
     hideDialoguePanel: 0
     openNameInputAfterThisLine: 0
-  - character: {fileID: 166775541}
-    useCustomSpeakerName: 1
-    customSpeakerName: Sienna
-    dialogueText: 
-    useItalic: 0
-    useBold: 0
-    emotionPortrait: {fileID: 21300000, guid: 24483481de76af745bd34839b2fa3a44, type: 3}
-    entranceType: 0
-    entranceDuration: 0.3
-    enableReaction: 1
-    reactionDuration: 0.35
-    reactionScaleTarget: 1.3
-    enableShake: 0
-    shakeIntensity: 10
-    shakeDuration: 0.2
-    outroType: 2
-    outroDuration: 0.4
-    customEntranceClip: {fileID: 0}
-    optionalUIImage: {fileID: 0}
-    soundClip: {fileID: 0}
-    typingSFX: {fileID: 0}
-    useBlackScreen: 1
-    excludeDialogueBoxFromBlackout: 0
-    hideDialoguePanel: 1
-    openNameInputAfterThisLine: 0
   autoStartOnAwake: 1
   minTimeBetweenTaps: 0.15
   autoAdvanceOnEnd: 1
   onFinishLoadSceneAsset: {fileID: 102900000, guid: aa9431d2b1eeac140a59082124d31abd, type: 3}
   onFinishLoadScene: MainMenu
   onFinishUseLoadingScreen: 0
+  dialogueSceneID: 
 --- !u!4 &1751620747
 Transform:
   m_ObjectHideFlags: 0
@@ -3683,8 +3727,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Your mission is this \u2014 find Emby inside Tower 1, clear each tower
-    floor, and collect my missing recipe pages along the way!"
+  m_text: Ito ang mga Rune Keys! Kakailanganin mo ang mga ito para makapasok sa isang
+    tore, mabuksan ang susunod na tore, o sumubok muli kung gusto mong makakuha ng
+    mas maraming Merit.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d2fc4daefc2346c41a58c44fbb920c03, type: 2}
   m_sharedMaterial: {fileID: -6078078171837885563, guid: d2fc4daefc2346c41a58c44fbb920c03, type: 2}
@@ -3711,8 +3756,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12.3
-  m_fontSizeBase: 12.3
+  m_fontSize: 11.5
+  m_fontSizeBase: 11.5
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -4035,14 +4080,14 @@ RectTransform:
   m_GameObject: {fileID: 1035192807840114500}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.45978886, y: 0.38348052, z: 0.44316998}
+  m_LocalScale: {x: 0.4516598, y: 0.35786554, z: 0.43533474}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1080865723018935801}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4.3, y: 16.5}
+  m_AnchoredPosition: {x: 4.3, y: 17.4}
   m_SizeDelta: {x: 200, y: 60.912}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7148832386861310571
@@ -4126,7 +4171,7 @@ RectTransform:
   m_GameObject: {fileID: 4249067127141196363}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10.523005, y: 12.8171625, z: 10.523005}
+  m_LocalScale: {x: 11.049154, y: 14.259092, z: 10.523005}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1080865723018935801}
@@ -4135,7 +4180,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 8}
+  m_AnchoredPosition: {x: -20, y: -64.103}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!224 &8595684445955191551

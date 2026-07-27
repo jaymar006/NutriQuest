@@ -1168,6 +1168,8 @@ MonoBehaviour:
     customSpeakerName: ???
     dialogueText: Woah! You actually cleared Tower 1! Not bad for someone who just
       got here!
+    filipinoText: Woah! Natapos mo talaga ang Tower 1! Hindi masama para sa isang
+      kararating pa lang!
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 8495209843170342830, guid: 0e0ac28be41d94e4eb10c24caaadbc20, type: 3}
@@ -1193,9 +1195,10 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: ???
     dialogueText: Oh! I forgot to introduce myself.
+    filipinoText: HALA! Hindi pala ako nakapagpakilala.
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: -9156928245328908291, guid: ad399d33a18e4de45b38d760f4e88dbf, type: 3}
+    emotionPortrait: {fileID: -6077793430231951356, guid: 55166d42aba58dc47ad2f2f79e4ca59d, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1219,6 +1222,8 @@ MonoBehaviour:
     customSpeakerName: Emby
     dialogueText: I'm Emby! Knight in training, future hero, and Sienna's oldest
       friend!
+    filipinoText: Ako si Emby! Isang knight na nagsasanay pa lang, magiging bayani
+      balang araw, at pinakamatagal nang kaibigan ni Sienna!
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
@@ -1243,13 +1248,13 @@ MonoBehaviour:
   - character: {fileID: 0}
     useCustomSpeakerName: 0
     customSpeakerName: Emby
-    dialogueText: 'I came inside to investigate why the tower locked but honestly...
-      I got distracted by
-
-      something...'
+    dialogueText: I came inside to investigate why the tower locked but honestly...
+      I got distracted by something...
+    filipinoText: Pumasok ako rito para alamin kung bakit nakakandado ang tore pero
+      sa totoo lang... may ibang bagay na nakakuha ng atensyon ko...
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 8495209843170342830, guid: 0e0ac28be41d94e4eb10c24caaadbc20, type: 3}
+    emotionPortrait: {fileID: 4613369332385885323, guid: c38f36071605f5c4da5011c8238f182b, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1272,9 +1277,10 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: Emby
     dialogueText: Please don't tell Sienna.
+    filipinoText: Pakiusap... huwag mong sabihin kay Sienna. Ma lilintikan ako hehe~
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
+    emotionPortrait: {fileID: 4613369332385885323, guid: c38f36071605f5c4da5011c8238f182b, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1297,6 +1303,8 @@ MonoBehaviour:
     useCustomSpeakerName: 1
     customSpeakerName: 
     dialogueText: 'You notice something glowing and floating towards you. '
+    filipinoText: May napansin kang isang kumikislap na bagay na dahan-dahang lumulutang
+      papunta sa'yo."
     useItalic: 1
     useBold: 0
     emotionPortrait: {fileID: 0}
@@ -1321,10 +1329,10 @@ MonoBehaviour:
   - character: {fileID: 0}
     useCustomSpeakerName: 0
     customSpeakerName: Emby
-    dialogueText: 'Oh! A recipe page! This
-
-      must have gotten scattered when
-      the tower locked!'
+    dialogueText: Oh! A recipe page! This must have gotten scattered when the tower
+      locked!
+    filipinoText: Oh! Isang recipe page! Siguradong nagkalat ito nang makandado ang
+      tore!
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: 66b1fa522f7127144aa490ad162fbccd, type: 3}
@@ -1350,9 +1358,10 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: Emby
     dialogueText: ...Sinabawang Gulay? That's it? Just... vegetables in soup...
+    filipinoText: '"...Sinabawang Gulay? Iyon na ''yon? Gulay lang... sa sabaw...'
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: -9156928245328908291, guid: ad399d33a18e4de45b38d760f4e88dbf, type: 3}
+    emotionPortrait: {fileID: 3955470843362796982, guid: 4756c828401aeb64e8c9554097ccd465, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 1
@@ -1374,19 +1383,21 @@ MonoBehaviour:
   - character: {fileID: 0}
     useCustomSpeakerName: 0
     customSpeakerName: Emby
-    dialogueText: I risked my life investigating this tower and the treasure was
+    dialogueText: My head was hurting investigating this tower and the treasure was
       SOUP?!
+    filipinoText: Isinugal ko ang buhay ko sa pag-iimbestiga sa toreng ito, tapos
+      ang kayamanan ay... SABAW?!
     useItalic: 0
-    useBold: 0
-    emotionPortrait: {fileID: 21300000, guid: ed0d21f3f18a4d84ab0c45550f41bb3d, type: 3}
+    useBold: 1
+    emotionPortrait: {fileID: 1615358792748342469, guid: 055b9bfce4569d3429157f68e4a9f001, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
     reactionDuration: 0
     reactionScaleTarget: 0
     enableShake: 1
-    shakeIntensity: 1
-    shakeDuration: 1
+    shakeIntensity: 1.5
+    shakeDuration: 1.5
     outroType: 0
     outroDuration: 0
     customEntranceClip: {fileID: 0}
@@ -1401,9 +1412,10 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: 
     dialogueText: Sienna will be happy over this though, so let's bring it back.
+    filipinoText: Pero matutuwa si Sienna rito, kaya ibalik na natin ito.
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 8495209843170342830, guid: 0e0ac28be41d94e4eb10c24caaadbc20, type: 3}
+    emotionPortrait: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1427,9 +1439,12 @@ MonoBehaviour:
     customSpeakerName: Emby
     dialogueText: "Anyway! A true hero helps others without hesitation \u2014 that's
       what I believe! Here,take this key. Let's go report back to Sienna!"
+    filipinoText: "Sige na nga! Ang tunay na bayani ay tumutulong sa iba nang walang
+      pag-aalinlangan\u2014 'yan ang paniniwala ko! Heto, kunin mo ang susing ito.
+      Tara, bumalik na tayo kay Sienna!"
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
+    emotionPortrait: {fileID: -9156928245328908291, guid: ad399d33a18e4de45b38d760f4e88dbf, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1454,6 +1469,7 @@ MonoBehaviour:
   onFinishLoadSceneAsset: {fileID: 102900000, guid: b511cb600657ed54d9664ff5d3d8ca70, type: 3}
   onFinishLoadScene: ResultsScene
   onFinishUseLoadingScreen: 0
+  dialogueSceneID: 
 --- !u!224 &997854512469007351
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1532,8 +1548,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Your mission is this \u2014 find Emby inside Tower 1, clear each tower
-    floor, and collect my missing recipe pages along the way!"
+  m_text: "Sige na nga! Ang tunay na bayani ay tumutulong sa iba nang walang pag-aalinlangan\u2014
+    'yan ang paniniwala ko! Heto, kunin mo ang susing ito. Tara, bumalik na tayo
+    kay Sienna!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d2fc4daefc2346c41a58c44fbb920c03, type: 2}
   m_sharedMaterial: {fileID: -6078078171837885563, guid: d2fc4daefc2346c41a58c44fbb920c03, type: 2}
@@ -1560,8 +1577,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12.3
-  m_fontSizeBase: 12.3
+  m_fontSize: 11
+  m_fontSizeBase: 11
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

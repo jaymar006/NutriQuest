@@ -3961,120 +3961,224 @@ MonoBehaviour:
     answerC: Rice and potato chips
     answerD: 'White rice with a little vegetables on top  '
     correctAnswer: D
+    questionFilipino: Alin ang mas masustansyang pagpipilian na may kanin?
+    answerAFilipino: Kanin at tsokolate
+    answerBFilipino: Kanin na maraming mantika at hotdog
+    answerCFilipino: Kanin na may potato chips
+    answerDFilipino: Puting kanin na may kaunting gulay sa ibabaw
   - question: 'Which is the healthiest drink for kids?  '
     answerA: Energy drink
     answerB: Milk
     answerC: 'Soda '
     answerD: Sweetened juice
     correctAnswer: B
+    questionFilipino: Alin ang pinakamalusog na inumin para sa mga bata?
+    answerAFilipino: Energy drink
+    answerBFilipino: Gatas
+    answerCFilipino: Soft drinks
+    answerDFilipino: Matamis na juice
   - question: 'Which food is rich in vitamin C, good for immunity? '
     answerA: Soda
     answerB: Biscuit
     answerC: Orange
     answerD: Lollipop
     correctAnswer: C
+    questionFilipino: Aling pagkain ang mayaman sa bitamina C na mabuti para sa panlaban
+      ng katawan?
+    answerAFilipino: Soft drinks
+    answerBFilipino: Biskwit
+    answerCFilipino: Ponkan (orange)
+    answerDFilipino: Lollipop
   - question: Which is a junk food high in sugar?
     answerA: Spinach
     answerB: Rice
     answerC: Chicken
     answerD: Chocolate bar
     correctAnswer: D
+    questionFilipino: Alin ang junk food na mataas sa asukal?
+    answerAFilipino: Espinaka
+    answerBFilipino: Kanin
+    answerCFilipino: Manok
+    answerDFilipino: Chocolate bar
   - question: 'Which is a healthy food that comes from plants? '
     answerA: Tokwa (tofu)
     answerB: Bacon
     answerC: Ham
     answerD: 'Tocino '
     correctAnswer: A
+    questionFilipino: Alin ang masustansyang pagkain na galing sa halaman?
+    answerAFilipino: Tokwa
+    answerBFilipino: Bacon
+    answerCFilipino: Hamon
+    answerDFilipino: Tocino
   - question: 'Which should you eat every day, not just occasionally?  '
     answerA: Vegetables
     answerB: French fries
     answerC: Chocolate
     answerD: Soft drinks
     correctAnswer: A
+    questionFilipino: Alin ang dapat kainin araw-araw, hindi paminsan-minsan lang?
+    answerAFilipino: Mga gulay
+    answerBFilipino: French fries
+    answerCFilipino: Tsokolate
+    answerDFilipino: Soft drinks
   - question: 'Which is a healthy snack for kids? '
     answerA: Sweet bread
     answerB: Chocolate syrup
     answerC: Sticky rice (suman)
     answerD: 'Soda '
     correctAnswer: C
+    questionFilipino: Alin ang masustansyang meryenda para sa mga bata?
+    answerAFilipino: Matamis na tinapay
+    answerBFilipino: Chocolate syrup
+    answerCFilipino: Suman
+    answerDFilipino: Soft drinks
   - question: Which of these foods that you eat with rice is the healthiest?
     answerA: Fried longganisa
     answerB: Hotdog
     answerC: Chicharon
     answerD: 'Grilled fish '
     correctAnswer: D
+    questionFilipino: Alin sa mga ulam na kinakain kasama ng kanin ang pinakamalusog?
+    answerAFilipino: Pritong longganisa
+    answerBFilipino: Hotdog
+    answerCFilipino: Chicharon
+    answerDFilipino: Inihaw na isda
   - question: Which food is less healthy because it is high in fat?
     answerA: Fish
     answerB: Corn
     answerC: Fried chicken
     answerD: Sweet potato
     correctAnswer: C
+    questionFilipino: Aling pagkain ang hindi gaanong masustansya dahil mataas sa
+      taba?
+    answerAFilipino: Isda
+    answerBFilipino: Mais
+    answerCFilipino: Pritong manok
+    answerDFilipino: Kamote
   - question: Which is a junk food that should be avoided?
     answerA: Mung beans
     answerB: Potato chips
     answerC: Egg
     answerD: 'Watermelon '
     correctAnswer: B
+    questionFilipino: Alin ang junk food na dapat iwasan?
+    answerAFilipino: Monggo
+    answerBFilipino: Potato chips
+    answerCFilipino: Itlog
+    answerDFilipino: Pakwan
   - question: 'Which is a healthier snack? '
     answerA: Ice cream with syrup
     answerB: Pack of potato chips
     answerC: Mango fruit
     answerD: Large slice of cake
     correctAnswer: C
+    questionFilipino: Alin ang mas masustansyang meryenda?
+    answerAFilipino: Ice cream na may syrup
+    answerBFilipino: Isang pakete ng potato chips
+    answerCFilipino: Mangga
+    answerDFilipino: Malaking hiwa ng keyk
   - question: 'Which is the better drink to bring to school? '
     answerA: Sweet powdered juice
     answerB: Water
     answerC: Soft drinks
     answerD: Energy drink
     correctAnswer: B
+    questionFilipino: Alin ang mas mainam na inumin na dalhin sa paaralan?
+    answerAFilipino: Alin ang mas mainam na inumin na dalhin sa paaralan?
+    answerBFilipino: Tubig
+    answerCFilipino: Soft drinks
+    answerDFilipino: Energy drink
   - question: "Which of these is \u201Cjunk food\u201D?"
     answerA: Boiled corn
     answerB: Monggo stew
     answerC: Saba banana
     answerD: 'Very sweet kamote cue '
     correctAnswer: D
+    questionFilipino: Alin sa mga ito ang itinuturing na "junk food"?
+    answerAFilipino: Nilagang mais
+    answerBFilipino: Ginisang monggo
+    answerCFilipino: Saging na saba
+    answerDFilipino: Matamis na kamote cue
   - question: Which is an example of a healthy food in the Pinggang Pinoy?
     answerA: Cake
     answerB: Eggplant
     answerC: Ice cream
     answerD: French fries
     correctAnswer: B
+    questionFilipino: Alin ang halimbawa ng masustansyang pagkain sa Pinggang Pinoy?
+    answerAFilipino: Keyk
+    answerBFilipino: Talong
+    answerCFilipino: Ice cream
+    answerDFilipino: French fries
   - question: Which of the following is a healthy food that comes from plants?
     answerA: Candy
     answerB: Banana
     answerC: Hotdog
     answerD: Soda
     correctAnswer: B
+    questionFilipino: Alin sa mga sumusunod ang masustansyang pagkaing galing sa
+      halaman?
+    answerAFilipino: Kendi
+    answerBFilipino: Saging
+    answerCFilipino: Hotdog
+    answerDFilipino: Soft drinks
   - question: Which food should be limited because it is high in salt?
     answerA: Stir-fried vegetables
     answerB: Chicharon
     answerC: Banana
     answerD: Fresh fish
     correctAnswer: B
+    questionFilipino: Aling pagkain ang dapat limitahan dahil mataas sa asin?
+    answerAFilipino: Ginisang gulay
+    answerBFilipino: Chicharon
+    answerCFilipino: Saging
+    answerDFilipino: Sariwang isda
   - question: Which is a healthy food that comes from animals?
     answerA: Candy bar
     answerB: Cheese
     answerC: Ice cream
     answerD: Hotdog
     correctAnswer: B
+    questionFilipino: Alin ang masustansyang pagkaing galing sa hayop?
+    answerAFilipino: Chocolate bar
+    answerBFilipino: Keso
+    answerCFilipino: Ice cream
+    answerDFilipino: Hotdog
   - question: Which of these is an example of a fruit?
-    answerA: Pansit
-    answerB: Hotcake
-    answerC: Pandesal
+    answerA: Tomato
+    answerB: Carrot
+    answerC: Donut
     answerD: Apple
     correctAnswer: D
+    questionFilipino: Alin sa mga ito ang isang prutas?
+    answerAFilipino: Kamatis
+    answerBFilipino: 'Karrots '
+    answerCFilipino: Donut
+    answerDFilipino: Mansanas
   - question: Which food is a healthy "Go" food in the Food Pyramid?
     answerA: Cupcake
     answerB: Donut
     answerC: Pork rinds
     answerD: Rice
     correctAnswer: D
+    questionFilipino: Aling pagkain ang isang masustansyang "Go" food sa Food Pyramid?
+    answerAFilipino: Cupcake
+    answerBFilipino: Donut
+    answerCFilipino: Chicharon
+    answerDFilipino: Kanin
   - question: Which food is rich in vitamin C, good for immunity?
     answerA: Soda
     answerB: Biscuit
     answerC: 'Orange '
     answerD: Lollipop
     correctAnswer: C
+    questionFilipino: Aling pagkain ang mayaman sa bitamina C na mabuti para sa panlaban
+      ng katawan?
+    answerAFilipino: Soft drinks
+    answerBFilipino: Biskwit
+    answerCFilipino: Kahel (orange)
+    answerDFilipino: Lollipop
   questionsPerGame: 10
   delayBeforeNextQuestion: 2
 --- !u!4 &949067932
@@ -4438,7 +4542,7 @@ Transform:
   - {fileID: 1062512489}
   - {fileID: 1456558799}
   - {fileID: 474596446}
-  - {fileID: 1924300089}
+  - {fileID: 674581723562638272}
   - {fileID: 1004144401}
   - {fileID: 220633356}
   - {fileID: 1925909241}
@@ -7313,85 +7417,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!1 &1924300088
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1924300089}
-  - component: {fileID: 1924300090}
-  m_Layer: 0
-  m_Name: NekoCompanion
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1924300089
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1924300088}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1013850525}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1924300090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1924300088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c9deb613e94c7040bdea6615ecf861f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CatCompanion
-  catImage: {fileID: 1793910422}
-  idleSprite: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
-  correctSprite: {fileID: 21300000, guid: 66b1fa522f7127144aa490ad162fbccd, type: 3}
-  wrongSprite: {fileID: 21300000, guid: ed0d21f3f18a4d84ab0c45550f41bb3d, type: 3}
-  hintSprite: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
-  completionSprite: {fileID: 0}
-  speechBubble: {fileID: 895678174}
-  speechText: {fileID: 353551400}
-  idleLines:
-  - Hmmm... what could be the correct answer??
-  - Think carefully!
-  - You got this!
-  - Take your time!
-  correctLines:
-  - Yay! That's right Nya!
-  - Woohoo! Correct!
-  - You're so smart! Nya!
-  - Amazing! Keep it up!
-  - 'Purrfeect!! '
-  wrongLines:
-  - Huh? That's wrong?
-  - Ughhh.. That's bad.
-  - 'So close! '
-  - Oh no!
-  hintLines:
-  - Nya? What could be the answer?
-  - Purr leasse give us help!
-  - You use a hint. Choose wisely!
-  completionLines:
-  - Wow! You beat the tower!
-  - Whew that was tough but it was fun!
-  - 'YAY! WE Did It! '
-  - 
-  reactionDelay: 0.5
-  typewriterSpeed: 0.04
 --- !u!1 &1925909240
 GameObject:
   m_ObjectHideFlags: 0
@@ -8086,6 +8111,21 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!4 &674581723562638272
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702989512961094129}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1013850525}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &690864202287667607
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8400,6 +8440,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3744444504117021142}
   m_CullTransparentMesh: 1
+--- !u!1 &1702989512961094129
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 674581723562638272}
+  - component: {fileID: 1949573133687297005}
+  m_Layer: 0
+  m_Name: NekoCompanion
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!114 &1711485910012004325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8468,6 +8525,76 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6822386520763584998}
   m_CullTransparentMesh: 1
+--- !u!114 &1949573133687297005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702989512961094129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c9deb613e94c7040bdea6615ecf861f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CatCompanion
+  catImage: {fileID: 1793910422}
+  idleSprite: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
+  correctSprite: {fileID: 21300000, guid: 66b1fa522f7127144aa490ad162fbccd, type: 3}
+  wrongSprite: {fileID: 21300000, guid: ed0d21f3f18a4d84ab0c45550f41bb3d, type: 3}
+  hintSprite: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
+  completionSprite: {fileID: 0}
+  speechBubble: {fileID: 895678174}
+  speechText: {fileID: 353551400}
+  idleLines:
+  - Hmmm... What could be the correct answer??
+  - Think carefully!
+  - You got this!
+  - Take your time!
+  idleLinesFilipino:
+  - Hmm.. Ano kaya ang tamang sagot
+  - Pag isipan mong mabuti!
+  - Kaya mo yan!
+  - Huwag kang mag madali!
+  correctLines:
+  - Yay! That's right Nya!
+  - Woohoo! Correct!
+  - You're so smart! Nya!
+  - Amazing! Keep it up!
+  - 'Purrfeect!! '
+  correctLinesFilipino:
+  - Yay! Tama nyan!
+  - Woohoo! Tama!
+  - Ang talino mo nya!
+  - Ang galing! Pag patuloy mo pa!
+  - Purrfeect!
+  wrongLines:
+  - Huh? That's wrong?
+  - Ughhh.. That's bad.
+  - 'So close! '
+  - Oh no!
+  wrongLinesFilipino:
+  - Huh? Mali yun?
+  - Ughh... Masama ito..
+  - Sayang!
+  - 'Hala! '
+  hintLines:
+  - Nya? What could be the answer?
+  - Purr leasse give us help!
+  - You use a hint. Choose wisely!
+  hintLinesFilipino:
+  - Nya? Ano kaya ang tamang sagot?
+  - Purr leasse tulungan mo kami!
+  - Gumamit ka na ng hint. Mag ingat ka sa pag pili ng sagot.
+  completionLines:
+  - Wow! You beat the tower!
+  - Whew that was tough but it was fun!
+  - 'YAY! WE Did It! '
+  completionLinesFilipino:
+  - Wow! Natapos mo ang tore!
+  - Whew ang hirap nun, pero ang saya!
+  - YAY! Nagawa NATIN!
+  reactionDelay: 0.5
+  typewriterSpeed: 0.04
 --- !u!224 &2017448744078743975
 RectTransform:
   m_ObjectHideFlags: 0

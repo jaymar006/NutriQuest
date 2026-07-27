@@ -5,12 +5,26 @@ using UnityEngine;
 [System.Serializable]
 public class QuestionData
 {
+    [Header("English")]
     public string question;
     public string answerA;
     public string answerB;
     public string answerC;
     public string answerD;
     public string correctAnswer;
+
+    [Header("Filipino (Tagalog)")]
+    [Tooltip("Filipino translation of the question. Leave empty to use the English text.")]
+    public string questionFilipino;
+    [Tooltip("Filipino translation of Answer A. Leave empty to use English.")]
+    public string answerAFilipino;
+    [Tooltip("Filipino translation of Answer B. Leave empty to use English.")]
+    public string answerBFilipino;
+    [Tooltip("Filipino translation of Answer C. Leave empty to use English.")]
+    public string answerCFilipino;
+    [Tooltip("Filipino translation of Answer D. Leave empty to use English.")]
+    public string answerDFilipino;
+    // correctAnswer does not need translation — it is always "A", "B", "C", or "D"
 }
 
 public class QuestionGeneratorBeta : MonoBehaviour
@@ -34,6 +48,23 @@ public class QuestionGeneratorBeta : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+
+        // Refresh the displayed question immediately when the player
+        // switches language mid-game so they don't have to wait for
+        // the next question to see the change take effect.
+        LocalizationManager.OnLanguageChanged += OnLanguageChanged;
+    }
+
+    private void OnDestroy()
+    {
+        LocalizationManager.OnLanguageChanged -= OnLanguageChanged;
+    }
+
+    private void OnLanguageChanged()
+    {
+        // Re-display the current question in the new language
+        if (!isWaiting && currentIndex < selectedQuestions.Count)
+            DisplayCurrentQuestion();
     }
 
     private void Start()
@@ -103,11 +134,27 @@ public class QuestionGeneratorBeta : MonoBehaviour
         }
 
         QuestionData picked = selectedQuestions[currentIndex];
-        QuestionDisplayBeta.newQuestion = picked.question;
-        QuestionDisplayBeta.newAnswerA = picked.answerA;
-        QuestionDisplayBeta.newAnswerB = picked.answerB;
-        QuestionDisplayBeta.newAnswerC = picked.answerC;
-        QuestionDisplayBeta.newAnswerD = picked.answerD;
+
+        // Pick Filipino or English text based on active language.
+        // Falls back to English if the Filipino field is empty.
+        bool useFilipino = LocalizationManager.Instance != null &&
+                           LocalizationManager.Instance.IsFilipino;
+
+        QuestionDisplayBeta.newQuestion = useFilipino && !string.IsNullOrEmpty(picked.questionFilipino)
+            ? picked.questionFilipino : picked.question;
+
+        QuestionDisplayBeta.newAnswerA = useFilipino && !string.IsNullOrEmpty(picked.answerAFilipino)
+            ? picked.answerAFilipino : picked.answerA;
+
+        QuestionDisplayBeta.newAnswerB = useFilipino && !string.IsNullOrEmpty(picked.answerBFilipino)
+            ? picked.answerBFilipino : picked.answerB;
+
+        QuestionDisplayBeta.newAnswerC = useFilipino && !string.IsNullOrEmpty(picked.answerCFilipino)
+            ? picked.answerCFilipino : picked.answerC;
+
+        QuestionDisplayBeta.newAnswerD = useFilipino && !string.IsNullOrEmpty(picked.answerDFilipino)
+            ? picked.answerDFilipino : picked.answerD;
+
         correctAnswer = picked.correctAnswer.Trim();
 
         QuestionDisplayBeta.Instance.ShowQuestion();

@@ -1,7 +1,10 @@
 fileFormatVersion: 2
-guid: 24483481de76af745bd34839b2fa3a44
+guid: c38f36071605f5c4da5011c8238f182b
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 4613369332385885323
+    second: Emby Ehh_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -39,11 +42,11 @@ TextureImporter:
     mipBias: 0
     wrapU: 1
     wrapV: 1
-    wrapW: 0
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -121,12 +124,34 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Emby Ehh_0
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 579
+        width: 4609
+        height: 6105
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b8caa8217faf50040800000000000000
+      internalID: 4613369332385885323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Emby Ehh_0: 4613369332385885323
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

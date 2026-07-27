@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8286037706161777944
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7783143835586717481}
+  - component: {fileID: 9102222329191239428}
+  m_Layer: 0
+  m_Name: NekoCompanion
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7783143835586717481
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8286037706161777944}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9102222329191239428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8286037706161777944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c9deb613e94c7040bdea6615ecf861f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CatCompanion
+  catImage: {fileID: 0}
+  idleSprite: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
+  correctSprite: {fileID: 21300000, guid: 66b1fa522f7127144aa490ad162fbccd, type: 3}
+  wrongSprite: {fileID: 21300000, guid: ed0d21f3f18a4d84ab0c45550f41bb3d, type: 3}
+  hintSprite: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
+  completionSprite: {fileID: 0}
+  speechBubble: {fileID: 0}
+  speechText: {fileID: 0}
+  idleLines:
+  - Hmmm... What could be the correct answer??
+  - Think carefully!
+  - You got this!
+  - Take your time!
+  idleLinesFilipino:
+  - Hmm.. Ano kaya ang tamang sagot
+  - Pag isipan mong mabuti!
+  - Kaya mo yan!
+  - Huwag kang mag madali!
+  correctLines:
+  - Yay! That's right Nya!
+  - Woohoo! Correct!
+  - You're so smart! Nya!
+  - Amazing! Keep it up!
+  - 'Purrfeect!! '
+  correctLinesFilipino:
+  - Yay! Tama nyan!
+  - Woohoo! Tama!
+  - Ang talino mo nya!
+  - Ang galing! Pag patuloy mo pa!
+  - Purrfeect!
+  wrongLines:
+  - Huh? That's wrong?
+  - Ughhh.. That's bad.
+  - 'So close! '
+  - Oh no!
+  wrongLinesFilipino:
+  - Huh? Mali yun?
+  - Ughh... Masama ito..
+  - Sayang!
+  - 'Hala! '
+  hintLines:
+  - Nya? What could be the answer?
+  - Purr leasse give us help!
+  - You use a hint. Choose wisely!
+  hintLinesFilipino:
+  - Nya? Ano kaya ang tamang sagot?
+  - Purr leasse tulungan mo kami!
+  - Gumamit ka na ng hint. Mag ingat ka sa pag pili ng sagot.
+  completionLines:
+  - Wow! You beat the tower!
+  - Whew that was tough but it was fun!
+  - 'YAY! WE Did It! '
+  completionLinesFilipino:
+  - Wow! Natapos mo ang tore!
+  - Whew ang hirap nun, pero ang saya!
+  - YAY! Nagawa NATIN!
+  reactionDelay: 0.5
+  typewriterSpeed: 0.04

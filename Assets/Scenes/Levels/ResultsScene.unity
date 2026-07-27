@@ -4592,7 +4592,6 @@ Transform:
   m_Children:
   - {fileID: 1478321624}
   - {fileID: 1701492223}
-  - {fileID: 8799645653481646885}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1129578198
@@ -5821,10 +5820,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Ohhh you found 1 of the recipe pages scattered around the tower. Check
-    the library to see what recipe you unlocked.
-
-    curious why not check it out?'
+  m_text: Ohhh you found 1 of the recipe pages scattered around the tower. Check
+    the library to see what recipe you unlocked. Curious why not check it out?
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b76c72b16f27afc4aa8557cf20fd04b6, type: 2}
   m_sharedMaterial: {fileID: -6078078171837885563, guid: b76c72b16f27afc4aa8557cf20fd04b6, type: 2}
@@ -10470,14 +10467,15 @@ MonoBehaviour:
   rewardsContainer: {fileID: 2116481102}
   rewardItems:
   - rewardName: RuneKey
+    rewardType: 0
     rewardButton: {fileID: 182641167}
     rewardModal: {fileID: 1883701795}
   - rewardName: RecipePage
+    rewardType: 0
     rewardButton: {fileID: 212235801}
     rewardModal: {fileID: 209573822}
   tapToContinueButton: {fileID: 473828788}
   nextSceneName: MainMenu
-  replenishThreshold: 0.85
 --- !u!1 &2080162592
 GameObject:
   m_ObjectHideFlags: 0
@@ -11465,23 +11463,6 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
---- !u!1 &1294094107457393368
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8799645653481646885}
-  - component: {fileID: 1698663855334025432}
-  m_Layer: 0
-  m_Name: DevCheatToolScript
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &1310751057902637708
 GameObject:
   m_ObjectHideFlags: 0
@@ -11631,41 +11612,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5903898116417819483}
   m_CullTransparentMesh: 1
---- !u!114 &1698663855334025432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1294094107457393368}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa778a9b58f800448a99eb668f685c16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DevCheatTool
-  cheatPanel: {fileID: 926924175719109611}
-  toggleButton: {fileID: 7655993202060242350}
-  closeButton: {fileID: 3115720763692375085}
-  addRuneKeyButton: {fileID: 2002281313609005311}
-  maxRuneKeysButton: {fileID: 1785055350981326534}
-  zeroRuneKeysButton: {fileID: 6615244867900830585}
-  setScoreStage1Button: {fileID: 2553279643397629204}
-  setScoreStage2Button: {fileID: 5522220397479793620}
-  setScoreStage3Button: {fileID: 532882757578366983}
-  scoreInputField: {fileID: 7645661346180397481}
-  unlockBadgesStage1Button: {fileID: 0}
-  unlockBadgesStage2Button: {fileID: 0}
-  unlockBadgesStage3Button: {fileID: 0}
-  unlockAllTowersButton: {fileID: 3844720782712219660}
-  lockAllTowersButton: {fileID: 6931898742624221829}
-  skipWaitTimerButton: {fileID: 5649316956809043888}
-  unlockAllRecipesButton: {fileID: 42703655317401337}
-  lockAllRecipesButton: {fileID: 2437930771331153374}
-  unlockAllBadgesButton: {fileID: 4648811923643790254}
-  clearAllBadgesButton: {fileID: 3174465617779985133}
-  resetEverythingButton: {fileID: 3017791926026614612}
-  feedbackText: {fileID: 4753376289655383674}
-  enableInBuild: 0
 --- !u!114 &1707424765822642660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16086,25 +16032,6 @@ RectTransform:
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 235.9, y: -1116.753}
   m_SizeDelta: {x: 471.8, y: 219.4}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!224 &8799645653481646885
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1294094107457393368}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.349106, y: 0.349106, z: 0.349106}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1125685603}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.6272583, y: 222.22766}
-  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8802837977218027393
 GameObject:

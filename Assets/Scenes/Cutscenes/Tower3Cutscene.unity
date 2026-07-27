@@ -1189,9 +1189,11 @@ MonoBehaviour:
     customSpeakerName: 
     dialogueText: Yosshaaa! Another recipe has been recovered! You are getting good
       at this {player}!
+    filipinoText: Yosshaaa! Isa na namang recipe page ang nabawi! Ang galing mo na
+      talaga, {player}!
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 21300000, guid: 66b1fa522f7127144aa490ad162fbccd, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1214,9 +1216,10 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: 
     dialogueText: 'Ara? What recipe did you get this time? '
+    filipinoText: Ara? Anong recipe naman ang nakuha mo ngayon?
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: -1362437897567091854, guid: 0125f37827e2a4c4a9a27fbf7650cc59, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1239,9 +1242,10 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: 
     dialogueText: Oh! It's the Club House Sandwhich recipe!
+    filipinoText: Oh! Recipe pala ito ng Clubhouse Sandwich!
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 21300000, guid: 24483481de76af745bd34839b2fa3a44, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1265,9 +1269,11 @@ MonoBehaviour:
     customSpeakerName: 
     dialogueText: I never seen that kind of sandwhich. The one I know is bread and
       meat and bread again. But that sandwhich has three layers. THREE!
+    filipinoText: Hindi pa ako nakakakita ng ganyang sandwich. Ang alam ko, tinapay,
+      karne, tapos tinapay ulit. Pero ito... tatlong patong! TATLO!
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1290,9 +1296,10 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: 
     dialogueText: Is that kinda excessive? Plus it has many ingredient in it.
+    filipinoText: Hindi ba parang sobra naman 'yan? Ang dami pa nitong sangkap.
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 4613369332385885323, guid: c38f36071605f5c4da5011c8238f182b, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1316,9 +1323,12 @@ MonoBehaviour:
     customSpeakerName: 
     dialogueText: It fits more ingredients that way! Not only that it has Vegetables,
       protein, fiber all in one! Which can be done in one bite!
+    filipinoText: "Iyon nga ang maganda! Mas maraming sangkap ang kasya! May gulay,
+      protina, at fiber pa\u2014lahat sa isang sandwich! Isang kagat lang, kumpleto
+      na!\""
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: -2101606179557248710, guid: 3bbc0cd91b4224547a3088bffc13f955, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1342,9 +1352,11 @@ MonoBehaviour:
     customSpeakerName: 
     dialogueText: Ughh... I want to try it but my mouth is not that wide open for
       this sandwhich Sienna.
+    filipinoText: Ughh... Gusto ko sanang tikman, pero hindi naman ganoon kalaki
+      ang bibig ko, Sienna.
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 21300000, guid: ed0d21f3f18a4d84ab0c45550f41bb3d, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1367,9 +1379,10 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: 
     dialogueText: You just have a tiny mouth Emby.
+    filipinoText: Maliit lang talaga ang bibig mo, Emby.
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 21300000, guid: 24483481de76af745bd34839b2fa3a44, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1392,9 +1405,10 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: 
     dialogueText: Uhhhhh.... That's a let down, but you are right...
+    filipinoText: Uhhhhh... Nakakalungkot naman... pero tama ka... Hayst...
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 4613369332385885323, guid: c38f36071605f5c4da5011c8238f182b, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1417,9 +1431,10 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: 
     dialogueText: Can I be honest with you {player}? Just for a moment.
+    filipinoText: Pwede ba akong maging tapat sa'yo sandali, {player}?"
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: -7024112249979172348, guid: 64a2f12449ecf564a84605f468f09b63, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1441,11 +1456,13 @@ MonoBehaviour:
   - character: {fileID: 186856291}
     useCustomSpeakerName: 0
     customSpeakerName: 
-    dialogueText: When I was travelling the world eating everything I could find...
-      I forgot to take care of myself. I easily got tired, heavy, and sick.
+    dialogueText: When I traveled the world tasting different foods, I forgot to
+      take care of myself. I got tired easily and often became sick.
+    filipinoText: Noong naglalakbay ako at tumitikim ng iba't ibang pagkain, nakalimutan
+      kong alagaan ang sarili ko. Madali akong mapagod at magkasakit.
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: -7024112249979172348, guid: 64a2f12449ecf564a84605f468f09b63, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1469,9 +1486,12 @@ MonoBehaviour:
     customSpeakerName: 
     dialogueText: 'I got so fat that one time a farmer genuinely tried to put me
       in a pen with his rabbit pet. HE REALLY THOUGHT I WAS A FAT RABBIT! '
+    filipinoText: Tumaba pa nga ako nang husto, akala talaga ng isang magsasaka isa
+      akong matabang kuneho! Isasama na sana niya ako sa kulungan ng alaga niyang
+      kuneho!
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 2714347358834775429, guid: 8a203a67669c120449e84f110620d9d2, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1495,9 +1515,11 @@ MonoBehaviour:
     customSpeakerName: 
     dialogueText: Well eating too much and unhealthy food will result to that kinda
       of situation~
+    filipinoText: Aba, kapag naparami ang pagkain ng hindi masustansyang pagkain,
+      puwedeng mauwi talaga sa ganyang sitwasyon~
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 3955470843362796982, guid: 4756c828401aeb64e8c9554097ccd465, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1519,14 +1541,13 @@ MonoBehaviour:
   - character: {fileID: 186856291}
     useCustomSpeakerName: 0
     customSpeakerName: 
-    dialogueText: 'Well that is half true Emby. The point is food is not just about
-      enjoyment. It is
-
-      about taking care of the wonderful body that carries
-      you through life.'
+    dialogueText: You have a point, Emby. But food isn't just for enjoyment. It's
+      also how we take care of our bodies.
+    filipinoText: May punto ka, Emby. Pero ang pagkain ay hindi lang para sa kasiyahan.
+      Para rin ito sa pag-aalaga sa ating katawan.
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: -7024112249979172348, guid: 64a2f12449ecf564a84605f468f09b63, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1550,9 +1571,11 @@ MonoBehaviour:
     customSpeakerName: 
     dialogueText: Wow that's some speech...That's actually really cool Sienna. You
       spoke like a Hero in books we used to read!
+    filipinoText: Wow... Ang ganda naman no'n. Ang astig mo, Sienna. Para kang mga
+      bayani sa mga librong dati nating binabasa!
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 21300000, guid: 66b1fa522f7127144aa490ad162fbccd, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1575,9 +1598,11 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: 
     dialogueText: 'D-don''t make it weird! Go help {player} finish the last tower. '
+    filipinoText: H-Huwag mo nga akong- Nakakahiya Emby- Tulungan mo na si {player}
+      na tapusin ang huling tore.
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 21300000, guid: e11ba7758047c2d429ff471c32ddfa62, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1600,9 +1625,11 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: 
     dialogueText: Sure thing! Let's finish this, to the last tower!
+    filipinoText: Siyempre! Tara na, tapusin na natin ito! Papunta na tayo sa huling
+      tore!
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1626,9 +1653,11 @@ MonoBehaviour:
     customSpeakerName: 
     dialogueText: 'Before you two go, thank you for helping me this far. I meant
       it, {player}, the last tower is waiting. '
+    filipinoText: Bago kayo umalis, maraming salamat sa lahat ng naitulong ninyo.
+      Taos-puso kong ibig sabihin iyon, {player}. Hinihintay na kayo ng huling tore.
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: -7024112249979172348, guid: 64a2f12449ecf564a84605f468f09b63, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1651,9 +1680,11 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: 
     dialogueText: Be sure to prepare and take some rest before challenging it.
+    filipinoText: Siguraduhin ninyong handa kayo at nakapagpahinga bago ninyo harapin
+      ang hamon nito.
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: -2101606179557248710, guid: 3bbc0cd91b4224547a3088bffc13f955, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1677,9 +1708,12 @@ MonoBehaviour:
     customSpeakerName: 
     dialogueText: I will pray for you two for your success, {player}, the hero of
       another world, and Emby my friend and hero of this world.
+    filipinoText: "Ipagdarasal ko ang tagumpay ninyong dalawa\u2014ikaw, {player},
+      ang bayani mula sa ibang mundo, at ikaw naman, Emby, ang aking kaibigan at
+      bayani ng mundong ito.\""
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 21300000, guid: 24483481de76af745bd34839b2fa3a44, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1698,14 +1732,16 @@ MonoBehaviour:
     excludeDialogueBoxFromBlackout: 0
     hideDialoguePanel: 0
     openNameInputAfterThisLine: 0
-  - character: {fileID: 186856291}
+  - character: {fileID: 2068079846}
     useCustomSpeakerName: 0
     customSpeakerName: 
     dialogueText: Yeah we got it! This is what heroes do! Right {player}? I will
       be waiting for you in the Tower 4!
+    filipinoText: Ayos! Kaya natin 'to! Ganiyan ang ginagawa ng mga bayani, hindi
+      ba, {player}? Hihintayin kita sa Tower 4!
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 21300000, guid: 66b1fa522f7127144aa490ad162fbccd, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1725,7 +1761,11 @@ MonoBehaviour:
     hideDialoguePanel: 0
     openNameInputAfterThisLine: 0
   autoStartOnAwake: 1
-  autoAdvanceToCutsceneOnEnd: 1
+  minTimeBetweenTaps: 0.15
+  autoAdvanceOnEnd: 1
+  onFinishLoadSceneAsset: {fileID: 102900000, guid: b511cb600657ed54d9664ff5d3d8ca70, type: 3}
+  onFinishLoadScene: ResultsScene
+  onFinishUseLoadingScreen: 0
   dialogueSceneID: 
 --- !u!224 &997854512469007351
 RectTransform:
@@ -1833,8 +1873,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12.3
-  m_fontSizeBase: 12.3
+  m_fontSize: 11
+  m_fontSizeBase: 11
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

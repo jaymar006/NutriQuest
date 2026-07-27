@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e08b9c1e1d288749919a7bea370c2e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SquishSquashManager
-  transformToAffect: {fileID: 0}
+  transformToAffect: {fileID: 31360647}
   axisToAffect: 2
   animationDuration: 0.25
   canBeOverwritten: 0
@@ -725,7 +725,7 @@ MonoBehaviour:
   buttonGroups:
   - groupName: BackButton
     soundClip: {fileID: 8300000, guid: 7a66cbf2e4726134dbacbd356bd45b5b, type: 3}
-    buttonParent: {fileID: 856366336}
+    buttonParent: {fileID: 0}
     cachedButtons: []
   - groupName: Hint
     soundClip: {fileID: 8300000, guid: 1e6924876a7fe1b43b6dcbeee674e4c8, type: 3}
@@ -1122,7 +1122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54248f87161668841886185bc9ef485e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QuitButton
-  targetScene: {fileID: 0}
+  targetScene: {fileID: 102900000, guid: aa9431d2b1eeac140a59082124d31abd, type: 3}
   targetSceneName: MainMenu
   quitButton: {fileID: 31360649}
   useFade: 1
@@ -1902,7 +1902,7 @@ RectTransform:
   - {fileID: 471319509}
   - {fileID: 1405524283}
   - {fileID: 158910233}
-  - {fileID: 856366336}
+  - {fileID: 638491640}
   - {fileID: 1475436129}
   - {fileID: 432111387}
   - {fileID: 908303084}
@@ -2449,7 +2449,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BackButtonModalManager
   modalQueue:
-  - {fileID: 908303085}
+  - {fileID: 0}
 --- !u!1 &499964671
 GameObject:
   m_ObjectHideFlags: 0
@@ -2814,6 +2814,165 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 598588475}
+  m_CullTransparentMesh: 1
+--- !u!1 &638491639
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 638491640}
+  - component: {fileID: 638491644}
+  - component: {fileID: 638491643}
+  - component: {fileID: 638491642}
+  - component: {fileID: 638491641}
+  m_Layer: 0
+  m_Name: Button
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &638491640
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638491639}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 5.4462, y: 5.4462, z: 5.4462}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 388748997}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 435, y: 840}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &638491641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638491639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f59a25f5474fe4488238009b05cf72f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOff
+  modal: {fileID: 908303085}
+  backButtonManager: {fileID: 485410220}
+--- !u!114 &638491642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638491639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 638491643}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 638491641}
+        m_TargetAssemblyTypeName: ModalOnAndOff, Assembly-CSharp
+        m_MethodName: OpenModal
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &638491643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638491639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 3830565682483415335, guid: 169981ea14d17704e91a67575ca1783d, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &638491644
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638491639}
   m_CullTransparentMesh: 1
 --- !u!1 &642017097
 GameObject:
@@ -3706,128 +3865,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOF
   modal: {fileID: 908303085}
   backButtonManager: {fileID: 0}
---- !u!1001 &856366335
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 388748997}
-    m_Modifications:
-    - target: {fileID: 4629166870942615901, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: targetSceneName
-      value: MainMenu
-      objectReference: {fileID: 0}
-    - target: {fileID: 4629166870942615901, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: targetSceneAsset
-      value: 
-      objectReference: {fileID: 102900000, guid: aa9431d2b1eeac140a59082124d31abd, type: 3}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_Pivot.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_Pivot.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 152
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 152
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.261599
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.261599
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.261599
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6611895034008547675, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_Name
-      value: Back Button
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
---- !u!224 &856366336 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-  m_PrefabInstance: {fileID: 856366335}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &870132840
 GameObject:
   m_ObjectHideFlags: 0
@@ -4211,192 +4248,363 @@ MonoBehaviour:
     answerC: No need to drink water
     answerD: No need to eat vegetables
     correctAnswer: B
+    questionFilipino: Ano ang magandang epekto ng pagkain ng prutas araw-araw?
+    answerAFilipino: Mas maraming asukal sa dugo
+    answerBFilipino: Mas maraming bitamina at fiber na nakukuha ng katawan
+    answerCFilipino: Hindi na kailangang uminom ng tubig
+    answerDFilipino: Hindi na kailangang kumain ng gulay
   - question: What is the effect of eating too much junk food like chips?
     answerA: Stronger body
     answerB: Better skin
     answerC: Weight gain and health problems
     answerD: 'Faster growth '
     correctAnswer: C
+    questionFilipino: Ano ang maaaring maging epekto ng sobrang pagkain ng junk food
+      tulad ng chips?
+    answerAFilipino: Mas lalakas ang katawan
+    answerBFilipino: Mas gaganda ang balat
+    answerCFilipino: Pagtaba at mga problema sa kalusugan
+    answerDFilipino: Mas bibilis ang paglaki
   - question: 'Which food is rich in fiber to help digestion? '
     answerA: White rice
     answerB: Oatmeal
     answerC: Soda
     answerD: 'Candy '
     correctAnswer: B
+    questionFilipino: Aling pagkain ang mayaman sa fiber na tumutulong sa maayos
+      na pagtunaw ng pagkain?
+    answerAFilipino: Puting kanin
+    answerBFilipino: Oatmeal
+    answerCFilipino: Soft drinks
+    answerDFilipino: Kendi
   - question: Which food is rich in vitamin C, good for immunity?
     answerA: Soda
     answerB: Biscuit
     answerC: Orange
     answerD: Lollipop
     correctAnswer: C
+    questionFilipino: Aling pagkain ang mayaman sa bitamina C na mabuti para sa panlaban
+      ng katawan?
+    answerAFilipino: Soft drinks
+    answerBFilipino: Biskwit
+    answerCFilipino: Kahel (Orange)
+    answerDFilipino: Lollipop
   - question: 'Which food is a healthy "Go" food in the Food Pyramid? '
     answerA: Cupcake
     answerB: Donut
     answerC: Pork rinds
     answerD: Rice
     correctAnswer: D
+    questionFilipino: Aling pagkain ang isang masustansyang "Go" food sa Food Pyramid?
+    answerAFilipino: Cupcake
+    answerBFilipino: Donut
+    answerCFilipino: Chicharon
+    answerDFilipino: Kanin
   - question: Which should you eat every day, not just occasionally?
     answerA: Vegetables
     answerB: French fries
     answerC: Chocolate
     answerD: Soft drinks
     correctAnswer: A
+    questionFilipino: Alin ang dapat kainin araw-araw, hindi paminsan-minsan lang?
+    answerAFilipino: Mga gulay
+    answerBFilipino: French fries
+    answerCFilipino: ' Tsokolate'
+    answerDFilipino: Soft drinks
   - question: 'What is a good way to make juice less sweet? '
     answerA: Add more sugar
     answerB: Dilute it with water to reduce sweetness
     answerC: Drink a lot right away
-    answerD: 'Tocino '
+    answerD: Add coffee
     correctAnswer: C
+    questionFilipino: Ano ang mabuting paraan upang mabawasan ang tamis ng juice?
+    answerAFilipino: Magdagdag pa ng asukal
+    answerBFilipino: Haluan ng tubig upang mabawasan ang tamis
+    answerCFilipino: Inumin agad nang marami
+    answerDFilipino: Lagyan ng kape
   - question: What is the main benefit of "Grow" foods like fish?
     answerA: Provide energy
     answerB: Strengthen only teeth
     answerC: Improve sleep
     answerD: Help the body and muscles grow
     correctAnswer: D
+    questionFilipino: Ano ang pangunahing pakinabang ng mga "Grow" na pagkain tulad
+      ng isda?
+    answerAFilipino: Nagbibigay ng enerhiya
+    answerBFilipino: Pinapalakas lamang ang ngipin
+    answerCFilipino: Pinapaganda ang tulog
+    answerDFilipino: Tumutulong sa paglaki ng katawan at kalamnan
   - question: "Why shouldn\u2019t we always eat junk food?"
-    answerA: Because it has no taste
+    answerA: Because you could be blind
     answerB: "Because it\u2019s always cheap"
     answerC: Because it is high in sugar, fat, and salt but low in nutrients
     answerD: "Because it\u2019s harder to eat "
     correctAnswer: C
+    questionFilipino: Bakit hindi dapat laging kumain ng junk food?
+    answerAFilipino: 'Dahil mabubulag ka '
+    answerBFilipino: Dahil palagi itong mura
+    answerCFilipino: Dahil mataas ito sa asukal, taba, at asin ngunit mababa sa sustansya
+    answerDFilipino: Dahil mas mahirap itong kainin
   - question: 'Why is water important in our diet?  '
     answerA: To make food taste sweet
     answerB: 'To make food delicious '
     answerC: To replace milk
     answerD: To keep the body hydrated and healthy
     correctAnswer: D
+    questionFilipino: Bakit mahalaga ang pag-inom ng tubig?
+    answerAFilipino: Para tumamis ang pagkain
+    answerBFilipino: Para mas sumarap ang pagkain
+    answerCFilipino: Pamalit sa gatas
+    answerDFilipino: Para manatiling hydrated at malusog ang katawan
   - question: What type of fat should be limited in food?
     answerA: Healthy fats from peanuts
     answerB: Healthy fats from avocado
     answerC: 'Healthy fats from fish '
     answerD: Fat from fried chicharon and fast food
     correctAnswer: D
+    questionFilipino: Anong uri ng taba ang dapat limitahan sa pagkain?
+    answerAFilipino: Masustansyang taba mula sa mani
+    answerBFilipino: Masustansyang taba mula sa avocado
+    answerCFilipino: Masustansyang taba mula sa isda
+    answerDFilipino: Taba mula sa pritong chicharon at fast food
   - question: 'What can happen if you rarely eat fruits and vegetables? '
     answerA: Always feel full and happy
     answerB: Lack vitamins and get sick more easily
     answerC: Become strong right away
     answerD: 'Grow taller faster '
     correctAnswer: B
+    questionFilipino: Ano ang maaaring mangyari kung bihira kang kumain ng prutas
+      at gulay?
+    answerAFilipino: Laging busog at masaya
+    answerBFilipino: Magkukulang sa bitamina at mas madaling magkasakit
+    answerCFilipino: Agad na lalakas ang katawan
+    answerDFilipino: Mas bibilis ang paglaki ng tangkad
   - question: 'Which food is rich in calcium for strong bones? '
     answerA: 'Yellow mango '
     answerB: Milk
     answerC: 'Soda '
     answerD: Sweet bread
     correctAnswer: B
+    questionFilipino: Aling pagkain ang mayaman sa calcium para sa matitibay na buto?
+    answerAFilipino: Dilaw na mangga
+    answerBFilipino: Gatas
+    answerCFilipino: Soft drinks
+    answerDFilipino: Matamis na tinapay
   - question: What should you choose for a healthier snack?
     answerA: 'Three donuts '
     answerB: Whole grain crackers with cheese
     answerC: Ice cream every day
     answerD: Large bag of chips
     correctAnswer: B
+    questionFilipino: Ano ang mas mabuting piliin bilang masustansyang meryenda?
+    answerAFilipino: Tatlong donut
+    answerBFilipino: Whole grain crackers na may keso
+    answerCFilipino: Ice cream araw-araw
+    answerDFilipino: Malaking pakete ng chips
   - question: ' Why should we limit foods high in salt?'
     answerA: They provide vitamins
     answerB: They strengthen the body
     answerC: They taste good
     answerD: They can cause high blood pressure
     correctAnswer: D
+    questionFilipino: Bakit dapat limitahan ang mga pagkaing mataas sa asin?
+    answerAFilipino: Nagbibigay ito ng mga bitamina
+    answerBFilipino: Pinapalakas nito ang katawan
+    answerCFilipino: Masarap ang lasa nito
+    answerDFilipino: Maaari itong magdulot ng altapresyon (high blood pressure)
   - question: Where are foods like sugar and oil found in the Food Pyramid?
     answerA: Base (widest part)
     answerB: Top (smallest part)
     answerC: Not included in the pyramid
     answerD: 'Middle '
     correctAnswer: B
+    questionFilipino: Saan makikita ang mga pagkaing tulad ng asukal at mantika sa
+      Food Pyramid?
+    answerAFilipino: Sa pinakailalim (pinakamalawak na bahagi)
+    answerBFilipino: Sa pinakataas (pinakamaliit na bahagi)
+    answerCFilipino: Wala ang mga ito sa Food Pyramid
+    answerDFilipino: Sa gitnang bahagi
   - question: "If you\u2019re going on a field trip, what should you pack for lunch? "
     answerA: Chips and soda
     answerB: Sweet bread and energy drink
     answerC: Sandwich with vegetables and water
     answerD: Candy and ice cream
     correctAnswer: C
+    questionFilipino: Kung pupunta ka sa field trip, ano ang dapat mong ibaon para
+      sa tanghalian?
+    answerAFilipino: Chips at soft drinks
+    answerBFilipino: Matamis na tinapay at energy drink
+    answerCFilipino: Sandwich na may gulay at tubig
+    answerDFilipino: Kendi at sorbetes
   - question: "Why shouldn\u2019t we always eat junk food?"
     answerA: Because it has no taste
     answerB: "Because it\u2019s always cheap"
     answerC: Because it is high in sugar, fat, and salt but low in nutrients
     answerD: "Because it\u2019s harder to eat"
     correctAnswer: C
+    questionFilipino: Bakit hindi dapat laging kumain ng junk food?
+    answerAFilipino: 'Dahil wala itong lasa '
+    answerBFilipino: Dahil palagi itong mura
+    answerCFilipino: Dahil mataas ito sa asukal, taba, at asin ngunit mababa sa sustansya
+    answerDFilipino: Dahil mas mahirap itong kainin
   - question: What is the main purpose of the Pinggang Pinoy?
     answerA: To teach cooking
     answerB: To provide tasty food
     answerC: To show expensive foods
     answerD: 'To teach balanced eating for health '
     correctAnswer: D
+    questionFilipino: 'Ano ang pangunahing layunin ng Pinggang Pinoy? '
+    answerAFilipino: Magturo ng pagluluto
+    answerBFilipino: 'Magbigay ng masasarap na pagkain '
+    answerCFilipino: 'Magpakita ng mamahaling pagkain '
+    answerDFilipino: ' Magturo ng balanseng pagkain para sa mabuting kalusugan '
   - question: Which is a healthier rice choice?
     answerA: Rice and chocolate
     answerB: Rice with lots of oil and hotdog
     answerC: Rice and potato chips
     answerD: White rice with a little vegetables on top
     correctAnswer: D
+    questionFilipino: Alin ang mas masustansyang pagpipilian na may kanin?
+    answerAFilipino: 'Kanin at tsokolate '
+    answerBFilipino: 'Kanin na maraming mantika at hotdog '
+    answerCFilipino: 'Kanin na may potato chips '
+    answerDFilipino: 'Puting kanin na may kaunting gulay sa ibabaw '
   - question: 'When preparing packed lunch for a field trip, which is the most balanced? '
     answerA: 'Cake and juice '
     answerB: Rice, grilled chicken, fruit, and water
     answerC: 'Chips, soft drinks, and candy '
     answerD: Donut and energy drink
     correctAnswer: B
+    questionFilipino: Kapag naghahanda ng baon para sa field trip, alin ang may pinakabalanseng
+      pagkain?
+    answerAFilipino: 'Keyk at juice '
+    answerBFilipino: 'Kanin, inihaw na manok, prutas, at tubig '
+    answerCFilipino: Chips, soft drinks, at kendi
+    answerDFilipino: Donut at energy drink
   - question: Which is the healthiest drink for kids?
     answerA: Energy drink
     answerB: Milk
     answerC: Soda
     answerD: Sweetened juice
     correctAnswer: B
+    questionFilipino: Alin ang pinakamalusog na inumin para sa mga bata?
+    answerAFilipino: 'Energy drink '
+    answerBFilipino: 'Gatas '
+    answerCFilipino: Soft drinks
+    answerDFilipino: 'Matamis na juice '
   - question: Which is a junk food high in sugar?
     answerA: Spinach
     answerB: 'Rice '
     answerC: Chicken
     answerD: Chocolate bar
     correctAnswer: D
+    questionFilipino: 'Alin ang junk food na mataas sa asukal? '
+    answerAFilipino: 'Espinaka '
+    answerBFilipino: Kanin
+    answerCFilipino: 'Manok '
+    answerDFilipino: 'Chocolate bar '
   - question: "What kind of \u201CGrow\u201D food helps strengthen muscles?"
     answerA: Only fruits and vegetables
     answerB: Fish, meat, eggs, and beans
     answerC: Candy and chocolate
     answerD: Soft drinks and juice
     correctAnswer: B
+    questionFilipino: 'Anong uri ng "Grow" na pagkain ang nakatutulong sa pagpapalakas
+      ng kalamnan? '
+    answerAFilipino: 'Mga prutas at gulay lamang '
+    answerBFilipino: 'Isda, karne, itlog, at munggo '
+    answerCFilipino: 'Kendi at tsokolate '
+    answerDFilipino: 'Soft drinks at juice '
   - question: Which is a healthy food that comes from plants?
-    answerA: Tokwa (tofu)
+    answerA: Tofu
     answerB: Bacon
     answerC: Ham
     answerD: Tocino
     correctAnswer: A
+    questionFilipino: 'Alin ang masustansyang pagkain na galing sa halaman? '
+    answerAFilipino: 'Tokwa '
+    answerBFilipino: Bacon
+    answerCFilipino: 'Hamon '
+    answerDFilipino: 'Tocino '
   - question: Which is a healthy snack for kids?
     answerA: Sweet bread
     answerB: Chocolate syrup
     answerC: Sticky rice (suman)
     answerD: Soda
     correctAnswer: C
+    questionFilipino: 'Alin ang masustansyang meryenda para sa mga bata? '
+    answerAFilipino: 'Matamis na tinapay '
+    answerBFilipino: 'Chocolate syrup '
+    answerCFilipino: 'Suman '
+    answerDFilipino: Soft drinks
   - question: 'If you want to be more active during the day, which breakfast to '
     answerA: No food, straight to play
     answerB: Candy and soft drinks
     answerC: Donut and coffee
     answerD: Rice, egg, and a fruit
     correctAnswer: D
+    questionFilipino: Kung gusto mong maging mas aktibo sa buong araw, aling agahan
+      ang papiliin mo?
+    answerAFilipino: Walang pagkain, diretso laro agad
+    answerBFilipino: Kendi at soft drinks
+    answerCFilipino: Donut at kape
+    answerDFilipino: Kanin, itlog, at prutas
   - question: 'Which food should be limited because it is high in salt? '
     answerA: Stir-fried vegetables
     answerB: Chicharon
     answerC: Banana
     answerD: Fresh fish
     correctAnswer: B
+    questionFilipino: 'Aling pagkain ang dapat limitahan dahil mataas sa asin? '
+    answerAFilipino: 'Ginisang gulay '
+    answerBFilipino: 'Chicharon '
+    answerCFilipino: Saging
+    answerDFilipino: 'Sariwang isda '
   - question: Which vitamin in carrots is good for eyesight?
     answerA: Vitamin B
     answerB: Vitamin D
     answerC: Vitamin E
     answerD: 'Vitamin A  '
     correctAnswer: D
+    questionFilipino: Anong bitamina sa karot ang mabuti para sa paningin?
+    answerAFilipino: 'Bitamina B '
+    answerBFilipino: Bitamina D
+    answerCFilipino: Bitamina E
+    answerDFilipino: 'Bitamina A '
   - question: Why are fruits like mangoes important for our body?
     answerA: They make blood sweet
     answerB: 'They make us gain weight '
     answerC: hey provide vitamin C and boost immunity
     answerD: They improve taste
     correctAnswer: C
+    questionFilipino: 'Bakit mahalaga sa ating katawan ang mga prutas tulad ng mangga? '
+    answerAFilipino: 'Pinapatamis nito ang dugo '
+    answerBFilipino: 'Nagpapataba ito '
+    answerCFilipino: 'Nagbibigay ito ng bitamina C at nagpapalakas ng panlaban ng
+      katawan '
+    answerDFilipino: Pinapasarap nito ang pagkain
   - question: Which is a healthy snack for kids?
     answerA: Sweet bread
     answerB: Chocolate syrup
     answerC: Sticky rice (suman)
     answerD: Soda
     correctAnswer: C
+    questionFilipino: Alin ang masustansyang meryenda para sa mga bata?
+    answerAFilipino: Matamis na tinapay
+    answerBFilipino: Chocolate syrup
+    answerCFilipino: Suman
+    answerDFilipino: Soft drinks
   - question: "Which of these is \u201Cjunk food\u201D?"
     answerA: Boiled corn
     answerB: Monggo stew
     answerC: Saba banana
     answerD: Very sweet kamote cue
     correctAnswer: D
+    questionFilipino: Alin sa mga ito ang itinuturing na "junk food"?
+    answerAFilipino: Nilagang mais
+    answerBFilipino: Ginisang monggo
+    answerCFilipino: Saging na saba
+    answerDFilipino: Matamis na kamote cue
   - question: If you notice you're always eating chips at night, what is better to
       do?
     answerA: Hide them to eat daily
@@ -4404,72 +4612,137 @@ MonoBehaviour:
     answerC: Replace with fruits or vegetable sticks sometimes
     answerD: Make chips your dinner
     correctAnswer: C
+    questionFilipino: Kung napapansin mong palagi kang kumakain ng chips sa gabi,
+      ano ang mas mabuting  gawin?
+    answerAFilipino: Itago ang chips para kainin araw-araw
+    answerBFilipino: Kumain pa ng mas maraming chips
+    answerCFilipino: Palitan ito ng prutas o hiniwang gulay paminsan-minsan
+    answerDFilipino: Gawing hapunan ang chips
   - question: What is a good effect of eating fruits every day?
     answerA: More sugar in the blood
     answerB: More vitamins and fiber for the body
     answerC: No need to drink water
     answerD: 'No need to eat vegetables '
     correctAnswer: B
+    questionFilipino: Ano ang magandang epekto ng pagkain ng prutas araw-araw?
+    answerAFilipino: 'Mas maraming asukal sa dugo '
+    answerBFilipino: 'Mas maraming bitamina at fiber na nakukuha ng katawan '
+    answerCFilipino: Hindi na kailangang uminom ng tubig
+    answerDFilipino: 'Hindi na kailangang kumain ng gulay '
   - question: 'Why is breakfast important?  '
     answerA: To eat lots of candy
     answerB: 'To drink lots of soft drinks '
     answerC: "So you don\u2019t eat at noon"
     answerD: 'To have energy for studying and playing in the morning '
     correctAnswer: D
+    questionFilipino: Bakit mahalagang kumain ng almusal?
+    answerAFilipino: 'Para makakain ng maraming kendi '
+    answerBFilipino: Para makainom ng maraming soft drinks
+    answerCFilipino: Para hindi na kumain ng tanghalian
+    answerDFilipino: 'Para magkaroon ng lakas sa pag-aaral at paglalaro sa umaga '
   - question: Which is the better drink to bring to school?
     answerA: Sweet powdered juice
     answerB: Water
     answerC: Soft drinks
     answerD: Energy drink
     correctAnswer: B
+    questionFilipino: Alin ang mas mainam na inumin na dalhin sa paaralan?
+    answerAFilipino: Matamis na powdered juice
+    answerBFilipino: 'Tubig '
+    answerCFilipino: 'Soft drinks '
+    answerDFilipino: Energy drink
   - question: Which is a healthy food that comes from animals?
     answerA: Candy bar
     answerB: Fish
     answerC: Ice cream
     answerD: Hotdog
     correctAnswer: B
+    questionFilipino: Alin ang masustansyang pagkaing galing sa hayop?
+    answerAFilipino: Chocolate bar
+    answerBFilipino: Keso
+    answerCFilipino: Ice cream
+    answerDFilipino: Hotdog
   - question: 'After playing basketball, what is the best drink? '
     answerA: Very sweet energy drink
     answerB: Soft drinks
     answerC: Sweet juice
     answerD: 'Water '
     correctAnswer: D
+    questionFilipino: 'Pagkatapos maglaro ng basketball, ano ang pinakamainam na
+      inumin? '
+    answerAFilipino: Napakatamis na energy drink
+    answerBFilipino: Soft drinks
+    answerCFilipino: 'Matamis na juice '
+    answerDFilipino: Tubig
   - question: What is the main purpose of the Pinggang Pinoy?
     answerA: To teach cooking
     answerB: To provide tasty food
     answerC: To show expensive foods
     answerD: To teach balanced eating for health
     correctAnswer: D
+    questionFilipino: Ano ang pangunahing layunin ng Pinggang Pinoy?
+    answerAFilipino: Magturo ng pagluluto
+    answerBFilipino: Magbigay ng masasarap na pagkain
+    answerCFilipino: Magpakita ng mamahaling pagkain
+    answerDFilipino: Magturo ng balanseng pagkain para sa mabuting kalusugan
   - question: Why should we limit foods high in salt?
     answerA: They provide vitamins
     answerB: They strengthen the body
     answerC: 'They taste good '
     answerD: They can cause high blood pressure
     correctAnswer: C
+    questionFilipino: Bakit dapat limitahan ang mga pagkaing mataas sa asin?
+    answerAFilipino: 'Nagbibigay ng bitamina '
+    answerBFilipino: Nagpapalakas ng katawan
+    answerCFilipino: 'Masarap ang lasa '
+    answerDFilipino: ' Maaari itong magdulot ng altapresyon (high blood pressure)'
   - question: Which is a healthier breakfast for kids?
     answerA: Sweet cereal and soda
     answerB: Bread with egg filling and a fruit
     answerC: Donut and soft drinks
     answerD: Candy and milk
     correctAnswer: B
+    questionFilipino: Alin ang mas masustansyang almusal para sa mga bata?
+    answerAFilipino: Matamis na cereal at soda
+    answerBFilipino: Tinapay na may palaman na itlog at prutas
+    answerCFilipino: Donut at soft drinks
+    answerDFilipino: Kendi at gatas
   - question: 'If you have too much junk food at home, what should you do? '
     answerA: Give it to a friend
     answerB: Replace it with healthier foods like fruits
     answerC: "Eat it all so it doesn\u2019t go to waste"
     answerD: Hide it to eat daily
     correctAnswer: B
+    questionFilipino: Kung napakarami ninyong junk food sa bahay, ano ang dapat mong
+      gawin?
+    answerAFilipino: Ibigay ito sa kaibigan
+    answerBFilipino: 'Palitan ito ng mas masustansiyang pagkain tulad ng mga prutas '
+    answerCFilipino: 'Kainin lahat para hindi masayang '
+    answerDFilipino: 'Itago para kainin araw-araw '
   - question: Why are green vegetables like pechay or kangkong important?
     answerA: To make food saltier
     answerB: To replace fruits
     answerC: To make the dish sweeter
     answerD: Because they have vitamins and minerals for the body
     correctAnswer: D
+    questionFilipino: 'Bakit mahalagang kumain ng mga berdeng gulay tulad ng pechay
+      at kangkong? '
+    answerAFilipino: Para mas umalat ang pagkain
+    answerBFilipino: Pamalit sa mga prutas
+    answerCFilipino: Para mas tumamis ang ulam
+    answerDFilipino: Dahil mayaman ang mga ito sa bitamina at mineral na kailangan
+      ng katawan
   - question: "If you\u2019re preparing breakfast, what\u2019s a healthy choice?"
     answerA: Sugary cereal and soda
     answerB: Pork rinds and soda
     answerC: Egg, rice, and fruit
     answerD: Cake and coffee
     correctAnswer: C
+    questionFilipino: 'Kung naghahanda ka ng almusal, alin ang masustansiyang pagpipilian? '
+    answerAFilipino: Matamis na cereal at soft drinks
+    answerBFilipino: 'Chicharon at soft drinks '
+    answerCFilipino: Itlog, kanin, at prutas
+    answerDFilipino: Keyk at kape
   - question: "If you\u2019re playing outside and feel hungry, what\u2019s the best
       snack?"
     answerA: Potato chips
@@ -4477,12 +4750,23 @@ MonoBehaviour:
     answerC: Soda
     answerD: Candy bar
     correctAnswer: B
+    questionFilipino: 'Kung naglalaro ka sa labas at nagugutom, ano ang pinakamainam
+      na meryenda? '
+    answerAFilipino: 'Potato chips '
+    answerBFilipino: Pakwan
+    answerCFilipino: 'Soft drinks '
+    answerDFilipino: 'Tsokolateng kendi (Candy bar) '
   - question: For lunch, which is the best to choose with rice?
     answerA: Fried hotdog only
     answerB: Chocolate and cake
     answerC: Chips and soft drinks
     answerD: Adobo with stir-fried vegetables
     correctAnswer: D
+    questionFilipino: Sa tanghalian, alin ang pinakamainam na ulam na ipares sa kanin?
+    answerAFilipino: 'Pritong hotdog lamang '
+    answerBFilipino: 'Tsokolate at keyk '
+    answerCFilipino: 'Chips at soft drinks '
+    answerDFilipino: 'Adobo at ginisang gulay '
   - question: "If you\u2019re sick, what\u2019s the best food to help you recover
       quickly? "
     answerA: Soda
@@ -4490,48 +4774,93 @@ MonoBehaviour:
     answerC: Pork rinds
     answerD: Chicken and vegetable soup
     correctAnswer: D
+    questionFilipino: Kung ikaw ay may sakit, anong pagkain ang makatutulong upang
+      mas mabilis kang  gumaling?
+    answerAFilipino: Soft drinks
+    answerBFilipino: 'Matamis na tinapay '
+    answerCFilipino: 'Chicharon '
+    answerDFilipino: Sopas na may manok at gulay
   - question: Before watching TV, which snack would you choose?
     answerA: Large bag of potato chips
     answerB: Two cans of soft drinksTwo cans of soft drinks
     answerC: Candy bar
     answerD: Sliced mango
     correctAnswer: D
+    questionFilipino: 'Bago manood ng telebisyon, anong meryenda ang pipiliin mo? '
+    answerAFilipino: Malaking pakete ng potato chips
+    answerBFilipino: Dalawang lata ng soft drinks
+    answerCFilipino: 'Tsokolateng kendi (Candy bar) '
+    answerDFilipino: Hiniwang mangga
   - question: At a party, which plate is healthier?
     answerA: Only pansit and soft drinks
     answerB: Only fried chicken with no vegetables
     answerC: A little rice, grilled fish, and vegetable salad
     answerD: Only cake and ice cream
     correctAnswer: C
+    questionFilipino: Sa isang handaan, alin ang mas masustansyang plato?
+    answerAFilipino: 'Pancit at soft drinks lamang '
+    answerBFilipino: 'Pritong manok lamang, walang gulay '
+    answerCFilipino: Kaunting kanin, inihaw na isda, at ensaladang gulay
+    answerDFilipino: 'Keyk at sorbetes lamang '
   - question: "If you\u2019re buying a snack, what should you choose?"
     answerA: Soda
     answerB: Ice cream
     answerC: Sticky rice and mango
     answerD: Pork rinds
     correctAnswer: C
+    questionFilipino: Kung bibili ka ng meryenda, ano ang dapat mong piliin?
+    answerAFilipino: Soft drinks
+    answerBFilipino: Sorbetes
+    answerCFilipino: 'Suman at mangga '
+    answerDFilipino: Chicharon
   - question: "If you\u2019re an athlete, what should you eat before a game?"
     answerA: Fatty foods like fries
     answerB: Candy for energy
     answerC: Nothing, just play
     answerD: Rice, egg, and water for balance
     correctAnswer: D
+    questionFilipino: Kung ikaw ay isang atleta, ano ang dapat mong kainin bago ang
+      laro?
+    answerAFilipino: Mamantikang pagkain tulad ng French fries
+    answerBFilipino: 'Kendi para magkaroon ng enerhiya '
+    answerCFilipino: 'Huwag nang kumain, maglaro na lang '
+    answerDFilipino: Kanin, itlog, at tubig para sa balanseng pagkain
   - question: "For a birthday party, what\u2019s a healthy food to serve?"
     answerA: Chocolate cake
     answerB: Spaghetti with sugary sauce
     answerC: Ice cream with syrup
     answerD: 'Fruit salad with yogurt '
     correctAnswer: D
+    questionFilipino: 'Para sa isang birthday party, ano ang mas masustansiyang pagkain
+      na ihahain? '
+    answerAFilipino: 'Chocolate cake '
+    answerBFilipino: Spaghetti na may matamis na sarsa
+    answerCFilipino: Sorbetes na may syrup
+    answerDFilipino: Fruit salad na may yogurt
   - question: If you bring adobo and vegetables to school, how should you eat them?
     answerA: Eat only the adobo
     answerB: Eat both vegetables and adobo in balance
     answerC: Skip eating to lose weight
     answerD: Throw away the vegetables and buy chips
     correctAnswer: B
+    questionFilipino: Kung may baon kang adobo at gulay sa paaralan, paano mo ito
+      kakainin?
+    answerAFilipino: Adobo lamang ang kainin
+    answerBFilipino: 'Kainin ang gulay at adobo sa tamang balanse '
+    answerCFilipino: 'Huwag nang kumain para pumayat '
+    answerDFilipino: Itapon ang gulay at bumili ng chips
   - question: If buying at the store near school, which is better?
     answerA: Soft drinks and chicharon
     answerB: Three candies
     answerC: 'Bottled water and banana '
     answerD: Large ice cream
     correctAnswer: C
+    questionFilipino: Kung bibili ka sa tindahan malapit sa paaralan, alin ang mas
+      mabuting piliin?
+    answerAFilipino: Soft drinks at chicharon
+    answerBFilipino: 'Tatlong pirasong kendi '
+    answerCFilipino: De-boteng tubig at saging
+    answerDFilipino: Malaking sorbetes
   - question: "If you\u2019re preparing your dinner plate, how should you follow
       Pinggang Pinoy?"
     answerA: Fill it with meat only
@@ -4539,36 +4868,69 @@ MonoBehaviour:
     answerC: Fill it with sweets
     answerD: Half vegetables, one-third rice, one-third fish
     correctAnswer: D
+    questionFilipino: 'Kung naghahanda ka ng plato para sa hapunan, paano mo susundin
+      ang Pinggang  Pinoy? '
+    answerAFilipino: Punuin ito ng karne lamang
+    answerBFilipino: Punuin ito ng kanin lamang
+    answerCFilipino: Punuin ito ng matatamis
+    answerDFilipino: 'Kalahating gulay, isang-kapat na kanin, at isang-kapat na isda '
   - question: Which is an example of a healthy food in the Pinggang Pinoy?
     answerA: Cake
     answerB: Eggplant
     answerC: Ice cream
     answerD: French fries
     correctAnswer: B
+    questionFilipino: 'Alin ang halimbawa ng masustansyang pagkain sa Pinggang Pinoy? '
+    answerAFilipino: 'Keyk '
+    answerBFilipino: Talong
+    answerCFilipino: 'Ice cream '
+    answerDFilipino: French fries
   - question: 'At recess time: What is better to buy at the canteen? '
     answerA: Soft drinks and candy
     answerB: Ice cream
     answerC: Banana fruit and water
-    answerD: Large pack of chicharon
+    answerD: Large pack of pork rinds.
     correctAnswer: C
+    questionFilipino: 'Sa oras ng recess: Ano ang mas mabuting bilhin sa kantina?'
+    answerAFilipino: Soft drinks at kendi
+    answerBFilipino: Sorbetes
+    answerCFilipino: Saging at tubig
+    answerDFilipino: Malaking pakete ng chicharon
   - question: Which of these is an example of a fruit?
-    answerA: Pansit
+    answerA: Ginger
     answerB: Hotcake
     answerC: Pandesal
     answerD: Apple
     correctAnswer: D
+    questionFilipino: Alin sa mga ito ang isang prutas?
+    answerAFilipino: Luya
+    answerBFilipino: Hotcake
+    answerCFilipino: Pandesal
+    answerDFilipino: Apple
   - question: If you're in a hurry in the morning, which is a healthier packed meal?
     answerA: Chocolate and chips
     answerB: Peanut butter sandwich and a fruit
     answerC: Candy and soda
     answerD: Two donuts
     correctAnswer: B
+    questionFilipino: 'Kung nagmamadali ka sa umaga, alin ang mas masustansiyang
+      baon? '
+    answerAFilipino: Tsokolate at chips
+    answerBFilipino: 'Peanut butter sandwich at isang prutas '
+    answerCFilipino: Kendi at soft drinks
+    answerDFilipino: Dalawang donut
   - question: "What do \u201CGo\u201D foods like rice and bread do for our body?  "
     answerA: Whiten skin
     answerB: Make hair beautifu
     answerC: Provide energy to move and play
     answerD: Help sleep faster
     correctAnswer: C
+    questionFilipino: 'Ano ang naitutulong ng mga "Go" na pagkain tulad ng kanin
+      at tinapay sa ating  katawan? '
+    answerAFilipino: 'Pumaputi ang balat '
+    answerBFilipino: Gumaganda ang buhok
+    answerCFilipino: Nagbibigay ng enerhiya para makagalaw at makapaglaro
+    answerDFilipino: Mas mabilis makatulog
   questionsPerGame: 30
   delayBeforeNextQuestion: 2
 --- !u!4 &949067932
@@ -4931,7 +5293,7 @@ Transform:
   - {fileID: 1062512489}
   - {fileID: 1456558799}
   - {fileID: 474596446}
-  - {fileID: 1924300089}
+  - {fileID: 1256655666936466070}
   - {fileID: 1004144401}
   - {fileID: 220633356}
   - {fileID: 1925909241}
@@ -7639,85 +8001,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!1 &1924300088
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1924300089}
-  - component: {fileID: 1924300090}
-  m_Layer: 0
-  m_Name: NekoCompanion
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1924300089
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1924300088}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1013850525}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1924300090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1924300088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c9deb613e94c7040bdea6615ecf861f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CatCompanion
-  catImage: {fileID: 1793910422}
-  idleSprite: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
-  correctSprite: {fileID: 21300000, guid: 66b1fa522f7127144aa490ad162fbccd, type: 3}
-  wrongSprite: {fileID: 21300000, guid: ed0d21f3f18a4d84ab0c45550f41bb3d, type: 3}
-  hintSprite: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
-  completionSprite: {fileID: 0}
-  speechBubble: {fileID: 895678174}
-  speechText: {fileID: 353551400}
-  idleLines:
-  - Hmmm... what could be the correct answer??
-  - Think carefully!
-  - You got this!
-  - Take your time!
-  correctLines:
-  - Yay! That's right Nya!
-  - Woohoo! Correct!
-  - You're so smart! Nya!
-  - Amazing! Keep it up!
-  - 'Purrfeect!! '
-  wrongLines:
-  - Huh? That's wrong?
-  - Ughhh.. That's bad.
-  - 'So close! '
-  - Oh no!
-  hintLines:
-  - Nya? What could be the answer?
-  - Purr leasse give us help!
-  - You use a hint. Choose wisely!
-  completionLines:
-  - Wow! You beat the tower!
-  - Whew that was tough but it was fun!
-  - 'YAY! WE Did It! '
-  - 
-  reactionDelay: 0.5
-  typewriterSpeed: 0.04
 --- !u!1 &1925909240
 GameObject:
   m_ObjectHideFlags: 0
@@ -8369,6 +8652,76 @@ RectTransform:
   m_AnchoredPosition: {x: 981.05005, y: -707}
   m_SizeDelta: {x: 609.9, y: 453.2}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &225838884066599611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1120880478892834983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c9deb613e94c7040bdea6615ecf861f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CatCompanion
+  catImage: {fileID: 1793910422}
+  idleSprite: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
+  correctSprite: {fileID: 21300000, guid: 66b1fa522f7127144aa490ad162fbccd, type: 3}
+  wrongSprite: {fileID: 21300000, guid: ed0d21f3f18a4d84ab0c45550f41bb3d, type: 3}
+  hintSprite: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
+  completionSprite: {fileID: 0}
+  speechBubble: {fileID: 895678174}
+  speechText: {fileID: 353551400}
+  idleLines:
+  - Hmmm... What could be the correct answer??
+  - Think carefully!
+  - You got this!
+  - Take your time!
+  idleLinesFilipino:
+  - Hmm.. Ano kaya ang tamang sagot
+  - Pag isipan mong mabuti!
+  - Kaya mo yan!
+  - Huwag kang mag madali!
+  correctLines:
+  - Yay! That's right Nya!
+  - Woohoo! Correct!
+  - You're so smart! Nya!
+  - Amazing! Keep it up!
+  - 'Purrfeect!! '
+  correctLinesFilipino:
+  - Yay! Tama nyan!
+  - Woohoo! Tama!
+  - Ang talino mo nya!
+  - Ang galing! Pag patuloy mo pa!
+  - Purrfeect!
+  wrongLines:
+  - Huh? That's wrong?
+  - Ughhh.. That's bad.
+  - 'So close! '
+  - Oh no!
+  wrongLinesFilipino:
+  - Huh? Mali yun?
+  - Ughh... Masama ito..
+  - Sayang!
+  - 'Hala! '
+  hintLines:
+  - Nya? What could be the answer?
+  - Purr leasse give us help!
+  - You use a hint. Choose wisely!
+  hintLinesFilipino:
+  - Nya? Ano kaya ang tamang sagot?
+  - Purr leasse tulungan mo kami!
+  - Gumamit ka na ng hint. Mag ingat ka sa pag pili ng sagot.
+  completionLines:
+  - Wow! You beat the tower!
+  - Whew that was tough but it was fun!
+  - 'YAY! WE Did It! '
+  completionLinesFilipino:
+  - Wow! Natapos mo ang tore!
+  - Whew ang hirap nun, pero ang saya!
+  - YAY! Nagawa NATIN!
+  reactionDelay: 0.5
+  typewriterSpeed: 0.04
 --- !u!222 &239727444667129056
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8530,6 +8883,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1120880478892834983
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1256655666936466070}
+  - component: {fileID: 225838884066599611}
+  m_Layer: 0
+  m_Name: NekoCompanion
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1170544500802721605
 GameObject:
   m_ObjectHideFlags: 0
@@ -8548,6 +8918,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &1256655666936466070
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1120880478892834983}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 737.72205, y: 1172.614, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1013850525}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &1358681712052884123
 RectTransform:
   m_ObjectHideFlags: 0

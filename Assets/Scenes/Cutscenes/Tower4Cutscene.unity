@@ -223,7 +223,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 168864301}
   m_Father: {fileID: 469297852}
@@ -283,8 +283,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 748329a0170f7db41887d27133e4d3e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gameplay.CutsceneManager.CharacterVN
-  characterName: 
-  portraitImage: {fileID: 0}
+  characterName: Sienna
+  portraitImage: {fileID: 168864302}
   portraitSize: {x: 100, y: 100}
   activeBrightness: 1
   inactiveBrightness: 0.4
@@ -1188,9 +1188,36 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: 
     dialogueText: "Sienna... is that\u2014"
+    filipinoText: "Sienna... iyan ba ang\u2014"
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: -6077793430231951356, guid: 55166d42aba58dc47ad2f2f79e4ca59d, type: 3}
+    entranceType: 0
+    entranceDuration: 0
+    enableReaction: 0
+    reactionDuration: 0
+    reactionScaleTarget: 0
+    enableShake: 1
+    shakeIntensity: 0
+    shakeDuration: 1
+    outroType: 0
+    outroDuration: 0
+    customEntranceClip: {fileID: 0}
+    optionalUIImage: {fileID: 0}
+    soundClip: {fileID: 0}
+    typingSFX: {fileID: 0}
+    useBlackScreen: 0
+    excludeDialogueBoxFromBlackout: 0
+    hideDialoguePanel: 0
+    openNameInputAfterThisLine: 0
+  - character: {fileID: 186856291}
+    useCustomSpeakerName: 0
+    customSpeakerName: 
+    dialogueText: That recipe is that what I think it is?
+    filipinoText: Ang recipe na 'yan... iyon ba ang iniisip ko?
+    useItalic: 0
+    useBold: 0
+    emotionPortrait: {fileID: 567208320214954000, guid: 77df6d75fd6e66a4caffa8feaa8e64bb, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1212,35 +1239,11 @@ MonoBehaviour:
   - character: {fileID: 186856291}
     useCustomSpeakerName: 0
     customSpeakerName: 
-    dialogueText: That's recipe is that what I think it is?
-    useItalic: 0
-    useBold: 0
-    emotionPortrait: {fileID: 0}
-    entranceType: 0
-    entranceDuration: 0
-    enableReaction: 0
-    reactionDuration: 0
-    reactionScaleTarget: 0
-    enableShake: 0
-    shakeIntensity: 0
-    shakeDuration: 0
-    outroType: 0
-    outroDuration: 0
-    customEntranceClip: {fileID: 0}
-    optionalUIImage: {fileID: 0}
-    soundClip: {fileID: 0}
-    typingSFX: {fileID: 0}
-    useBlackScreen: 0
-    excludeDialogueBoxFromBlackout: 0
-    hideDialoguePanel: 0
-    openNameInputAfterThisLine: 0
-  - character: {fileID: 2068079846}
-    useCustomSpeakerName: 0
-    customSpeakerName: 
     dialogueText: 'Lemme see. Uhmm, Veggie Stir Fry Chicken Meal. '
+    filipinoText: Tingnan nga natin... Umm... Veggie Stir Fry Chicken Meal.
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 567208320214954000, guid: 77df6d75fd6e66a4caffa8feaa8e64bb, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1264,9 +1267,12 @@ MonoBehaviour:
     customSpeakerName: 
     dialogueText: This is the one we first taste when we where kids. We where starving
       before and unc I mean Master feed us this meal before we got adopted by him.
+    filipinoText: Ito ang unang pagkaing natikman natin noong mga bata pa tayo. Gutom
+      na gutom tayo noon bago tayo pinakain ni Uncle... este, ni Master... bago niya
+      tayo ampunin.
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 21300000, guid: 66b1fa522f7127144aa490ad162fbccd, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1290,9 +1296,11 @@ MonoBehaviour:
     customSpeakerName: 
     dialogueText: 'It brings back memory, master teach us this meal when we were
       little, I burned a lot of ingredients making this meal. '
+    filipinoText: Napakarami kong naaalala sa recipe na ito. Tinuruan tayo ni Master
+      na lutuin ito noong maliliit pa tayo. Ang dami kong nasunog na sangkap noon
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 21300000, guid: 24483481de76af745bd34839b2fa3a44, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1315,9 +1323,10 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: 
     dialogueText: 'Master, just laugh as he taught us how to cook. '
+    filipinoText: Ngumingiti lang si Master habang tinuturuan niya tayong magluto
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 21300000, guid: 24483481de76af745bd34839b2fa3a44, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1341,9 +1350,11 @@ MonoBehaviour:
     customSpeakerName: 
     dialogueText: 'Ah. I remember yours looks like charcoal, when you try to cook
       it. But, you ate three bowls of rice when unc cook for us. '
+    filipinoText: Ah... Naalala ko pa. Mukhang uling ang una mong niluto. Pero tatlong
+      mangkok ng kanin ang naubos mo noong si Master ang nagluto.
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 4613369332385885323, guid: c38f36071605f5c4da5011c8238f182b, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1366,17 +1377,18 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: 
     dialogueText: HEY! I WAS BEGINNER BACK THEN!
+    filipinoText: HOY! NAGSISIMULA PA LANG AKO NOON!"
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 21300000, guid: e11ba7758047c2d429ff471c32ddfa62, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
     reactionDuration: 0
     reactionScaleTarget: 0
-    enableShake: 0
+    enableShake: 1
     shakeIntensity: 0
-    shakeDuration: 0
+    shakeDuration: 1
     outroType: 0
     outroDuration: 0
     customEntranceClip: {fileID: 0}
@@ -1390,11 +1402,13 @@ MonoBehaviour:
   - character: {fileID: 2068079846}
     useCustomSpeakerName: 0
     customSpeakerName: 
-    dialogueText: Anyway this recipe bring backs memories.  I wonder where that old
-      guy is now.
+    dialogueText: Hehe this recipe brings back so many memories. I wonder where that
+      old man is now.
+    filipinoText: Hehe ang dami talagang alaala ng recipe na ito. Sana ayos lang
+      si Master.
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1416,11 +1430,14 @@ MonoBehaviour:
   - character: {fileID: 186856291}
     useCustomSpeakerName: 0
     customSpeakerName: 
-    dialogueText: Maybe in other world? Perhaps? Anyway sorry for the teary loredump
-      {player}. Now The tower is restored and every recipe is back.
+    dialogueText: Maybe he's in another world... perhaps. Anyway, sorry for the trip
+      down memory lane, {player}. Now the tower is restored, and every recipe page
+      is back."
+    filipinoText: Baka nasa ibang mundo na siya... Pasensya na, {player}. Ang mahalaga,
+      naayos na ang tore at kumpleto na ulit ang mga recipe page.
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: -7024112249979172348, guid: 64a2f12449ecf564a84605f468f09b63, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1444,9 +1461,11 @@ MonoBehaviour:
     customSpeakerName: 
     dialogueText: And because of you... this world will learn that food is love,
       food is care, and eating well is one of the kindest things you can do for yourself.
+    filipinoText: At dahil sa'yo, matututunan ng lahat na ang masustansyang pagkain
+      ay pagmamahal at pag-aalaga sa sarili.
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 21300000, guid: 24483481de76af745bd34839b2fa3a44, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1468,11 +1487,13 @@ MonoBehaviour:
   - character: {fileID: 2068079846}
     useCustomSpeakerName: 0
     customSpeakerName: 
-    dialogueText: You know in all the stories I read, heroes are always extraordinary
+    dialogueText: You know, in all the stories I've read, heroes are always extraordinary
       people chosen by fate.
+    filipinoText: Sa lahat ng kuwentong nabasa ko, ang mga bayani ay pinipili ng
+      tadhana.
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: -9156928245328908291, guid: ad399d33a18e4de45b38d760f4e88dbf, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1494,10 +1515,39 @@ MonoBehaviour:
   - character: {fileID: 2068079846}
     useCustomSpeakerName: 0
     customSpeakerName: 
-    dialogueText: Maybe fate brings us together. To meet you.
+    dialogueText: Maybe fate brought us together... so we could meet you.
+    filipinoText: Siguro... tadhana ang nagdala sa'yo rito.
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 21300000, guid: 66b1fa522f7127144aa490ad162fbccd, type: 3}
+    entranceType: 0
+    entranceDuration: 0
+    enableReaction: 0
+    reactionDuration: 0
+    reactionScaleTarget: 0
+    enableShake: 0
+    shakeIntensity: 0
+    shakeDuration: 0
+    outroType: 0
+    outroDuration: 0
+    customEntranceClip: {fileID: 0}
+    optionalUIImage: {fileID: 0}
+    soundClip: {fileID: 0}
+    typingSFX: {fileID: 0}
+    useBlackScreen: 0
+    excludeDialogueBoxFromBlackout: 0
+    hideDialoguePanel: 0
+    openNameInputAfterThisLine: 0
+  - character: {fileID: 186856291}
+    useCustomSpeakerName: 0
+    customSpeakerName: 
+    dialogueText: Thank you, {player}, for fixing the tower and gathering all of
+      my recipe pages. I truly mean it.
+    filipinoText: Maraming salamat, {player}. Dahil sa'yo, naayos ang tore at nabalik
+      ang lahat ng recipe page.
+    useItalic: 0
+    useBold: 0
+    emotionPortrait: {fileID: -7024112249979172348, guid: 64a2f12449ecf564a84605f468f09b63, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1519,10 +1569,39 @@ MonoBehaviour:
   - character: {fileID: 2068079846}
     useCustomSpeakerName: 0
     customSpeakerName: 
-    dialogueText: 
+    dialogueText: Yow, {player}! That was an amazing adventure! I learned a lot during
+      our journey together. I hope you'll visit us again sometime!"
+    filipinoText: Yow, {player}! Ang saya ng naging paglalakbay natin! Sana bumalik
+      ka ulit!
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 8495209843170342830, guid: 0e0ac28be41d94e4eb10c24caaadbc20, type: 3}
+    entranceType: 0
+    entranceDuration: 0
+    enableReaction: 0
+    reactionDuration: 0
+    reactionScaleTarget: 0
+    enableShake: 1
+    shakeIntensity: 0
+    shakeDuration: 0
+    outroType: 0
+    outroDuration: 0
+    customEntranceClip: {fileID: 0}
+    optionalUIImage: {fileID: 0}
+    soundClip: {fileID: 0}
+    typingSFX: {fileID: 0}
+    useBlackScreen: 0
+    excludeDialogueBoxFromBlackout: 0
+    hideDialoguePanel: 0
+    openNameInputAfterThisLine: 0
+  - character: {fileID: 2068079846}
+    useCustomSpeakerName: 0
+    customSpeakerName: 
+    dialogueText: Maybe Sienna will cook up something new!
+    filipinoText: Malay mo, may bago na namang lutuin si Sienna!
+    useItalic: 0
+    useBold: 0
+    emotionPortrait: {fileID: 3955470843362796982, guid: 4756c828401aeb64e8c9554097ccd465, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1541,13 +1620,14 @@ MonoBehaviour:
     excludeDialogueBoxFromBlackout: 0
     hideDialoguePanel: 0
     openNameInputAfterThisLine: 0
-  - character: {fileID: 0}
+  - character: {fileID: 2068079846}
     useCustomSpeakerName: 0
     customSpeakerName: 
-    dialogueText: 
+    dialogueText: And hopefully it won't end up in flames.
+    filipinoText: At sana... hindi na ito masunog.
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 4613369332385885323, guid: c38f36071605f5c4da5011c8238f182b, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1566,13 +1646,14 @@ MonoBehaviour:
     excludeDialogueBoxFromBlackout: 0
     hideDialoguePanel: 0
     openNameInputAfterThisLine: 0
-  - character: {fileID: 0}
+  - character: {fileID: 186856291}
     useCustomSpeakerName: 0
     customSpeakerName: 
-    dialogueText: 
+    dialogueText: Hmmm~ Do you want to turn into siopao, Emby?
+    filipinoText: Hmmm~ Gusto mo bang maging siopao, Emby?
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 21300000, guid: 24483481de76af745bd34839b2fa3a44, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1591,13 +1672,42 @@ MonoBehaviour:
     excludeDialogueBoxFromBlackout: 0
     hideDialoguePanel: 0
     openNameInputAfterThisLine: 0
-  - character: {fileID: 0}
+  - character: {fileID: 2068079846}
     useCustomSpeakerName: 0
     customSpeakerName: 
-    dialogueText: 
+    dialogueText: HEY! HEY! I'M JUST KIDDING!
+    filipinoText: HOY! BIRO LANG 'YON!"
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: -6077793430231951356, guid: 55166d42aba58dc47ad2f2f79e4ca59d, type: 3}
+    entranceType: 0
+    entranceDuration: 0
+    enableReaction: 0
+    reactionDuration: 0
+    reactionScaleTarget: 0
+    enableShake: 1
+    shakeIntensity: 1
+    shakeDuration: 1
+    outroType: 0
+    outroDuration: 0
+    customEntranceClip: {fileID: 0}
+    optionalUIImage: {fileID: 0}
+    soundClip: {fileID: 0}
+    typingSFX: {fileID: 0}
+    useBlackScreen: 0
+    excludeDialogueBoxFromBlackout: 0
+    hideDialoguePanel: 0
+    openNameInputAfterThisLine: 0
+  - character: {fileID: 186856291}
+    useCustomSpeakerName: 0
+    customSpeakerName: 
+    dialogueText: '{player}, I hope you learned something during your time here.
+      I hope every adventure reminded you that eating healthy can be fun."'
+    filipinoText: '{player}, sana may natutuhan ka rito. Sana''y naipakita sa''yo
+      na masaya ring kumain nang masustansya.'
+    useItalic: 0
+    useBold: 0
+    emotionPortrait: {fileID: -2101606179557248710, guid: 3bbc0cd91b4224547a3088bffc13f955, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1616,13 +1726,16 @@ MonoBehaviour:
     excludeDialogueBoxFromBlackout: 0
     hideDialoguePanel: 0
     openNameInputAfterThisLine: 0
-  - character: {fileID: 0}
+  - character: {fileID: 186856291}
     useCustomSpeakerName: 0
     customSpeakerName: 
-    dialogueText: 
+    dialogueText: Remember, every healthy choice is another step toward becoming
+      the hero of your own story.
+    filipinoText: Tandaan mo, ang bawat masustansyang pagpili ay hakbang para maging
+      bayani ng sarili mong kuwento.
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: -7024112249979172348, guid: 64a2f12449ecf564a84605f468f09b63, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1641,13 +1754,95 @@ MonoBehaviour:
     excludeDialogueBoxFromBlackout: 0
     hideDialoguePanel: 0
     openNameInputAfterThisLine: 0
-  - character: {fileID: 0}
+  - character: {fileID: 186856291}
     useCustomSpeakerName: 0
     customSpeakerName: 
-    dialogueText: 
+    dialogueText: No matter where you go, we'll always be cheering for you.
+    filipinoText: Saan ka man mapunta, lagi kaming susuporta sa'yo.
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 21300000, guid: 24483481de76af745bd34839b2fa3a44, type: 3}
+    entranceType: 0
+    entranceDuration: 0
+    enableReaction: 1
+    reactionDuration: 1
+    reactionScaleTarget: 1
+    enableShake: 0
+    shakeIntensity: 0
+    shakeDuration: 0
+    outroType: 0
+    outroDuration: 0
+    customEntranceClip: {fileID: 0}
+    optionalUIImage: {fileID: 0}
+    soundClip: {fileID: 0}
+    typingSFX: {fileID: 0}
+    useBlackScreen: 0
+    excludeDialogueBoxFromBlackout: 0
+    hideDialoguePanel: 0
+    openNameInputAfterThisLine: 0
+  - character: {fileID: 186856291}
+    useCustomSpeakerName: 0
+    customSpeakerName: 
+    dialogueText: Thank you for helping us, and thank you for playing Nutri Quest...
+    filipinoText: Maraming salamat sa pagtulong sa amin... at sa paglalaro ng Nutri
+      Quest.
+    useItalic: 0
+    useBold: 0
+    emotionPortrait: {fileID: -7024112249979172348, guid: 64a2f12449ecf564a84605f468f09b63, type: 3}
+    entranceType: 0
+    entranceDuration: 0
+    enableReaction: 0
+    reactionDuration: 0
+    reactionScaleTarget: 0
+    enableShake: 0
+    shakeIntensity: 0
+    shakeDuration: 0
+    outroType: 0
+    outroDuration: 0
+    customEntranceClip: {fileID: 0}
+    optionalUIImage: {fileID: 0}
+    soundClip: {fileID: 0}
+    typingSFX: {fileID: 0}
+    useBlackScreen: 0
+    excludeDialogueBoxFromBlackout: 0
+    hideDialoguePanel: 0
+    openNameInputAfterThisLine: 0
+  - character: {fileID: 186856291}
+    useCustomSpeakerName: 0
+    customSpeakerName: 
+    dialogueText: Until we meet again, Hero!
+    filipinoText: Hanggang sa muli, Bayani!
+    useItalic: 0
+    useBold: 0
+    emotionPortrait: {fileID: 21300000, guid: 24483481de76af745bd34839b2fa3a44, type: 3}
+    entranceType: 0
+    entranceDuration: 0
+    enableReaction: 1
+    reactionDuration: 1
+    reactionScaleTarget: 1
+    enableShake: 0
+    shakeIntensity: 0
+    shakeDuration: 0
+    outroType: 0
+    outroDuration: 0
+    customEntranceClip: {fileID: 0}
+    optionalUIImage: {fileID: 0}
+    soundClip: {fileID: 0}
+    typingSFX: {fileID: 0}
+    useBlackScreen: 0
+    excludeDialogueBoxFromBlackout: 0
+    hideDialoguePanel: 0
+    openNameInputAfterThisLine: 0
+  - character: {fileID: 2068079846}
+    useCustomSpeakerName: 0
+    customSpeakerName: 
+    dialogueText: Don't forget us, okay? Come back whenever you're ready for another
+      adventure! We'll be waiting!
+    filipinoText: Huwag mo kaming kalilimutan, ha? Hihintayin ka namin sa susunod
+      mong pakikipagsapalaran!
+    useItalic: 0
+    useBold: 0
+    emotionPortrait: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1747,8 +1942,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Your mission is this \u2014 find Emby inside Tower 1, clear each tower
-    floor, and collect my missing recipe pages along the way!"
+  m_text: Ito ang unang pagkaing natikman natin noong mga bata pa tayo. Gutom na
+    gutom tayo noon bago tayo pinakain ni Uncle... este, ni Master... bago niya tayo
+    ampunin.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d2fc4daefc2346c41a58c44fbb920c03, type: 2}
   m_sharedMaterial: {fileID: -6078078171837885563, guid: d2fc4daefc2346c41a58c44fbb920c03, type: 2}
@@ -1775,11 +1971,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12.3
-  m_fontSizeBase: 12.3
+  m_fontSize: 11
+  m_fontSizeBase: 11
   m_fontWeight: 400
   m_enableAutoSizing: 0
-  m_fontSizeMin: 18
+  m_fontSizeMin: 10
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
@@ -2019,7 +2215,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4.3, y: 16.5}
+  m_AnchoredPosition: {x: 2.9, y: 16.4}
   m_SizeDelta: {x: 200, y: 60.912}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5339043206755482021

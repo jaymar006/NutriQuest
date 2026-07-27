@@ -21,20 +21,40 @@ public class CatCompanion : MonoBehaviour
     [SerializeField] private GameObject speechBubble;
     [SerializeField] private TMP_Text speechText;
 
-    [Header("Idle Lines")]
+    [Header("Idle Lines (English)")]
     [SerializeField] private List<string> idleLines = new List<string>();
 
-    [Header("Correct Answer Lines")]
+    [Header("Idle Lines (Filipino)")]
+    [Tooltip("Filipino versions of idle lines. Falls back to English if empty.")]
+    [SerializeField] private List<string> idleLinesFilipino = new List<string>();
+
+    [Header("Correct Answer Lines (English)")]
     [SerializeField] private List<string> correctLines = new List<string>();
 
-    [Header("Wrong Answer Lines")]
+    [Header("Correct Answer Lines (Filipino)")]
+    [Tooltip("Filipino versions of correct answer lines. Falls back to English if empty.")]
+    [SerializeField] private List<string> correctLinesFilipino = new List<string>();
+
+    [Header("Wrong Answer Lines (English)")]
     [SerializeField] private List<string> wrongLines = new List<string>();
 
-    [Header("Hint Lines")]
+    [Header("Wrong Answer Lines (Filipino)")]
+    [Tooltip("Filipino versions of wrong answer lines. Falls back to English if empty.")]
+    [SerializeField] private List<string> wrongLinesFilipino = new List<string>();
+
+    [Header("Hint Lines (English)")]
     [SerializeField] private List<string> hintLines = new List<string>();
 
-    [Header("Completion Lines")]
+    [Header("Hint Lines (Filipino)")]
+    [Tooltip("Filipino versions of hint lines. Falls back to English if empty.")]
+    [SerializeField] private List<string> hintLinesFilipino = new List<string>();
+
+    [Header("Completion Lines (English)")]
     [SerializeField] private List<string> completionLines = new List<string>();
+
+    [Header("Completion Lines (Filipino)")]
+    [Tooltip("Filipino versions of completion lines. Falls back to English if empty.")]
+    [SerializeField] private List<string> completionLinesFilipino = new List<string>();
 
     [Header("Timing")]
     [SerializeField] private float reactionDelay = 0.5f;
@@ -69,7 +89,7 @@ public class CatCompanion : MonoBehaviour
 
         SetSprite(idleSprite);
 
-        string line = GetRandomLine(idleLines, ref lastIdleIndex);
+        string line = GetRandomLine(ResolveList(idleLines, idleLinesFilipino), ref lastIdleIndex);
         if (!string.IsNullOrEmpty(line))
             ShowSpeech(line);
         else
@@ -91,7 +111,7 @@ public class CatCompanion : MonoBehaviour
 
         SetSprite(hintSprite);
 
-        string line = GetRandomLine(hintLines, ref lastHintIndex);
+        string line = GetRandomLine(ResolveList(hintLines, hintLinesFilipino), ref lastHintIndex);
         if (!string.IsNullOrEmpty(line))
             ShowSpeech(line);
         else
@@ -114,7 +134,7 @@ public class CatCompanion : MonoBehaviour
 
         SetSprite(completionSprite != null ? completionSprite : idleSprite);
 
-        string line = GetRandomLine(completionLines, ref lastCompletionIndex);
+        string line = GetRandomLine(ResolveList(completionLines, completionLinesFilipino), ref lastCompletionIndex);
         if (!string.IsNullOrEmpty(line))
             ShowSpeech(line);
         else
@@ -128,7 +148,7 @@ public class CatCompanion : MonoBehaviour
         if (isCorrect)
         {
             SetSprite(correctSprite);
-            string line = GetRandomLine(correctLines, ref lastCorrectIndex);
+            string line = GetRandomLine(ResolveList(correctLines, correctLinesFilipino), ref lastCorrectIndex);
             if (!string.IsNullOrEmpty(line))
                 ShowSpeech(line);
             else
@@ -137,7 +157,7 @@ public class CatCompanion : MonoBehaviour
         else
         {
             SetSprite(wrongSprite);
-            string line = GetRandomLine(wrongLines, ref lastWrongIndex);
+            string line = GetRandomLine(ResolveList(wrongLines, wrongLinesFilipino), ref lastWrongIndex);
             if (!string.IsNullOrEmpty(line))
                 ShowSpeech(line);
             else
@@ -183,6 +203,19 @@ public class CatCompanion : MonoBehaviour
             visibleCount++;
             yield return wait;
         }
+    }
+
+    // Returns the active list for a category: Filipino list if language is
+    // Filipino AND the Filipino list has entries, otherwise English list.
+    private List<string> ResolveList(List<string> englishList, List<string> filipinoList)
+    {
+        if (LocalizationManager.Instance != null &&
+            LocalizationManager.Instance.IsFilipino &&
+            filipinoList != null && filipinoList.Count > 0)
+        {
+            return filipinoList;
+        }
+        return englishList;
     }
 
     private string GetRandomLine(List<string> lines, ref int lastIndex)

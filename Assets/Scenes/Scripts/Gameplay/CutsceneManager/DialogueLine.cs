@@ -17,8 +17,14 @@ namespace Gameplay.CutsceneManager
         public string customSpeakerName = "";
 
         [Header("Dialogue Content")]
+        [Tooltip("Dialogue text shown when language is set to English.")]
         [TextArea(2, 5)]
         public string dialogueText;
+
+        [Tooltip("Dialogue text shown when language is set to Filipino (Tagalog). " +
+                 "Leave empty to fall back to the English text above.")]
+        [TextArea(2, 5)]
+        public string filipinoText = "";
 
         [Header("Text Formatting")]
         public bool useItalic = false;
@@ -32,7 +38,7 @@ namespace Gameplay.CutsceneManager
         public EntranceType entranceType = EntranceType.None;
         [Tooltip("How long the slide/fade entrance takes (seconds)")]
         public float entranceDuration = 0.3f;
-       
+
 
         [Header("Reaction Animation")]
         [Tooltip("Uncheck to suppress the tap-reaction animation for this line")]

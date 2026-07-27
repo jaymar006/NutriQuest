@@ -68,44 +68,37 @@ namespace Gameplay.CutsceneManager
 
         [Header("Input Debounce")]
         [Tooltip("Minimum seconds between taps being accepted. Prevents rapid " +
-                 "double-taps from advancing two lines almost instantly — especially " +
-                 "noticeable with fast typing speeds or when Continue Indicator is " +
-                 "unassigned, since the player has no visual cue for when it's safe " +
-                 "to tap again.")]
+                 "double-taps from advancing two lines almost instantly.")]
         public float minTimeBetweenTaps = 0.15f;
 
         [Header("Where This Cutscene Leads")]
         [Tooltip("When true, fades to black and loads 'On Finish Load Scene' after the " +
-                 "last dialogue line. This is how every cutscene scene is self-contained — " +
-                 "it directly knows where it leads, with no external manager needed.")]
+                 "last dialogue line. THIS is what makes each cutscene scene self-contained " +
+                 "— without a scene assigned below, the screen will fade to black and then " +
+                 "simply stay black, since nothing else will load anything next.")]
         public bool autoAdvanceOnEnd = true;
 
 #if UNITY_EDITOR
-        [Tooltip("Drag the scene this cutscene should load once it finishes (e.g. the intro " +
-                 "cutscene's value should be the tower's gameplay scene, or MainMenu for a title " +
-                 "intro; the outro's should be ResultScene or Credits for Tower 4's outro).")]
+        [Tooltip("Drag the scene this cutscene should load once it finishes — e.g. this " +
+                 "intro cutscene's value should be MainMenu/MapScene; an outro's should be " +
+                 "ResultScene (or Credits, for Tower 4's outro).")]
         [SerializeField] private SceneAsset onFinishLoadSceneAsset;
 #endif
 
-        // Backing field actually used at runtime. Kept in sync with
-        // onFinishLoadSceneAsset via OnValidate below — you never need to
-        // type this by hand, which is what was causing the stuck-black-screen
-        // bug (a typo'd or mismatched scene name means SceneManager.LoadScene
-        // never finds a match, so the fade-to-black never gets followed by
-        // anything, and the screen just stays black).
         [SerializeField, HideInInspector] private string onFinishLoadScene = "";
 
         [Tooltip("Show the loading screen while loading the scene above? Usually OFF here " +
-                 "since the loading screen typically already happened before THIS cutscene " +
-                 "started, per the pipeline: Challenge -> Loading Scene -> Intro Cutscene -> " +
-                 "Gameplay (no second loading screen needed for that last hop).")]
+                 "since a loading screen typically already happened before THIS cutscene " +
+                 "started.")]
         public bool onFinishUseLoadingScreen = false;
+
+        [Tooltip("Optional: used only for debug logging, to identify which cutscene just ended.")]
+        public string dialogueSceneID = "";
 
         // Public state
         public bool isTyping { get; private set; }
         public bool dialogueFinished { get; private set; }
 
-        // Read-only accessor in case any other script needs to inspect this.
         public string OnFinishLoadScene => onFinishLoadScene;
 
         // Private state
@@ -125,13 +118,8 @@ namespace Gameplay.CutsceneManager
         private bool previousLineWasBlackScreen = false;
         private bool waitingForNameInput = false;
 
-        // FIX: Guards against a new reaction interrupting an in-progress shake.
-        // When true, Advance() will not start another reaction coroutine.
         private bool isReacting = false;
 
-        // FIX: Debounce timer — tracks the last time a tap was accepted so rapid
-        // double-taps can't each independently trigger Advance() within the same
-        // fraction of a second.
         private float lastAcceptedTapTime = -999f;
 
         private RectTransform textContentRect;
@@ -152,9 +140,6 @@ namespace Gameplay.CutsceneManager
             {
                 onFinishLoadScene = onFinishLoadSceneAsset.name;
 
-                // Dragging a scene into this field does NOT automatically add it to
-                // Build Settings — that's the other common cause of a cutscene that
-                // fades to black and then never goes anywhere. Warn immediately.
                 string assetPath = AssetDatabase.GetAssetPath(onFinishLoadSceneAsset);
                 bool inBuildSettingsAndEnabled = false;
 
@@ -172,7 +157,7 @@ namespace Gameplay.CutsceneManager
                     Debug.LogWarning("[DialogueManager] '" + onFinishLoadSceneAsset.name +
                                      "' is assigned as On Finish Load Scene on " + gameObject.name +
                                      ", but it is not enabled in File > Build Settings. It will " +
-                                     "fail to load at runtime — add it there (or enable it if it's " +
+                                     "fail to load at runtime — add it there (or enable it if " +
                                      "already listed but unchecked).");
                 }
             }
@@ -254,8 +239,6 @@ namespace Gameplay.CutsceneManager
 
             if (!advance) return;
 
-            // FIX: Debounce rapid taps so a fast double-tap can't advance two
-            // lines almost instantly.
             if (Time.unscaledTime - lastAcceptedTapTime < minTimeBetweenTaps)
                 return;
 
@@ -796,7 +779,16 @@ namespace Gameplay.CutsceneManager
 
         private string BuildFormattedText(DialogueLine line)
         {
-            string text = PlayerNameManager.InjectPlayerName(line.dialogueText);
+            // Read language from PlayerPrefs — LocalizationManager keeps
+            // "SelectedLanguage" in sync whenever the player switches language.
+            bool isFilipino = PlayerPrefs.GetString("SelectedLanguage", "fil") == "fil";
+
+            string rawText = line.dialogueText;
+
+            if (isFilipino && !string.IsNullOrEmpty(line.filipinoText))
+                rawText = line.filipinoText;
+
+            string text = PlayerNameManager.InjectPlayerName(rawText);
 
             if (line.useBold && line.useItalic)
                 text = "<b><i>" + text + "</i></b>";
@@ -855,11 +847,10 @@ namespace Gameplay.CutsceneManager
             if (continueIndicator != null)
                 continueIndicator.SetActive(false);
 
-            // FIX: Replaced the old CutsceneManager.Instance.OnDialogueFinished()
-            // handoff with a direct scene load. Each cutscene scene now knows
-            // exactly where it leads via onFinishLoadScene, configured right
-            // here in the Inspector — no external manager, no singleton, no
-            // cross-scene callback required.
+            // FIX: This scene now actually loads onFinishLoadScene once the
+            // dialogue ends, instead of only fading to black and hiding the
+            // panel with nothing happening after. That silent "fade then
+            // stop" was exactly why the intro never reached Main Menu.
             if (autoAdvanceOnEnd)
             {
                 if (blackScreenCoroutine != null)
@@ -951,24 +942,21 @@ namespace Gameplay.CutsceneManager
         }
 
         // -------------------------------------------------------------------------
-        // FIX: Fades to black using the existing blackScreenImage, then loads
-        // onFinishLoadScene directly via SceneTransitionManager. No external
-        // manager or singleton is involved — this scene fully owns its own
-        // "what happens when I'm done" behaviour.
-        //
-        // If onFinishLoadScene ends up empty OR the scene isn't in Build
-        // Settings, this now logs a loud, specific error instead of quietly
-        // leaving the player stuck on a black screen forever.
+        // FIX: Fades to black, then actually loads onFinishLoadScene via
+        // SceneTransitionManager. This is the piece that was missing —
+        // previously it faded and stopped, leaving the player stuck.
         // -------------------------------------------------------------------------
         private IEnumerator FadeAndLoadNextScene()
         {
             yield return StartCoroutine(FadeBlackScreen(0f, 1f, fadeDuration));
 
+            Debug.Log("[DialogueManager] Dialogue finished: " + dialogueSceneID);
+
             if (string.IsNullOrEmpty(onFinishLoadScene))
             {
                 Debug.LogError("[DialogueManager] On Finish Load Scene is empty on " + gameObject.name +
                                 ". The screen will stay black — drag the scene you want to load " +
-                                "into the 'On Finish Load Scene' field in the Inspector.");
+                                "into the 'On Finish Load Scene Asset' field in the Inspector.");
                 if (dialoguePanel != null)
                     dialoguePanel.SetActive(false);
                 yield break;

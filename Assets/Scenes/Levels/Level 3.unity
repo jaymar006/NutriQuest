@@ -725,7 +725,7 @@ MonoBehaviour:
   buttonGroups:
   - groupName: BackButton
     soundClip: {fileID: 8300000, guid: 7a66cbf2e4726134dbacbd356bd45b5b, type: 3}
-    buttonParent: {fileID: 874742775}
+    buttonParent: {fileID: 6165763066884133153}
     cachedButtons: []
   - groupName: Hint
     soundClip: {fileID: 8300000, guid: 1e6924876a7fe1b43b6dcbeee674e4c8, type: 3}
@@ -1902,7 +1902,7 @@ RectTransform:
   - {fileID: 1405524283}
   - {fileID: 158910233}
   - {fileID: 800755804}
-  - {fileID: 874742775}
+  - {fileID: 6165763066884133153}
   - {fileID: 1475436129}
   - {fileID: 432111387}
   - {fileID: 908303084}
@@ -3835,120 +3835,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
---- !u!1001 &874742774
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 388748997}
-    m_Modifications:
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_Pivot.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_Pivot.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 152
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 152
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.261599
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.261599
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.261599
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6611895034008547675, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-      propertyPath: m_Name
-      value: Back Button
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
---- !u!224 &874742775 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 6165763066148000471, guid: 45eee352d4f98094f9bdab69141cc6ca, type: 3}
-  m_PrefabInstance: {fileID: 874742774}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &888973811
 GameObject:
   m_ObjectHideFlags: 0
@@ -4278,12 +4164,23 @@ MonoBehaviour:
     answerC: "Eat it all so it doesn\u2019t go to waste"
     answerD: 'Hide it to eat daily  '
     correctAnswer: B
+    questionFilipino: Kung napakarami ninyong junk food sa bahay, ano ang dapat mong
+      gawin?
+    answerAFilipino: Ibigay ito sa kaibigan
+    answerBFilipino: Palitan ito ng mas masustansiyang pagkain tulad ng mga prutas
+    answerCFilipino: Kainin lahat para hindi masayang
+    answerDFilipino: Itago para kainin araw-araw
   - question: " If you\u2019re preparing breakfast, what\u2019s a healthy choice?"
     answerA: Sugary cereal and soda
     answerB: Pork rinds and soda
     answerC: Egg, rice, and fruit
     answerD: Cake and coffee
     correctAnswer: C
+    questionFilipino: Kung naghahanda ka ng almusal, alin ang masustansiyang pagpipilian?
+    answerAFilipino: Matamis na cereal at soft drinks
+    answerBFilipino: Chicharon at soft drinks
+    answerCFilipino: Itlog, kanin, at prutas
+    answerDFilipino: Keyk at kape
   - question: "If you\u2019re playing outside and feel hungry, what\u2019s the best
       snack?"
     answerA: Potato chips
@@ -4291,12 +4188,23 @@ MonoBehaviour:
     answerC: Soda
     answerD: 'Candy bar '
     correctAnswer: B
+    questionFilipino: Kung naglalaro ka sa labas at nagugutom, ano ang pinakamainam
+      na meryenda?
+    answerAFilipino: Potato chips
+    answerBFilipino: Pakwan
+    answerCFilipino: Soft drinks
+    answerDFilipino: Tsokolateng kendi (candy bar)
   - question: 'For lunch, which is the best to choose with rice? '
     answerA: Fried hotdog only
     answerB: Chocolate and cake
     answerC: Chips and soft drinks
     answerD: Adobo with stir-fried vegetables
     correctAnswer: D
+    questionFilipino: Sa tanghalian, alin ang pinakamainam na ulam na ipares sa kanin?
+    answerAFilipino: Pritong hotdog lamang
+    answerBFilipino: Tsokolate at keyk
+    answerCFilipino: Chips at soft drinks
+    answerDFilipino: Adobo at ginisang gulay
   - question: "If you\u2019re sick, what\u2019s the best food to help you recover
       quickly?"
     answerA: 'Soda '
@@ -4304,54 +4212,105 @@ MonoBehaviour:
     answerC: Pork rinds
     answerD: Chicken and vegetable soup
     correctAnswer: D
+    questionFilipino: Kung ikaw ay may sakit, anong pagkain ang makatutulong upang
+      mas mabilis kang gumaling?
+    answerAFilipino: Soft drinks
+    answerBFilipino: Matamis na tinapay
+    answerCFilipino: Chicharon
+    answerDFilipino: Sopas na may manok at gulay
   - question: ' Before watching TV, which snack would you choose?'
     answerA: Large bag of potato chips
     answerB: Two cans of soft drinks
     answerC: Candy bar
     answerD: Sliced mango
     correctAnswer: D
+    questionFilipino: Bago manood ng telebisyon, anong meryenda ang pipiliin mo?
+    answerAFilipino: Malaking pakete ng potato chips
+    answerBFilipino: Dalawang lata ng soft drinks
+    answerCFilipino: Tsokolateng kendi (candy bar)
+    answerDFilipino: Hiniwang mangga
   - question: 'At a party, which plate is healthier? '
     answerA: Only pansit and soft drinks
     answerB: Only fried chicken with no vegetables
     answerC: 'A little rice, grilled fish, and vegetable salad '
     answerD: 'Only cake and ice cream '
     correctAnswer: C
+    questionFilipino: Sa isang handaan, alin ang mas masustansiyang plato?
+    answerAFilipino: Pancit at soft drinks lamang
+    answerBFilipino: Pritong manok lamang, walang gulay
+    answerCFilipino: Kaunting kanin, inihaw na isda, at ensaladang gulay
+    answerDFilipino: Keyk at sorbetes lamang
   - question: "If you\u2019re buying a snack, what should you choose? "
     answerA: Soda
     answerB: Ice cream
     answerC: Sticky rice and mango
     answerD: Pork rinds
     correctAnswer: C
+    questionFilipino: Kung bibili ka ng meryenda, ano ang dapat mong piliin?
+    answerAFilipino: Soft drinks
+    answerBFilipino: Sorbetes
+    answerCFilipino: Suman at mangga
+    answerDFilipino: Chicharon
   - question: "If you\u2019re an athlete, what should you eat before a game?"
     answerA: Fatty foods like fries
     answerB: Candy for energy
     answerC: Nothing, just play
     answerD: Rice, egg, and water for balance
     correctAnswer: D
+    questionFilipino: Kung ikaw ay isang atleta, ano ang dapat mong kainin bago ang
+      laro?
+    answerAFilipino: Mamantikang pagkain tulad ng french fries
+    answerBFilipino: Kendi para magkaroon ng enerhiya
+    answerCFilipino: Huwag nang kumain, maglaro na lang
+    answerDFilipino: Kanin, itlog, at tubig para sa balanseng pagkain
   - question: If you bring adobo and vegetables to school, how should you eat them?
     answerA: Eat only the adobo
     answerB: Eat both vegetables and adobo in balance
     answerC: Skip eating to lose weight
     answerD: Throw away the vegetables and buy chips
     correctAnswer: B
+    questionFilipino: Kung may baon kang adobo at gulay sa paaralan, paano mo ito
+      kakainin?
+    answerAFilipino: Adobo lamang ang kainin
+    answerBFilipino: Kainin ang gulay at adobo sa tamang balanse
+    answerCFilipino: Huwag nang kumain para pumayat
+    answerDFilipino: Itapon ang gulay at bumili ng chips
   - question: If buying at the store near school, which is better?
     answerA: Soft drinks and chicharon
     answerB: Three candies
     answerC: Bottled water and banana
     answerD: Large ice cream
     correctAnswer: C
+    questionFilipino: Kung bibili ka sa tindahan malapit sa paaralan, alin ang mas
+      mabuting piliin?
+    answerAFilipino: Soft drinks at chicharon
+    answerBFilipino: Tatlong pirasong kendi
+    answerCFilipino: De-boteng tubig at saging
+    answerDFilipino: Malaking sorbetes
   - question: 'After playing basketball, what is the best drink? '
     answerA: Very sweet energy drink
     answerB: Soft drinks
     answerC: 'Sweet juice '
     answerD: Water
     correctAnswer: D
+    questionFilipino: Kung pupunta ka sa field trip, ano ang dapat mong ibaon para
+      sa tanghalian?
+    answerAFilipino: Chips at soft drinks
+    answerBFilipino: Matamis na tinapay at energy drink
+    answerCFilipino: Sandwich na may gulay at tubig
+    answerDFilipino: Kendi at sorbetes
   - question: "If you\u2019re going on a field trip, what should you pack for lunch?"
     answerA: Chips and soda
     answerB: Sweet bread and energy drink
     answerC: Sandwich with vegetables and water
     answerD: Candy and ice cream
     correctAnswer: C
+    questionFilipino: Kung naghahanda ka ng plato para sa hapunan, paano mo susundin
+      ang Pinggang Pinoy?
+    answerAFilipino: Punuin ito ng karne lamang
+    answerBFilipino: Punuin ito ng kanin lamang
+    answerCFilipino: Punuin ito ng matatamis
+    answerDFilipino: Kendi at sorbetes
   - question: "If you\u2019re preparing your dinner plate, how should you follow
       Pinggang Pinoy? "
     answerA: Fill it with meat only
@@ -4359,18 +4318,35 @@ MonoBehaviour:
     answerC: Fill it with sweets
     answerD: Half vegetables, one-third rice, one-third fish
     correctAnswer: D
+    questionFilipino: Kung naghahanda ka ng plato para sa hapunan, paano mo susundin
+      ang Pinggang Pinoy?
+    answerAFilipino: Punuin ito ng karne lamang
+    answerBFilipino: Punuin ito ng kanin lamang
+    answerCFilipino: Punuin ito ng matatamis
+    answerDFilipino: Kalahating gulay, isang-kapat na kanin, at isang-kapat na isda
   - question: 'At recess time: What is better to buy at the canteen?'
     answerA: Soft drinks and candy
     answerB: Ice cream
     answerC: Banana fruit and water
     answerD: Large pack of chicharon
     correctAnswer: C
+    questionFilipino: Sa oras ng recess, ano ang mas mabuting bilhin sa kantina?
+    answerAFilipino: Sa oras ng recess, ano ang mas mabuting bilhin sa kantina?
+    answerBFilipino: Soft drinks at kendi
+    answerCFilipino: Sorbetes
+    answerDFilipino: Saging at tubig
   - question: 'When preparing packed lunch for a field trip, which is the most balanced?   '
     answerA: Cake and juice
     answerB: Rice, grilled chicken, fruit, and water
     answerC: Chips, soft drinks, and candy
     answerD: 'Donut and energy drink '
     correctAnswer: B
+    questionFilipino: Kapag naghahanda ng baon para sa field trip, alin ang may pinakabalanseng
+      pagkain?
+    answerAFilipino: Keyk at juice
+    answerBFilipino: Kanin, inihaw na manok, prutas, at tubig
+    answerCFilipino: Chips, soft drinks, at kendi
+    answerDFilipino: Donut at energy drink
   - question: If you notice you're always eating chips at night, what is better to
       do?
     answerA: Hide them to eat daily
@@ -4378,24 +4354,47 @@ MonoBehaviour:
     answerC: Replace with fruits or vegetable sticks sometimes
     answerD: 'Make chips your dinner '
     correctAnswer: C
+    questionFilipino: Kung napapansin mong palagi kang kumakain ng chips sa gabi,
+      ano ang mas mabuting gawin?
+    answerAFilipino: Itago ang chips para kainin araw-araw
+    answerBFilipino: Kumain pa ng mas maraming chips
+    answerCFilipino: Palitan ito ng prutas o hiniwang gulay paminsan-minsan
+    answerDFilipino: Gawing hapunan ang chips
   - question: If you're in a hurry in the morning, which is a healthier packed meal?
     answerA: Chocolate and chips
     answerB: Peanut butter sandwich and a fruit
     answerC: Candy and soda
     answerD: Two donuts
     correctAnswer: B
+    questionFilipino: Kung nagmamadali ka sa umaga, alin ang mas masustansiyang baon?
+    answerAFilipino: Tsokolate at chips
+    answerBFilipino: Peanut butter sandwich at isang prutas
+    answerCFilipino: Kendi at soft drinks
+    answerDFilipino: Dalawang donut
   - question: "For a birthday party, what\u2019s a healthy food to serve?"
     answerA: Chocolate cake
     answerB: Spaghetti with sugary sauce
     answerC: Ice cream with syrup
     answerD: Fruit salad with yogurt
     correctAnswer: D
-  - question: 'or lunch, which is the best to choose with rice? '
+    questionFilipino: Para sa isang birthday party, ano ang mas masustansiyang pagkain
+      na ihahain?
+    answerAFilipino: Chocolate cake
+    answerBFilipino: Spaghetti na may matamis na sarsa
+    answerCFilipino: Sorbetes na may syrup
+    answerDFilipino: Fruit salad na may yogurt
+  - question: 'For lunch, which is the best to choose with rice? '
     answerA: Fried hotdog only
     answerB: Chocolate and cake
     answerC: Chips and soft drinks
     answerD: Adobo with stir-fried vegetables
     correctAnswer: D
+    questionFilipino: 'Sa tanghalian, alin ang pinakamainam na ulam na ipares sa
+      kanin? '
+    answerAFilipino: Pritong hotdog lamang
+    answerBFilipino: Tsokolate at keyk
+    answerCFilipino: Chips at soft drinks
+    answerDFilipino: Adobo at ginisang gulay
   questionsPerGame: 10
   delayBeforeNextQuestion: 2
 --- !u!4 &949067932
@@ -4758,7 +4757,7 @@ Transform:
   - {fileID: 1062512489}
   - {fileID: 1456558799}
   - {fileID: 474596446}
-  - {fileID: 1924300089}
+  - {fileID: 5356957613942031053}
   - {fileID: 1004144401}
   - {fileID: 220633356}
   - {fileID: 1925909241}
@@ -7466,85 +7465,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!1 &1924300088
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1924300089}
-  - component: {fileID: 1924300090}
-  m_Layer: 0
-  m_Name: NekoCompanion
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1924300089
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1924300088}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1013850525}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1924300090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1924300088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c9deb613e94c7040bdea6615ecf861f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CatCompanion
-  catImage: {fileID: 1793910422}
-  idleSprite: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
-  correctSprite: {fileID: 21300000, guid: 66b1fa522f7127144aa490ad162fbccd, type: 3}
-  wrongSprite: {fileID: 21300000, guid: ed0d21f3f18a4d84ab0c45550f41bb3d, type: 3}
-  hintSprite: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
-  completionSprite: {fileID: 0}
-  speechBubble: {fileID: 895678174}
-  speechText: {fileID: 353551400}
-  idleLines:
-  - Hmmm... what could be the correct answer??
-  - Think carefully!
-  - You got this!
-  - Take your time!
-  correctLines:
-  - Yay! That's right Nya!
-  - Woohoo! Correct!
-  - You're so smart! Nya!
-  - Amazing! Keep it up!
-  - 'Purrfeect!! '
-  wrongLines:
-  - Huh? That's wrong?
-  - Ughhh.. That's bad.
-  - 'So close! '
-  - Oh no!
-  hintLines:
-  - Nya? What could be the answer?
-  - Purr leasse give us help!
-  - You use a hint. Choose wisely!
-  completionLines:
-  - Wow! You beat the tower!
-  - Whew that was tough but it was fun!
-  - 'YAY! WE Did It! '
-  - 
-  reactionDelay: 0.5
-  typewriterSpeed: 0.04
 --- !u!1 &1925909240
 GameObject:
   m_ObjectHideFlags: 0
@@ -8176,6 +8096,73 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2097831726}
   m_CullTransparentMesh: 1
+--- !u!114 &184912631480827484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6611895034878636717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e08b9c1e1d288749919a7bea370c2e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SquishSquashManager
+  transformToAffect: {fileID: 6165763066884133153}
+  axisToAffect: 2
+  animationDuration: 0.25
+  canBeOverwritten: 0
+  playOnStart: 0
+  playsEveryTime: 1
+  chanceToPlay: 100
+  initialScale: 1
+  maximumScale: 1.1
+  resetToInitialScaleAfterAnimation: 1
+  reverseAnimationCurveAfterPlaying: 0
+  squashAndStretchCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.25
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  looping: 0
+  loopingDelay: 0.5
+  enableShake: 0
+  shakeOnStart: 0
+  shakeStrength: 10
+  shakeDuration: 0.3
+  shakeFrequency: 20
+  shakeLooping: 0
+  shakeLoopDelay: 0.5
+  shakeDirection: 0
+  shakeFadeOut: 1
 --- !u!224 &219474693209190499
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8204,6 +8191,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6837391170868832485}
   m_CullTransparentMesh: 1
+--- !u!222 &336976828080873970
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6611895034878636717}
+  m_CullTransparentMesh: 1
+--- !u!114 &368514817936201775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6611895034878636717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
+  m_Delegates: []
 --- !u!114 &415697288982111563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8621,6 +8629,29 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6822386520763584998}
   m_CullTransparentMesh: 1
+--- !u!223 &1782448968906913679
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6611895034878636717}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 1
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: -396560639
+  m_SortingOrder: 15
+  m_TargetDisplay: 0
 --- !u!224 &2017448744078743975
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8925,6 +8956,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8519827910781290557}
   m_CullTransparentMesh: 1
+--- !u!114 &3432977902116446409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6611895034878636717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 3830565682483415335, guid: 169981ea14d17704e91a67575ca1783d, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!224 &3436015435313742894
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9208,6 +9269,89 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &4629166870609070763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6611895034878636717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d2bbc9c722cb0148b0f1a431dc247a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneNavigationRequest
+  targetSceneAsset: {fileID: 102900000, guid: 16a934d48c2436545bfee927179eff16, type: 3}
+  targetSceneName: LibraryMenu
+  useLoadingScreen: 0
+--- !u!114 &4646826427108093500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6611895034878636717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 3432977902116446409}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4629166870609070763}
+        m_TargetAssemblyTypeName: SceneNavigationRequest, Assembly-CSharp
+        m_MethodName: Navigate
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 5
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 184912631480827484}
+        m_TargetAssemblyTypeName: SquishSquashManager, Assembly-CSharp
+        m_MethodName: PlaySquashAndStretch
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &4694371352394273387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9460,6 +9604,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &5356957613942031053
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6100442225026517244}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 737.72205, y: 1172.614, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1013850525}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &5397950075650757689
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9776,6 +9935,42 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!1 &6100442225026517244
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5356957613942031053}
+  - component: {fileID: 6342583944368532192}
+  m_Layer: 0
+  m_Name: 'NekoCompanion '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &6165763066884133153
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6611895034878636717}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.261599, y: 1.261599, z: 1.261599}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 388748997}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 152, y: 152}
+  m_Pivot: {x: 1, y: 1}
 --- !u!224 &6285529170987245385
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9796,6 +9991,76 @@ RectTransform:
   m_AnchoredPosition: {x: 981.05005, y: -226.6}
   m_SizeDelta: {x: 609.9, y: 453.2}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6342583944368532192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6100442225026517244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c9deb613e94c7040bdea6615ecf861f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CatCompanion
+  catImage: {fileID: 1793910422}
+  idleSprite: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
+  correctSprite: {fileID: 21300000, guid: 66b1fa522f7127144aa490ad162fbccd, type: 3}
+  wrongSprite: {fileID: 21300000, guid: ed0d21f3f18a4d84ab0c45550f41bb3d, type: 3}
+  hintSprite: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
+  completionSprite: {fileID: 0}
+  speechBubble: {fileID: 895678174}
+  speechText: {fileID: 353551400}
+  idleLines:
+  - Hmmm... What could be the correct answer??
+  - Think carefully!
+  - You got this!
+  - Take your time!
+  idleLinesFilipino:
+  - Hmm.. Ano kaya ang tamang sagot
+  - Pag isipan mong mabuti!
+  - Kaya mo yan!
+  - Huwag kang mag madali!
+  correctLines:
+  - Yay! That's right Nya!
+  - Woohoo! Correct!
+  - You're so smart! Nya!
+  - Amazing! Keep it up!
+  - 'Purrfeect!! '
+  correctLinesFilipino:
+  - Yay! Tama nyan!
+  - Woohoo! Tama!
+  - Ang talino mo nya!
+  - Ang galing! Pag patuloy mo pa!
+  - Purrfeect!
+  wrongLines:
+  - Huh? That's wrong?
+  - Ughhh.. That's bad.
+  - 'So close! '
+  - Oh no!
+  wrongLinesFilipino:
+  - Huh? Mali yun?
+  - Ughh... Masama ito..
+  - Sayang!
+  - 'Hala! '
+  hintLines:
+  - Nya? What could be the answer?
+  - Purr leasse give us help!
+  - You use a hint. Choose wisely!
+  hintLinesFilipino:
+  - Nya? Ano kaya ang tamang sagot?
+  - Purr leasse tulungan mo kami!
+  - Gumamit ka na ng hint. Mag ingat ka sa pag pili ng sagot.
+  completionLines:
+  - Wow! You beat the tower!
+  - Whew that was tough but it was fun!
+  - 'YAY! WE Did It! '
+  completionLinesFilipino:
+  - Wow! Natapos mo ang tore!
+  - Whew ang hirap nun, pero ang saya!
+  - YAY! Nagawa NATIN!
+  reactionDelay: 0.5
+  typewriterSpeed: 0.04
 --- !u!114 &6475080835721100700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9943,6 +10208,31 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &6611895034878636717
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6165763066884133153}
+  - component: {fileID: 336976828080873970}
+  - component: {fileID: 3432977902116446409}
+  - component: {fileID: 4646826427108093500}
+  - component: {fileID: 4629166870609070763}
+  - component: {fileID: 184912631480827484}
+  - component: {fileID: 368514817936201775}
+  - component: {fileID: 8119995532303978445}
+  - component: {fileID: 1782448968906913679}
+  - component: {fileID: 8192443536908648594}
+  m_Layer: 5
+  m_Name: Back Button
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!114 &6672512222991904611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10345,6 +10635,120 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2976703907018681761}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GraphicRaycaster
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!82 &8119995532303978445
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6611895034878636717}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &8192443536908648594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6611895034878636717}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}

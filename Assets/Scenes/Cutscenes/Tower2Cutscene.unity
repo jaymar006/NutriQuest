@@ -1188,6 +1188,7 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: Emby
     dialogueText: SIENNA! Another recipe page!
+    filipinoText: SIENNA! Isa na namang recipe page!
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: 66b1fa522f7127144aa490ad162fbccd, type: 3}
@@ -1213,9 +1214,10 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: 
     dialogueText: Oh wonderful! Which one is it?!
+    filipinoText: Naku, ang galing! Ano naman ang recipe na 'yan?!
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 21300000, guid: 24483481de76af745bd34839b2fa3a44, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1238,9 +1240,10 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: 
     dialogueText: Uhmm.Filipino Fruit Salad!
+    filipinoText: Umm... Filipino Fruit Salad!
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1264,9 +1267,11 @@ MonoBehaviour:
     customSpeakerName: 
     dialogueText: It is literally just fruit. And cream. Is this even healthy? It
       looks like dessert.
+    filipinoText: Prutas lang naman ito. At cream. Healthy ba talaga ito? Mukha lang
+      itong panghimagas.
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 4613369332385885323, guid: c38f36071605f5c4da5011c8238f182b, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1290,9 +1295,12 @@ MonoBehaviour:
     customSpeakerName: 
     dialogueText: Emby that is a nutritious and it is a classic on the land I visit!
       I only tasted it on a festival, so I record it!
+    filipinoText: Emby, masustansya 'yan! Isa 'yan sa mga sikat na pagkain sa bansang
+      napuntahan ko! Natikman ko lang ito noong may pista, kaya isinulat ko agad
+      ang recipe!
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: -7024112249979172348, guid: 64a2f12449ecf564a84605f468f09b63, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1315,9 +1323,10 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: 
     dialogueText: 'It has condensed milk in it Sienna. So it must be so sweet. '
+    filipinoText: May condensed milk 'yan, Sienna. Siguradong napakatamis niyan.
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: -6077793430231951356, guid: 55166d42aba58dc47ad2f2f79e4ca59d, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1341,14 +1350,16 @@ MonoBehaviour:
     customSpeakerName: 
     dialogueText: 'It also has FRUITS. Vitamins! Fiber! It is perfectly balanced!
       Plus it was so delicous when cold. '
+    filipinoText: May PRUTAS din naman! Maraming bitamina! May fiber pa! Balanseng-balanseng
+      pagkain 'yan! At saka... ang sarap kaya kapag malamig!
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: -2101606179557248710, guid: 3bbc0cd91b4224547a3088bffc13f955, type: 3}
     entranceType: 0
     entranceDuration: 0
-    enableReaction: 0
-    reactionDuration: 0
-    reactionScaleTarget: 0
+    enableReaction: 1
+    reactionDuration: 1.5
+    reactionScaleTarget: 1.5
     enableShake: 0
     shakeIntensity: 0
     shakeDuration: 0
@@ -1367,9 +1378,11 @@ MonoBehaviour:
     customSpeakerName: 
     dialogueText: Hey {player}. She just really loves the cream. No wonder she gain
       some fluff after that trip.
+    filipinoText: Yoh, {player}. Gustong-gusto lang talaga niya ang cream. Kaya pala
+      medyo nadagdagan ang kalambutan niya pagkatapos ng biyaheng 'yon.
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 3955470843362796982, guid: 4756c828401aeb64e8c9554097ccd465, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1392,9 +1405,11 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: 
     dialogueText: I HEARD THAT! IT IS RUDE TO TELL A LADIES FIGURE TO OTHER YOU KNOW!
+    filipinoText: NARINIG KO 'YAN! ANG BASTOS KAYANG MAGKOMENTO TUNGKOL SA PANGANGATAWAN
+      NG ISANG BINIBINI!
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 2714347358834775429, guid: 8a203a67669c120449e84f110620d9d2, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1416,10 +1431,11 @@ MonoBehaviour:
   - character: {fileID: 2068079846}
     useCustomSpeakerName: 0
     customSpeakerName: 
-    dialogueText: AHHHHH!! IM SORRY! PLEASE DON'T FREEZE ME!
+    dialogueText: AHHHHH!! IM SORRY! PLEASE DON'T FREEZE ME LIKE AN ICE CREAM!
+    filipinoText: AHHHHH!! SORRY NA! HUWAG MO AKONG GAWING ICE CREAM!
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: -6077793430231951356, guid: 55166d42aba58dc47ad2f2f79e4ca59d, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1443,9 +1459,12 @@ MonoBehaviour:
     customSpeakerName: 
     dialogueText: Every recipe tells a story. Food is wonderful and eating well means
       enjoying every bite while taking care of yourself
+    filipinoText: Bawat recipe ay may sariling kuwento. Napakasarap ng pagkain, at
+      ang pagkain nang tama ay ang pag-enjoy sa bawat subo habang inaalagaan ang
+      iyong kalusugan.
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 21300000, guid: 24483481de76af745bd34839b2fa3a44, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1469,9 +1488,67 @@ MonoBehaviour:
     customSpeakerName: 
     dialogueText: Yeah, Sienna is right. More importatnly. Two towers down! You're
       already starting to sound like a real hero to me {player}!
+    filipinoText: Oo, tama si Sienna. Pero higit sa lahat, dalawang tore na ang natapos
+      mo! Mukhang isa ka na talagang tunay na bayani, {player}!
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: -9156928245328908291, guid: ad399d33a18e4de45b38d760f4e88dbf, type: 3}
+    entranceType: 0
+    entranceDuration: 0
+    enableReaction: 0
+    reactionDuration: 0
+    reactionScaleTarget: 0
+    enableShake: 0
+    shakeIntensity: 0
+    shakeDuration: 0
+    outroType: 0
+    outroDuration: 0
+    customEntranceClip: {fileID: 0}
+    optionalUIImage: {fileID: 0}
+    soundClip: {fileID: 0}
+    typingSFX: {fileID: 0}
+    useBlackScreen: 0
+    excludeDialogueBoxFromBlackout: 0
+    hideDialoguePanel: 0
+    openNameInputAfterThisLine: 0
+  - character: {fileID: 186856291}
+    useCustomSpeakerName: 0
+    customSpeakerName: 
+    dialogueText: Yup! That's right! And Emby~ Don't mention that again about the
+      fluff~
+    filipinoText: Yup! Tama at Emby~ Subukan mo ulit sabihin na mabalbon ako baka
+      ikaw ang susunod na maging pang himagas~
+    useItalic: 0
+    useBold: 0
+    emotionPortrait: {fileID: -7024112249979172348, guid: 64a2f12449ecf564a84605f468f09b63, type: 3}
+    entranceType: 0
+    entranceDuration: 0
+    enableReaction: 0
+    reactionDuration: 0
+    reactionScaleTarget: 0
+    enableShake: 0
+    shakeIntensity: 0
+    shakeDuration: 0
+    outroType: 0
+    outroDuration: 0
+    customEntranceClip: {fileID: 0}
+    optionalUIImage: {fileID: 0}
+    soundClip: {fileID: 0}
+    typingSFX: {fileID: 0}
+    useBlackScreen: 0
+    excludeDialogueBoxFromBlackout: 0
+    hideDialoguePanel: 0
+    openNameInputAfterThisLine: 0
+  - character: {fileID: 2068079846}
+    useCustomSpeakerName: 0
+    customSpeakerName: 
+    dialogueText: Haha~ Look at the time! Maybe the tower is unloked! Lemme check
+      it first!
+    filipinoText: Hahah~ Tignan mo nga naman ang oras, baka naka bukas na yung susunod
+      na tore. Mauuna muna ako!
+    useItalic: 0
+    useBold: 0
+    emotionPortrait: {fileID: -9156928245328908291, guid: ad399d33a18e4de45b38d760f4e88dbf, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1491,7 +1568,11 @@ MonoBehaviour:
     hideDialoguePanel: 0
     openNameInputAfterThisLine: 0
   autoStartOnAwake: 1
-  autoAdvanceToCutsceneOnEnd: 1
+  minTimeBetweenTaps: 0.15
+  autoAdvanceOnEnd: 1
+  onFinishLoadSceneAsset: {fileID: 102900000, guid: b511cb600657ed54d9664ff5d3d8ca70, type: 3}
+  onFinishLoadScene: ResultsScene
+  onFinishUseLoadingScreen: 0
   dialogueSceneID: 
 --- !u!224 &997854512469007351
 RectTransform:
@@ -1571,8 +1652,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Your mission is this \u2014 find Emby inside Tower 1, clear each tower
-    floor, and collect my missing recipe pages along the way!"
+  m_text: "Sige na nga! Ang tunay na bayani ay tumutulong sa iba nang walang pag-aalinlangan\u2014
+    'yan ang paniniwala ko! Heto, kunin mo ang susing ito. Tara, bumalik na tayo
+    kay Sienna!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d2fc4daefc2346c41a58c44fbb920c03, type: 2}
   m_sharedMaterial: {fileID: -6078078171837885563, guid: d2fc4daefc2346c41a58c44fbb920c03, type: 2}
@@ -1599,8 +1681,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12.3
-  m_fontSizeBase: 12.3
+  m_fontSize: 11
+  m_fontSizeBase: 11
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

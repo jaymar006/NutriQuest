@@ -844,6 +844,64 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1237793399
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1237793401}
+  - component: {fileID: 1237793400}
+  m_Layer: 0
+  m_Name: QuestionGeneratorBeta
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1237793400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1237793399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c4e49120649a1b4ca7c4060bed01c58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::QuestionGeneratorBeta
+  questionPool:
+  - question: 
+    answerA: 
+    answerB: 
+    answerC: 
+    answerD: 
+    correctAnswer: 
+    questionFilipino: 
+    answerAFilipino: 
+    answerBFilipino: 
+    answerCFilipino: 
+    answerDFilipino: 
+  questionsPerGame: 10
+  delayBeforeNextQuestion: 2
+--- !u!4 &1237793401
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1237793399}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 800.25586, y: 1129.2819, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1433052831
 GameObject:
   m_ObjectHideFlags: 0
@@ -1167,6 +1225,7 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: ???
     dialogueText: Ughhh.... How can I explain this to Sienna.
+    filipinoText: Hay... Paano ko kaya ito ipapaliwanag kay Sienna...
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: ed0d21f3f18a4d84ab0c45550f41bb3d, type: 3}
@@ -1193,6 +1252,9 @@ MonoBehaviour:
     customSpeakerName: 
     dialogueText: As you enter the tower you saw a peculiar. Creature. A cat with
       a sword? Until you remember what Sienna told you to find.
+    filipinoText: Sa pagpasok mo sa tore, may nakita kang isang kakaibang nilalang.
+      Isang pusang may dalang espada? Maya-maya, naalala mo ang sinabi ni Sienna
+      na hahanapin mo.
     useItalic: 1
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: ed0d21f3f18a4d84ab0c45550f41bb3d, type: 3}
@@ -1215,10 +1277,13 @@ MonoBehaviour:
     hideDialoguePanel: 0
     openNameInputAfterThisLine: 0
   - character: {fileID: 0}
-    useCustomSpeakerName: 0
-    customSpeakerName: 
+    useCustomSpeakerName: 1
+    customSpeakerName: ???
     dialogueText: Ugh- I can't solve this questions. It making my head spin! But.
       If I can't solve this Sienna's effort will go to waste!
+    filipinoText: Ugh... Hindi ko masagutan ang mga tanong dito. Parang sasabog na
+      ang ulo ko! Pero... kung hindi ko ito masosolusyunan, masasayang lang ang lahat
+      ng paghihirap ni Sienna!
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: ed0d21f3f18a4d84ab0c45550f41bb3d, type: 3}
@@ -1241,9 +1306,10 @@ MonoBehaviour:
     hideDialoguePanel: 0
     openNameInputAfterThisLine: 0
   - character: {fileID: 0}
-    useCustomSpeakerName: 0
+    useCustomSpeakerName: 1
     customSpeakerName: ???
     dialogueText: Ohh?? A human? How did you get here? Are you lost?
+    filipinoText: Ohh?? Isang Tao? Paano ka napunta rito? Naliligaw ka ba?
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
@@ -1268,7 +1334,8 @@ MonoBehaviour:
   - character: {fileID: 0}
     useCustomSpeakerName: 0
     customSpeakerName: 
-    dialogueText: Before you could speak, the little cat cut's you off.
+    dialogueText: Before you could speak, the little cat intterupts you.
+    filipinoText: Bago ka pa makasagot, ang maliit na pusa ay biglang sumabat.
     useItalic: 1
     useBold: 0
     emotionPortrait: {fileID: 0}
@@ -1293,8 +1360,10 @@ MonoBehaviour:
   - character: {fileID: 0}
     useCustomSpeakerName: 0
     customSpeakerName: ???
-    dialogueText: As a hero in training I could not let a lost person! That would
+    dialogueText: As a hero in the future, I could not let a lost person! That would
       any hero will do!
+    filipinoText: Para maging bayani balang araw, hindi ko puwedeng pabayaan ang
+      isang taong naliligaw! Iyan ang gagawin ng kahit sinong tunay na bayani!
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: 66b1fa522f7127144aa490ad162fbccd, type: 3}
@@ -1321,6 +1390,8 @@ MonoBehaviour:
     customSpeakerName: ???
     dialogueText: Umm. I'm a little bit of a pickle here. Will you please help me?
       I promise it will be worth your time.
+    filipinoText: Umm... medyo nasa alanganin ako ngayon. Maaari mo ba akong tulungan?
+      Pramis, hindi masasayang ang oras na ilalaan mo.
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -9156928245328908291, guid: ad399d33a18e4de45b38d760f4e88dbf, type: 3}
@@ -1346,6 +1417,8 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: 
     dialogueText: Before you can speak, he pulls you further into the tower.
+    filipinoText: Bago ka pa muling makapagsalita, hinila ka niya papasok nang mas
+      malalim sa loob ng tore.
     useItalic: 1
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: 66b1fa522f7127144aa490ad162fbccd, type: 3}
@@ -1368,11 +1441,8 @@ MonoBehaviour:
     hideDialoguePanel: 0
     openNameInputAfterThisLine: 0
   autoStartOnAwake: 1
-  minTimeBetweenTaps: 0.15
-  autoAdvanceOnEnd: 1
-  onFinishLoadSceneAsset: {fileID: 102900000, guid: 01e90143054a11546bfe753597e78a30, type: 3}
-  onFinishLoadScene: Level 1
-  onFinishUseLoadingScreen: 0
+  autoAdvanceToCutsceneOnEnd: 1
+  dialogueSceneID: 
 --- !u!224 &997854512469007351
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1952,5 +2022,6 @@ GameObject:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1237793401}
   - {fileID: 1433052834}
   - {fileID: 951393127}

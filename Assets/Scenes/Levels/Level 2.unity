@@ -4031,120 +4031,229 @@ MonoBehaviour:
     answerC: "So you don\u2019t eat at noon"
     answerD: 'To have energy for studying and playing in the morning '
     correctAnswer: D
+    questionFilipino: Bakit mahalagang kumain ng almusal?
+    answerAFilipino: Para makakain ng maraming kendi
+    answerBFilipino: Para makainom ng maraming soft drinks
+    answerCFilipino: Para hindi na kumain ng tanghalian
+    answerDFilipino: Para magkaroon ng lakas sa pag-aaral at paglalaro sa umaga
   - question: What is the effect of eating too much junk food like chips?
     answerA: Stronger body
     answerB: Better skin
     answerC: Weight gain and health problems
     answerD: 'Faster growth '
     correctAnswer: C
+    questionFilipino: Ano ang maaaring maging epekto ng sobrang pagkain ng junk food
+      tulad ng chips?
+    answerAFilipino: Mas lalakas ang katawan
+    answerBFilipino: Mas gaganda ang balat
+    answerCFilipino: Pagtaba at mga problema sa kalusugan
+    answerDFilipino: Mas bibilis ang paglaki
   - question: Why are green vegetables like pechay or kangkong important?
     answerA: To make food saltier
     answerB: To replace fruits
     answerC: To make the dish sweeter
     answerD: Because they have vitamins and minerals for the body
     correctAnswer: D
+    questionFilipino: Ano ang maaaring maging epekto ng sobrang pagkain ng junk food
+      tulad ng chips?
+    answerAFilipino: Mas lalakas ang katawan
+    answerBFilipino: Mas gaganda ang balat
+    answerCFilipino: Pagtaba at mga problema sa kalusugan
+    answerDFilipino: Mas bibilis ang paglaki
   - question: 'Which food is rich in fiber to help digestion? '
     answerA: White rice
     answerB: Oatmeal
     answerC: Soda
     answerD: 'Candy '
     correctAnswer: B
+    questionFilipino: Aling pagkain ang mayaman sa fiber na tumutulong sa maayos
+      na pagtunaw ng pagkain?
+    answerAFilipino: Puting kanin
+    answerBFilipino: Oatmeal
+    answerCFilipino: Soft drinks
+    answerDFilipino: Kendi
   - question: 'What is a good way to make juice less sweet? '
     answerA: Add more sugar
     answerB: Dilute it with water to reduce sweetness
     answerC: Drink a lot right away
-    answerD: 'Tocino '
-    correctAnswer: C
+    answerD: Add vinegar
+    correctAnswer: B
+    questionFilipino: Ano ang mabuting paraan upang mabawasan ang tamis ng juice?
+    answerAFilipino: Magdagdag pa ng asukal
+    answerBFilipino: Haluan ng tubig upang mabawasan ang tamis
+    answerCFilipino: Inumin agad nang marami
+    answerDFilipino: Lagyan ng suka
   - question: "What kind of \u201CGrow\u201D food helps strengthen muscles?"
     answerA: Only fruits and vegetables
     answerB: Fish, meat, eggs, and beans
     answerC: Candy and chocolate
     answerD: Soft drinks and juice
     correctAnswer: B
+    questionFilipino: Anong uri ng "Grow" na pagkain ang nakatutulong sa pagpapalakas
+      ng kalamnan?
+    answerAFilipino: Mga prutas at gulay lamang
+    answerBFilipino: Isda, karne, itlog, at munggo
+    answerCFilipino: Kendi at tsokolate
+    answerDFilipino: Soft drinks at juice
   - question: Why are fruits like mangoes important for our body?
     answerA: They make blood sweet
     answerB: 'They make us gain weight '
     answerC: hey provide vitamin C and boost immunity
     answerD: They improve taste
     correctAnswer: C
+    questionFilipino: Bakit mahalaga sa ating katawan ang mga prutas tulad ng mangga?
+    answerAFilipino: Pinapatamis nito ang dugo
+    answerBFilipino: Nagpapataba ito
+    answerCFilipino: Nagbibigay ito ng bitamina C at nagpapalakas ng panlaban ng
+      katawan
+    answerDFilipino: Pinapasarap nito ang pagkain
   - question: Which vitamin in carrots is good for eyesight?
     answerA: Vitamin B
     answerB: Vitamin D
     answerC: Vitamin E
     answerD: 'Vitamin A  '
     correctAnswer: D
+    questionFilipino: Anong bitamina sa karot ang mabuti para sa paningin?
+    answerAFilipino: Bitamina B
+    answerBFilipino: Bitamina D
+    answerCFilipino: Bitamina E
+    answerDFilipino: Bitamina A
   - question: "What do \u201CGo\u201D foods like rice and bread do for our body?  "
     answerA: Whiten skin
     answerB: Make hair beautifu
     answerC: Provide energy to move and play
     answerD: Help sleep faster
     correctAnswer: C
+    questionFilipino: Ano ang naitutulong ng mga "Go" na pagkain tulad ng kanin at
+      tinapay sa ating katawan?
+    answerAFilipino: Pumaputi ang balat
+    answerBFilipino: Gumaganda ang buhok
+    answerCFilipino: Nagbibigay ng enerhiya para makagalaw at makapaglaro
+    answerDFilipino: Mas mabilis makatulog
   - question: What is the main benefit of "Grow" foods like fish?
     answerA: Provide energy
     answerB: Strengthen only teeth
     answerC: Improve sleep
     answerD: Help the body and muscles grow
     correctAnswer: D
+    questionFilipino: Ano ang pangunahing pakinabang ng mga "Grow" na pagkain tulad
+      ng isda?
+    answerAFilipino: Nagbibigay ng enerhiya
+    answerBFilipino: Pinapalakas lamang ang ngipin
+    answerCFilipino: Pinapaganda ang tulog
+    answerDFilipino: Tumutulong sa paglaki ng katawan at kalamnan
   - question: 'Why is water important in our diet?  '
     answerA: To make food taste sweet
     answerB: 'To make food delicious '
     answerC: To replace milk
     answerD: To keep the body hydrated and healthy
     correctAnswer: D
+    questionFilipino: Bakit mahalaga ang pag-inom ng tubig?
+    answerAFilipino: Para tumamis ang pagkain
+    answerBFilipino: Para mas sumarap ang pagkain
+    answerCFilipino: Pamalit sa gatas
+    answerDFilipino: Para manatiling hydrated at malusog ang katawan
   - question: What type of fat should be limited in food?
     answerA: Healthy fats from peanuts
     answerB: Healthy fats from avocado
     answerC: 'Healthy fats from fish '
     answerD: Fat from fried chicharon and fast food
     correctAnswer: D
+    questionFilipino: Anong uri ng fat ang dapat limitahan sa pagkain?
+    answerAFilipino: Masustansyang taba mula sa mani
+    answerBFilipino: Masustansyang taba mula sa avocado
+    answerCFilipino: Masustansyang taba mula sa isda
+    answerDFilipino: Taba mula sa pritong chicharon at fast food
   - question: 'What can happen if you rarely eat fruits and vegetables? '
     answerA: Always feel full and happy
     answerB: Lack vitamins and get sick more easily
     answerC: Become strong right away
     answerD: 'Grow taller faster '
     correctAnswer: B
+    questionFilipino: Ano ang maaaring mangyari kung bihira kang kumain ng prutas
+      at gulay?
+    answerAFilipino: Laging busog at masaya
+    answerBFilipino: Magkukulang sa bitamina at mas madaling magkasakit
+    answerCFilipino: Agad na lalakas ang katawan
+    answerDFilipino: Mas bibilis ang paglaki ng tangkad
   - question: 'Which food is rich in calcium for strong bones? '
     answerA: 'Yellow mango '
     answerB: Milk
     answerC: 'Soda '
     answerD: Sweet bread
     correctAnswer: B
+    questionFilipino: Aling pagkain ang mayaman sa calcium para sa matitibay na buto?
+    answerAFilipino: Dilaw na mangga
+    answerBFilipino: Gatas
+    answerCFilipino: Soft drinks
+    answerDFilipino: Matamis na tinapay
   - question: What should you choose for a healthier snack?
     answerA: 'Three donuts '
     answerB: Whole grain crackers with cheese
     answerC: Ice cream every day
     answerD: Large bag of chips
     correctAnswer: B
+    questionFilipino: Ano ang mas mabuting piliin bilang masustansyang meryenda?
+    answerAFilipino: Tatlong donut
+    answerBFilipino: Whole grain crackers na may keso
+    answerCFilipino: Ice cream araw-araw
+    answerDFilipino: Malaking pakete ng chips
   - question: ' Why should we limit foods high in salt?'
     answerA: They provide vitamins
     answerB: They strengthen the body
     answerC: They taste good
     answerD: They can cause high blood pressure
     correctAnswer: D
+    questionFilipino: Bakit dapat limitahan ang mga pagkaing mataas sa asin?
+    answerAFilipino: Nagbibigay ng bitamina
+    answerBFilipino: Nagpapalakas ng katawan
+    answerCFilipino: Masarap ang lasa
+    answerDFilipino: Maaari itong magdulot ng altapresyon (high blood pressure)
   - question: Where are foods like sugar and oil found in the Food Pyramid?
     answerA: Base (widest part)
     answerB: Top (smallest part)
     answerC: Not included in the pyramid
     answerD: 'Middle '
     correctAnswer: B
+    questionFilipino: Saan makikita ang mga pagkaing tulad ng asukal at mantika sa
+      Food Pyramid?
+    answerAFilipino: Sa pinakailalim (pinakamalawak na bahagi)
+    answerBFilipino: Sa pinakataas (pinakamaliit na bahagi)
+    answerCFilipino: Wala ang mga ito sa Food Pyramid
+    answerDFilipino: Sa gitnang bahagi
   - question: "Why shouldn\u2019t we always eat junk food?"
     answerA: Because it has no taste
     answerB: "Because it\u2019s always cheap"
     answerC: Because it is high in sugar, fat, and salt but low in nutrients
     answerD: "Because it\u2019s harder to eat"
     correctAnswer: C
+    questionFilipino: Bakit hindi dapat laging kumain ng junk food?
+    answerAFilipino: Dahil wala itong lasa
+    answerBFilipino: Dahil palagi itong mura
+    answerCFilipino: Dahil mataas ito sa asukal, taba, at asin ngunit mababa sa sustansya
+    answerDFilipino: Dahil mas mahirap itong kainin
   - question: What is the main purpose of the Pinggang Pinoy?
     answerA: To teach cooking
     answerB: To provide tasty food
     answerC: To show expensive foods
     answerD: 'To teach balanced eating for health '
     correctAnswer: D
+    questionFilipino: Ano ang pangunahing layunin ng Pinggang Pinoy?
+    answerAFilipino: Magturo ng pagluluto
+    answerBFilipino: Magbigay ng masasarap na pagkain
+    answerCFilipino: Magpakita ng mamahaling pagkain
+    answerDFilipino: Magturo ng balanseng pagkain para sa mabuting kalusugan
   - question: What is a good effect of eating fruits every day?
     answerA: More sugar in the blood
     answerB: More vitamins and fiber for the body
     answerC: No need to drink water
     answerD: No need to eat vegetables
     correctAnswer: B
+    questionFilipino: Ano ang magandang epekto ng pagkain ng prutas araw-araw?
+    answerAFilipino: Mas maraming asukal sa dugo
+    answerBFilipino: Mas maraming bitamina at fiber na nakukuha ng katawan
+    answerCFilipino: Hindi na kailangang uminom ng tubig
+    answerDFilipino: Hindi na kailangang kumain ng gulay
   questionsPerGame: 10
   delayBeforeNextQuestion: 2
 --- !u!4 &949067932
@@ -4507,7 +4616,7 @@ Transform:
   - {fileID: 1062512489}
   - {fileID: 1456558799}
   - {fileID: 474596446}
-  - {fileID: 1924300089}
+  - {fileID: 910991761594818945}
   - {fileID: 1004144401}
   - {fileID: 220633356}
   - {fileID: 1925909241}
@@ -7329,85 +7438,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!1 &1924300088
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1924300089}
-  - component: {fileID: 1924300090}
-  m_Layer: 0
-  m_Name: NekoCompanion
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1924300089
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1924300088}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1013850525}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1924300090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1924300088}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c9deb613e94c7040bdea6615ecf861f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CatCompanion
-  catImage: {fileID: 1793910422}
-  idleSprite: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
-  correctSprite: {fileID: 21300000, guid: 66b1fa522f7127144aa490ad162fbccd, type: 3}
-  wrongSprite: {fileID: 21300000, guid: ed0d21f3f18a4d84ab0c45550f41bb3d, type: 3}
-  hintSprite: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
-  completionSprite: {fileID: 0}
-  speechBubble: {fileID: 895678174}
-  speechText: {fileID: 353551400}
-  idleLines:
-  - Hmmm... what could be the correct answer??
-  - Think carefully!
-  - You got this!
-  - Take your time!
-  correctLines:
-  - Yay! That's right Nya!
-  - Woohoo! Correct!
-  - You're so smart! Nya!
-  - Amazing! Keep it up!
-  - 'Purrfeect!! '
-  wrongLines:
-  - Huh? That's wrong?
-  - Ughhh.. That's bad.
-  - 'So close! '
-  - Oh no!
-  hintLines:
-  - Nya? What could be the answer?
-  - Purr leasse give us help!
-  - You use a hint. Choose wisely!
-  completionLines:
-  - Wow! You beat the tower!
-  - Whew that was tough but it was fun!
-  - 'YAY! WE Did It! '
-  - 
-  reactionDelay: 0.5
-  typewriterSpeed: 0.04
 --- !u!1 &1925909240
 GameObject:
   m_ObjectHideFlags: 0
@@ -8201,6 +8231,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!4 &910991761594818945
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1322612839126641584}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 737.72205, y: 1172.614, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1013850525}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1105672104316218550
 GameObject:
   m_ObjectHideFlags: 0
@@ -8233,6 +8278,23 @@ GameObject:
   - component: {fileID: 2446794108838739367}
   m_Layer: 0
   m_Name: Text (TMP)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1322612839126641584
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 910991761594818945}
+  - component: {fileID: 2231147417318902188}
+  m_Layer: 0
+  m_Name: 'NekoCompanion '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8558,6 +8620,76 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &2231147417318902188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1322612839126641584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c9deb613e94c7040bdea6615ecf861f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CatCompanion
+  catImage: {fileID: 1793910422}
+  idleSprite: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
+  correctSprite: {fileID: 21300000, guid: 66b1fa522f7127144aa490ad162fbccd, type: 3}
+  wrongSprite: {fileID: 21300000, guid: ed0d21f3f18a4d84ab0c45550f41bb3d, type: 3}
+  hintSprite: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
+  completionSprite: {fileID: 0}
+  speechBubble: {fileID: 895678174}
+  speechText: {fileID: 353551400}
+  idleLines:
+  - Hmmm... What could be the correct answer??
+  - Think carefully!
+  - You got this!
+  - Take your time!
+  idleLinesFilipino:
+  - Hmm.. Ano kaya ang tamang sagot
+  - Pag isipan mong mabuti!
+  - Kaya mo yan!
+  - Huwag kang mag madali!
+  correctLines:
+  - Yay! That's right Nya!
+  - Woohoo! Correct!
+  - You're so smart! Nya!
+  - Amazing! Keep it up!
+  - 'Purrfeect!! '
+  correctLinesFilipino:
+  - Yay! Tama nyan!
+  - Woohoo! Tama!
+  - Ang talino mo nya!
+  - Ang galing! Pag patuloy mo pa!
+  - Purrfeect!
+  wrongLines:
+  - Huh? That's wrong?
+  - Ughhh.. That's bad.
+  - 'So close! '
+  - Oh no!
+  wrongLinesFilipino:
+  - Huh? Mali yun?
+  - Ughh... Masama ito..
+  - Sayang!
+  - 'Hala! '
+  hintLines:
+  - Nya? What could be the answer?
+  - Purr leasse give us help!
+  - You use a hint. Choose wisely!
+  hintLinesFilipino:
+  - Nya? Ano kaya ang tamang sagot?
+  - Purr leasse tulungan mo kami!
+  - Gumamit ka na ng hint. Mag ingat ka sa pag pili ng sagot.
+  completionLines:
+  - Wow! You beat the tower!
+  - Whew that was tough but it was fun!
+  - 'YAY! WE Did It! '
+  completionLinesFilipino:
+  - Wow! Natapos mo ang tore!
+  - Whew ang hirap nun, pero ang saya!
+  - YAY! Nagawa NATIN!
+  reactionDelay: 0.5
+  typewriterSpeed: 0.04
 --- !u!1 &2389553289734989365
 GameObject:
   m_ObjectHideFlags: 0

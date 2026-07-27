@@ -1167,6 +1167,7 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: ???
     dialogueText: Ughhh.... How can I explain this to Sienna.
+    filipinoText: Ughhh... Paano ko kaya ito ipapaliwanag kay Sienna?"
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: ed0d21f3f18a4d84ab0c45550f41bb3d, type: 3}
@@ -1193,6 +1194,9 @@ MonoBehaviour:
     customSpeakerName: 
     dialogueText: As you enter the tower you saw a peculiar. Creature. A cat with
       a sword? Until you remember what Sienna told you to find.
+    filipinoText: Pagpasok mo sa tore, may napansin kang kakaibang nilalang. Isang
+      pusang may espada? Bigla mong naalala ang sinabi ni Sienna tungkol sa hahanapin
+      mo.
     useItalic: 1
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: ed0d21f3f18a4d84ab0c45550f41bb3d, type: 3}
@@ -1219,6 +1223,9 @@ MonoBehaviour:
     customSpeakerName: 
     dialogueText: Ugh- I can't solve this questions. It making my head spin! But.
       If I can't solve this Sienna's effort will go to waste!
+    filipinoText: Ugh... Hindi ko masagutan ang mga tanong na ito. Parang sasabog
+      na ang ulo ko! Kapag hindi ko ito nasagutan, masasayang lang ang lahat ng pinaghirapan
+      ni Sienna!
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: ed0d21f3f18a4d84ab0c45550f41bb3d, type: 3}
@@ -1243,7 +1250,8 @@ MonoBehaviour:
   - character: {fileID: 0}
     useCustomSpeakerName: 0
     customSpeakerName: ???
-    dialogueText: Ohh?? A human? How did you get here? Are you lost?
+    dialogueText: Ohh?? How did you get here? Are you lost?
+    filipinoText: Oh?? Paano ka nakarating dito? Naliligaw ka ba?
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
@@ -1269,9 +1277,10 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: 
     dialogueText: Before you could speak, the little cat cut's you off.
+    filipinoText: Bago ka pa makasagot, agad kang pinutol ng munting pusa.
     useItalic: 1
     useBold: 0
-    emotionPortrait: {fileID: 0}
+    emotionPortrait: {fileID: 3955470843362796982, guid: 4756c828401aeb64e8c9554097ccd465, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1295,9 +1304,11 @@ MonoBehaviour:
     customSpeakerName: ???
     dialogueText: As a hero in training I could not let a lost person! That would
       any hero will do!
+    filipinoText: Bilang isang knight na nagsasanay pa lang, hindi ko puwedeng pabayaan
+      ang isang naliligaw! Walang tunay na bayani ang gagawa ng ganoon!
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: 21300000, guid: 66b1fa522f7127144aa490ad162fbccd, type: 3}
+    emotionPortrait: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1321,9 +1332,11 @@ MonoBehaviour:
     customSpeakerName: ???
     dialogueText: Umm. I'm a little bit of a pickle here. Will you please help me?
       I promise it will be worth your time.
+    filipinoText: Umm... Medyo may problema ako. Maaari mo ba akong tulungan? Pangako,
+      sulit ang oras mo!"
     useItalic: 0
     useBold: 0
-    emotionPortrait: {fileID: -9156928245328908291, guid: ad399d33a18e4de45b38d760f4e88dbf, type: 3}
+    emotionPortrait: {fileID: 4613369332385885323, guid: c38f36071605f5c4da5011c8238f182b, type: 3}
     entranceType: 0
     entranceDuration: 0
     enableReaction: 0
@@ -1346,6 +1359,8 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: 
     dialogueText: Before you can speak, he pulls you further into the tower.
+    filipinoText: Bago ka pa makasagot, hinila ka na niya papasok sa mas malalim
+      na bahagi ng tore.
     useItalic: 1
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: 66b1fa522f7127144aa490ad162fbccd, type: 3}
@@ -1373,6 +1388,7 @@ MonoBehaviour:
   onFinishLoadSceneAsset: {fileID: 102900000, guid: 01e90143054a11546bfe753597e78a30, type: 3}
   onFinishLoadScene: Level 1
   onFinishUseLoadingScreen: 0
+  dialogueSceneID: 
 --- !u!224 &997854512469007351
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1451,8 +1467,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Your mission is this \u2014 find Emby inside Tower 1, clear each tower
-    floor, and collect my missing recipe pages along the way!"
+  m_text: Ito ang unang pagkaing natikman natin noong mga bata pa tayo. Gutom na
+    gutom tayo noon bago tayo pinakain ni Uncle... este, ni Master... bago niya tayo
+    ampunin.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d2fc4daefc2346c41a58c44fbb920c03, type: 2}
   m_sharedMaterial: {fileID: -6078078171837885563, guid: d2fc4daefc2346c41a58c44fbb920c03, type: 2}
@@ -1479,8 +1496,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12.3
-  m_fontSizeBase: 12.3
+  m_fontSize: 11
+  m_fontSizeBase: 11
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
