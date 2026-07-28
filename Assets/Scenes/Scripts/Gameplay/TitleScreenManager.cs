@@ -15,7 +15,14 @@ using Gameplay.CutsceneManager;
 //   FRESH INSTALL  (no PlayerName saved)
 //     - Hides the welcome bar and user info footer
 //     - Shows "Touch to Continue" prompt
-//     - On tap -> opens NameInputScreen for first-time setup
+//     - On tap:
+//         - If the language has not been chosen yet (PlayerPrefs "LanguageSelected"
+//           not set), navigates to languageSelectSceneName so the player can pick
+//           a language first. That scene is responsible for setting
+//           PlayerPrefs "LanguageSelected" = 1 once a choice is made and then
+//           returning here (or continuing on to whatever comes next).
+//         - Once the language has been selected, opens NameInputScreen for
+//           first-time setup as before.
 //     - After name is confirmed:
 //         - If a newPlayerIntroCutscene is assigned, plays it (once per save)
 //           and that cutscene scene's own DialogueManager knows where to go next.
@@ -58,6 +65,14 @@ public class TitleScreenManager : MonoBehaviour
              "to load MapScene next. If left empty, newPlayerNextScene is loaded directly instead. " +
              "No separate CutsceneManager GameObject needed.")]
     [SerializeField] private CutsceneTrigger newPlayerIntroCutscene = new CutsceneTrigger();
+
+    [Header("Language Selection (First Time)")]
+    [Tooltip("Scene to load so a brand new player can choose their language, before name input. " +
+             "That scene should set PlayerPrefs \"LanguageSelected\" = 1 once a choice is made.")]
+    [SerializeField] private string languageSelectSceneName = "LanguageSelectScene";
+
+    [Tooltip("Use the loading screen when transitioning to the language select scene?")]
+    [SerializeField] private bool useLoadingScreenForLanguageSelect = false;
 
     // -------------------------------------------------------------------------
     // Inspector — Always-visible UI
@@ -120,6 +135,8 @@ public class TitleScreenManager : MonoBehaviour
     private bool isReturningPlayer = false;
     private bool inputLocked = false;   // prevents double-tap during transition
     private bool waitingForName = false; // true while NameInputScreen is open
+
+    private const string LanguageSelectedKey = "LanguageSelected";
 
     // -------------------------------------------------------------------------
     // Unity lifecycle
@@ -261,7 +278,14 @@ public class TitleScreenManager : MonoBehaviour
         }
         else
         {
-            // Fresh install — open name input screen
+            // Fresh install — choose a language first, then open name input.
+            if (!HasSelectedLanguage())
+            {
+                inputLocked = true;
+                NavigateTo(languageSelectSceneName, useLoadingScreenForLanguageSelect);
+                return;
+            }
+
             waitingForName = true;
             if (nameInputScreen != null)
                 nameInputScreen.Show();
@@ -337,6 +361,16 @@ public class TitleScreenManager : MonoBehaviour
             return PlayerNameManager.Instance.GetPlayerName();
 
         return PlayerPrefs.GetString("PlayerName", "Player");
+    }
+
+    // Whether the player has already picked a language.
+    // The language select scene is expected to call:
+    //     PlayerPrefs.SetInt("LanguageSelected", 1);
+    //     PlayerPrefs.Save();
+    // once the player confirms a language.
+    private bool HasSelectedLanguage()
+    {
+        return PlayerPrefs.GetInt(LanguageSelectedKey, 0) == 1;
     }
 
     // Masks a name for display in the footer.

@@ -1685,9 +1685,13 @@ MonoBehaviour:
   useLoadingScreenForMap: 1
   newPlayerNextScene: Introduction
   useLoadingScreenForNewPlayer: 0
-  newPlayerSceneIsCutscene: 1
-  afterNewPlayerCutsceneScene: MainMenu
-  touchToContinueText: {fileID: 62434161}
+  newPlayerIntroCutscene:
+    sceneAsset: {fileID: 0}
+    sceneName: 
+    useLoadingScreen: 1
+  languageSelectSceneName: ChooseYourLanguage
+  useLoadingScreenForLanguageSelect: 0
+  touchToContinueText: {fileID: 1149452511}
   touchToContinuePulse: {fileID: 0}
   versionText: {fileID: 0}
   quitButton: {fileID: 1487839467}

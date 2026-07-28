@@ -9,8 +9,14 @@ EditorBuildSettings:
     path: Assets/Scenes/Bootstrap.unity
     guid: 255d03c8c57e49b4cb0bea7b7dddf53f
   - enabled: 1
-    path: Assets/Scenes/MainTitle.unity
+    path: Assets/Scenes/TitleScreen.unity
     guid: df64b550cdfd65a4391227787fc7b9a6
+  - enabled: 1
+    path: Assets/Scenes/ChooseYourLanguage.unity
+    guid: 99b0dd068690daa4ebde642f6b29ad7e
+  - enabled: 1
+    path: Assets/Scenes/Cutscenes/Introduction.unity
+    guid: 2d2e7d4fec98b1e468d4bb4a40ef71f1
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: aa9431d2b1eeac140a59082124d31abd
@@ -56,9 +62,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/ResultsScene.unity
     guid: b511cb600657ed54d9664ff5d3d8ca70
-  - enabled: 1
-    path: Assets/Scenes/Cutscenes/Introduction.unity
-    guid: 2d2e7d4fec98b1e468d4bb4a40ef71f1
   - enabled: 1
     path: Assets/Scenes/Cutscenes/Tower1Cutscene.unity
     guid: 8738003609fc49e4baa321c8951b5c9c
