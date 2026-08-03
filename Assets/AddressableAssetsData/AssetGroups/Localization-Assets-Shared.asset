@@ -15,13 +15,33 @@ MonoBehaviour:
   m_GroupName: Localization-Assets-Shared
   m_GUID: 162ceb87450b43f43b288be13827fece
   m_SerializeEntries:
+  - m_GUID: 0eb460d94a633d44b9c17bb28e28495c
+    m_Address: Assets/Localization/Settings Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2c64bcd16e9b1714f89381d55ed0a5be
     m_Address: Assets/Localization/NutriQuestFilipino Shared Data.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 530ced53d306cfa498643e05831864f3
+    m_Address: Assets/Localization/Modals Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 76fd2c1c3340fe443af98411c57a464a
     m_Address: Assets/Localization/Cutscene/Cutscene Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8409cd2ec5427d14f8999cf031243bc9
+    m_Address: Assets/Localization/adasfasf Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 967cd4a69e56c5244ab72f714ab5d905
+    m_Address: Assets/Localization/ProfileWindow Shared Data.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

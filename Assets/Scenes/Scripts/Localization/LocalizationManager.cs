@@ -1,10 +1,11 @@
 using System;
 using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Settings;
 
 public class LocalizationManager : MonoBehaviour
 {
     public static LocalizationManager Instance { get; private set; }
-
     public static event Action OnLanguageChanged;
 
     private const string FILIPINO_CODE = "fil";
@@ -25,23 +26,32 @@ public class LocalizationManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
         Instance = this;
         DontDestroyOnLoad(gameObject);
-
         currentLanguage = PlayerPrefs.GetString(PREFS_KEY, FILIPINO_CODE);
     }
 
     public void SetFilipino()
     {
         currentLanguage = FILIPINO_CODE;
+        SetUnityLocale("fil-PH"); // match whichever Filipino locale code you keep
         SaveAndNotify();
     }
 
     public void SetEnglish()
     {
         currentLanguage = ENGLISH_CODE;
+        SetUnityLocale("en");
         SaveAndNotify();
+    }
+
+    private void SetUnityLocale(string code)
+    {
+        var locale = LocalizationSettings.AvailableLocales.GetLocale(code);
+        if (locale != null)
+            LocalizationSettings.SelectedLocale = locale;
+        else
+            Debug.LogWarning($"[LocalizationManager] No locale found for code: {code}");
     }
 
     private void SaveAndNotify()

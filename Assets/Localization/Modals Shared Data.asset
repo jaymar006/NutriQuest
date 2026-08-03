@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: Modals Shared Data
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
+  m_TableCollectionName: Modals
+  m_TableCollectionNameGuidString: 530ced53d306cfa498643e05831864f3
+  m_Entries:
+  - m_Id: 10125512704
+    m_Key: modals.yes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 78199066624
+    m_Key: modals.no
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1064162496512
+    m_Key: modals.quit_warning
+    m_Metadata:
+      m_Items: []
+  - m_Id: 6013009203200
+    m_Key: modals.caution
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 5182587724867829760
+  references:
+    version: 2
+    RefIds:
+    - rid: 5182587724867829760
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1785779971607

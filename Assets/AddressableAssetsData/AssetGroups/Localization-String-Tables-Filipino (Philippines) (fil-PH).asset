@@ -15,8 +15,20 @@ MonoBehaviour:
   m_GroupName: Localization-String-Tables-Filipino (Philippines) (fil-PH)
   m_GUID: a96f60d886f4e4a45acc21c3bb672e85
   m_SerializeEntries:
+  - m_GUID: 1098cfa2356e7284184f30b30503e67b
+    m_Address: Settings_fil-PH
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-fil-PH
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5661f1241771c6740911bab0b5919308
     m_Address: Cutscene_fil-PH
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-fil-PH
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7f20812027a8393489c682824eec4307
+    m_Address: adasfasf_fil-PH
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-fil-PH

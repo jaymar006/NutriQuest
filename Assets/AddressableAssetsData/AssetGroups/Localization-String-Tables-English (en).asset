@@ -15,6 +15,30 @@ MonoBehaviour:
   m_GroupName: Localization-String-Tables-English (en)
   m_GUID: 7868c79c1197607408f8634a49cd292f
   m_SerializeEntries:
+  - m_GUID: 115240de2a6d9634c8454a0a90d2219e
+    m_Address: adasfasf_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2453f1ef79da5614bbe9b9171d5e8d72
+    m_Address: Modals_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 40b305092fe0fa64291a67a1297d66d3
+    m_Address: Settings_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 52293fef0bb194f4582cd8f191c2dafe
+    m_Address: ProfileWindow_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d0f2a069ed8a76941b9b417c48bca36b
     m_Address: Cutscene_en
     m_ReadOnly: 1

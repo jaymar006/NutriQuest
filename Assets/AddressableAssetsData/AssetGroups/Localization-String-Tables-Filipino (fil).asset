@@ -21,6 +21,30 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-fil
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2b3e2f9b074dd6843b7251ae344b0a03
+    m_Address: ProfileWindow_fil
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-fil
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3e62385fe3e7cd64c8d337ca24d30ca0
+    m_Address: Settings_fil
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-fil
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 748ad9af0bbe25a4ab6a1ae9ecc1c96a
+    m_Address: adasfasf_fil
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-fil
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c70002bcd69ef5d4d8e2896da22c2018
+    m_Address: Modals_fil
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-fil
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 82cd14d52c883204b94bd5b823e1f736, type: 2}
   m_SchemaSet:
