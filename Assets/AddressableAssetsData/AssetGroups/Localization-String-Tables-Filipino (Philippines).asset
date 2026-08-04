@@ -10,26 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Localization-Locales
+  m_Name: Localization-String-Tables-Filipino (Philippines)
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
-  m_GroupName: Localization-Locales
-  m_GUID: 433220ef563dcbc4c9fb14a0d3eef342
+  m_GroupName: Localization-String-Tables-Filipino (Philippines)
+  m_GUID: ea7c8357e1d2aa840b822585a35f7fb1
   m_SerializeEntries:
-  - m_GUID: 0c890d739a3d5604f8dec6bd73b2fcc6
-    m_Address: Filipino (fil)
+  - m_GUID: 2bcfa0df52a0d8347aa23f4da2619ea0
+    m_Address: ProfileWindow_fil-PH
     m_ReadOnly: 1
     m_SerializedLabels:
-    - Locale
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: b0ad3c2c1e9e5b342b4c605252563037
-    m_Address: English (en)
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale
+    - Locale-fil-PH
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 82cd14d52c883204b94bd5b823e1f736, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 12b9496f71e6d044888335e607d6f809, type: 2}
-    - {fileID: 11400000, guid: 2fa62c39fbf12d44eb5e8d6a6e7e31f1, type: 2}
+    - {fileID: 11400000, guid: a07f297f64e08f74ba22f0dc8b28f836, type: 2}
+    - {fileID: 11400000, guid: 1f3b5b93b782621479170227f48fde03, type: 2}

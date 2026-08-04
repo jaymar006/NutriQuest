@@ -29,6 +29,7 @@ public class LocalizationManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
         currentLanguage = PlayerPrefs.GetString(PREFS_KEY, FILIPINO_CODE);
+        SetUnityLocale(currentLanguage == FILIPINO_CODE ? "fil-PH" : "en"); // NEW — sync immediately on boot
     }
 
     public void SetFilipino()

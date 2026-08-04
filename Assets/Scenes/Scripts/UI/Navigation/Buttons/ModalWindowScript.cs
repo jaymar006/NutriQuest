@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using System.Collections;
 
 [RequireComponent(typeof(CanvasGroup))]
@@ -31,13 +32,22 @@ public class ModalWindowScript : MonoBehaviour
     {
         gameObject.SetActive(true);
         StopAllCoroutines();
-        StartCoroutine(AnimateModal(0f, 1f, originalScale * startScale, originalScale));
+        StartCoroutine(AnimateModal(canvasGroup.alpha, 1f, rectTransform.localScale, originalScale));
     }
 
     public void Hide()
     {
+        // Clear the EventSystem's selected/pressed object so it doesn't hold a
+        // stale reference to a button that's about to be deactivated. Without
+        // this, clicks on buttons inside the modal can silently stop firing
+        // the next time the modal is shown.
+        if (EventSystem.current != null)
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+        }
+
         StopAllCoroutines();
-        StartCoroutine(AnimateModal(1f, 0f, originalScale, originalScale * startScale));
+        StartCoroutine(AnimateModal(canvasGroup.alpha, 0f, rectTransform.localScale, originalScale * startScale));
     }
 
     private IEnumerator AnimateModal(float startAlpha, float endAlpha,
@@ -54,12 +64,10 @@ public class ModalWindowScript : MonoBehaviour
 
         while (time < fadeDuration)
         {
-            time += Time.deltaTime;
+            time += Time.unscaledDeltaTime; // pause-safe
             float t = Mathf.SmoothStep(0f, 1f, time / fadeDuration);
-
             canvasGroup.alpha = Mathf.Lerp(startAlpha, endAlpha, t);
             rectTransform.localScale = Vector3.Lerp(startScaleVec, endScaleVec, t);
-
             yield return null;
         }
 

@@ -40,6 +40,11 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9160db3fb86b6e84795c1017f41b95dc
+    m_Address: Assets/Localization/LevelModalWarning Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 967cd4a69e56c5244ab72f714ab5d905
     m_Address: Assets/Localization/ProfileWindow Shared Data.asset
     m_ReadOnly: 1

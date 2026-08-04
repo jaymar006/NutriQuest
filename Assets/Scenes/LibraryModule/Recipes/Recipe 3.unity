@@ -211,7 +211,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f59a25f5474fe4488238009b05cf72f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
-  modal: {fileID: 1825290952}
+  englishModal: {fileID: 0}
+  filipinoModal: {fileID: 1825290952}
   backButtonManager: {fileID: 0}
 --- !u!114 &108614906
 MonoBehaviour:
@@ -546,10 +547,10 @@ GameObject:
   - component: {fileID: 650293568}
   - component: {fileID: 650293574}
   - component: {fileID: 650293573}
-  - component: {fileID: 650293572}
   - component: {fileID: 650293571}
   - component: {fileID: 650293570}
   - component: {fileID: 650293569}
+  - component: {fileID: 650293575}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -660,20 +661,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &650293572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 650293567}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f59a25f5474fe4488238009b05cf72f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOF
-  modal: {fileID: 0}
-  backButtonManager: {fileID: 0}
 --- !u!114 &650293573
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -712,6 +699,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 650293567}
   m_CullTransparentMesh: 1
+--- !u!114 &650293575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650293567}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4a4a16450222fc4287a233127b84f51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ModalCloser
+  modalToClose: {fileID: 1825290952}
+  backButtonManager: {fileID: 0}
 --- !u!1 &683644018
 GameObject:
   m_ObjectHideFlags: 0
@@ -2088,7 +2089,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f59a25f5474fe4488238009b05cf72f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
-  modal: {fileID: 1825290952}
+  englishModal: {fileID: 1825290952}
+  filipinoModal: {fileID: 0}
   backButtonManager: {fileID: 0}
 --- !u!1001 &1515633823
 PrefabInstance:
@@ -4690,7 +4692,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f59a25f5474fe4488238009b05cf72f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOF
-  modal: {fileID: 1825290952}
+  englishModal: {fileID: 0}
+  filipinoModal: {fileID: 0}
   backButtonManager: {fileID: 0}
 --- !u!114 &5791904576379082961
 MonoBehaviour:

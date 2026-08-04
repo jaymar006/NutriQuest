@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5be51871efa6c3e4eae1703925c8f5ac, type: 3}
-  m_Name: ProfileWindow
+  m_Name: LevelModalWarning
   m_EditorClassIdentifier: Unity.Localization.Editor::UnityEditor.Localization.StringTableCollection
-  m_SharedTableData: {fileID: 11400000, guid: 967cd4a69e56c5244ab72f714ab5d905, type: 2}
+  m_SharedTableData: {fileID: 11400000, guid: 9160db3fb86b6e84795c1017f41b95dc, type: 2}
   m_Tables:
-  - {fileID: 11400000, guid: 52293fef0bb194f4582cd8f191c2dafe, type: 2}
-  - {fileID: 11400000, guid: 2b3e2f9b074dd6843b7251ae344b0a03, type: 2}
-  - {fileID: 11400000, guid: 2bcfa0df52a0d8347aa23f4da2619ea0, type: 2}
+  - {fileID: 11400000, guid: d0756c980a96eda4fbac2e43a98e7d76, type: 2}
+  - {fileID: 11400000, guid: d57ad2eb14330d848b257910d2bcb01a, type: 2}
   m_Extensions: []
   m_Group: String Table
   references:
