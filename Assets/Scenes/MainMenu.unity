@@ -1747,7 +1747,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 324, y: 202}
-  m_SizeDelta: {x: 200, y: 0}
+  m_SizeDelta: {x: 200, y: 238.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &96003870
 MonoBehaviour:
@@ -9293,9 +9293,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 96003869}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 100, y: -87.8}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &605725469
@@ -10581,8 +10581,8 @@ MonoBehaviour:
   m_text: Piliin ang pinakamalusog na pagkain sa bawat sitwasyon at ipakita ang iyong
     tamang pagpapasya!
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 688773ed63cfd4c479ed7f4c92860be3, type: 2}
-  m_sharedMaterial: {fileID: -988498651693161367, guid: 688773ed63cfd4c479ed7f4c92860be3, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 10fd060b6273528479d6f88050de81ee, type: 2}
+  m_sharedMaterial: {fileID: -988498651693161367, guid: 10fd060b6273528479d6f88050de81ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -16211,7 +16211,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &967109772
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16833,9 +16833,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 96003869}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 100, y: -150.6}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1018734489
@@ -17832,8 +17832,8 @@ MonoBehaviour:
   m_text: Sagutin ang 10 tanong at tuklasin kung paano nakatutulong ang masustansyang
     pagkain sa paglaki at pagiging malusog.
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 688773ed63cfd4c479ed7f4c92860be3, type: 2}
-  m_sharedMaterial: {fileID: -988498651693161367, guid: 688773ed63cfd4c479ed7f4c92860be3, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 10fd060b6273528479d6f88050de81ee, type: 2}
+  m_sharedMaterial: {fileID: -988498651693161367, guid: 10fd060b6273528479d6f88050de81ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -24592,8 +24592,8 @@ MonoBehaviour:
   m_text: "Harapin ang pinakamahirap na hamon gamit ang pinaghalong mga tanong mula
     sa Tower 1\u20133."
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 688773ed63cfd4c479ed7f4c92860be3, type: 2}
-  m_sharedMaterial: {fileID: -988498651693161367, guid: 688773ed63cfd4c479ed7f4c92860be3, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 10fd060b6273528479d6f88050de81ee, type: 2}
+  m_sharedMaterial: {fileID: -988498651693161367, guid: 10fd060b6273528479d6f88050de81ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -31110,9 +31110,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 96003869}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 100, y: -25}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1853240806
@@ -32655,9 +32655,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 96003869}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 100, y: -213.4}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1936919262
@@ -33703,8 +33703,8 @@ MonoBehaviour:
   m_text: Subukan ang iyong kaalaman sa pagtukoy ng masustansyang pagkain at junk
     food.
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 688773ed63cfd4c479ed7f4c92860be3, type: 2}
-  m_sharedMaterial: {fileID: -988498651693161367, guid: 688773ed63cfd4c479ed7f4c92860be3, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 10fd060b6273528479d6f88050de81ee, type: 2}
+  m_sharedMaterial: {fileID: -988498651693161367, guid: 10fd060b6273528479d6f88050de81ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

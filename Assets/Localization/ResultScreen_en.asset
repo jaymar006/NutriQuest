@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: ResultScreen_en
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: c1bb8b2de177504438ee66b1260412f3, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 46558842654720
+    m_Localized: "Every great journey starts with a single step \u2014 and you're
+      already on your way! Don't be discouraged by this result. Each attempt teaches
+      you something new about nutrition and brings you closer to your goal. Come
+      back stronger and show this tower what you're made of!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 46563238285312
+    m_Localized: "Well done! You've proven yourself a true challenger by clearing
+      this tower with a solid score. Every question you faced made you sharper and
+      every answer brought you closer to mastery. Keep pushing \u2014 the top is
+      within reach!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 46152263602176
+    m_Localized: "Outstanding performance! You tackled this tower with skill and
+      confidence, crushing through the questions with an impressive score. You clearly
+      know your stuff and you're only getting stronger. The tower has been conquered
+      \u2014 what's next?"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 46454723252224
+    m_Localized: "Absolutely flawless! A perfect score on your very first try \u2014
+      that's no accident, that's pure brilliance. You didn't just pass the tower,
+      you mastered it. The knowledge of nutrition flows through you like second nature.
+      Wear this badge with pride!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 46640216346624
+    m_Localized: CONGRATS! YOU EARNED A RUNE KEY! USE IT TO UNLOCK THE NEXT TOWER
+      OR COLLECT MORE TO RECHALLENGE PREVIOUS TOWER. USE IT WISELY!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 46688668946432
+    m_Localized: Ohhh you found 1 of the recipe pages scattered around the tower.
+      Check the library to see what recipe you unlocked. Curious? Why not check it
+      out?
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

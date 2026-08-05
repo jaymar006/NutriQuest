@@ -269,7 +269,7 @@ GameObject:
   - component: {fileID: 88835000}
   - component: {fileID: 88834999}
   - component: {fileID: 88834998}
-  - component: {fileID: 88834997}
+  - component: {fileID: 88835003}
   m_Layer: 0
   m_Name: Badge 2
   m_TagString: Untagged
@@ -296,20 +296,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &88834997
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 88834995}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f59a25f5474fe4488238009b05cf72f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOF
-  modal: {fileID: 682085393}
-  backButtonManager: {fileID: 0}
 --- !u!82 &88834998
 AudioSource:
   m_ObjectHideFlags: 0
@@ -518,7 +504,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 88834997}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ModalOnAndOF, Assembly-CSharp
         m_MethodName: OpenModal
         m_Mode: 1
@@ -542,8 +528,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 88834997}
-        m_TargetAssemblyTypeName: ModalOnAndOF, Assembly-CSharp
+      - m_Target: {fileID: 88835003}
+        m_TargetAssemblyTypeName: ModalOpener, Assembly-CSharp
         m_MethodName: OpenModal
         m_Mode: 1
         m_Arguments:
@@ -592,6 +578,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 88834995}
   m_CullTransparentMesh: 1
+--- !u!114 &88835003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 88834995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a9c0d06a0bb18f4c89dc91cbc289d9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ModalOpener
+  modalToOpen: {fileID: 682085393}
+  backButtonManager: {fileID: 0}
 --- !u!1 &115443443
 GameObject:
   m_ObjectHideFlags: 0
@@ -603,9 +603,9 @@ GameObject:
   - component: {fileID: 115443444}
   - component: {fileID: 115443449}
   - component: {fileID: 115443448}
-  - component: {fileID: 115443447}
   - component: {fileID: 115443446}
   - component: {fileID: 115443445}
+  - component: {fileID: 115443450}
   m_Layer: 0
   m_Name: FadeImageModal4
   m_TagString: Untagged
@@ -688,8 +688,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 115443447}
-        m_TargetAssemblyTypeName: ModalOnAndOF, Assembly-CSharp
+      - m_Target: {fileID: 115443450}
+        m_TargetAssemblyTypeName: ModalCloser, Assembly-CSharp
         m_MethodName: CloseModal
         m_Mode: 1
         m_Arguments:
@@ -700,20 +700,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &115443447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 115443443}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f59a25f5474fe4488238009b05cf72f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOF
-  modal: {fileID: 1883701795}
-  backButtonManager: {fileID: 0}
 --- !u!114 &115443448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -752,6 +738,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 115443443}
   m_CullTransparentMesh: 1
+--- !u!114 &115443450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 115443443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4a4a16450222fc4287a233127b84f51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ModalCloser
+  modalToClose: {fileID: 1883701795}
+  backButtonManager: {fileID: 0}
 --- !u!1 &150417157
 GameObject:
   m_ObjectHideFlags: 0
@@ -1052,7 +1052,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f59a25f5474fe4488238009b05cf72f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOff
-  modal: {fileID: 1883701795}
+  englishModal: {fileID: 0}
+  filipinoModal: {fileID: 0}
   backButtonManager: {fileID: 0}
 --- !u!1 &209573820
 GameObject:
@@ -1347,7 +1348,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f59a25f5474fe4488238009b05cf72f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOff
-  modal: {fileID: 209573822}
+  englishModal: {fileID: 0}
+  filipinoModal: {fileID: 0}
   backButtonManager: {fileID: 0}
 --- !u!1 &236831358
 GameObject:
@@ -1582,8 +1584,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 301591437}
+  - component: {fileID: 301591438}
   m_Layer: 0
-  m_Name: TitleCards
+  m_Name: TitleCardsEnglish
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1612,6 +1615,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 2240}
   m_SizeDelta: {x: 2806.1565, y: 864.5996}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &301591438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 301591436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a616c24e7d5b404ab05e050247c3630, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedElement
+  language: 0
 --- !u!1 &306271185
 GameObject:
   m_ObjectHideFlags: 0
@@ -1623,6 +1639,7 @@ GameObject:
   - component: {fileID: 306271186}
   - component: {fileID: 306271188}
   - component: {fileID: 306271187}
+  - component: {fileID: 306271189}
   m_Layer: 0
   m_Name: P1
   m_TagString: Untagged
@@ -1751,6 +1768,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 306271185}
   m_CullTransparentMesh: 1
+--- !u!114 &306271189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 306271185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Components.LocalizeStringEvent
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:c1bb8b2de177504438ee66b1260412f3
+    m_TableEntryReference:
+      m_KeyId: 46558842654720
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 306271187}
+        m_TargetAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &322958752
 GameObject:
   m_ObjectHideFlags: 0
@@ -1762,9 +1819,9 @@ GameObject:
   - component: {fileID: 322958753}
   - component: {fileID: 322958758}
   - component: {fileID: 322958757}
-  - component: {fileID: 322958756}
   - component: {fileID: 322958755}
   - component: {fileID: 322958754}
+  - component: {fileID: 322958759}
   m_Layer: 0
   m_Name: FadeImageModal3
   m_TagString: Untagged
@@ -1847,8 +1904,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 322958756}
-        m_TargetAssemblyTypeName: ModalOnAndOF, Assembly-CSharp
+      - m_Target: {fileID: 322958759}
+        m_TargetAssemblyTypeName: ModalCloser, Assembly-CSharp
         m_MethodName: CloseModal
         m_Mode: 1
         m_Arguments:
@@ -1859,20 +1916,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &322958756
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 322958752}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f59a25f5474fe4488238009b05cf72f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOF
-  modal: {fileID: 750253705}
-  backButtonManager: {fileID: 0}
 --- !u!114 &322958757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1911,6 +1954,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 322958752}
   m_CullTransparentMesh: 1
+--- !u!114 &322958759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 322958752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4a4a16450222fc4287a233127b84f51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ModalCloser
+  modalToClose: {fileID: 750253705}
+  backButtonManager: {fileID: 0}
 --- !u!1 &341722485
 GameObject:
   m_ObjectHideFlags: 0
@@ -2150,14 +2207,14 @@ RectTransform:
   m_GameObject: {fileID: 407013960}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.8960516, y: 1.8960516, z: 1.8960516}
+  m_LocalScale: {x: 2.298394, y: 2.298394, z: 2.298394}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 301591437}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -17}
+  m_AnchoredPosition: {x: 0, y: -209}
   m_SizeDelta: {x: 1480, y: 336}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &407013962
@@ -2180,7 +2237,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: e1859390ec6db1745837e6cc6868bb92, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c77608407ce39604d8cd3ac42e8d52f2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2672,6 +2729,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 576656401}
   m_CullTransparentMesh: 1
+--- !u!1 &609952281
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 609952282}
+  - component: {fileID: 609952284}
+  - component: {fileID: 609952283}
+  m_Layer: 0
+  m_Name: Tower3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &609952282
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609952281}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2.7341065, y: 2.7341065, z: 2.7341065}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1334900818}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -156}
+  m_SizeDelta: {x: 1480, y: 336}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &609952283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609952281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -8906858365024280754, guid: 99b03e2b5d0a762408be200ab848b66d, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &609952284
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 609952281}
+  m_CullTransparentMesh: 1
 --- !u!1 &616140328
 GameObject:
   m_ObjectHideFlags: 0
@@ -2699,7 +2831,7 @@ RectTransform:
   m_GameObject: {fileID: 616140328}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.8960516, y: 1.8960516, z: 1.8960516}
+  m_LocalScale: {x: 2.113908, y: 2.113908, z: 2.113908}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 301591437}
@@ -3323,9 +3455,9 @@ GameObject:
   - component: {fileID: 720849786}
   - component: {fileID: 720849791}
   - component: {fileID: 720849790}
-  - component: {fileID: 720849789}
   - component: {fileID: 720849788}
   - component: {fileID: 720849787}
+  - component: {fileID: 720849792}
   m_Layer: 0
   m_Name: FadeImageModal5
   m_TagString: Untagged
@@ -3408,8 +3540,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 720849789}
-        m_TargetAssemblyTypeName: ModalOnAndOF, Assembly-CSharp
+      - m_Target: {fileID: 720849792}
+        m_TargetAssemblyTypeName: ModalCloser, Assembly-CSharp
         m_MethodName: CloseModal
         m_Mode: 1
         m_Arguments:
@@ -3420,20 +3552,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &720849789
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 720849785}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f59a25f5474fe4488238009b05cf72f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOF
-  modal: {fileID: 209573822}
-  backButtonManager: {fileID: 0}
 --- !u!114 &720849790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3472,6 +3590,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 720849785}
   m_CullTransparentMesh: 1
+--- !u!114 &720849792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 720849785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4a4a16450222fc4287a233127b84f51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ModalCloser
+  modalToClose: {fileID: 209573822}
+  backButtonManager: {fileID: 0}
 --- !u!1 &745418931
 GameObject:
   m_ObjectHideFlags: 0
@@ -3889,6 +4021,53 @@ RectTransform:
   m_AnchoredPosition: {x: -418.46298, y: 199.14468}
   m_SizeDelta: {x: 606.5801, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &906079687
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 906079689}
+  - component: {fileID: 906079688}
+  m_Layer: 0
+  m_Name: LocalizedToggle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &906079688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 906079687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98a72f4fee4a2764ea8ae3c9d485277d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedGroupToggle
+  elements:
+  - {fileID: 301591438}
+  - {fileID: 1334900819}
+--- !u!4 &906079689
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 906079687}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 536.5, y: 956.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &915648497
 GameObject:
   m_ObjectHideFlags: 0
@@ -4148,6 +4327,7 @@ GameObject:
   - component: {fileID: 1024881420}
   - component: {fileID: 1024881422}
   - component: {fileID: 1024881421}
+  - component: {fileID: 1024881423}
   m_Layer: 0
   m_Name: P1
   m_TagString: Untagged
@@ -4276,6 +4456,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1024881419}
   m_CullTransparentMesh: 1
+--- !u!114 &1024881423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024881419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Components.LocalizeStringEvent
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:c1bb8b2de177504438ee66b1260412f3
+    m_TableEntryReference:
+      m_KeyId: 46152263602176
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1024881421}
+        m_TargetAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &1041994766
 GameObject:
   m_ObjectHideFlags: 0
@@ -4908,14 +5128,14 @@ RectTransform:
   m_GameObject: {fileID: 1158978906}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.8960516, y: 1.8960516, z: 1.8960516}
+  m_LocalScale: {x: 2.0134172, y: 2.0134172, z: 2.0134172}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 301591437}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -68}
   m_SizeDelta: {x: 1480, y: 456}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1158978908
@@ -4940,7 +5160,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: c6c443859ed0b03489ee6fad21eb2717, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -5106,6 +5326,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1182139610}
   m_CullTransparentMesh: 1
+--- !u!1 &1258128722
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1258128723}
+  - component: {fileID: 1258128725}
+  - component: {fileID: 1258128724}
+  m_Layer: 0
+  m_Name: Tower4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1258128723
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1258128722}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2.7843518, y: 2.7843518, z: 2.7843518}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1334900818}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -220}
+  m_SizeDelta: {x: 1480, y: 336}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1258128724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1258128722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -1732701580355871990, guid: 56bef6b146d3a5147bcdf53f8a616e0b, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1258128725
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1258128722}
+  m_CullTransparentMesh: 1
 --- !u!1 &1260914518
 GameObject:
   m_ObjectHideFlags: 0
@@ -5196,7 +5491,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1271963042
 Transform:
   m_ObjectHideFlags: 0
@@ -5402,6 +5697,7 @@ GameObject:
   - component: {fileID: 1319755337}
   - component: {fileID: 1319755339}
   - component: {fileID: 1319755338}
+  - component: {fileID: 1319755340}
   m_Layer: 0
   m_Name: P1
   m_TagString: Untagged
@@ -5529,6 +5825,99 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1319755336}
   m_CullTransparentMesh: 1
+--- !u!114 &1319755340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1319755336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Components.LocalizeStringEvent
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:c1bb8b2de177504438ee66b1260412f3
+    m_TableEntryReference:
+      m_KeyId: 46563238285312
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1319755338}
+        m_TargetAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  references:
+    version: 2
+    RefIds: []
+--- !u!1 &1334900817
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1334900818}
+  - component: {fileID: 1334900819}
+  m_Layer: 0
+  m_Name: TitleCardsTagalog
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1334900818
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1334900817}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1767974715}
+  - {fileID: 1611508408}
+  - {fileID: 609952282}
+  - {fileID: 1258128723}
+  m_Father: {fileID: 2055783645}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 2240}
+  m_SizeDelta: {x: 2806.1565, y: 864.5996}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1334900819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1334900817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a616c24e7d5b404ab05e050247c3630, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizedElement
+  language: 1
 --- !u!1 &1341112761
 GameObject:
   m_ObjectHideFlags: 0
@@ -5774,6 +6163,7 @@ GameObject:
   - component: {fileID: 1407538837}
   - component: {fileID: 1407538839}
   - component: {fileID: 1407538838}
+  - component: {fileID: 1407538840}
   m_Layer: 0
   m_Name: P1
   m_TagString: Untagged
@@ -5900,6 +6290,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1407538836}
   m_CullTransparentMesh: 1
+--- !u!114 &1407538840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407538836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Components.LocalizeStringEvent
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:c1bb8b2de177504438ee66b1260412f3
+    m_TableEntryReference:
+      m_KeyId: 46688668946432
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1407538838}
+        m_TargetAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &1414480140
 GameObject:
   m_ObjectHideFlags: 0
@@ -5986,6 +6416,7 @@ GameObject:
   - component: {fileID: 1422333312}
   - component: {fileID: 1422333314}
   - component: {fileID: 1422333313}
+  - component: {fileID: 1422333315}
   m_Layer: 0
   m_Name: P1
   m_TagString: Untagged
@@ -6112,6 +6543,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1422333311}
   m_CullTransparentMesh: 1
+--- !u!114 &1422333315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1422333311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Components.LocalizeStringEvent
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:c1bb8b2de177504438ee66b1260412f3
+    m_TableEntryReference:
+      m_KeyId: 46640216346624
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1422333313}
+        m_TargetAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &1434365626
 GameObject:
   m_ObjectHideFlags: 0
@@ -6123,9 +6594,9 @@ GameObject:
   - component: {fileID: 1434365627}
   - component: {fileID: 1434365632}
   - component: {fileID: 1434365631}
-  - component: {fileID: 1434365630}
   - component: {fileID: 1434365629}
   - component: {fileID: 1434365628}
+  - component: {fileID: 1434365633}
   m_Layer: 0
   m_Name: FadeImageModal3
   m_TagString: Untagged
@@ -6208,8 +6679,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1434365630}
-        m_TargetAssemblyTypeName: ModalOnAndOF, Assembly-CSharp
+      - m_Target: {fileID: 1434365633}
+        m_TargetAssemblyTypeName: ModalCloser, Assembly-CSharp
         m_MethodName: CloseModal
         m_Mode: 1
         m_Arguments:
@@ -6220,20 +6691,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1434365630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1434365626}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f59a25f5474fe4488238009b05cf72f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOF
-  modal: {fileID: 1577630767}
-  backButtonManager: {fileID: 0}
 --- !u!114 &1434365631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6272,6 +6729,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1434365626}
   m_CullTransparentMesh: 1
+--- !u!114 &1434365633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1434365626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4a4a16450222fc4287a233127b84f51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ModalCloser
+  modalToClose: {fileID: 1577630767}
+  backButtonManager: {fileID: 0}
 --- !u!1 &1447885748
 GameObject:
   m_ObjectHideFlags: 0
@@ -6481,9 +6952,9 @@ GameObject:
   - component: {fileID: 1545261930}
   - component: {fileID: 1545261935}
   - component: {fileID: 1545261934}
-  - component: {fileID: 1545261933}
   - component: {fileID: 1545261932}
   - component: {fileID: 1545261931}
+  - component: {fileID: 1545261936}
   m_Layer: 0
   m_Name: FadeImageModal2
   m_TagString: Untagged
@@ -6566,8 +7037,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1545261933}
-        m_TargetAssemblyTypeName: ModalOnAndOF, Assembly-CSharp
+      - m_Target: {fileID: 1545261936}
+        m_TargetAssemblyTypeName: ModalCloser, Assembly-CSharp
         m_MethodName: CloseModal
         m_Mode: 1
         m_Arguments:
@@ -6578,20 +7049,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1545261933
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1545261929}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f59a25f5474fe4488238009b05cf72f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOF
-  modal: {fileID: 682085393}
-  backButtonManager: {fileID: 0}
 --- !u!114 &1545261934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6630,6 +7087,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1545261929}
   m_CullTransparentMesh: 1
+--- !u!114 &1545261936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1545261929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4a4a16450222fc4287a233127b84f51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ModalCloser
+  modalToClose: {fileID: 682085393}
+  backButtonManager: {fileID: 0}
 --- !u!1 &1547168072
 GameObject:
   m_ObjectHideFlags: 0
@@ -7247,7 +7718,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1596250761}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ModalOnAndOF, Assembly-CSharp
         m_MethodName: OpenModal
         m_Mode: 1
@@ -7272,7 +7743,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1596250761}
-        m_TargetAssemblyTypeName: ModalOnAndOF, Assembly-CSharp
+        m_TargetAssemblyTypeName: ModalOpener, Assembly-CSharp
         m_MethodName: OpenModal
         m_Mode: 1
         m_Arguments:
@@ -7456,10 +7927,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1596250754}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f59a25f5474fe4488238009b05cf72f, type: 3}
+  m_Script: {fileID: 11500000, guid: 5a9c0d06a0bb18f4c89dc91cbc289d9f, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOF
-  modal: {fileID: 433408903}
+  m_EditorClassIdentifier: Assembly-CSharp::ModalOpener
+  modalToOpen: {fileID: 433408903}
   backButtonManager: {fileID: 0}
 --- !u!1 &1609348622
 GameObject:
@@ -7535,6 +8006,81 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1609348622}
+  m_CullTransparentMesh: 1
+--- !u!1 &1611508407
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1611508408}
+  - component: {fileID: 1611508410}
+  - component: {fileID: 1611508409}
+  m_Layer: 0
+  m_Name: Tower2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1611508408
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1611508407}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2.638953, y: 2.638953, z: 2.638953}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1334900818}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -171}
+  m_SizeDelta: {x: 1480, y: 352}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1611508409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1611508407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -2778796163553519002, guid: 38275645131f0ef40988514b198e15a3, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1611508410
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1611508407}
   m_CullTransparentMesh: 1
 --- !u!1 &1623089508
 GameObject:
@@ -7621,9 +8167,9 @@ GameObject:
   - component: {fileID: 1633063042}
   - component: {fileID: 1633063045}
   - component: {fileID: 1633063044}
-  - component: {fileID: 1633063043}
   - component: {fileID: 1633063046}
   - component: {fileID: 1633063048}
+  - component: {fileID: 1633063049}
   m_Layer: 0
   m_Name: FadeImageModal
   m_TagString: Untagged
@@ -7650,20 +8196,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0.00012207031, y: 0.00018310547}
   m_SizeDelta: {x: 3050.0002, y: 6482}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1633063043
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1633063041}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f59a25f5474fe4488238009b05cf72f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOF
-  modal: {fileID: 433408903}
-  backButtonManager: {fileID: 0}
 --- !u!114 &1633063044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7746,8 +8278,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1633063043}
-        m_TargetAssemblyTypeName: ModalOnAndOF, Assembly-CSharp
+      - m_Target: {fileID: 1633063049}
+        m_TargetAssemblyTypeName: ModalCloser, Assembly-CSharp
         m_MethodName: CloseModal
         m_Mode: 1
         m_Arguments:
@@ -7770,6 +8302,20 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &1633063049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1633063041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4a4a16450222fc4287a233127b84f51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ModalCloser
+  modalToClose: {fileID: 433408903}
+  backButtonManager: {fileID: 0}
 --- !u!1 &1651511706
 GameObject:
   m_ObjectHideFlags: 0
@@ -8314,6 +8860,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1736579184}
   m_CullTransparentMesh: 1
+--- !u!1 &1767974714
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1767974715}
+  - component: {fileID: 1767974717}
+  - component: {fileID: 1767974716}
+  m_Layer: 0
+  m_Name: Tower1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1767974715
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1767974714}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 2.5327458, y: 2.5327458, z: 2.5327458}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1334900818}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -169}
+  m_SizeDelta: {x: 1480, y: 456}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1767974716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1767974714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -1563232247811417723, guid: 3a5f9daded4168942af9f82448e34eff, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1767974717
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1767974714}
+  m_CullTransparentMesh: 1
 --- !u!1 &1772515992
 GameObject:
   m_ObjectHideFlags: 0
@@ -8468,7 +9089,7 @@ GameObject:
   - component: {fileID: 1796885311}
   - component: {fileID: 1796885310}
   - component: {fileID: 1796885309}
-  - component: {fileID: 1796885308}
+  - component: {fileID: 1796885314}
   m_Layer: 0
   m_Name: Badge 4
   m_TagString: Untagged
@@ -8495,20 +9116,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1796885308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1796885306}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f59a25f5474fe4488238009b05cf72f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOF
-  modal: {fileID: 1577630767}
-  backButtonManager: {fileID: 0}
 --- !u!82 &1796885309
 AudioSource:
   m_ObjectHideFlags: 0
@@ -8717,7 +9324,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1796885308}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ModalOnAndOF, Assembly-CSharp
         m_MethodName: OpenModal
         m_Mode: 1
@@ -8741,8 +9348,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1796885308}
-        m_TargetAssemblyTypeName: ModalOnAndOF, Assembly-CSharp
+      - m_Target: {fileID: 1796885314}
+        m_TargetAssemblyTypeName: ModalOpener, Assembly-CSharp
         m_MethodName: OpenModal
         m_Mode: 1
         m_Arguments:
@@ -8791,6 +9398,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1796885306}
   m_CullTransparentMesh: 1
+--- !u!114 &1796885314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1796885306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a9c0d06a0bb18f4c89dc91cbc289d9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ModalOpener
+  modalToOpen: {fileID: 1577630767}
+  backButtonManager: {fileID: 0}
 --- !u!1 &1800786522
 GameObject:
   m_ObjectHideFlags: 0
@@ -8955,7 +9576,7 @@ GameObject:
   - component: {fileID: 1871897410}
   - component: {fileID: 1871897409}
   - component: {fileID: 1871897408}
-  - component: {fileID: 1871897407}
+  - component: {fileID: 1871897413}
   m_Layer: 0
   m_Name: Badge 3
   m_TagString: Untagged
@@ -8982,20 +9603,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1871897407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1871897405}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f59a25f5474fe4488238009b05cf72f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOF
-  modal: {fileID: 750253705}
-  backButtonManager: {fileID: 0}
 --- !u!82 &1871897408
 AudioSource:
   m_ObjectHideFlags: 0
@@ -9204,7 +9811,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1871897407}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ModalOnAndOF, Assembly-CSharp
         m_MethodName: OpenModal
         m_Mode: 1
@@ -9228,8 +9835,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1871897407}
-        m_TargetAssemblyTypeName: ModalOnAndOF, Assembly-CSharp
+      - m_Target: {fileID: 1871897413}
+        m_TargetAssemblyTypeName: ModalOpener, Assembly-CSharp
         m_MethodName: OpenModal
         m_Mode: 1
         m_Arguments:
@@ -9278,6 +9885,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1871897405}
   m_CullTransparentMesh: 1
+--- !u!114 &1871897413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1871897405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a9c0d06a0bb18f4c89dc91cbc289d9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ModalOpener
+  modalToOpen: {fileID: 750253705}
+  backButtonManager: {fileID: 0}
 --- !u!1 &1883701793
 GameObject:
   m_ObjectHideFlags: 0
@@ -9834,6 +10455,7 @@ GameObject:
   - component: {fileID: 1982666471}
   - component: {fileID: 1982666473}
   - component: {fileID: 1982666472}
+  - component: {fileID: 1982666474}
   m_Layer: 0
   m_Name: P1
   m_TagString: Untagged
@@ -9962,6 +10584,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1982666470}
   m_CullTransparentMesh: 1
+--- !u!114 &1982666474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1982666470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Components.LocalizeStringEvent
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:c1bb8b2de177504438ee66b1260412f3
+    m_TableEntryReference:
+      m_KeyId: 46454723252224
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1982666472}
+        m_TargetAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &1993037491
 GameObject:
   m_ObjectHideFlags: 0
@@ -10319,6 +10981,7 @@ RectTransform:
   - {fileID: 1260914519}
   - {fileID: 1414480141}
   - {fileID: 301591437}
+  - {fileID: 1334900818}
   - {fileID: 1447885749}
   - {fileID: 1129578199}
   - {fileID: 1392742800}
@@ -10758,14 +11421,14 @@ RectTransform:
   m_GameObject: {fileID: 2127630808}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.8960516, y: 1.8960516, z: 1.8960516}
+  m_LocalScale: {x: 2.147468, y: 2.147468, z: 2.147468}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 301591437}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -9}
+  m_AnchoredPosition: {x: 0, y: -201}
   m_SizeDelta: {x: 1480, y: 336}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2127630810
@@ -16481,6 +17144,7 @@ MonoBehaviour:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 906079689}
   - {fileID: 2057580771}
   - {fileID: 1125685603}
   - {fileID: 751210401}

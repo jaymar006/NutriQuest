@@ -17,7 +17,21 @@ MonoBehaviour:
   m_SharedData: {fileID: 11400000, guid: 9160db3fb86b6e84795c1017f41b95dc, type: 2}
   m_Metadata:
     m_Items: []
-  m_TableData: []
+  m_TableData:
+  - m_Id: 8774946816
+    m_Localized: Warning
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1922711359488
+    m_Localized: Gusto mo bang lumabas? Hindi mai-save ang puntos mo sa lebel na
+      ito at hindi na maibabalik ang mga nagamit na hint!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2046229417984
+    m_Localized: Huh? Sigurado ka? Kapag lumabas ka mawawala yung progreseso mo pati
+      hint at runekeys!
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

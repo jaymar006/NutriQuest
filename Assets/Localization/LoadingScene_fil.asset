@@ -10,25 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
-  m_Name: LevelModalWarning_en
+  m_Name: LoadingScene_fil
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
   m_LocaleId:
-    m_Code: en
-  m_SharedData: {fileID: 11400000, guid: 9160db3fb86b6e84795c1017f41b95dc, type: 2}
+    m_Code: fil
+  m_SharedData: {fileID: 11400000, guid: 4a1f6c27081eba24babef7e490804552, type: 2}
   m_Metadata:
     m_Items: []
   m_TableData:
-  - m_Id: 8774946816
-    m_Localized: Warning
-    m_Metadata:
-      m_Items: []
-  - m_Id: 1922711359488
-    m_Localized: Do you want to quit? Quiting will not record this level's score.
-      And hints used will not be refunded!
-    m_Metadata:
-      m_Items: []
-  - m_Id: 2046229417984
-    m_Localized: If you quit you loose progress and rune keys you used in this level!
+  - m_Id: 7067865088
+    m_Localized: Alam Mo Ba?
     m_Metadata:
       m_Items: []
   references:

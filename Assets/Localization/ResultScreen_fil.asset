@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: ResultScreen_fil
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: fil
+  m_SharedData: {fileID: 11400000, guid: c1bb8b2de177504438ee66b1260412f3, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 46558842654720
+    m_Localized: Nagsisimula ang bawat malaking pakikipagsapalaran sa unang hakbang!
+      Huwag mawalan ng loob. Sa bawat pagsubok, mas marami kang natututuhan tungkol
+      sa masustansyang pagkain. Magbalik ka nang mas handa at ipakita ang galing
+      mo!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 46563238285312
+    m_Localized: "Magaling! Nalampasan mo ang tore na ito nang may magandang puntos.
+      Bawat tanong ay dagdag kaalaman at bawat tamang sagot ay hakbang patungo sa
+      tagumpay. Ituloy mo lang\u2014malapit mo nang marating ang tuktok!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 46152263602176
+    m_Localized: Napakahusay! Nalampasan mo ang tore nang may husay at kumpiyansa.
+      Kitang-kita ang galing mo sa pagsagot! Handa ka na ba sa susunod na hamon?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 46454723252224
+    m_Localized: "Perpekto! Nakuha mo ang pinakamataas na marka sa unang subok pa
+      lang! Hindi mo lang nalampasan ang tore\u2014napatunayan mong isa kang tunay
+      na Nutrition Hero. Ipagmalaki ang badge na ito!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 46640216346624
+    m_Localized: BINABATI KITA! Nakakuha ka ng Rune Key! Gamitin ito para mabuksan
+      ang susunod na tore o mag-ipon pa para muling subukan ang mga naunang tore.
+      Gamitin ito nang wasto!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 46688668946432
+    m_Localized: Ayos! Nakakita ka ng isang Recipe Page na nakakalat sa tore! Buksan
+      ang Library upang makita ang bagong recipe na na-unlock mo. Tara, silipin mo
+      na!
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

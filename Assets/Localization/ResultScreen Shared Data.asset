@@ -10,31 +10,55 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
-  m_Name: LevelModalWarning Shared Data
+  m_Name: ResultScreen Shared Data
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
-  m_TableCollectionName: LevelModalWarning
-  m_TableCollectionNameGuidString: 9160db3fb86b6e84795c1017f41b95dc
+  m_TableCollectionName: ResultScreen
+  m_TableCollectionNameGuidString: c1bb8b2de177504438ee66b1260412f3
   m_Entries:
-  - m_Id: 8774946816
-    m_Key: level.modal_warning_warning
+  - m_Id: 46640216346624
+    m_Key: 'result.rune_key
+
+'
     m_Metadata:
       m_Items: []
-  - m_Id: 1922711359488
-    m_Key: level.modal_warning_instructions
+  - m_Id: 46688668946432
+    m_Key: 'result.recipe_page
+
+'
     m_Metadata:
       m_Items: []
-  - m_Id: 2046229417984
-    m_Key: level.modal_warning_dialogue
+  - m_Id: 46454723252224
+    m_Key: 'result.achievement4.P1
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 46152263602176
+    m_Key: 'result.achievement3.P1
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 46558842654720
+    m_Key: 'result.achievement1.P1
+
+'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 46563238285312
+    m_Key: 'result.achievement2.P1
+
+'
     m_Metadata:
       m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
-    rid: 5182587747418767450
+    rid: 5182587763374162000
   references:
     version: 2
     RefIds:
-    - rid: 5182587747418767450
+    - rid: 5182587763374162000
       type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
       data:
-        m_CustomEpoch: 1785870788509
+        m_CustomEpoch: 1785927134435
