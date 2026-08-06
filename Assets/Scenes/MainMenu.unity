@@ -19982,12 +19982,12 @@ MonoBehaviour:
   rankImage: {fileID: 741633745}
   rankSprites:
   - {fileID: 21300000, guid: 9e3a7c1835bc71b4bb7d2373b4bd72e9, type: 3}
-  - {fileID: 21300000, guid: e15b693a78a7fba4faf5929a7fecf10a, type: 3}
   - {fileID: 21300000, guid: b8aa5ae4964a8824d8e7a9e88d6bf755, type: 3}
+  - {fileID: 21300000, guid: e15b693a78a7fba4faf5929a7fecf10a, type: 3}
   - {fileID: 21300000, guid: 9f625824ea92c6846866cb901d69a2e4, type: 3}
   totalTowers: 4
   totalRecipes: 6
-  totalBadges: 4
+  totalBadges: 16
   stageIDs:
   - Stage_1
   - Stage_2

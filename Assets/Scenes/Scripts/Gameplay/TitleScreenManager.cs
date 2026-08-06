@@ -13,8 +13,9 @@ using Gameplay.CutsceneManager;
 // Handles two states automatically based on PlayerPrefs:
 //
 //   FRESH INSTALL  (no PlayerName saved)
-//     - Hides the welcome bar and user info footer
-//     - Shows "Touch to Continue" prompt
+//     - Hides the welcome bar
+//     - Shows the tap prompt heading as "START THE QUEST" (newPlayerPromptText)
+//     - Shows "Touch to Continue" prompt, idle-fading
 //     - On tap:
 //         - If the language has not been chosen yet (PlayerPrefs "LanguageSelected"
 //           not set), navigates to languageSelectSceneName so the player can pick
@@ -31,10 +32,9 @@ using Gameplay.CutsceneManager;
 //           VN dialogue in it).
 //
 //   RETURNING PLAYER  (PlayerName exists)
-//     - Shows "Welcome : <Name>" at the top
-//     - Shows "START THE QUEST" heading above the tap prompt
-//     - Shows masked display name in the footer
-//     - Shows current rune key count
+//     - Shows "Welcome Back : <Name>" at the top
+//     - Shows the tap prompt heading as "CONTINUE" (returningPlayerPromptText)
+//     - Shows "Touch to Continue" prompt, idle-fading
 //     - On tap -> navigates directly to MapScene
 //
 // All scene names and UI references are assigned in the Inspector.
@@ -81,7 +81,11 @@ public class TitleScreenManager : MonoBehaviour
     [Tooltip("The 'Touch to Continue' text shown in both states.")]
     [SerializeField] private TMP_Text touchToContinueText;
 
-    [Tooltip("Optional pulse/bounce animator on the Touch to Continue text.")]
+    [Tooltip("CanvasGroup on the same object as touchToContinueText, used for the idle fade loop. " +
+             "Add a CanvasGroup component to that object and drag it here.")]
+    [SerializeField] private CanvasGroup touchToContinueCanvasGroup;
+
+    [Tooltip("Optional pulse/bounce animator on the Touch to Continue text. Can run alongside the fade.")]
     [SerializeField] private SquishSquashManager touchToContinuePulse;
 
     [Tooltip("Version label at the bottom left. Text is set automatically from Application.version.")]
@@ -91,29 +95,40 @@ public class TitleScreenManager : MonoBehaviour
     [SerializeField] private Button quitButton;
 
     // -------------------------------------------------------------------------
-    // Inspector — Returning player UI (hidden on fresh install)
+    // Inspector — Idle fade animation
+    // -------------------------------------------------------------------------
+    [Header("Touch To Continue — Idle Fade")]
+    [Tooltip("Seconds for one fade-out or fade-in half of the loop.")]
+    [SerializeField] private float fadeDuration = 1f;
+
+    [Tooltip("Lowest alpha reached during the fade-out.")]
+    [SerializeField, Range(0f, 1f)] private float fadeMinAlpha = 0.25f;
+
+    [Tooltip("Highest alpha reached during the fade-in.")]
+    [SerializeField, Range(0f, 1f)] private float fadeMaxAlpha = 1f;
+
+    // -------------------------------------------------------------------------
+    // Inspector — Returning player UI
     // -------------------------------------------------------------------------
     [Header("Returning Player UI")]
     [Tooltip("Root object for the top welcome bar. Shown only for returning players.")]
     [SerializeField] private GameObject welcomeBarRoot;
 
-    [Tooltip("'Welcome : <Name>' label inside the welcome bar.")]
+    [Tooltip("'Welcome Back : <Name>' label inside the welcome bar.")]
     [SerializeField] private TMP_Text welcomeNameText;
 
-    [Tooltip("'START THE QUEST' heading shown above Touch to Continue for returning players.")]
-    [SerializeField] private GameObject startTheQuestLabel;
+    // -------------------------------------------------------------------------
+    // Inspector — Tap prompt heading (shown in both states, wording differs)
+    // -------------------------------------------------------------------------
+    [Header("Tap Prompt Heading")]
+    [Tooltip("Heading shown above Touch to Continue. Text changes depending on new-install vs returning player.")]
+    [SerializeField] private TMP_Text startTheQuestLabel;
 
-    [Tooltip("Footer bar shown at the bottom for returning players (contains masked name + rune key count).")]
-    [SerializeField] private GameObject footerRoot;
+    [Tooltip("Heading text for a brand new install.")]
+    [SerializeField] private string newPlayerPromptText = "START THE QUEST";
 
-    [Tooltip("Masked display name label in the footer, e.g. Ja****oe.")]
-    [SerializeField] private TMP_Text maskedNameText;
-
-    [Tooltip("Rune key count label in the footer, e.g. x3.")]
-    [SerializeField] private TMP_Text runeKeyCountText;
-
-    [Tooltip("Rune key icon in the footer (optional — shown/hidden with footer).")]
-    [SerializeField] private GameObject runeKeyIcon;
+    [Tooltip("Heading text for a returning player.")]
+    [SerializeField] private string returningPlayerPromptText = "CONTINUE";
 
     // -------------------------------------------------------------------------
     // Inspector — First-time name input
@@ -135,6 +150,8 @@ public class TitleScreenManager : MonoBehaviour
     private bool isReturningPlayer = false;
     private bool inputLocked = false;   // prevents double-tap during transition
     private bool waitingForName = false; // true while NameInputScreen is open
+
+    private Coroutine fadeLoopCoroutine;
 
     private const string LanguageSelectedKey = "LanguageSelected";
 
@@ -177,6 +194,12 @@ public class TitleScreenManager : MonoBehaviour
         // Start tap prompt pulse if assigned
         if (touchToContinuePulse != null)
             touchToContinuePulse.PlaySquashAndStretch();
+
+        // FIX: idle fade loop for the touch-to-continue prompt, the classic
+        // "breathing" tap prompt seen in mobile games. Runs continuously while
+        // the player hasn't tapped yet; pauses itself once input locks.
+        if (touchToContinueCanvasGroup != null)
+            fadeLoopCoroutine = StartCoroutine(TouchToContinueFadeLoop());
     }
 
     private void OnDestroy()
@@ -186,6 +209,9 @@ public class TitleScreenManager : MonoBehaviour
 
         if (quitButton != null)
             quitButton.onClick.RemoveListener(OnQuitPressed);
+
+        if (fadeLoopCoroutine != null)
+            StopCoroutine(fadeLoopCoroutine);
     }
 
     private void Update()
@@ -218,11 +244,17 @@ public class TitleScreenManager : MonoBehaviour
 
     private void SetupFreshInstallUI()
     {
-        // Hide all returning-player elements
+        // Hide returning-player-only element
         SetActive(welcomeBarRoot, false);
-        SetActive(startTheQuestLabel, false);
-        SetActive(footerRoot, false);
-        SetActive(runeKeyIcon, false);
+
+        // FIX: previously this label was force-hidden on fresh install, so
+        // new players never saw any heading above Touch to Continue. It's
+        // now shown in both states, with wording set per state below.
+        if (startTheQuestLabel != null)
+        {
+            startTheQuestLabel.gameObject.SetActive(true);
+            startTheQuestLabel.text = newPlayerPromptText;
+        }
 
         // Touch to Continue is already visible by default in the prefab
         if (touchToContinueText != null)
@@ -238,28 +270,53 @@ public class TitleScreenManager : MonoBehaviour
         if (welcomeNameText != null)
             welcomeNameText.text = "Welcome Back " + playerName;
 
-        // START THE QUEST label above the tap prompt
-        SetActive(startTheQuestLabel, true);
-
-        // Footer
-        SetActive(footerRoot, true);
-        SetActive(runeKeyIcon, true);
-
-        if (maskedNameText != null)
-            maskedNameText.text = MaskName(playerName);
-
-        RefreshRuneKeyCount();
+        // Tap prompt heading, returning-player wording
+        if (startTheQuestLabel != null)
+        {
+            startTheQuestLabel.gameObject.SetActive(true);
+            startTheQuestLabel.text = returningPlayerPromptText;
+        }
     }
 
-    private void RefreshRuneKeyCount()
+    // -------------------------------------------------------------------------
+    // Idle fade loop
+    // -------------------------------------------------------------------------
+    private IEnumerator TouchToContinueFadeLoop()
     {
-        if (runeKeyCountText == null) return;
+        touchToContinueCanvasGroup.alpha = fadeMaxAlpha;
 
-        int keys = RuneKeySystem.Instance != null
-            ? RuneKeySystem.Instance.CurrentKeys
-            : PlayerPrefs.GetInt("RuneKeys", 0);
+        while (true)
+        {
+            // Fade out
+            yield return FadeCanvasGroup(fadeMaxAlpha, fadeMinAlpha, fadeDuration);
+            // Fade back in
+            yield return FadeCanvasGroup(fadeMinAlpha, fadeMaxAlpha, fadeDuration);
+        }
+    }
 
-        runeKeyCountText.text = "x" + keys;
+    private IEnumerator FadeCanvasGroup(float from, float to, float duration)
+    {
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            // Pause the animation without breaking the loop while a
+            // transition is in progress (tap registered / name input open),
+            // so it doesn't visibly fight the scene fade or sit mid-fade
+            // behind the name input screen.
+            if (inputLocked || waitingForName)
+            {
+                yield return null;
+                continue;
+            }
+
+            elapsed += Time.unscaledDeltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            touchToContinueCanvasGroup.alpha = Mathf.Lerp(from, to, t);
+            yield return null;
+        }
+
+        touchToContinueCanvasGroup.alpha = to;
     }
 
     // -------------------------------------------------------------------------
@@ -310,7 +367,7 @@ public class TitleScreenManager : MonoBehaviour
         ProceedToNewPlayerNextScene();
     }
 
-    // FIX: newPlayerIntroCutscene is a plain embedded field now — no separate
+    // newPlayerIntroCutscene is a plain embedded field — no separate
     // GameObject/component to wire up. If a scene is assigned and unseen, it
     // plays (once per save) — that cutscene scene's own DialogueManager
     // already knows to load MapScene next. If none is assigned, falls back
@@ -371,43 +428,6 @@ public class TitleScreenManager : MonoBehaviour
     private bool HasSelectedLanguage()
     {
         return PlayerPrefs.GetInt(LanguageSelectedKey, 0) == 1;
-    }
-
-    // Masks a name for display in the footer.
-    // "Jane Doe" -> "Ja****oe"
-    // Works on any name length, minimum 2 visible chars on each end.
-    private string MaskName(string name)
-    {
-        if (string.IsNullOrEmpty(name)) return "****";
-
-        // Remove spaces for masking purposes, then reattach last word
-        string[] parts = name.Trim().Split(' ');
-
-        if (parts.Length == 1)
-        {
-            return MaskWord(parts[0]);
-        }
-        else
-        {
-            // First word + last word, masked together
-            string first = parts[0];
-            string last = parts[parts.Length - 1];
-            return MaskWord(first) + MaskWord(last);
-        }
-    }
-
-    private string MaskWord(string word)
-    {
-        if (word.Length <= 2) return word + "**";
-        if (word.Length <= 4) return word[0] + "**" + word[word.Length - 1];
-
-        int showStart = 2;
-        int showEnd = 2;
-        int maskCount = Mathf.Max(2, word.Length - showStart - showEnd);
-
-        return word.Substring(0, showStart)
-             + new string('*', maskCount)
-             + word.Substring(word.Length - showEnd);
     }
 
     private void PlayTapSound()

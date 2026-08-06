@@ -11106,11 +11106,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ResultScreenManager
   fadeImage: {fileID: 915648499}
   fadeDuration: 0.8
-  towerTitleObjects:
+  towerTitleObjectsEnglish:
   - {fileID: 1158978906}
   - {fileID: 616140328}
   - {fileID: 2127630808}
   - {fileID: 407013960}
+  towerTitleObjectsFilipino:
+  - {fileID: 1767974714}
+  - {fileID: 1611508407}
+  - {fileID: 609952281}
+  - {fileID: 1258128722}
   resultsImage: {fileID: 1129578200}
   correctAnswerValue: {fileID: 1993037493}
   wrongAnswerValue: {fileID: 1703084248}
@@ -11130,11 +11135,11 @@ MonoBehaviour:
   rewardsContainer: {fileID: 2116481102}
   rewardItems:
   - rewardName: RuneKey
-    rewardType: 0
+    rewardType: 1
     rewardButton: {fileID: 182641167}
     rewardModal: {fileID: 1883701795}
   - rewardName: RecipePage
-    rewardType: 0
+    rewardType: 2
     rewardButton: {fileID: 212235801}
     rewardModal: {fileID: 209573822}
   tapToContinueButton: {fileID: 473828788}

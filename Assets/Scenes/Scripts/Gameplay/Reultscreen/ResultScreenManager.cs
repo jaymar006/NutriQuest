@@ -11,8 +11,11 @@ public class ResultScreenManager : MonoBehaviour
     [SerializeField] private float fadeDuration = 0.8f;
 
     [Header("Tower Title Objects")]
-    [Tooltip("Assign in order: Tower1, Tower2, Tower3, Tower4")]
-    [SerializeField] private List<GameObject> towerTitleObjects = new List<GameObject>();
+    [Tooltip("Assign in order: Tower1, Tower2, Tower3, Tower4 (English versions)")]
+    [SerializeField] private List<GameObject> towerTitleObjectsEnglish = new List<GameObject>();
+
+    [Tooltip("Assign in order: Tower1, Tower2, Tower3, Tower4 (Filipino versions)")]
+    [SerializeField] private List<GameObject> towerTitleObjectsFilipino = new List<GameObject>();
 
     [Header("Results Image")]
     [SerializeField] private Image resultsImage;
@@ -221,20 +224,29 @@ public class ResultScreenManager : MonoBehaviour
 
     // ---------------------------------------------------------------
     // Display: tower title
+    //
+    // Picks the correct language-specific list first (English or
+    // Filipino), then the correct tower index within that list.
+    // Hides every title object in BOTH lists first so no stale
+    // title from a previous run/language is left active.
     // ---------------------------------------------------------------
     private void DisplayTowerTitle()
     {
-        foreach (GameObject obj in towerTitleObjects)
+        foreach (GameObject obj in towerTitleObjectsEnglish)
+            if (obj != null) obj.SetActive(false);
+        foreach (GameObject obj in towerTitleObjectsFilipino)
             if (obj != null) obj.SetActive(false);
 
-        if (towerIndex >= 0 && towerIndex < towerTitleObjects.Count
-            && towerTitleObjects[towerIndex] != null)
+        bool isFilipino = LocalizationManager.Instance != null && LocalizationManager.Instance.IsFilipino;
+        List<GameObject> activeList = isFilipino ? towerTitleObjectsFilipino : towerTitleObjectsEnglish;
+
+        if (towerIndex >= 0 && towerIndex < activeList.Count && activeList[towerIndex] != null)
         {
-            towerTitleObjects[towerIndex].SetActive(true);
+            activeList[towerIndex].SetActive(true);
         }
         else
         {
-            Debug.LogWarning($"[ResultScreenManager] No tower title object for index {towerIndex}");
+            Debug.LogWarning($"[ResultScreenManager] No tower title object for index {towerIndex} (isFilipino={isFilipino})");
         }
     }
 

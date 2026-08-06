@@ -962,6 +962,7 @@ GameObject:
   - component: {fileID: 1149452512}
   - component: {fileID: 1149452511}
   - component: {fileID: 1149452510}
+  - component: {fileID: 1149452513}
   m_Layer: 0
   m_Name: 'StartTheQuest '
   m_TagString: Untagged
@@ -1131,6 +1132,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1149452508}
   m_CullTransparentMesh: 1
+--- !u!225 &1149452513
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149452508}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1321105304
 GameObject:
   m_ObjectHideFlags: 0
@@ -1692,16 +1705,18 @@ MonoBehaviour:
   languageSelectSceneName: ChooseYourLanguage
   useLoadingScreenForLanguageSelect: 0
   touchToContinueText: {fileID: 1149452511}
+  touchToContinueCanvasGroup: {fileID: 1149452513}
   touchToContinuePulse: {fileID: 0}
   versionText: {fileID: 0}
   quitButton: {fileID: 1487839467}
+  fadeDuration: 1
+  fadeMinAlpha: 0.25
+  fadeMaxAlpha: 1
   welcomeBarRoot: {fileID: 1321105304}
   welcomeNameText: {fileID: 297360728}
-  startTheQuestLabel: {fileID: 1049042486}
-  footerRoot: {fileID: 0}
-  maskedNameText: {fileID: 0}
-  runeKeyCountText: {fileID: 0}
-  runeKeyIcon: {fileID: 0}
+  startTheQuestLabel: {fileID: 1149452511}
+  newPlayerPromptText: START THE QUEST
+  returningPlayerPromptText: WELCOME BACK
   nameInputScreen: {fileID: 0}
   audioSource: {fileID: 0}
   tapSound: {fileID: 0}

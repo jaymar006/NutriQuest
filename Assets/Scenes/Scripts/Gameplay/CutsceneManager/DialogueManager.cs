@@ -120,6 +120,12 @@ namespace Gameplay.CutsceneManager
 
         private bool isReacting = false;
 
+        // FIX: Locks out re-entrant Advance() calls while a line transition
+        // (portrait outro + next-line setup) is still in flight. Without this,
+        // two fast taps could each spin up their own AdvanceWithOutro(),
+        // stacking outro/entrance coroutines on top of each other.
+        private bool isAdvancing = false;
+
         private float lastAcceptedTapTime = -999f;
 
         private RectTransform textContentRect;
@@ -282,6 +288,7 @@ namespace Gameplay.CutsceneManager
             currentOptionalImage = null;
             currentTypingSFX = null;
             isReacting = false;
+            isAdvancing = false;
 
             if (dialoguePanel != null)
                 dialoguePanel.SetActive(true);
@@ -307,6 +314,10 @@ namespace Gameplay.CutsceneManager
                 return;
             }
 
+            // FIX: block re-entry while a transition is already running.
+            if (isAdvancing)
+                return;
+
             if (currentPortraitRect != null &&
                 currentLine != null &&
                 (currentLine.enableReaction || currentLine.enableShake))
@@ -318,7 +329,13 @@ namespace Gameplay.CutsceneManager
                     isReacting = false;
                 }
 
-                reactionCoroutine = StartCoroutine(PlayReaction(currentLine));
+                // FIX: snapshot the target rect + base pose/scale as parameters
+                // instead of letting the coroutine read mutable fields each
+                // frame. If the player advances again mid-reaction, those
+                // fields get reassigned to the NEXT speaker — without the
+                // snapshot this coroutine would then animate the wrong portrait.
+                reactionCoroutine = StartCoroutine(
+                    PlayReaction(currentLine, currentPortraitRect, originalPortraitScale, originalPortraitPosition));
             }
 
             if (currentIndex < dialogueLines.Length && dialogueLines[currentIndex].openNameInputAfterThisLine)
@@ -327,6 +344,7 @@ namespace Gameplay.CutsceneManager
                 return;
             }
 
+            isAdvancing = true;
             StartCoroutine(AdvanceWithOutro());
         }
 
@@ -336,10 +354,23 @@ namespace Gameplay.CutsceneManager
                 currentPortraitRect != null &&
                 currentLine.outroType != OutroType.None)
             {
+                // FIX: a reaction/shake from this same tap could still be
+                // animating this exact rect — stop it before the outro starts
+                // moving it, otherwise they fight over anchoredPosition/localScale.
+                if (reactionCoroutine != null)
+                {
+                    StopCoroutine(reactionCoroutine);
+                    reactionCoroutine = null;
+                    isReacting = false;
+                    ResetPortraitTransform();
+                }
+
                 if (portraitOutroCoroutine != null)
                     StopCoroutine(portraitOutroCoroutine);
 
-                portraitOutroCoroutine = StartCoroutine(PlayPortraitOutro(currentLine));
+                // FIX: snapshot target + base position, same reasoning as PlayReaction above.
+                portraitOutroCoroutine = StartCoroutine(
+                    PlayPortraitOutro(currentLine, currentPortraitRect, originalPortraitPosition));
                 yield return new WaitForSeconds(currentLine.outroDuration);
             }
 
@@ -349,6 +380,10 @@ namespace Gameplay.CutsceneManager
                 ShowLine(dialogueLines[currentIndex]);
             else
                 EndDialogue();
+
+            // FIX: release the lock once the transition has fully resolved
+            // (next line shown, or dialogue ended).
+            isAdvancing = false;
         }
 
         // -------------------------------------------------------------------------
@@ -357,6 +392,17 @@ namespace Gameplay.CutsceneManager
         private void ShowLine(DialogueLine line)
         {
             currentLine = line;
+
+            // FIX: guarantee a clean slate — stop any reaction still running
+            // from the previous line before HandlePortraitDisplay() below
+            // overwrites currentPortraitRect / originalPortraitScale / position.
+            if (reactionCoroutine != null)
+            {
+                StopCoroutine(reactionCoroutine);
+                reactionCoroutine = null;
+            }
+            isReacting = false;
+            ResetPortraitTransform();
 
             StartCoroutine(BlockInputForOneFrame());
 
@@ -576,28 +622,34 @@ namespace Gameplay.CutsceneManager
 
         // -------------------------------------------------------------------------
         // PlayReaction
+        // FIX: now takes target/baseScale/basePos as parameters (snapshotted
+        // at call time in Advance()) instead of reading the mutable
+        // currentPortraitRect / originalPortraitScale / originalPortraitPosition
+        // fields each frame. Those fields can be reassigned to a NEW speaker
+        // by ShowLine() -> CachePortraitReferences() while this coroutine is
+        // still running, which was the cause of the fast-tap glitch.
         // -------------------------------------------------------------------------
-        private IEnumerator PlayReaction(DialogueLine line)
+        private IEnumerator PlayReaction(DialogueLine line, RectTransform target, Vector3 baseScale, Vector2 basePos)
         {
-            if (currentPortraitRect == null) yield break;
+            if (target == null) yield break;
 
             isReacting = true;
 
             if (line.enableReaction)
             {
                 float elapsed = 0f;
-                Vector3 startScale = currentPortraitRect.localScale;
-                Vector3 targetScale = originalPortraitScale * line.reactionScaleTarget;
+                Vector3 startScale = target.localScale;
+                Vector3 targetScale = baseScale * line.reactionScaleTarget;
 
                 while (elapsed < line.reactionDuration * 0.5f)
                 {
                     elapsed += Time.deltaTime;
                     float t = elapsed / (line.reactionDuration * 0.5f);
-                    currentPortraitRect.localScale = Vector3.Lerp(startScale, targetScale,
+                    target.localScale = Vector3.Lerp(startScale, targetScale,
                         1f - Mathf.Cos(t * Mathf.PI * 0.5f));
                     yield return null;
                 }
-                currentPortraitRect.localScale = targetScale;
+                target.localScale = targetScale;
             }
 
             if (line.enableShake)
@@ -608,29 +660,29 @@ namespace Gameplay.CutsceneManager
                 while (shakeElapsed < clampedShakeDuration)
                 {
                     shakeElapsed += Time.deltaTime;
-                    currentPortraitRect.anchoredPosition = new Vector2(
-                        originalPortraitPosition.x + Random.Range(-line.shakeIntensity, line.shakeIntensity),
-                        originalPortraitPosition.y + Random.Range(-line.shakeIntensity, line.shakeIntensity));
+                    target.anchoredPosition = new Vector2(
+                        basePos.x + Random.Range(-line.shakeIntensity, line.shakeIntensity),
+                        basePos.y + Random.Range(-line.shakeIntensity, line.shakeIntensity));
                     yield return null;
                 }
 
-                currentPortraitRect.anchoredPosition = originalPortraitPosition;
+                target.anchoredPosition = basePos;
             }
 
             if (line.enableReaction)
             {
                 float elapsed = 0f;
-                Vector3 startScale = currentPortraitRect.localScale;
+                Vector3 startScale = target.localScale;
 
                 while (elapsed < line.reactionDuration * 0.5f)
                 {
                     elapsed += Time.deltaTime;
                     float t = elapsed / (line.reactionDuration * 0.5f);
-                    currentPortraitRect.localScale = Vector3.Lerp(startScale, originalPortraitScale,
+                    target.localScale = Vector3.Lerp(startScale, baseScale,
                         Mathf.Sin(t * Mathf.PI * 0.5f));
                     yield return null;
                 }
-                currentPortraitRect.localScale = originalPortraitScale;
+                target.localScale = baseScale;
             }
 
             isReacting = false;
@@ -638,17 +690,19 @@ namespace Gameplay.CutsceneManager
 
         // -------------------------------------------------------------------------
         // Portrait outro
+        // FIX: takes target/basePos as parameters for the same reason as
+        // PlayReaction above.
         // -------------------------------------------------------------------------
-        private IEnumerator PlayPortraitOutro(DialogueLine line)
+        private IEnumerator PlayPortraitOutro(DialogueLine line, RectTransform target, Vector2 basePos)
         {
-            if (currentPortraitRect == null || line.outroType == OutroType.None) yield break;
+            if (target == null || line.outroType == OutroType.None) yield break;
 
             float elapsed = 0f;
-            Vector2 startPos = currentPortraitRect.anchoredPosition;
+            Vector2 startPos = target.anchoredPosition;
 
-            Canvas canvas = currentPortraitRect.GetComponentInParent<Canvas>();
+            Canvas canvas = target.GetComponentInParent<Canvas>();
             float canvasWidth = canvas != null ? canvas.pixelRect.width : Screen.width;
-            float slideDist = canvasWidth + currentPortraitRect.rect.width;
+            float slideDist = canvasWidth + target.rect.width;
 
             float dir = line.outroType == OutroType.SlideLeft ? -1f : 1f;
             Vector2 targetPos = new Vector2(startPos.x + slideDist * dir, startPos.y);
@@ -658,12 +712,12 @@ namespace Gameplay.CutsceneManager
                 elapsed += Time.deltaTime;
                 float t = elapsed / line.outroDuration;
                 float eased = t * t * (3f - 2f * t);
-                currentPortraitRect.anchoredPosition = Vector2.Lerp(startPos, targetPos, eased);
+                target.anchoredPosition = Vector2.Lerp(startPos, targetPos, eased);
                 yield return null;
             }
 
-            currentPortraitRect.anchoredPosition = targetPos;
-            currentPortraitRect.anchoredPosition = originalPortraitPosition;
+            target.anchoredPosition = targetPos;
+            target.anchoredPosition = basePos;
         }
 
         // -------------------------------------------------------------------------
@@ -829,6 +883,7 @@ namespace Gameplay.CutsceneManager
             if (portraitOutroCoroutine != null) StopCoroutine(portraitOutroCoroutine);
 
             isReacting = false;
+            isAdvancing = false; // FIX: don't leave the lock stuck true if StartDialogue() is reused
             ResetPortraitTransform();
 
             dialogueFinished = true;

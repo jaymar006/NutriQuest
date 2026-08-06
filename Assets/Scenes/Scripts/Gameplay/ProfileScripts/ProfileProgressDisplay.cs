@@ -24,6 +24,12 @@ public class ProfileProgressDisplay : MonoBehaviour
     [Header("Rank Display")]
     [SerializeField] private TMP_Text titleTXT;
     [SerializeField] private Image rankImage;
+    // FIX: 4 rank tiers now -> this array must have exactly 4 sprites assigned
+    // in the Inspector, in this order:
+    //   [0] Beginner   [1] Challenger   [2] Expert   [3] Genius
+    // The old code used spriteIndex values of 0, 2, 4 for only 3 tiers, which
+    // went out of bounds for a 3-element array and silently kept whatever
+    // placeholder sprite was already on rankImage.
     [SerializeField] private Sprite[] rankSprites;
 
     // Config
@@ -182,34 +188,63 @@ public class ProfileProgressDisplay : MonoBehaviour
         percentageTXT.text = percent + "%";
     }
 
+    // FIX: 4-tier rank system, replacing the old 3-tier one that used
+    // out-of-range sprite indices (0, 2, 4). Tiers now scale off
+    // totalPossibleBadges instead of a hardcoded number, so this still
+    // works correctly if totalBadges ever changes:
+    //
+    //   Beginner   -> 0 badges                          -> sprite index 0
+    //   Challenger -> 1 badge up to < 50% of total       -> sprite index 1
+    //   Expert     -> 50% of total up to < full          -> sprite index 2
+    //   Genius     -> full totalPossibleBadges           -> sprite index 3
+    //
+    // rankSprites must have exactly 4 elements assigned in the Inspector,
+    // in that order, or the corresponding sprite won't be found and the
+    // placeholder will keep showing (same failure mode as before).
     private void DisplayRank(int badgesEarned, int totalPossibleBadges)
     {
         string title;
         int spriteIndex;
+
+        int halfway = totalPossibleBadges / 2;
 
         if (badgesEarned == 0)
         {
             title = "Beginner";
             spriteIndex = 0;
         }
-        else if (badgesEarned < totalPossibleBadges)
+        else if (badgesEarned < halfway)
         {
             title = "Challenger";
+            spriteIndex = 1;
+        }
+        else if (badgesEarned < totalPossibleBadges)
+        {
+            title = "Expert";
             spriteIndex = 2;
         }
         else
         {
             title = "Genius";
-            spriteIndex = 4;
+            spriteIndex = 3;
         }
 
         if (titleTXT != null)
             titleTXT.text = title;
 
         if (rankImage != null && rankSprites != null &&
-            spriteIndex < rankSprites.Length && rankSprites[spriteIndex] != null)
+            spriteIndex >= 0 && spriteIndex < rankSprites.Length && rankSprites[spriteIndex] != null)
         {
             rankImage.sprite = rankSprites[spriteIndex];
+        }
+        else if (rankImage != null)
+        {
+            // FIX: warn instead of silently keeping the placeholder, so a
+            // missing/misassigned sprite is obvious in the console instead
+            // of just quietly not updating.
+            Debug.LogWarning("[ProfileProgressDisplay] rankSprites is missing an entry for '" + title +
+                              "' (index " + spriteIndex + "). Assign 4 sprites in the Inspector: " +
+                              "Beginner, Challenger, Expert, Genius, in that order.");
         }
     }
 
