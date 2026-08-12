@@ -35,6 +35,14 @@ MonoBehaviour:
       with that?
     m_Metadata:
       m_Items: []
+  - m_Id: 2470030806028288
+    m_Localized: Warning
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2470387783241728
+    m_Localized: You don't have enough Rune Keys please wait for it to replenish.
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

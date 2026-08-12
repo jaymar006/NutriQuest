@@ -2086,7 +2086,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SceneNavigationRequest
   targetSceneAsset: {fileID: 102900000, guid: aa9431d2b1eeac140a59082124d31abd, type: 3}
   targetSceneName: MainMenu
-  useLoadingScreen: 0
+  useLoadingScreen: 1
 --- !u!114 &4846683386580847735
 MonoBehaviour:
   m_ObjectHideFlags: 0

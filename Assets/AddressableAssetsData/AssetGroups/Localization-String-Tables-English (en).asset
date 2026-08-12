@@ -16,7 +16,7 @@ MonoBehaviour:
   m_GUID: 7868c79c1197607408f8634a49cd292f
   m_SerializeEntries:
   - m_GUID: 115240de2a6d9634c8454a0a90d2219e
-    m_Address: adasfasf_en
+    m_Address: LocalizationScreen_en
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-en

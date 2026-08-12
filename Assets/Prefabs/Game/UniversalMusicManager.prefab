@@ -45,6 +45,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UniversalMusicManager
   musicGroups:
+  - groupName: TitleScreen
+    scenes:
+    - {fileID: 102900000, guid: df64b550cdfd65a4391227787fc7b9a6, type: 3}
+    sceneNames:
+    - TitleScreen
+    musicClips:
+    - {fileID: 8300000, guid: b4d8f8331fb921c4384e97924f63cd52, type: 3}
+    playbackMode: 0
   - groupName: MainMenu
     scenes:
     - {fileID: 102900000, guid: aa9431d2b1eeac140a59082124d31abd, type: 3}
@@ -104,20 +112,67 @@ MonoBehaviour:
     playbackMode: 0
   - groupName: Level4
     scenes:
-    - {fileID: 102900000, guid: 01e90143054a11546bfe753597e78a30, type: 3}
-    sceneNames:
-    - Level 1
-    musicClips:
-    - {fileID: 8300000, guid: efcc879d57c5882428ef0480f1fac3df, type: 3}
-    - {fileID: 8300000, guid: ea9c12d41612dd0428347d5089770b82, type: 3}
-    playbackMode: 0
-  - groupName: Level4
-    scenes:
     - {fileID: 102900000, guid: 125a4dc206e0690438a5a03e7fbfd1e5, type: 3}
     sceneNames:
     - Level 4
     musicClips:
-    - {fileID: 8300000, guid: 1f416e4402a87394e8f104fb727ae19e, type: 3}
+    - {fileID: 8300000, guid: 5865fec883953c547966c823fff76115, type: 3}
     playbackMode: 0
+  - groupName: ResultScreen
+    scenes:
+    - {fileID: 102900000, guid: b511cb600657ed54d9664ff5d3d8ca70, type: 3}
+    sceneNames:
+    - ResultsScene
+    musicClips:
+    - {fileID: 8300000, guid: d4ea59abcf38ee24385d7723436a9538, type: 3}
+    playbackMode: 1
+  - groupName: CutsceneIntro
+    scenes:
+    - {fileID: 102900000, guid: 2d2e7d4fec98b1e468d4bb4a40ef71f1, type: 3}
+    sceneNames:
+    - Introduction
+    musicClips:
+    - {fileID: 8300000, guid: b5c1f14090ed71949b470a22dfa4f9d9, type: 3}
+    playbackMode: 1
+  - groupName: TowerCutsceneIntro1
+    scenes:
+    - {fileID: 102900000, guid: 3e57f5de1aa50b341976ddef29ecc52b, type: 3}
+    sceneNames:
+    - Tower1CutsceneIntro
+    musicClips:
+    - {fileID: 8300000, guid: 143d63c0827434345be5d37b9303070b, type: 3}
+    playbackMode: 1
+  - groupName: TowerCutscene1
+    scenes:
+    - {fileID: 102900000, guid: 8738003609fc49e4baa321c8951b5c9c, type: 3}
+    sceneNames:
+    - Tower1Cutscene
+    musicClips:
+    - {fileID: 8300000, guid: 7db7d4ad4aa3a2548b613f7159a1a13f, type: 3}
+    playbackMode: 1
+  - groupName: TowerCutscene2
+    scenes:
+    - {fileID: 102900000, guid: cb131ef06d30aaf4d8d21247abbcccbf, type: 3}
+    sceneNames:
+    - Tower2Cutscene
+    musicClips:
+    - {fileID: 8300000, guid: c44433846d6bca44c8cc65fd620d21aa, type: 3}
+    playbackMode: 1
+  - groupName: TowerCutscene3
+    scenes:
+    - {fileID: 102900000, guid: c6cde9ef30100c940a77fac5f7053f02, type: 3}
+    sceneNames:
+    - Tower3Cutscene
+    musicClips:
+    - {fileID: 8300000, guid: 6aa80d10cb7883f47bd0ddf8def1cbe8, type: 3}
+    playbackMode: 1
+  - groupName: TowerCutscene4
+    scenes:
+    - {fileID: 102900000, guid: 1fa20e66ef066924895d9328f20c181c, type: 3}
+    sceneNames:
+    - Tower4Cutscene
+    musicClips:
+    - {fileID: 8300000, guid: 73f71e969ee4367428a5254829dfd8a1, type: 3}
+    playbackMode: 1
   fadeDuration: 1
   maxVolume: 0.9

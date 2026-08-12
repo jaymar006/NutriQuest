@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 using TMPro;
 using System.Collections;
 using System.Collections.Generic;
@@ -32,6 +33,12 @@ public class LevelInfoScreen : MonoBehaviour
     [SerializeField] private CutsceneTrigger introCutscene = new CutsceneTrigger();
 
     [Header("Cost Display")]
+    [Tooltip("FIX: Must include BOTH language copies of the rune cost text for this " +
+             "tower — e.g. the RuneCostM1 under TOWERMODALS ENGLISH *and* the one " +
+             "under TOWERMODALS TAGALOG. They're separate GameObjects toggled by " +
+             "LocalizedGroupToggle, not one shared object, so both need to be dragged " +
+             "in here or the language that isn't currently active will show a stale " +
+             "leftover number the moment LocalizedGroupToggle switches to it.")]
     [SerializeField] private List<TMP_Text> costDisplayTexts = new List<TMP_Text>();
 
     [Header("Warning Animation")]
@@ -39,6 +46,13 @@ public class LevelInfoScreen : MonoBehaviour
     [SerializeField] private SquishSquashManager warningShakeAnimation;
     [Tooltip("Auto-hide warning text after this many seconds. 0 = never hide.")]
     [SerializeField] private float warningAutoDismiss = 2f;
+
+    [Header("Not Enough Keys")]
+    [Tooltip("Fires when the player taps Challenge without enough rune keys. " +
+             "Drag a GameObject in (e.g. a 'Not Enough Keys' modal) and pick " +
+             "GameObject -> SetActive(bool) from the dropdown to open it — " +
+             "same drag-and-drop pattern as TapCounterTrigger.")]
+    [SerializeField] private UnityEvent onNotEnoughKeys;
 
     private const string HIGH_SCORE_PREFIX = "HighScore_";
     private const string BADGE_PREFIX = "Badge_";
@@ -81,6 +95,18 @@ public class LevelInfoScreen : MonoBehaviour
         // FIX: Subscribe to key change events so the button updates the moment keys change,
         //      even when this modal is already open
         RuneKeySystem.OnKeysChanged += OnKeysChanged;
+
+        // FIX: costDisplayTexts contains BOTH the English and Tagalog copies
+        // of RuneCostM1 for this tower (they're separate GameObjects under
+        // TOWERMODALS ENGLISH / TOWERMODALS TAGALOG, toggled by
+        // LocalizedGroupToggle). RefreshDisplay() below already writes to
+        // both regardless of which one is currently active/visible, so
+        // whichever LocalizedGroupToggle shows next already has the right
+        // number. This subscription additionally catches the case where the
+        // player switches language WHILE this modal is already open, so the
+        // numbers can't go stale mid-session either.
+        LocalizationManager.OnLanguageChanged += RefreshDisplay;
+
         RefreshDisplay();
     }
 
@@ -88,6 +114,7 @@ public class LevelInfoScreen : MonoBehaviour
     {
         // FIX: Always unsubscribe to avoid ghost callbacks after the modal closes
         RuneKeySystem.OnKeysChanged -= OnKeysChanged;
+        LocalizationManager.OnLanguageChanged -= RefreshDisplay;
     }
 
     private void Start()
@@ -120,8 +147,6 @@ public class LevelInfoScreen : MonoBehaviour
     }
 
     // Called when challenge button is clicked
-    // FIX: No key-check blocking here — the button is already disabled if keys are insufficient.
-    //      This only runs when the player legitimately has enough keys.
     private void OnChallengeButtonClicked()
     {
         // FIX: Hard guard at the top — if we're already navigating, ignore
@@ -136,6 +161,16 @@ public class LevelInfoScreen : MonoBehaviour
         }
 
         currentCost = CalculateCost();
+
+        // FIX: The button is no longer disabled when keys are insufficient
+        // (see UpdateButtonState) — it stays tappable so this check can run
+        // and open whatever GameObject is wired into onNotEnoughKeys instead
+        // of the tap silently doing nothing.
+        if (!RuneKeySystem.Instance.HasEnoughKeys(currentCost))
+        {
+            onNotEnoughKeys?.Invoke();
+            return;
+        }
 
         bool spent = RuneKeySystem.Instance.SpendKey(currentCost);
 
@@ -160,7 +195,9 @@ public class LevelInfoScreen : MonoBehaviour
         }
         else
         {
-            // Safety fallback — should not normally happen since button was interactable
+            // Safety fallback — should not normally happen since HasEnoughKeys
+            // was already checked above. Could only fire from a genuine race
+            // (e.g. keys spent by something else between the check and here).
             Debug.LogWarning("[LevelInfoScreen] SpendKey failed unexpectedly. Refreshing button state.");
             UpdateButtonState();
         }
@@ -191,29 +228,19 @@ public class LevelInfoScreen : MonoBehaviour
         UpdateButtonState();
     }
 
-    // FIX: Button interactability is the sole gatekeeper — no warning popup needed for blocking.
-    //      The button is simply unclickable when the player lacks keys.
+    // FIX: isNavigating is now the ONLY thing that disables the button.
+    // Insufficient keys used to disable it outright (challengeButton.interactable
+    // = hasEnough), which meant tapping while short on keys did nothing at
+    // all. The button now stays tappable so OnChallengeButtonClicked() can
+    // detect the insufficient-keys case itself and fire onNotEnoughKeys.
     private void UpdateButtonState()
     {
         if (challengeButton == null) return;
 
-        // FIX: Never let this override the "navigating away" lock, even if
-        // something calls UpdateButtonState() directly from outside this
-        // script while a transition is in flight.
-        if (isNavigating)
-        {
-            challengeButton.interactable = false;
-            return;
-        }
+        challengeButton.interactable = !isNavigating;
 
         bool hasEnough = RuneKeySystem.Instance != null && RuneKeySystem.Instance.HasEnoughKeys(currentCost);
-        challengeButton.interactable = hasEnough;
-
-        ColorBlock colors = challengeButton.colors;
-        colors.disabledColor = new Color(0.5f, 0.5f, 0.5f, 0.5f);
-        challengeButton.colors = colors;
-
-        Debug.Log($"[LevelInfoScreen] Button interactable: {hasEnough} (need {currentCost} key(s), have {(RuneKeySystem.Instance != null ? RuneKeySystem.Instance.CurrentKeys : 0)})");
+        Debug.Log($"[LevelInfoScreen] Has enough keys: {hasEnough} (need {currentCost} key(s), have {(RuneKeySystem.Instance != null ? RuneKeySystem.Instance.CurrentKeys : 0)})");
     }
 
     private int CalculateCost()
@@ -262,6 +289,10 @@ public class LevelInfoScreen : MonoBehaviour
 
     private void DisplayCost()
     {
+        // FIX: Loops over EVERY entry, active or not — this is what makes
+        // wiring both language copies into costDisplayTexts work. An
+        // inactive TMP_Text still accepts .text writes; it just won't be
+        // visible until LocalizedGroupToggle activates its GameObject.
         foreach (TMP_Text text in costDisplayTexts)
         {
             if (text != null)

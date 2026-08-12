@@ -68,8 +68,20 @@ namespace Gameplay.CutsceneManager
 
         [Header("Input Debounce")]
         [Tooltip("Minimum seconds between taps being accepted. Prevents rapid " +
-                 "double-taps from advancing two lines almost instantly.")]
+                 "double-taps (e.g. touch + mouse firing the same instant) from " +
+                 "being registered as two separate inputs.")]
         public float minTimeBetweenTaps = 0.15f;
+
+        [Header("Anti-Spam Hold (Genshin-style)")]
+        [Tooltip("Once a line's text is FULLY visible — whether it finished typing " +
+                 "naturally or the player tap-skipped the typewriter — this is the " +
+                 "minimum number of seconds it must stay on screen before a tap is " +
+                 "allowed to advance to the next line. This is separate from " +
+                 "Min Time Between Taps above: that one only stops near-simultaneous " +
+                 "double-inputs, this one deliberately holds the fully-shown line so " +
+                 "spam-tapping can't blow through dialogue faster than it can be read. " +
+                 "Set to 0 to disable and advance immediately, same as before this feature.")]
+        public float minFullTextDisplayTime = 0.3f;
 
         [Header("Where This Cutscene Leads")]
         [Tooltip("When true, fades to black and loads 'On Finish Load Scene' after the " +
@@ -120,11 +132,18 @@ namespace Gameplay.CutsceneManager
 
         private bool isReacting = false;
 
-        // FIX: Locks out re-entrant Advance() calls while a line transition
+        // Locks out re-entrant Advance() calls while a line transition
         // (portrait outro + next-line setup) is still in flight. Without this,
         // two fast taps could each spin up their own AdvanceWithOutro(),
         // stacking outro/entrance coroutines on top of each other.
         private bool isAdvancing = false;
+
+        // FIX: Timestamp of the moment the CURRENT line's text became fully
+        // visible — set both when TypeLine() finishes naturally and when
+        // SnapToFull() completes a tap-skip. Advance() uses this alongside
+        // minFullTextDisplayTime to hold a fully-shown line on screen for a
+        // short beat before a tap is allowed to move past it.
+        private float lineFullyShownTime = -999f;
 
         private float lastAcceptedTapTime = -999f;
 
@@ -289,6 +308,7 @@ namespace Gameplay.CutsceneManager
             currentTypingSFX = null;
             isReacting = false;
             isAdvancing = false;
+            lineFullyShownTime = -999f;
 
             if (dialoguePanel != null)
                 dialoguePanel.SetActive(true);
@@ -314,8 +334,17 @@ namespace Gameplay.CutsceneManager
                 return;
             }
 
-            // FIX: block re-entry while a transition is already running.
+            // Block re-entry while a transition is already running.
             if (isAdvancing)
+                return;
+
+            // FIX: Genshin-style anti-spam hold. Even though the text is fully
+            // shown, don't let a tap advance until minFullTextDisplayTime has
+            // passed since it became fully visible. This is what actually
+            // stops spam-tapping from blowing through lines the instant each
+            // one finishes typing — SnapToFull() above is untouched, so
+            // skipping the TYPEWRITER itself is still instant on tap.
+            if (Time.unscaledTime - lineFullyShownTime < minFullTextDisplayTime)
                 return;
 
             if (currentPortraitRect != null &&
@@ -329,7 +358,7 @@ namespace Gameplay.CutsceneManager
                     isReacting = false;
                 }
 
-                // FIX: snapshot the target rect + base pose/scale as parameters
+                // Snapshot the target rect + base pose/scale as parameters
                 // instead of letting the coroutine read mutable fields each
                 // frame. If the player advances again mid-reaction, those
                 // fields get reassigned to the NEXT speaker — without the
@@ -354,7 +383,7 @@ namespace Gameplay.CutsceneManager
                 currentPortraitRect != null &&
                 currentLine.outroType != OutroType.None)
             {
-                // FIX: a reaction/shake from this same tap could still be
+                // A reaction/shake from this same tap could still be
                 // animating this exact rect — stop it before the outro starts
                 // moving it, otherwise they fight over anchoredPosition/localScale.
                 if (reactionCoroutine != null)
@@ -368,7 +397,7 @@ namespace Gameplay.CutsceneManager
                 if (portraitOutroCoroutine != null)
                     StopCoroutine(portraitOutroCoroutine);
 
-                // FIX: snapshot target + base position, same reasoning as PlayReaction above.
+                // Snapshot target + base position, same reasoning as PlayReaction above.
                 portraitOutroCoroutine = StartCoroutine(
                     PlayPortraitOutro(currentLine, currentPortraitRect, originalPortraitPosition));
                 yield return new WaitForSeconds(currentLine.outroDuration);
@@ -381,7 +410,7 @@ namespace Gameplay.CutsceneManager
             else
                 EndDialogue();
 
-            // FIX: release the lock once the transition has fully resolved
+            // Release the lock once the transition has fully resolved
             // (next line shown, or dialogue ended).
             isAdvancing = false;
         }
@@ -393,7 +422,7 @@ namespace Gameplay.CutsceneManager
         {
             currentLine = line;
 
-            // FIX: guarantee a clean slate — stop any reaction still running
+            // Guarantee a clean slate — stop any reaction still running
             // from the previous line before HandlePortraitDisplay() below
             // overwrites currentPortraitRect / originalPortraitScale / position.
             if (reactionCoroutine != null)
@@ -403,6 +432,12 @@ namespace Gameplay.CutsceneManager
             }
             isReacting = false;
             ResetPortraitTransform();
+
+            // FIX: reset the anti-spam clock for the new line. Combined with
+            // the isTyping check at the top of Advance(), this means a tap
+            // can't sneak past minFullTextDisplayTime using a stale timestamp
+            // left over from the PREVIOUS line.
+            lineFullyShownTime = -999f;
 
             StartCoroutine(BlockInputForOneFrame());
 
@@ -622,12 +657,12 @@ namespace Gameplay.CutsceneManager
 
         // -------------------------------------------------------------------------
         // PlayReaction
-        // FIX: now takes target/baseScale/basePos as parameters (snapshotted
-        // at call time in Advance()) instead of reading the mutable
-        // currentPortraitRect / originalPortraitScale / originalPortraitPosition
-        // fields each frame. Those fields can be reassigned to a NEW speaker
-        // by ShowLine() -> CachePortraitReferences() while this coroutine is
-        // still running, which was the cause of the fast-tap glitch.
+        // Takes target/baseScale/basePos as parameters (snapshotted at call
+        // time in Advance()) instead of reading the mutable currentPortraitRect
+        // / originalPortraitScale / originalPortraitPosition fields each
+        // frame. Those fields can be reassigned to a NEW speaker by
+        // ShowLine() -> CachePortraitReferences() while this coroutine is
+        // still running, which was the cause of a previous fast-tap glitch.
         // -------------------------------------------------------------------------
         private IEnumerator PlayReaction(DialogueLine line, RectTransform target, Vector3 baseScale, Vector2 basePos)
         {
@@ -690,7 +725,7 @@ namespace Gameplay.CutsceneManager
 
         // -------------------------------------------------------------------------
         // Portrait outro
-        // FIX: takes target/basePos as parameters for the same reason as
+        // Takes target/basePos as parameters for the same reason as
         // PlayReaction above.
         // -------------------------------------------------------------------------
         private IEnumerator PlayPortraitOutro(DialogueLine line, RectTransform target, Vector2 basePos)
@@ -824,6 +859,11 @@ namespace Gameplay.CutsceneManager
             }
 
             isTyping = false;
+
+            // FIX: text just became fully visible naturally — start the
+            // anti-spam hold clock from right now.
+            lineFullyShownTime = Time.unscaledTime;
+
             RebuildTextLayout();
             ScrollToBottom();
 
@@ -861,6 +901,14 @@ namespace Gameplay.CutsceneManager
 
             isTyping = false;
 
+            // FIX: same as the natural-finish case in TypeLine() — the text
+            // is now fully visible (via tap-skip instead of typing out), so
+            // the anti-spam hold clock starts from right now too. Without
+            // this, tap-skipping the typewriter would leave the OLD (or
+            // default -999) timestamp in place and let the very next tap
+            // blow straight through to the next line with zero hold at all.
+            lineFullyShownTime = Time.unscaledTime;
+
             if (stopSFXOnSkip)
                 StopTypingSFX();
 
@@ -883,7 +931,7 @@ namespace Gameplay.CutsceneManager
             if (portraitOutroCoroutine != null) StopCoroutine(portraitOutroCoroutine);
 
             isReacting = false;
-            isAdvancing = false; // FIX: don't leave the lock stuck true if StartDialogue() is reused
+            isAdvancing = false; // don't leave the lock stuck true if StartDialogue() is reused
             ResetPortraitTransform();
 
             dialogueFinished = true;
@@ -902,10 +950,9 @@ namespace Gameplay.CutsceneManager
             if (continueIndicator != null)
                 continueIndicator.SetActive(false);
 
-            // FIX: This scene now actually loads onFinishLoadScene once the
+            // This scene now actually loads onFinishLoadScene once the
             // dialogue ends, instead of only fading to black and hiding the
-            // panel with nothing happening after. That silent "fade then
-            // stop" was exactly why the intro never reached Main Menu.
+            // panel with nothing happening after.
             if (autoAdvanceOnEnd)
             {
                 if (blackScreenCoroutine != null)
@@ -997,9 +1044,8 @@ namespace Gameplay.CutsceneManager
         }
 
         // -------------------------------------------------------------------------
-        // FIX: Fades to black, then actually loads onFinishLoadScene via
-        // SceneTransitionManager. This is the piece that was missing —
-        // previously it faded and stopped, leaving the player stuck.
+        // Fades to black, then actually loads onFinishLoadScene via
+        // SceneTransitionManager.
         // -------------------------------------------------------------------------
         private IEnumerator FadeAndLoadNextScene()
         {

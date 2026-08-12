@@ -9,7 +9,7 @@ public class RuneKeySystem : MonoBehaviour
 {
     public static RuneKeySystem Instance { get; private set; }
 
-    // FIX: Event so any script (e.g. LevelInfoScreen) can react when keys change
+    // Event so any script (e.g. LevelInfoScreen) can react when keys change
     public static event Action OnKeysChanged;
 
     [Header("Rune Key Settings")]
@@ -29,7 +29,7 @@ public class RuneKeySystem : MonoBehaviour
     private List<string> persistentDisplayNames = new List<string>();
     private string persistentTimerName = null;
 
-    // FIX: Prevents OnSceneLoaded from clearing the timer ref before Start() saves its name
+    // Prevents OnSceneLoaded from clearing the timer ref before Start() saves its name
     private bool hasStartedOnce = false;
 
     // Track the RegenLoop coroutine so we can stop it reliably
@@ -47,7 +47,7 @@ public class RuneKeySystem : MonoBehaviour
             PlayerPrefs.SetInt(RUNE_KEY, newValue);
             PlayerPrefs.Save();
             UpdateAllKeyDisplays();
-            // FIX: Broadcast so LevelInfoScreen buttons update immediately
+            // Broadcast so LevelInfoScreen buttons update immediately
             OnKeysChanged?.Invoke();
         }
     }
@@ -75,9 +75,9 @@ public class RuneKeySystem : MonoBehaviour
 
         runeKeyTexts.RemoveAll(item => item == null);
 
-        // FIX: Only wipe the timer ref on scene TRANSITIONS (after first Start() ran).
-        //      On the very first scene load, Start() hasn't fired yet so persistentTimerName
-        //      hasn't been saved — clearing here would destroy the manually assigned reference.
+        // Only wipe the timer ref on scene TRANSITIONS (after first Start() ran).
+        // On the very first scene load, Start() hasn't fired yet so persistentTimerName
+        // hasn't been saved — clearing here would destroy the manually assigned reference.
         if (hasStartedOnce)
             regenTimerText = null;
 
@@ -361,11 +361,15 @@ public class RuneKeySystem : MonoBehaviour
             return false;
         }
 
-        if (string.IsNullOrEmpty(PlayerPrefs.GetString(RUNE_LAST_REGEN, "")))
-        {
-            PlayerPrefs.SetString(RUNE_LAST_REGEN, DateTime.UtcNow.ToString());
-            PlayerPrefs.Save();
-        }
+        // FIX: Always restart the regen timer on spend, not just when it was
+        // previously empty. Before this fix, a player who'd been sitting
+        // below max for a while (regen timer already old/stale) could spend
+        // a key and have RegenLoop() immediately hand it right back on its
+        // very next 1-second tick, since the stale timestamp already looked
+        // "overdue" for a regen that had nothing to do with this spend. That
+        // showed up as "my rune key didn't get spent."
+        PlayerPrefs.SetString(RUNE_LAST_REGEN, DateTime.UtcNow.ToString());
+        PlayerPrefs.Save();
 
         CurrentKeys -= amount;
         Debug.Log($"[RuneKeySystem] Spent {amount} key(s). Remaining: {CurrentKeys}");

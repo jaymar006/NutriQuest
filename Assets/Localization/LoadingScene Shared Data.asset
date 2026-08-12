@@ -19,6 +19,10 @@ MonoBehaviour:
     m_Key: Loading_scene
     m_Metadata:
       m_Items: []
+  - m_Id: 1829171441897472
+    m_Key: Loading_language
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

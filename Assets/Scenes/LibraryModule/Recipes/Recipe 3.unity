@@ -194,8 +194,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -22.599976, y: 22.599976}
+  m_SizeDelta: {x: 3489.3, y: 3443.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &650293569
 MonoBehaviour:
@@ -3776,8 +3776,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 5601017326518336458}
-        m_TargetAssemblyTypeName: ModalOnAndOF, Assembly-CSharp
+      - m_Target: {fileID: 9144971894542729565}
+        m_TargetAssemblyTypeName: ModalCloser, Assembly-CSharp
         m_MethodName: CloseModal
         m_Mode: 1
         m_Arguments:
@@ -4284,21 +4284,6 @@ RectTransform:
   m_AnchoredPosition: {x: 136, y: -216}
   m_SizeDelta: {x: 200, y: 570}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5601017326518336458
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8110361129755777633}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f59a25f5474fe4488238009b05cf72f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ModalOnAndOF
-  englishModal: {fileID: 0}
-  filipinoModal: {fileID: 0}
-  backButtonManager: {fileID: 0}
 --- !u!114 &5791904576379082961
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5368,7 +5353,7 @@ GameObject:
   - component: {fileID: 8276853825078232995}
   - component: {fileID: 7505080096749858339}
   - component: {fileID: 7211566476533160771}
-  - component: {fileID: 5601017326518336458}
+  - component: {fileID: 9144971894542729565}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -5593,6 +5578,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -866.4426}
   m_SizeDelta: {x: 356, y: 140}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &9144971894542729565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8110361129755777633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4a4a16450222fc4287a233127b84f51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ModalCloser
+  modalToClose: {fileID: 1825290952}
+  backButtonManager: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -31,6 +31,14 @@ MonoBehaviour:
     m_Key: modals.caution
     m_Metadata:
       m_Items: []
+  - m_Id: 2470030806028288
+    m_Key: modals.warning
+    m_Metadata:
+      m_Items: []
+  - m_Id: 2470387783241728
+    m_Key: modals.warning_runekey_warning
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

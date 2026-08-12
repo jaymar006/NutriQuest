@@ -40,7 +40,7 @@ MonoBehaviour:
     - Locale-fil
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 748ad9af0bbe25a4ab6a1ae9ecc1c96a
-    m_Address: adasfasf_fil
+    m_Address: LocalizationScreen_fil
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-fil

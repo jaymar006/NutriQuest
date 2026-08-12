@@ -22,6 +22,10 @@ MonoBehaviour:
     m_Localized: Did You Know?
     m_Metadata:
       m_Items: []
+  - m_Id: 1829171441897472
+    m_Localized: "Choose Your Language\t"
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

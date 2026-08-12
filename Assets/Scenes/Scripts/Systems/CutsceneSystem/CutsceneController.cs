@@ -1,6 +1,6 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
-
+using Gameplay.CutsceneManager; // 
 public class CutsceneController : MonoBehaviour
 {
     [Header("Dialogue")]
@@ -33,23 +33,16 @@ public class CutsceneController : MonoBehaviour
 
     private IEnumerator WaitForDialogueToFinish()
     {
-        // Wait for DialogueManager reference
-        if (dialogueManager == null)
-        {
-            Debug.LogWarning("[CutsceneController] DialogueManager not assigned. Trying to find it...");
-            dialogueManager = FindObjectOfType<DialogueManager>();
-        }
-
         if (dialogueManager == null)
         {
             Debug.LogError("[CutsceneController] DialogueManager not found!");
             yield break;
         }
 
-        // Wait until dialogue finishes
-        yield return new WaitUntil(() => dialogueManager.IsDialogueFinished);
+        // ✅ Use the correct property name from DialogueManager
+        yield return new WaitUntil(() => dialogueManager.dialogueFinished);
 
-        Debug.Log("[CutsceneController] Dialogue finished � unlocking recipe.");
+        Debug.Log("[CutsceneController] Dialogue finished — unlocking recipe.");
         UnlockRecipe();
 
         // Show unlock panel if assigned

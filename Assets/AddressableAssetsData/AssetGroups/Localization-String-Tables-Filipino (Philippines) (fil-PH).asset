@@ -27,12 +27,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-fil-PH
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7f20812027a8393489c682824eec4307
-    m_Address: adasfasf_fil-PH
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-fil-PH
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: b88593d6eea79364dbc9fd564c230462
     m_Address: NutriQuestFilipino_fil-PH
     m_ReadOnly: 1
