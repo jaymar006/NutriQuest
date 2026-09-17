@@ -1191,7 +1191,7 @@ MonoBehaviour:
     openNameInputAfterThisLine: 0
   - character: {fileID: 0}
     useCustomSpeakerName: 0
-    customSpeakerName: 
+    customSpeakerName: Narrator
     dialogueText: As you enter the tower you saw a peculiar. Creature. A cat with
       a sword? Until you remember what Sienna told you to find.
     filipinoText: Pagpasok mo sa tore, may napansin kang kakaibang nilalang. Isang
@@ -1220,7 +1220,7 @@ MonoBehaviour:
     openNameInputAfterThisLine: 0
   - character: {fileID: 0}
     useCustomSpeakerName: 0
-    customSpeakerName: 
+    customSpeakerName: ???
     dialogueText: Ugh- I can't solve this questions. It making my head spin! But.
       If I can't solve this Sienna's effort will go to waste!
     filipinoText: Ugh... Hindi ko masagutan ang mga tanong na ito. Parang sasabog
@@ -1275,7 +1275,7 @@ MonoBehaviour:
     openNameInputAfterThisLine: 0
   - character: {fileID: 0}
     useCustomSpeakerName: 0
-    customSpeakerName: 
+    customSpeakerName: Narrator
     dialogueText: Before you could speak, the little cat cut's you off.
     filipinoText: Bago ka pa makasagot, agad kang pinutol ng munting pusa.
     useItalic: 1
@@ -1304,7 +1304,7 @@ MonoBehaviour:
     customSpeakerName: ???
     dialogueText: As a hero in training I could not let a lost person! That would
       any hero will do!
-    filipinoText: Bilang isang knight na nagsasanay pa lang, hindi ko puwedeng pabayaan
+    filipinoText: Bilang isang bayani na nagsasanay pa lang, hindi ko puwedeng pabayaan
       ang isang naliligaw! Walang tunay na bayani ang gagawa ng ganoon!
     useItalic: 0
     useBold: 0
@@ -1331,10 +1331,10 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: ???
     dialogueText: Umm. I'm a little bit of a pickle here. Will you please help me?
-      I promise it will be worth your time.
+      I promise it will not waste your time!
     filipinoText: Umm... Medyo may problema ako. Maaari mo ba akong tulungan? Pangako,
-      sulit ang oras mo!"
-    useItalic: 0
+      di ko sasayangin ang oras mo!"
+    useItalic: 1
     useBold: 0
     emotionPortrait: {fileID: 4613369332385885323, guid: c38f36071605f5c4da5011c8238f182b, type: 3}
     entranceType: 0
@@ -1357,7 +1357,7 @@ MonoBehaviour:
     openNameInputAfterThisLine: 0
   - character: {fileID: 0}
     useCustomSpeakerName: 0
-    customSpeakerName: 
+    customSpeakerName: Narrator
     dialogueText: Before you can speak, he pulls you further into the tower.
     filipinoText: Bago ka pa makasagot, hinila ka na niya papasok sa mas malalim
       na bahagi ng tore.
@@ -1384,6 +1384,7 @@ MonoBehaviour:
     openNameInputAfterThisLine: 0
   autoStartOnAwake: 1
   minTimeBetweenTaps: 0.15
+  minFullTextDisplayTime: 0.3
   autoAdvanceOnEnd: 1
   onFinishLoadSceneAsset: {fileID: 102900000, guid: 01e90143054a11546bfe753597e78a30, type: 3}
   onFinishLoadScene: Level 1

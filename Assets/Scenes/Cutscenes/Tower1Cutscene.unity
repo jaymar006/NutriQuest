@@ -1166,10 +1166,8 @@ MonoBehaviour:
   - character: {fileID: 0}
     useCustomSpeakerName: 0
     customSpeakerName: ???
-    dialogueText: Woah! You actually cleared Tower 1! Not bad for someone who just
-      got here!
-    filipinoText: Woah! Natapos mo talaga ang Tower 1! Hindi masama para sa isang
-      kararating pa lang!
+    dialogueText: Woah! You actually cleared Tower 1! Not bad!
+    filipinoText: Woah! Natapos mo talaga ang Tower 1! Hindi na rin masama!
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 8495209843170342830, guid: 0e0ac28be41d94e4eb10c24caaadbc20, type: 3}
@@ -1195,7 +1193,7 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: ???
     dialogueText: Oh! I forgot to introduce myself.
-    filipinoText: HALA! Hindi pala ako nakapagpakilala.
+    filipinoText: HALA! Nakalimutan ko. Hindi pala ako nakapagpakilala.
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -6077793430231951356, guid: 55166d42aba58dc47ad2f2f79e4ca59d, type: 3}
@@ -1301,7 +1299,7 @@ MonoBehaviour:
     openNameInputAfterThisLine: 0
   - character: {fileID: 0}
     useCustomSpeakerName: 1
-    customSpeakerName: 
+    customSpeakerName: Narrator
     dialogueText: 'You notice something glowing and floating towards you. '
     filipinoText: May napansin kang isang kumikislap na bagay na dahan-dahang lumulutang
       papunta sa'yo."
@@ -1358,7 +1356,7 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: Emby
     dialogueText: ...Sinabawang Gulay? That's it? Just... vegetables in soup...
-    filipinoText: '"...Sinabawang Gulay? Iyon na ''yon? Gulay lang... sa sabaw...'
+    filipinoText: ...Sinabawang Gulay? Iyon na 'yon? Gulay lang... sa sabaw...
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 3955470843362796982, guid: 4756c828401aeb64e8c9554097ccd465, type: 3}
@@ -1410,7 +1408,7 @@ MonoBehaviour:
     openNameInputAfterThisLine: 0
   - character: {fileID: 0}
     useCustomSpeakerName: 0
-    customSpeakerName: 
+    customSpeakerName: Emby
     dialogueText: Sienna will be happy over this though, so let's bring it back.
     filipinoText: Pero matutuwa si Sienna rito, kaya ibalik na natin ito.
     useItalic: 0
@@ -1465,6 +1463,7 @@ MonoBehaviour:
     openNameInputAfterThisLine: 0
   autoStartOnAwake: 1
   minTimeBetweenTaps: 0.15
+  minFullTextDisplayTime: 0.3
   autoAdvanceOnEnd: 1
   onFinishLoadSceneAsset: {fileID: 102900000, guid: b511cb600657ed54d9664ff5d3d8ca70, type: 3}
   onFinishLoadScene: ResultsScene

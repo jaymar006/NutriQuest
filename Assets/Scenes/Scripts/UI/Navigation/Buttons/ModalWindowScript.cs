@@ -27,7 +27,7 @@ public class ModalWindowScript : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
         originalScale = rectTransform.localScale;
 
-        // Start modal hidden //
+        // Start modal hidden
         canvasGroup.alpha = 0f;
         canvasGroup.interactable = false;
         canvasGroup.blocksRaycasts = false;
@@ -39,21 +39,22 @@ public class ModalWindowScript : MonoBehaviour
         gameObject.SetActive(true);
         StopAllCoroutines();
         StartCoroutine(AnimateModal(canvasGroup.alpha, 1f, rectTransform.localScale, originalScale));
+
+        // Freeze the game when modal opens
+        Time.timeScale = 0f;
     }
 
     public void Hide()
     {
-        // Clear the EventSystem's selected/pressed object so it doesn't hold a
-        // stale reference to a button that's about to be deactivated. Without
-        // this, clicks on buttons inside the modal can silently stop firing
-        // the next time the modal is shown.
         if (EventSystem.current != null)
         {
             EventSystem.current.SetSelectedGameObject(null);
         }
-
         StopAllCoroutines();
         StartCoroutine(AnimateModal(canvasGroup.alpha, 0f, rectTransform.localScale, originalScale * startScale));
+
+        // Resume the game when modal closes
+        Time.timeScale = 1f;
     }
 
     private IEnumerator AnimateModal(float startAlpha, float endAlpha,
@@ -70,14 +71,14 @@ public class ModalWindowScript : MonoBehaviour
 
         while (time < fadeDuration)
         {
-            time += Time.unscaledDeltaTime; // pause-safe
+            time += Time.unscaledDeltaTime; // animations run even while paused
             float t = Mathf.SmoothStep(0f, 1f, time / fadeDuration);
             canvasGroup.alpha = Mathf.Lerp(startAlpha, endAlpha, t);
             rectTransform.localScale = Vector3.Lerp(startScaleVec, endScaleVec, t);
             yield return null;
         }
 
-        // Snap to final values //
+        // Snap to final values
         canvasGroup.alpha = endAlpha;
         rectTransform.localScale = endScaleVec;
 

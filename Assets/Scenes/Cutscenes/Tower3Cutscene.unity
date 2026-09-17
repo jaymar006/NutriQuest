@@ -1268,9 +1268,9 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: 
     dialogueText: I never seen that kind of sandwhich. The one I know is bread and
-      meat and bread again. But that sandwhich has three layers. THREE!
+      meat and bread again. But that sandwhich has three layers. THREE BREAD!
     filipinoText: Hindi pa ako nakakakita ng ganyang sandwich. Ang alam ko, tinapay,
-      karne, tapos tinapay ulit. Pero ito... tatlong patong! TATLO!
+      karne, tapos tinapay ulit. Pero ito... tatlong patong! TATLO TINAPAY!
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: 1077e0627b8da5f44bb82b1ccf6fecf2, type: 3}
@@ -1325,7 +1325,7 @@ MonoBehaviour:
       protein, fiber all in one! Which can be done in one bite!
     filipinoText: "Iyon nga ang maganda! Mas maraming sangkap ang kasya! May gulay,
       protina, at fiber pa\u2014lahat sa isang sandwich! Isang kagat lang, kumpleto
-      na!\""
+      na!"
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -2101606179557248710, guid: 3bbc0cd91b4224547a3088bffc13f955, type: 3}
@@ -1378,8 +1378,8 @@ MonoBehaviour:
   - character: {fileID: 186856291}
     useCustomSpeakerName: 0
     customSpeakerName: 
-    dialogueText: You just have a tiny mouth Emby.
-    filipinoText: Maliit lang talaga ang bibig mo, Emby.
+    dialogueText: Hehe~ You just have a tiny mouth Emby.
+    filipinoText: Hehe~ Maliit lang talaga ang bibig mo, Emby.
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: 24483481de76af745bd34839b2fa3a44, type: 3}
@@ -1457,9 +1457,9 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: 
     dialogueText: When I traveled the world tasting different foods, I forgot to
-      take care of myself. I got tired easily and often became sick.
-    filipinoText: Noong naglalakbay ako at tumitikim ng iba't ibang pagkain, nakalimutan
-      kong alagaan ang sarili ko. Madali akong mapagod at magkasakit.
+      take care of myself. I got tired easily and often became sick before.
+    filipinoText: Noong naglalakbay pa ako at tumitikim ng iba't ibang pagkain, nakalimutan
+      kong alagaan ang sarili ko.Kaya madali akong mapagod at magkasakit nuon.
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -7024112249979172348, guid: 64a2f12449ecf564a84605f468f09b63, type: 3}
@@ -1486,9 +1486,9 @@ MonoBehaviour:
     customSpeakerName: 
     dialogueText: 'I got so fat that one time a farmer genuinely tried to put me
       in a pen with his rabbit pet. HE REALLY THOUGHT I WAS A FAT RABBIT! '
-    filipinoText: Tumaba pa nga ako nang husto, akala talaga ng isang magsasaka isa
-      akong matabang kuneho! Isasama na sana niya ako sa kulungan ng alaga niyang
-      kuneho!
+    filipinoText: Tumaba pa nga ako nang husto, akala talaga ng isang magsasaka nuon
+      isa akong matabang kuneho! Isasama na sana niya ako sa kulungan ng iba niyang
+      alaga!
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 2714347358834775429, guid: 8a203a67669c120449e84f110620d9d2, type: 3}
@@ -1515,7 +1515,7 @@ MonoBehaviour:
     customSpeakerName: 
     dialogueText: Well eating too much and unhealthy food will result to that kinda
       of situation~
-    filipinoText: Aba, kapag naparami ang pagkain ng hindi masustansyang pagkain,
+    filipinoText: Aba, kapag naparami ang kain mo ng hindi masustansyang pagkain,
       puwedeng mauwi talaga sa ganyang sitwasyon~
     useItalic: 0
     useBold: 0
@@ -1544,7 +1544,7 @@ MonoBehaviour:
     dialogueText: You have a point, Emby. But food isn't just for enjoyment. It's
       also how we take care of our bodies.
     filipinoText: May punto ka, Emby. Pero ang pagkain ay hindi lang para sa kasiyahan.
-      Para rin ito sa pag-aalaga sa ating katawan.
+      Paraan din ito ng pag-aalaala sa ating katawan.
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -7024112249979172348, guid: 64a2f12449ecf564a84605f468f09b63, type: 3}
@@ -1762,6 +1762,7 @@ MonoBehaviour:
     openNameInputAfterThisLine: 0
   autoStartOnAwake: 1
   minTimeBetweenTaps: 0.15
+  minFullTextDisplayTime: 0.3
   autoAdvanceOnEnd: 1
   onFinishLoadSceneAsset: {fileID: 102900000, guid: b511cb600657ed54d9664ff5d3d8ca70, type: 3}
   onFinishLoadScene: ResultsScene

@@ -45,6 +45,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-fil
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7ac695e5351265641abb73c759fbcc1e
+    m_Address: HelpArchive_fil
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-fil
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7ba66a04c3521034abefb99ac2909410
     m_Address: LoadingScene_fil
     m_ReadOnly: 1
@@ -59,6 +65,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d57ad2eb14330d848b257910d2bcb01a
     m_Address: LevelModalWarning_fil
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-fil
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: de1bed3ff11623846abefd79810636ad
+    m_Address: LibraryRecipes_fil
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-fil

@@ -40,6 +40,11 @@ MonoBehaviour:
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 80165d5db2b545646a27497c056fd023
+    m_Address: Assets/Localization/LibraryRecipes Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8409cd2ec5427d14f8999cf031243bc9
     m_Address: Assets/Localization/adasfasf Shared Data.asset
     m_ReadOnly: 1
@@ -57,6 +62,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c1bb8b2de177504438ee66b1260412f3
     m_Address: Assets/Localization/ResultScreen Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ec483051bb1eef54893234d6b4decce7
+    m_Address: Assets/Localization/HelpArchive Shared Data.asset
     m_ReadOnly: 1
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

@@ -2435,7 +2435,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &485410219
 Transform:
   m_ObjectHideFlags: 0
@@ -3929,6 +3929,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ModalWindowScript
   fadeDuration: 0.25
   startScale: 0.8
+  onShown:
+    m_PersistentCalls:
+      m_Calls: []
+  onHidden:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!225 &908303086
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -10615,6 +10621,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ModalWindowScript
   fadeDuration: 0.25
   startScale: 0.8
+  onShown:
+    m_PersistentCalls:
+      m_Calls: []
+  onHidden:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!222 &8487139714032294770
 CanvasRenderer:
   m_ObjectHideFlags: 0

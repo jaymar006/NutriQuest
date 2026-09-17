@@ -1,16 +1,16 @@
 fileFormatVersion: 2
-guid: 169981ea14d17704e91a67575ca1783d
+guid: 7a813ada79e65894fac2289a1c24306a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3830565682483415335
-    second: Group 149_0
+      213: -4299835859192998471
+    second: Ripped_0
   - first:
-      213: -2851808209004500349
-    second: Group 149_1
+      213: -7444398496780289676
+    second: Ripped_1
   - first:
-      213: 5259252602660656601
-    second: Group 149_2
+      213: -1450777670268163339
+    second: Ripped_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -132,23 +132,67 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Back button 2
+      name: Ripped_0
       rect:
         serializedVersion: 2
-        x: 151
-        y: 174
-        width: 800
-        height: 699
+        x: 0
+        y: 19
+        width: 1740
+        height: 876
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 729c9396137e82530800000000000000
-      internalID: 3830565682483415335
+      spriteID: 9b5905c411ae354c0800000000000000
+      internalID: -4299835859192998471
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ripped_1
+      rect:
+        serializedVersion: 2
+        x: 575
+        y: 30
+        width: 25
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 47975f0620f20b890800000000000000
+      internalID: -7444398496780289676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ripped_2
+      rect:
+        serializedVersion: 2
+        x: 673
+        y: 17
+        width: 22
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5fae89b356dcddbe0800000000000000
+      internalID: -1450777670268163339
       vertices: []
       indices: 
       edges: []
@@ -157,7 +201,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: e8944683f62f3ee4db9c41914a3c70b9
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -167,9 +211,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Back button 2: 3830565682483415335
-      Group 149_1: -2851808209004500349
-      Group 149_2: 5259252602660656601
+      Ripped_0: -4299835859192998471
+      Ripped_1: -7444398496780289676
+      Ripped_2: -1450777670268163339
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -2424,8 +2424,8 @@ MonoBehaviour:
     customSpeakerName: ???
     dialogueText: "The arrays are unstable, the pages are missing, the tower is locked
       and I\u2014 I\u2014"
-    filipinoText: "Hindi na stable ang mga magic array, nawawala ang mga recipe page,
-      nakakandado ang tore at ako\u2014 ako\u2014"
+    filipinoText: 'Hindi na stable ang mga magic array, nawawala ang mga recipe page,
+      nakakandado ang tore at WAAHH! Ano gagawin ko?!! '
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: 24483481de76af745bd34839b2fa3a44, type: 3}
@@ -2558,7 +2558,7 @@ MonoBehaviour:
     useCustomSpeakerName: 1
     customSpeakerName: Puppy?
     dialogueText: Wait a moment... You are not from this world are you?
-    filipinoText: Sandali lang... Hindi ka taga-mundong ito, hindi ba?
+    filipinoText: Sandali lang... Hindi ka taga- dito sa mundong ito, hindi ba?
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -1362437897567091854, guid: 0125f37827e2a4c4a9a27fbf7650cc59, type: 3}
@@ -2612,8 +2612,8 @@ MonoBehaviour:
     customSpeakerName: Puppy?
     dialogueText: Fascinating! You can actually interact with this world even though
       you are from the outside!
-    filipinoText: Ang galing! Nakikipag-ugnayan ka sa mundong ito kahit galing ka
-      sa labas!
+    filipinoText: Ang galing! Nagawa mong makipagugnayan sa mundong ito kahit galing
+      ka sa labas!
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: 24483481de76af745bd34839b2fa3a44, type: 3}
@@ -2665,7 +2665,7 @@ MonoBehaviour:
     useCustomSpeakerName: 0
     customSpeakerName: Sienna
     dialogueText: You know what, it doesn't matter right now!
-    filipinoText: Alam mo? Hindi na muna mahalaga 'yan ngayon!
+    filipinoText: "Alam mo? Hindi na mahalaga 'iyon sa ngayon!\t"
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -2101606179557248710, guid: 3bbc0cd91b4224547a3088bffc13f955, type: 3}
@@ -2770,7 +2770,7 @@ MonoBehaviour:
   - character: {fileID: 166775541}
     useCustomSpeakerName: 1
     customSpeakerName: Sienna
-    dialogueText: So what's your name??
+    dialogueText: But what's your name??
     filipinoText: Kaya... ano ang pangalan mo?
     useItalic: 0
     useBold: 0
@@ -2797,8 +2797,8 @@ MonoBehaviour:
     useCustomSpeakerName: 1
     customSpeakerName: Sienna
     dialogueText: Nice to meet you {player}! And welcome to my tower!
-    filipinoText: Ikinagagalak kitang makilala, {player}! Maligayang pagdating sa
-      aking tore!
+    filipinoText: Ikinagagalak kitang makilala, manlalakbay! At maligayang pagdating
+      sa aking tore!
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -2101606179557248710, guid: 3bbc0cd91b4224547a3088bffc13f955, type: 3}
@@ -2849,8 +2849,10 @@ MonoBehaviour:
   - character: {fileID: 166775541}
     useCustomSpeakerName: 1
     customSpeakerName: Sienna
-    dialogueText: 'My spell fumbled and now the tower is locked! '
-    filipinoText: Nagkamali ang mahika ko kaya nakakandado na ang tore!
+    dialogueText: 'Ahh I remember it now... My spell fumbled and now the tower is
+      locked! '
+    filipinoText: Ughh oo naalala ko na... Nagkamali ang mahika ko kaya nakakandado
+      na ang tore!
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: 21300000, guid: 1df127ed37de0b449a48725d021b3ea0, type: 3}
@@ -2987,8 +2989,8 @@ MonoBehaviour:
   - character: {fileID: 166775541}
     useCustomSpeakerName: 1
     customSpeakerName: Sienna
-    dialogueText: 'Because I eat too many snacks I once got mistaken for a pig. Multiple
-      times! '
+    dialogueText: 'Because I eat too many snacks before, I once got mistaken for
+      a pig. Multiple times! '
     filipinoText: Dahil naparami ang kain ko ng meryenda, napagkamalan pa akong baboy
       noon. Ilang beses pa!
     useItalic: 0
@@ -3156,8 +3158,8 @@ MonoBehaviour:
     customSpeakerName: Sienna
     dialogueText: "Oh! Speaking of keys \u2014 Emby left me some before he went inside!
       Use it!"
-    filipinoText: Ay! May naalala ako tungkol sa Susi, nag iwan sya sa akin ng Susi
-      bago sya pumasok ng tore. Gamitin mo oh.
+    filipinoText: Ay! May naalala ako! tungkol ito sa Susi, nag iwan sya sa akin
+      ng Susi bago sya pumasok ng tore. Eto gamitin mo oh.
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -2101606179557248710, guid: 3bbc0cd91b4224547a3088bffc13f955, type: 3}
@@ -3210,9 +3212,9 @@ MonoBehaviour:
     customSpeakerName: Sienna
     dialogueText: 'These are Rune  Keys! You will need them to enter a tower, unlock
       the next one, or retry if you want to earn more merits. '
-    filipinoText: Ito ang mga Rune Keys! Kakailanganin mo ang mga ito para makapasok
-      sa isang tore, mabuksan ang susunod na tore, o sumubok muli kung gusto mong
-      makakuha ng mas maraming Merit.
+    filipinoText: Ang tawag sa mga susi yan ay Rune Keys! Kakailanganin mo ang mga
+      ito para makapasok sa mga tore, mabuksan ang susunod na tore, o sumubok muli
+      kung gusto mong makakuha ng mas maraming Merit.
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -2101606179557248710, guid: 3bbc0cd91b4224547a3088bffc13f955, type: 3}
@@ -3240,7 +3242,7 @@ MonoBehaviour:
     dialogueText: 'Do not worry if you run out though! Keys will slowly regenerate
       on their own over time. '
     filipinoText: Huwag kang mag-alala kapag naubusan ka! Kusang babalik ang mga
-      susi paglipas ng oras.
+      susi paglipas ng ilang oras.
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -2101606179557248710, guid: 3bbc0cd91b4224547a3088bffc13f955, type: 3}
@@ -3296,8 +3298,7 @@ MonoBehaviour:
     dialogueText: "Your mission is this \u2014 find Emby inside Tower 1, clear each
       tower floor, and collect my missing recipe pages along the way!"
     filipinoText: "Ito ang misyon mo\u2014 hanapin si Emby sa Tower 1, tapusin ang
-      bawat palapag ng tore, at tipunin ang nawawala kong mga recipe page habang
-      nasa daan!"
+      bawat palapag ng tore, at tipunin ang nawawala kong mga recipe page!"
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -2101606179557248710, guid: 3bbc0cd91b4224547a3088bffc13f955, type: 3}
@@ -3324,7 +3325,7 @@ MonoBehaviour:
     customSpeakerName: Sienna
     dialogueText: Fix the tower AND bring back my pages. That is all I ask!
     filipinoText: Ayusin mo ang tore AT ibalik ang mga recipe page ko. Iyon lang
-      ang hinihiling ko!
+      ang hinihiling ko sayo!
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -2101606179557248710, guid: 3bbc0cd91b4224547a3088bffc13f955, type: 3}
@@ -3349,10 +3350,12 @@ MonoBehaviour:
   - character: {fileID: 166775541}
     useCustomSpeakerName: 1
     customSpeakerName: Sienna
-    dialogueText: I cannot go inside myself because I need to stay here and monitor
-      the magical arrays to make sure nothing gets worse.
-    filipinoText: Hindi ako puwedeng pumasok dahil kailangan kong manatili rito at
-      bantayan ang mga magic array para matiyak na hindi na lalala ang sitwasyon.
+    dialogueText: Im sorry {player}, I cannot go inside the tower myself because
+      I need to stay here and monitor the magical arrays to make sure nothing gets
+      worse.
+    filipinoText: Pasensya na {player}, hindi ako puwedeng pumasok sa tore dahil
+      kailangan kong manatili rito at bantayan ang mga magic array para matiyak na
+      hindi na lalala ang sitwasyon.
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -7564531368924530369, guid: a160d0077108791478aa9c2b5a03f01b, type: 3}
@@ -3377,10 +3380,10 @@ MonoBehaviour:
   - character: {fileID: 166775541}
     useCustomSpeakerName: 1
     customSpeakerName: Sienna
-    dialogueText: I know this is a lot to ask of someone who just got here. But somehow
-      I feel like you were brought here for a reason!
-    filipinoText: Alam kong napakalaki ng hinihingi ko sa isang kararating pa lang.
-      Pero pakiramdam ko... may dahilan kung bakit ka napunta rito.
+    dialogueText: I know this is a lot to ask for you. But somehow I feel like you
+      were brought here for a reason!
+    filipinoText: Alam kong napakalaki ng hinihingi ko sayo. Pero pakiramdam ko...
+      may dahilan kung bakit ka napunta rito.
     useItalic: 0
     useBold: 0
     emotionPortrait: {fileID: -2101606179557248710, guid: 3bbc0cd91b4224547a3088bffc13f955, type: 3}
@@ -3458,6 +3461,7 @@ MonoBehaviour:
     openNameInputAfterThisLine: 0
   autoStartOnAwake: 1
   minTimeBetweenTaps: 0.15
+  minFullTextDisplayTime: 0.3
   autoAdvanceOnEnd: 1
   onFinishLoadSceneAsset: {fileID: 102900000, guid: aa9431d2b1eeac140a59082124d31abd, type: 3}
   onFinishLoadScene: MainMenu

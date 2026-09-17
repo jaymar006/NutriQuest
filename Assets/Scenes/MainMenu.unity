@@ -239,7 +239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 556eaf8b5e49fae4982f40314ed4d9c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AutoScrollPingPong
-  scrollRect: {fileID: 0}
+  scrollRect: {fileID: 3120291}
   scrollSpeed: 40
   pauseAtBottom: 1
   pauseAtTop: 1
@@ -2618,10 +2618,34 @@ MonoBehaviour:
   startScale: 0.8
   onShown:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 677936470}
+        m_TargetAssemblyTypeName: AutoScrollPingPong, Assembly-CSharp
+        m_MethodName: StartScrolling
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onHidden:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 677936470}
+        m_TargetAssemblyTypeName: AutoScrollPingPong, Assembly-CSharp
+        m_MethodName: StopScrolling
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!225 &133783701
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -5642,10 +5666,34 @@ MonoBehaviour:
   startScale: 0.8
   onShown:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 391356531}
+        m_TargetAssemblyTypeName: AutoScrollPingPong, Assembly-CSharp
+        m_MethodName: StartScrolling
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onHidden:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 391356531}
+        m_TargetAssemblyTypeName: AutoScrollPingPong, Assembly-CSharp
+        m_MethodName: PauseScrolling
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!225 &306480330
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -10871,6 +10919,7 @@ GameObject:
   - component: {fileID: 677936469}
   - component: {fileID: 677936468}
   - component: {fileID: 677936467}
+  - component: {fileID: 677936470}
   m_Layer: 5
   m_Name: Scroll View
   m_TagString: Untagged
@@ -10966,6 +11015,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 677936465}
   m_CullTransparentMesh: 1
+--- !u!114 &677936470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 677936465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 556eaf8b5e49fae4982f40314ed4d9c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AutoScrollPingPong
+  scrollRect: {fileID: 677936467}
+  scrollSpeed: 40
+  pauseAtBottom: 1
+  pauseAtTop: 1
+  startDelay: 0
+  autoStart: 0
 --- !u!1 &683711747
 GameObject:
   m_ObjectHideFlags: 0
@@ -14131,10 +14198,34 @@ MonoBehaviour:
   startScale: 0.8
   onShown:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4850316889278804096}
+        m_TargetAssemblyTypeName: AutoScrollPingPong, Assembly-CSharp
+        m_MethodName: StartScrolling
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onHidden:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4850316889278804096}
+        m_TargetAssemblyTypeName: AutoScrollPingPong, Assembly-CSharp
+        m_MethodName: StopScrolling
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!225 &829290835
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -38408,6 +38499,7 @@ GameObject:
   - component: {fileID: 2949162851238536402}
   - component: {fileID: 4059290868359321825}
   - component: {fileID: 986198131139839615}
+  - component: {fileID: 4850316889278804096}
   m_Layer: 5
   m_Name: Scroll View
   m_TagString: Untagged
@@ -38556,6 +38648,24 @@ RectTransform:
   m_AnchoredPosition: {x: -0.0014687, y: 89}
   m_SizeDelta: {x: 1080, y: 331}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &4850316889278804096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3938344372314937422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 556eaf8b5e49fae4982f40314ed4d9c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AutoScrollPingPong
+  scrollRect: {fileID: 986198131139839615}
+  scrollSpeed: 40
+  pauseAtBottom: 1
+  pauseAtTop: 1
+  startDelay: 0
+  autoStart: 0
 --- !u!222 &5101669482727949554
 CanvasRenderer:
   m_ObjectHideFlags: 0

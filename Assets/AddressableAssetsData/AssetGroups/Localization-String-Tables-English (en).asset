@@ -27,6 +27,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-en
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 22dd5b7fe23da044b9166a2933b878bf
+    m_Address: HelpArchive_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2453f1ef79da5614bbe9b9171d5e8d72
     m_Address: Modals_en
     m_ReadOnly: 1
@@ -47,6 +53,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7734ed4fe29904f43929d7fd24bb2f71
     m_Address: ResultScreen_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b763657f620dc7644aab770c919989d6
+    m_Address: LibraryRecipes_en
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-en
