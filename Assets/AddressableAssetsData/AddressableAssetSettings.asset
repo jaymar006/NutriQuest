@@ -15,7 +15,11 @@ MonoBehaviour:
   m_DefaultGroup: 4649f26572caf3046b60b8e13697a5fd
   m_currentHash:
     serializedVersion: 2
+<<<<<<< HEAD
     Hash: 00000000000000000000000000000000
+=======
+    Hash: 90549f8bb7abf1c92d0b4c9de6182867
+>>>>>>> parent of 3d36d12 (Credits Scene ADDED)
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0

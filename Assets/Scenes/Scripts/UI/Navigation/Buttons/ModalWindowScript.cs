@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using UnityEngine.Events;
 using System.Collections;
 
 [RequireComponent(typeof(CanvasGroup))]
@@ -13,13 +12,8 @@ public class ModalWindowScript : MonoBehaviour
     [Header("Animation Settings")]
     [SerializeField] private float fadeDuration = 0.25f;
     [SerializeField] private float startScale = 0.8f;
-    private Vector3 originalScale;
 
-    [Header("Events")]
-    [Tooltip("Fired once the modal has fully finished appearing (fade-in complete, interactable).")]
-    public UnityEvent onShown;
-    [Tooltip("Fired once the modal has fully finished disappearing (fade-out complete, GameObject deactivated).")]
-    public UnityEvent onHidden;
+    private Vector3 originalScale;
 
     private void Awake()
     {
@@ -86,12 +80,10 @@ public class ModalWindowScript : MonoBehaviour
         {
             canvasGroup.interactable = true;
             canvasGroup.blocksRaycasts = true;
-            onShown?.Invoke();
         }
         else
         {
             gameObject.SetActive(false);
-            onHidden?.Invoke();
         }
     }
 }
