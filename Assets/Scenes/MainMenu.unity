@@ -260,6 +260,7 @@ GameObject:
   - component: {fileID: 11188447}
   - component: {fileID: 11188446}
   - component: {fileID: 11188445}
+  - component: {fileID: 11188451}
   m_Layer: 5
   m_Name: Challenge
   m_TagString: Untagged
@@ -533,6 +534,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 11188451}
+        m_TargetAssemblyTypeName: ChallengeTowerButton, Assembly-CSharp
+        m_MethodName: OnChallengeTowerPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &11188449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -571,6 +584,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 11188443}
   m_CullTransparentMesh: 1
+--- !u!114 &11188451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 11188443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb52673975c8b7e408b3658f78afa821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChallengeTowerButton
+  introCutscene:
+    sceneAsset: {fileID: 102900000, guid: 3e57f5de1aa50b341976ddef29ecc52b, type: 3}
+    sceneName: Tower1CutsceneIntro
+    useLoadingScreen: 0
+  gameplaySceneAsset: {fileID: 102900000, guid: 01e90143054a11546bfe753597e78a30, type: 3}
+  gameplaySceneName: Level 1
 --- !u!1 &21238206
 GameObject:
   m_ObjectHideFlags: 0
@@ -2845,8 +2876,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aee75610436dd9f448a7e27a92ee896e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RuneKeySystem
-  maxRuneKeys: 5
-  regenTimeInMinutes: 5
+  maxRuneKeys: 20
+  regenTimeInMinutes: 1
   runeKeyTexts:
   - {fileID: 1067000998}
   - {fileID: 2142180834}
@@ -8352,11 +8383,11 @@ Transform:
   m_GameObject: {fileID: 506918469}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 372.84814, y: 1222.8002, z: 10}
+  m_LocalPosition: {x: 372.84814, y: 1223.8002, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1159073043}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &506918471
 MonoBehaviour:
@@ -21092,7 +21123,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 506918470}
   - {fileID: 5250553431700016817}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -24574,7 +24604,7 @@ MonoBehaviour:
   introCutscene:
     sceneAsset: {fileID: 102900000, guid: 3e57f5de1aa50b341976ddef29ecc52b, type: 3}
     sceneName: Tower1CutsceneIntro
-    useLoadingScreen: 1
+    useLoadingScreen: 0
   costDisplayTexts:
   - {fileID: 1895798477}
   warningShakeAnimation: {fileID: 11188445}
@@ -39062,6 +39092,7 @@ RectTransform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 506918470}
   - {fileID: 775668870}
   - {fileID: 130314007}
   - {fileID: 150665307}
