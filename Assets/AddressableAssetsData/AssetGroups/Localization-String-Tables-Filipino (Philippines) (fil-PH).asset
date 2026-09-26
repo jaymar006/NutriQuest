@@ -21,8 +21,20 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-fil-PH
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2bcfa0df52a0d8347aa23f4da2619ea0
+    m_Address: ProfileWindow_fil-PH
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-fil-PH
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5661f1241771c6740911bab0b5919308
     m_Address: Cutscene_fil-PH
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-fil-PH
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7f20812027a8393489c682824eec4307
+    m_Address: LocalizationScreen_fil-PH
     m_ReadOnly: 1
     m_SerializedLabels:
     - Locale-fil-PH

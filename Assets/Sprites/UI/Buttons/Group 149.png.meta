@@ -135,10 +135,10 @@ TextureImporter:
       name: Back button 2
       rect:
         serializedVersion: 2
-        x: 151
+        x: 185
         y: 174
-        width: 800
-        height: 699
+        width: 725
+        height: 679
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -149,6 +149,50 @@ TextureImporter:
       bones: []
       spriteID: 729c9396137e82530800000000000000
       internalID: 3830565682483415335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Group 149_1
+      rect:
+        serializedVersion: 2
+        x: 737
+        y: 662
+        width: 119
+        height: 126
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 38a6ebe1b875c68d0800000000000000
+      internalID: -2851808209004500349
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Group 149_2
+      rect:
+        serializedVersion: 2
+        x: 758
+        y: 495
+        width: 157
+        height: 113
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9d513ad906e9cf840800000000000000
+      internalID: 5259252602660656601
       vertices: []
       indices: 
       edges: []

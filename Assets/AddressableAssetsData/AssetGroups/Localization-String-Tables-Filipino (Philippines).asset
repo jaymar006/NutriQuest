@@ -14,19 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
   m_GroupName: Localization-String-Tables-Filipino (Philippines)
   m_GUID: ea7c8357e1d2aa840b822585a35f7fb1
-  m_SerializeEntries:
-  - m_GUID: 2bcfa0df52a0d8347aa23f4da2619ea0
-    m_Address: ProfileWindow_fil-PH
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-fil-PH
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7f20812027a8393489c682824eec4307
-    m_Address: LocalizationScreen_fil-PH
-    m_ReadOnly: 1
-    m_SerializedLabels:
-    - Locale-fil-PH
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 82cd14d52c883204b94bd5b823e1f736, type: 2}
   m_SchemaSet:
