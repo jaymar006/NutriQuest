@@ -17,15 +17,15 @@ public class RecipeUnlockManager : MonoBehaviour
         public string requiredStageID;
 
         public Button recipeButton;
+
+        [Tooltip("GameObject shown while locked (e.g. lock icon/overlay). Turned off once unlocked.")]
+        public GameObject lockOverlay;
     }
 
     [Header("Recipe Entries")]
     [SerializeField] private List<RecipeEntry> recipes = new List<RecipeEntry>();
 
     private const string FIRST_CLEAR_PREFIX = "FirstClear_";
-
-    private readonly Color unlockedColor = Color.white;
-    private readonly Color lockedColor = new Color(0.2f, 0.2f, 0.2f, 0.3f);
 
     private void Awake()
     {
@@ -55,7 +55,11 @@ public class RecipeUnlockManager : MonoBehaviour
             bool unlocked = IsRecipeUnlocked(recipe.requiredStageID);
 
             recipe.recipeButton.interactable = unlocked;
-            recipe.recipeButton.image.color = unlocked ? unlockedColor : lockedColor;
+
+            if (recipe.lockOverlay != null)
+            {
+                recipe.lockOverlay.SetActive(!unlocked);
+            }
 
             Debug.Log($"[RecipeUnlockManager] '{recipe.recipeName}' " +
                       $"(stageID='{recipe.requiredStageID}') -> {(unlocked ? "UNLOCKED" : "LOCKED")}");

@@ -135,12 +135,12 @@ TextureImporter:
       name: Ripped_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 19
-        width: 1740
-        height: 876
+        x: 29
+        y: 36
+        width: 1692
+        height: 858
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -153,55 +153,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: Ripped_1
-      rect:
-        serializedVersion: 2
-        x: 575
-        y: 30
-        width: 25
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 47975f0620f20b890800000000000000
-      internalID: -7444398496780289676
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ripped_2
-      rect:
-        serializedVersion: 2
-        x: 673
-        y: 17
-        width: 22
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5fae89b356dcddbe0800000000000000
-      internalID: -1450777670268163339
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: e732a83229bd9b347a95e4a954084c76
     internalID: 0
     vertices: []
     indices: 
