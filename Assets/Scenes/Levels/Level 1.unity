@@ -3929,6 +3929,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ModalWindowScript
   fadeDuration: 0.25
   startScale: 0.8
+  onShown:
+    m_PersistentCalls:
+      m_Calls: []
+  onHidden:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!225 &908303086
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -4101,7 +4107,7 @@ MonoBehaviour:
     answerD: Energy drink
     correctAnswer: B
     questionFilipino: Alin ang mas mainam na inumin na dalhin sa paaralan?
-    answerAFilipino: Alin ang mas mainam na inumin na dalhin sa paaralan?
+    answerAFilipino: Napaka tamis na juice
     answerBFilipino: Tubig
     answerCFilipino: Soft drinks
     answerDFilipino: Energy drink
@@ -10615,6 +10621,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ModalWindowScript
   fadeDuration: 0.25
   startScale: 0.8
+  onShown:
+    m_PersistentCalls:
+      m_Calls: []
+  onHidden:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!222 &8487139714032294770
 CanvasRenderer:
   m_ObjectHideFlags: 0
