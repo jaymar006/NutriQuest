@@ -51,6 +51,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-en
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 56cd1f23ddb7a80439a15049fad815dc
+    m_Address: RecipeSection_en
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-en
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7734ed4fe29904f43929d7fd24bb2f71
     m_Address: ResultScreen_en
     m_ReadOnly: 1
