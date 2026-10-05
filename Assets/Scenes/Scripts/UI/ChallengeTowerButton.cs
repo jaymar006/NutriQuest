@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 using Gameplay.CutsceneManager;
 
 #if UNITY_EDITOR
@@ -8,35 +9,30 @@ using UnityEditor;
 // ---------------------------------------------------------------------------
 // ChallengeTowerButton
 //
-// Wire this to the "Challenge the Tower" button on the Main Menu.
+// Asks LevelInfoScreen.CanProceed() before doing anything. If the player
+// lacks the rune keys, the press is ignored (onNotEnoughKeys fires instead).
+// Otherwise the original flow runs:
+//   cutscene not seen -> Loading Screen -> Cutscene -> Gameplay
+//   cutscene seen     -> Loading Screen -> Gameplay
 //
-// New game (intro cutscene not seen yet):
-//   Main Menu -> Loading Screen -> Cutscene -> Gameplay
-//   - Loading Screen + Cutscene: handled by CutsceneTrigger -> CutsceneLauncher
-//     (already in your project).
-//   - Cutscene -> Gameplay: handled by DialogueManager's "On Finish Load
-//     Scene" field on the Cutscene scene's DialogueManager. Make sure that
-//     field is set to your Gameplay scene in the Inspector.
-//
-// Returning player (intro cutscene already seen):
-//   Main Menu -> Loading Screen -> Gameplay
-//   - Handled by SceneTransitionManager.NavigateTo, cutscene skipped entirely.
+// NOTE: this script only GATES on keys. It does not spend them (the cost
+// logic is private to LevelInfoScreen).
 //
 // SETUP:
-// 1. Add this component anywhere in the Main Menu scene (e.g. on the button
-//    itself or a MenuController object).
-// 2. Drag your intro Cutscene scene into "Intro Cutscene" (SceneAsset field).
-// 3. Drag your Gameplay scene into "Gameplay Scene".
-// 4. Wire the button's OnClick() -> ChallengeTowerButton.OnChallengeTowerPressed().
-// 5. Confirm CutsceneLauncher and SceneTransitionManager both live on your
-//    persistent boot object (DontDestroyOnLoad), each with their Loading
-//    Scene assigned.
+// 1. Drag the tower's LevelInfoScreen into "Level Info".
+// 2. Assign the intro cutscene + gameplay scene as before.
+// 3. Wire the button's OnClick() -> OnChallengeTowerPressed().
+// 4. (Optional) Use "On Not Enough Keys" to open a modal.
 // ---------------------------------------------------------------------------
 public class ChallengeTowerButton : MonoBehaviour
 {
+    [Header("Rune Key Check")]
+    [SerializeField] private LevelInfoScreen levelInfo;
+    [Tooltip("Fires when the player doesn't have enough rune keys. " +
+             "The button does nothing else in that case.")]
+    [SerializeField] private UnityEvent onNotEnoughKeys;
+
     [Header("Intro Cutscene (plays only if not seen yet)")]
-    [Tooltip("Drag the intro cutscene scene here. Its own 'Use Loading Screen' " +
-             "checkbox controls whether it routes through the Loading Scene.")]
     [SerializeField] private CutsceneTrigger introCutscene = new CutsceneTrigger();
 
     [Header("Gameplay (used when the cutscene is skipped)")]
@@ -45,24 +41,40 @@ public class ChallengeTowerButton : MonoBehaviour
 #endif
     [SerializeField] private string gameplaySceneName;
 
+    private bool isNavigating = false;
+
+    private void OnEnable() => isNavigating = false;
+
     // Hook this up to the button's OnClick() in the Inspector.
     public void OnChallengeTowerPressed()
     {
+        if (isNavigating) return;
+
+        if (levelInfo == null)
+        {
+            Debug.LogError("[ChallengeTowerButton] LevelInfoScreen is not assigned!");
+            return;
+        }
+
+        // Not enough keys (or RuneKeySystem missing) -> do not activate.
+        if (!levelInfo.CanProceed())
+        {
+            onNotEnoughKeys?.Invoke();
+            return;
+        }
+
         if (string.IsNullOrEmpty(gameplaySceneName))
         {
             Debug.LogError("[ChallengeTowerButton] Gameplay Scene is not assigned!");
             return;
         }
 
-        // Plays the cutscene if it hasn't been seen yet (new game); otherwise
-        // runs GoStraightToGameplay() immediately.
+        isNavigating = true;
         introCutscene.PlayIfNotSeen(GoStraightToGameplay);
     }
 
     private void GoStraightToGameplay()
     {
-        Debug.Log("[ChallengeTowerButton] Intro cutscene already seen — going straight to Gameplay.");
-
         if (SceneTransitionManager.Instance != null)
         {
             SceneTransitionManager.Instance.NavigateTo(gameplaySceneName, true);
@@ -70,7 +82,7 @@ public class ChallengeTowerButton : MonoBehaviour
         else
         {
             Debug.LogWarning("[ChallengeTowerButton] SceneTransitionManager not found. Loading '" +
-                              gameplaySceneName + "' directly.");
+                             gameplaySceneName + "' directly.");
             UnityEngine.SceneManagement.SceneManager.LoadScene(gameplaySceneName);
         }
     }

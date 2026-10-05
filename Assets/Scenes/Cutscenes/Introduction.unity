@@ -542,7 +542,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 25}
+  m_AnchoredPosition: {x: 0, y: -119}
   m_SizeDelta: {x: 903.76, y: 169.455}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &298785872
@@ -1220,6 +1220,7 @@ GameObject:
   - component: {fileID: 905026923}
   - component: {fileID: 905026925}
   - component: {fileID: 905026924}
+  - component: {fileID: 905026926}
   m_Layer: 0
   m_Name: TitleName
   m_TagString: Untagged
@@ -1236,14 +1237,14 @@ RectTransform:
   m_GameObject: {fileID: 905026922}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.350362, y: 4.350362, z: 4.350362}
+  m_LocalScale: {x: 4.0811615, y: 4.0811615, z: 4.0811615}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 197294751}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 438}
+  m_AnchoredPosition: {x: -101, y: 260}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &905026924
@@ -1266,7 +1267,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Enter your Name
+  m_text: What is your name?
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ab91f8ea02add59469425d208621da74, type: 2}
   m_sharedMaterial: {fileID: -988498651693161367, guid: ab91f8ea02add59469425d208621da74, type: 2}
@@ -1331,7 +1332,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: -53.60875, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1345,6 +1346,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 905026922}
   m_CullTransparentMesh: 1
+--- !u!114 &905026926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 905026922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56eb0353ae6e5124bb35b17aff880f16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Components.LocalizeStringEvent
+  m_StringReference:
+    m_TableReference:
+      m_TableCollectionName: GUID:76fd2c1c3340fe443af98411c57a464a
+    m_TableEntryReference:
+      m_KeyId: 7277580288
+      m_Key: 
+    m_FallbackState: 0
+    m_WaitForCompletion: 0
+    m_LocalVariables: []
+  m_FormatArguments: []
+  m_UpdateString:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 905026924}
+        m_TargetAssemblyTypeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro
+        m_MethodName: set_text
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  references:
+    version: 2
+    RefIds: []
 --- !u!1 &1148315560
 GameObject:
   m_ObjectHideFlags: 0
@@ -2134,7 +2175,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -190}
+  m_AnchoredPosition: {x: 0, y: -334}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1482864293
@@ -3458,6 +3499,7 @@ MonoBehaviour:
     openNameInputAfterThisLine: 0
   autoStartOnAwake: 1
   minTimeBetweenTaps: 0.15
+  minFullTextDisplayTime: 0.3
   autoAdvanceOnEnd: 1
   onFinishLoadSceneAsset: {fileID: 102900000, guid: aa9431d2b1eeac140a59082124d31abd, type: 3}
   onFinishLoadScene: MainMenu
@@ -3505,14 +3547,14 @@ RectTransform:
   m_GameObject: {fileID: 1854197210}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 6.995542, y: 6.995542, z: 6.995542}
+  m_LocalScale: {x: 8.919316, y: 6.995542, z: 6.995542}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 197294751}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.037597656, y: 215}
+  m_AnchoredPosition: {x: 0.037597656, y: 37}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1854197212

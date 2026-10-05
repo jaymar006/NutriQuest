@@ -14,15 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
   m_TableCollectionName: Cutscene
   m_TableCollectionNameGuidString: 76fd2c1c3340fe443af98411c57a464a
-  m_Entries: []
+  m_Entries:
+  - m_Id: 7277580288
+    m_Key: Introduction_Name
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:
-    rid: 1164864730350485531
+    rid: 5299504866342207560
   references:
     version: 2
     RefIds:
-    - rid: 1164864730350485531
+    - rid: 5299504866342207560
       type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
       data:
-        m_CustomEpoch: 1784039112517
+        m_CustomEpoch: 1790643299247

@@ -3124,7 +3124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12e1febf0b0c16249ba8ecf1bfd0faa9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QuestionTimer
-  timePerQuestion: 15
+  timePerQuestion: 60
   timerText: {fileID: 871859118}
   timerFillImage: {fileID: 0}
   normalColor: {r: 0, g: 1, b: 0, a: 1}
@@ -3999,6 +3999,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ModalWindowScript
   fadeDuration: 0.25
   startScale: 0.8
+  onShown:
+    m_PersistentCalls:
+      m_Calls: []
+  onHidden:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!225 &908303086
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -10430,6 +10436,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ModalWindowScript
   fadeDuration: 0.25
   startScale: 0.8
+  onShown:
+    m_PersistentCalls:
+      m_Calls: []
+  onHidden:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!222 &8487139714032294770
 CanvasRenderer:
   m_ObjectHideFlags: 0

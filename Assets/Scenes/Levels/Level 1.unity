@@ -2415,7 +2415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c5f70b8a4175c54baf5ee83687a62a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HintSystem
-  maxHints: 99
+  maxHints: 4
   hintButton: {fileID: 1493781969}
   hintCountText: {fileID: 545176553}
   debugResetButton: {fileID: 0}

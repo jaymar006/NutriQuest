@@ -39,6 +39,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-fil
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6b4082c6f9ed2484e9992e449b0d2925
+    m_Address: Cutscene_fil
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-fil
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 748ad9af0bbe25a4ab6a1ae9ecc1c96a
     m_Address: LocalizationScreen_fil
     m_ReadOnly: 1

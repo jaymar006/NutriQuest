@@ -6647,7 +6647,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Icon \nArchive"
+  m_text: 'Guide
+
+    Archive'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cb075f59777b4854ab4e1562492d9aa0, type: 2}
   m_sharedMaterial: {fileID: -988498651693161367, guid: cb075f59777b4854ab4e1562492d9aa0, type: 2}

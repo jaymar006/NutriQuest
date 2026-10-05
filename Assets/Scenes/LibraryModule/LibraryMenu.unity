@@ -295,7 +295,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: bee266aa5b9e4004dba03cd4ab799b98, type: 3}
+  m_Sprite: {fileID: 4873512232714964988, guid: 97bc07324776ad7458edbb4a67d316b2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -688,7 +688,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9bdbb01764af664419d96850420355a4, type: 3}
+  m_Sprite: {fileID: 7768251565139877275, guid: c16caf451de20aa40a88eb20223758b5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1358,7 +1358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 264161de71e57d74c8f1b947c18b1087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CuteUICharacterAnimator
-  idleSprite: {fileID: 21300000, guid: 11d706d301e0cb943b5352ab39ba7e08, type: 3}
+  idleSprite: {fileID: -7024112249979172348, guid: 64a2f12449ecf564a84605f468f09b63, type: 3}
   tapSprite: {fileID: 21300000, guid: 24483481de76af745bd34839b2fa3a44, type: 3}
   useBreathing: 1
   useLevitating: 0
@@ -1445,7 +1445,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 11d706d301e0cb943b5352ab39ba7e08, type: 3}
+  m_Sprite: {fileID: -7024112249979172348, guid: 64a2f12449ecf564a84605f468f09b63, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1616,7 +1616,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 958.6
+  m_Spacing: 1079.17
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
