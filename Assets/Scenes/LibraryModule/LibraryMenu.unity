@@ -155,6 +155,81 @@ RectTransform:
   m_AnchoredPosition: {x: -720, y: 0}
   m_SizeDelta: {x: 1849.25, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &122200754
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 122200755}
+  - component: {fileID: 122200757}
+  - component: {fileID: 122200756}
+  m_Layer: 5
+  m_Name: Notif
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &122200755
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 122200754}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.64645, y: 0.64645, z: 0.64645}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 623882125}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -24, y: -3}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 1, y: 1}
+--- !u!114 &122200756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 122200754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -6983714163832501758, guid: 71f5f308ef001c14abb848e82761e4a9, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &122200757
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 122200754}
+  m_CullTransparentMesh: 1
 --- !u!1 &144893257
 GameObject:
   m_ObjectHideFlags: 0
@@ -562,6 +637,7 @@ GameObject:
   - component: {fileID: 623882126}
   - component: {fileID: 623882132}
   - component: {fileID: 623882131}
+  - component: {fileID: 623882133}
   m_Layer: 5
   m_Name: Recipe
   m_TagString: Untagged
@@ -580,7 +656,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5.242673, y: 6.409504, z: 2.5822}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 122200755}
   m_Father: {fileID: 1576335286}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -788,6 +865,29 @@ MonoBehaviour:
   targetSceneAsset: {fileID: 102900000, guid: 370fb3d053abb964eab9b3ad3ee5932e, type: 3}
   targetSceneName: RecipeChoice
   useLoadingScreen: 0
+--- !u!114 &623882133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 623882124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 881a0e663a385834b99a6fd776ccae0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NotificationBadge
+  mode: 1
+  notificationID: recipe/
+  badge: {fileID: 122200754}
+  countText: {fileID: 0}
+  targetButton: {fileID: 0}
+  clearOnButtonClick: 1
+  watchPlayerPrefsKey: 
+  watchValue: 1
+  pulse: 1
+  pulseSpeed: 4
+  pulseAmount: 0.1
 --- !u!1 &634336336
 GameObject:
   m_ObjectHideFlags: 0
@@ -1140,7 +1240,7 @@ Canvas:
   m_RenderMode: 1
   m_Camera: {fileID: 1669263671}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
@@ -1907,6 +2007,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6412021269239206118}
   m_CullTransparentMesh: 1
+--- !u!4 &1742836531652864195
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2041537591705418832}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.41424, y: 3.35338, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!223 &1982357047037498820
 Canvas:
   m_ObjectHideFlags: 0
@@ -1930,6 +2045,23 @@ Canvas:
   m_SortingLayerID: -396560639
   m_SortingOrder: 15
   m_TargetDisplay: 0
+--- !u!1 &2041537591705418832
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1742836531652864195}
+  - component: {fileID: 3901671823966023681}
+  m_Layer: 0
+  m_Name: NotifWatcher
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!82 &2571736468295170164
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2057,6 +2189,31 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3901671823966023681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2041537591705418832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0780dafdd81d6574a9155be1e192f637, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NotificationWatcher
+  entries:
+  - notificationID: recipe/Stage_1
+    watchPlayerPrefsKey: FirstClear_Stage_1
+    watchValue: 1
+  - notificationID: recipe/Stage_2
+    watchPlayerPrefsKey: FirstClear_Stage_2
+    watchValue: 1
+  - notificationID: recipe/Stage_3
+    watchPlayerPrefsKey: FirstClear_Stage_3
+    watchValue: 1
+  - notificationID: recipe/Stage_4
+    watchPlayerPrefsKey: FirstClear_Stage_4
+    watchValue: 1
 --- !u!4 &4486740884978669388
 Transform:
   m_ObjectHideFlags: 0
@@ -2357,6 +2514,7 @@ AudioSource:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1742836531652864195}
   - {fileID: 1669263672}
   - {fileID: 808658955}
   - {fileID: 1976292006}
