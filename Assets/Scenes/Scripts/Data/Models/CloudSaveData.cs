@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 [Serializable]
@@ -118,6 +117,13 @@ public class CloudSaveData
     /// </summary>
     public Cooldown GetCooldownForTower(int towerId, string userId)
     {
-        return cooldowns?.FirstOrDefault(c => c.towerId == towerId && c.userId == userId);
+        if (cooldowns == null) return null;
+        for (int i = 0; i < cooldowns.Count; i++)
+        {
+            var c = cooldowns[i];
+            if (c != null && c.towerId == towerId && c.userId == userId)
+                return c;
+        }
+        return null;
     }
 }
