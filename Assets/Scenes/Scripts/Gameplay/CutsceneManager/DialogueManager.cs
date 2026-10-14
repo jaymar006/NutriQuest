@@ -73,8 +73,8 @@ namespace Gameplay.CutsceneManager
         public float minTimeBetweenTaps = 0.15f;
 
         [Header("Anti-Spam Hold (Genshin-style)")]
-        [Tooltip("Once a line's text is FULLY visible — whether it finished typing " +
-                 "naturally or the player tap-skipped the typewriter — this is the " +
+        [Tooltip("Once a line's text is FULLY visible ï¿½ whether it finished typing " +
+                 "naturally or the player tap-skipped the typewriter ï¿½ this is the " +
                  "minimum number of seconds it must stay on screen before a tap is " +
                  "allowed to advance to the next line. This is separate from " +
                  "Min Time Between Taps above: that one only stops near-simultaneous " +
@@ -86,12 +86,12 @@ namespace Gameplay.CutsceneManager
         [Header("Where This Cutscene Leads")]
         [Tooltip("When true, fades to black and loads 'On Finish Load Scene' after the " +
                  "last dialogue line. THIS is what makes each cutscene scene self-contained " +
-                 "— without a scene assigned below, the screen will fade to black and then " +
+                 "ï¿½ without a scene assigned below, the screen will fade to black and then " +
                  "simply stay black, since nothing else will load anything next.")]
         public bool autoAdvanceOnEnd = true;
 
 #if UNITY_EDITOR
-        [Tooltip("Drag the scene this cutscene should load once it finishes — e.g. this " +
+        [Tooltip("Drag the scene this cutscene should load once it finishes ï¿½ e.g. this " +
                  "intro cutscene's value should be MainMenu/MapScene; an outro's should be " +
                  "ResultScene (or Credits, for Tower 4's outro).")]
         [SerializeField] private SceneAsset onFinishLoadSceneAsset;
@@ -124,6 +124,8 @@ namespace Gameplay.CutsceneManager
 
         private Coroutine portraitOutroCoroutine;
 
+        private Coroutine advanceCoroutine;
+
         private CharacterVN currentSpeaker;
 
         private bool inputBlocked = false;
@@ -139,7 +141,7 @@ namespace Gameplay.CutsceneManager
         private bool isAdvancing = false;
 
         // FIX: Timestamp of the moment the CURRENT line's text became fully
-        // visible — set both when TypeLine() finishes naturally and when
+        // visible ï¿½ set both when TypeLine() finishes naturally and when
         // SnapToFull() completes a tap-skip. Advance() uses this alongside
         // minFullTextDisplayTime to hold a fully-shown line on screen for a
         // short beat before a tap is allowed to move past it.
@@ -148,12 +150,23 @@ namespace Gameplay.CutsceneManager
         private float lastAcceptedTapTime = -999f;
 
         private RectTransform textContentRect;
+        private RectTransform textBoxRect;
         private Image currentOptionalImage;
         private AudioClip currentTypingSFX;
 
         private RectTransform currentPortraitRect;
         private Vector3 originalPortraitPosition;
         private Vector3 originalPortraitScale;
+
+        // Cached entrance refs: avoid GetComponent<RectTransform>/GetComponent<Animator>
+        // per line and avoid allocating a new AnimatorOverrideController when the
+        // same clip plays on the same base controller consecutively.
+        private Image _cachedEntranceTarget;
+        private RectTransform _cachedEntranceRect;
+        private Animator _cachedEntranceAnimator;
+        private AnimatorOverrideController _cachedOverrideCtrl;
+        private RuntimeAnimatorController _cachedBaseController;
+        private AnimationClip _lastEntranceClip;
 
         // -------------------------------------------------------------------------
         // Editor
@@ -182,7 +195,7 @@ namespace Gameplay.CutsceneManager
                     Debug.LogWarning("[DialogueManager] '" + onFinishLoadSceneAsset.name +
                                      "' is assigned as On Finish Load Scene on " + gameObject.name +
                                      ", but it is not enabled in File > Build Settings. It will " +
-                                     "fail to load at runtime — add it there (or enable it if " +
+                                     "fail to load at runtime ï¿½ add it there (or enable it if " +
                                      "already listed but unchecked).");
                 }
             }
@@ -205,6 +218,9 @@ namespace Gameplay.CutsceneManager
 
             if (textScrollRect != null)
                 textContentRect = textScrollRect.content;
+
+            if (textBox != null)
+                textBoxRect = textBox.rectTransform;
 
             if (audioSource == null)
             {
@@ -308,6 +324,7 @@ namespace Gameplay.CutsceneManager
             currentTypingSFX = null;
             isReacting = false;
             isAdvancing = false;
+            advanceCoroutine = null;
             lineFullyShownTime = -999f;
 
             if (dialoguePanel != null)
@@ -342,7 +359,7 @@ namespace Gameplay.CutsceneManager
             // shown, don't let a tap advance until minFullTextDisplayTime has
             // passed since it became fully visible. This is what actually
             // stops spam-tapping from blowing through lines the instant each
-            // one finishes typing — SnapToFull() above is untouched, so
+            // one finishes typing ï¿½ SnapToFull() above is untouched, so
             // skipping the TYPEWRITER itself is still instant on tap.
             if (Time.unscaledTime - lineFullyShownTime < minFullTextDisplayTime)
                 return;
@@ -361,7 +378,7 @@ namespace Gameplay.CutsceneManager
                 // Snapshot the target rect + base pose/scale as parameters
                 // instead of letting the coroutine read mutable fields each
                 // frame. If the player advances again mid-reaction, those
-                // fields get reassigned to the NEXT speaker — without the
+                // fields get reassigned to the NEXT speaker ï¿½ without the
                 // snapshot this coroutine would then animate the wrong portrait.
                 reactionCoroutine = StartCoroutine(
                     PlayReaction(currentLine, currentPortraitRect, originalPortraitScale, originalPortraitPosition));
@@ -374,7 +391,11 @@ namespace Gameplay.CutsceneManager
             }
 
             isAdvancing = true;
-            StartCoroutine(AdvanceWithOutro());
+            // Store handle so rapid taps can't stack overlapping transitions;
+            // isAdvancing guard above blocks re-entry while this is in flight.
+            if (advanceCoroutine != null)
+                StopCoroutine(advanceCoroutine);
+            advanceCoroutine = StartCoroutine(AdvanceWithOutro());
         }
 
         private IEnumerator AdvanceWithOutro()
@@ -384,7 +405,7 @@ namespace Gameplay.CutsceneManager
                 currentLine.outroType != OutroType.None)
             {
                 // A reaction/shake from this same tap could still be
-                // animating this exact rect — stop it before the outro starts
+                // animating this exact rect ï¿½ stop it before the outro starts
                 // moving it, otherwise they fight over anchoredPosition/localScale.
                 if (reactionCoroutine != null)
                 {
@@ -412,6 +433,7 @@ namespace Gameplay.CutsceneManager
 
             // Release the lock once the transition has fully resolved
             // (next line shown, or dialogue ended).
+            advanceCoroutine = null;
             isAdvancing = false;
         }
 
@@ -422,7 +444,7 @@ namespace Gameplay.CutsceneManager
         {
             currentLine = line;
 
-            // Guarantee a clean slate — stop any reaction still running
+            // Guarantee a clean slate ï¿½ stop any reaction still running
             // from the previous line before HandlePortraitDisplay() below
             // overwrites currentPortraitRect / originalPortraitScale / position.
             if (reactionCoroutine != null)
@@ -762,21 +784,54 @@ namespace Gameplay.CutsceneManager
         {
             if (target == null) yield break;
 
-            RectTransform rect = target.GetComponent<RectTransform>();
+            // Reuse cached RectTransform when the target hasn't changed.
+            RectTransform rect;
+            if (_cachedEntranceTarget == target && _cachedEntranceRect != null)
+            {
+                rect = _cachedEntranceRect;
+            }
+            else
+            {
+                rect = target.GetComponent<RectTransform>();
+                _cachedEntranceTarget = target;
+                _cachedEntranceRect = rect;
+                // Target changed: animator cache is stale.
+                _cachedEntranceAnimator = null;
+            }
             if (rect == null) yield break;
 
             if (line.customEntranceClip != null)
             {
-                Animator anim = target.GetComponent<Animator>();
+                // Reuse cached Animator when possible; only AddComponent once.
+                Animator anim = _cachedEntranceAnimator;
                 if (anim == null)
-                    anim = target.gameObject.AddComponent<Animator>();
-
-                if (anim.runtimeAnimatorController != null)
                 {
-                    AnimatorOverrideController overrideCtrl =
-                        new AnimatorOverrideController(anim.runtimeAnimatorController);
-                    overrideCtrl["CustomEntrance"] = line.customEntranceClip;
-                    anim.runtimeAnimatorController = overrideCtrl;
+                    anim = target.GetComponent<Animator>();
+                    if (anim == null)
+                        anim = target.gameObject.AddComponent<Animator>();
+                    _cachedEntranceAnimator = anim;
+                }
+
+                if (anim.runtimeAnimatorController != null || _cachedOverrideCtrl != null)
+                {
+                    // Resolve the base (non-overridden) controller so we can detect reuse.
+                    RuntimeAnimatorController baseController =
+                        (_cachedOverrideCtrl != null && anim.runtimeAnimatorController == _cachedOverrideCtrl)
+                            ? _cachedBaseController
+                            : anim.runtimeAnimatorController;
+
+                    // Only allocate a new override when clip or base controller changed.
+                    if (_cachedOverrideCtrl == null ||
+                        _lastEntranceClip != line.customEntranceClip ||
+                        _cachedBaseController != baseController)
+                    {
+                        _cachedBaseController = baseController;
+                        _cachedOverrideCtrl =
+                            new AnimatorOverrideController(_cachedBaseController);
+                        _lastEntranceClip = line.customEntranceClip;
+                    }
+                    _cachedOverrideCtrl["CustomEntrance"] = line.customEntranceClip;
+                    anim.runtimeAnimatorController = _cachedOverrideCtrl;
                     anim.Play("CustomEntrance", 0, 0f);
                     yield return new WaitForSeconds(line.customEntranceClip.length);
                 }
@@ -831,7 +886,9 @@ namespace Gameplay.CutsceneManager
         {
             isTyping = true;
 
-            string displayText = BuildFormattedText(line);
+            // Read SelectedLanguage ONCE per line (was per BuildFormattedText call) //
+            string selectedLanguage = PlayerPrefs.GetString("SelectedLanguage", "fil");
+            string displayText = BuildFormattedText(line, selectedLanguage);
             textBox.text = displayText;
             textBox.maxVisibleCharacters = 0;
             textBox.ForceMeshUpdate();
@@ -849,7 +906,12 @@ namespace Gameplay.CutsceneManager
                 if (i > 0 && i % typingSFXInterval == 0)
                     PlayTypingSFX();
 
-                if (i % 5 == 0)
+                // No per-N-chars Rebuild+Scroll: maxVisibleCharacters alone does not
+                // dirty layout, so rebuilding mid-line only churns Canvas every frame.
+                // Layout is rebuilt once at start and once at end below. The only
+                // mid-line exception is name-input gating, which re-shows/scrolls
+                // via SnapToFull/OpenNameInput paths, not here.
+                if (waitingForNameInput)
                 {
                     RebuildTextLayout();
                     ScrollToBottom();
@@ -860,7 +922,7 @@ namespace Gameplay.CutsceneManager
 
             isTyping = false;
 
-            // FIX: text just became fully visible naturally — start the
+            // FIX: text just became fully visible naturally ï¿½ start the
             // anti-spam hold clock from right now.
             lineFullyShownTime = Time.unscaledTime;
 
@@ -873,9 +935,16 @@ namespace Gameplay.CutsceneManager
 
         private string BuildFormattedText(DialogueLine line)
         {
-            // Read language from PlayerPrefs — LocalizationManager keeps
+            // Cached-per-line overload keeps old callers working; reads prefs once. //
+            return BuildFormattedText(line, PlayerPrefs.GetString("SelectedLanguage", "fil"));
+        }
+
+        private string BuildFormattedText(DialogueLine line, string selectedLanguage)
+        {
+            // Read language from PlayerPrefs â€” LocalizationManager keeps
             // "SelectedLanguage" in sync whenever the player switches language.
-            bool isFilipino = PlayerPrefs.GetString("SelectedLanguage", "fil") == "fil";
+            // Caller caches this once per line to avoid prefs I/O per call.
+            bool isFilipino = selectedLanguage == "fil";
 
             string rawText = line.dialogueText;
 
@@ -901,7 +970,7 @@ namespace Gameplay.CutsceneManager
 
             isTyping = false;
 
-            // FIX: same as the natural-finish case in TypeLine() — the text
+            // FIX: same as the natural-finish case in TypeLine() ï¿½ the text
             // is now fully visible (via tap-skip instead of typing out), so
             // the anti-spam hold clock starts from right now too. Without
             // this, tap-skipping the typewriter would leave the OLD (or
@@ -929,6 +998,7 @@ namespace Gameplay.CutsceneManager
         {
             if (reactionCoroutine != null) StopCoroutine(reactionCoroutine);
             if (portraitOutroCoroutine != null) StopCoroutine(portraitOutroCoroutine);
+            if (advanceCoroutine != null) { StopCoroutine(advanceCoroutine); advanceCoroutine = null; }
 
             isReacting = false;
             isAdvancing = false; // don't leave the lock stuck true if StartDialogue() is reused
@@ -1056,7 +1126,7 @@ namespace Gameplay.CutsceneManager
             if (string.IsNullOrEmpty(onFinishLoadScene))
             {
                 Debug.LogError("[DialogueManager] On Finish Load Scene is empty on " + gameObject.name +
-                                ". The screen will stay black — drag the scene you want to load " +
+                                ". The screen will stay black ï¿½ drag the scene you want to load " +
                                 "into the 'On Finish Load Scene Asset' field in the Inspector.");
                 if (dialoguePanel != null)
                     dialoguePanel.SetActive(false);
@@ -1081,9 +1151,15 @@ namespace Gameplay.CutsceneManager
         private void RebuildTextLayout()
         {
             if (textContentRect != null)
+            {
                 LayoutRebuilder.ForceRebuildLayoutImmediate(textContentRect);
-            else if (textBox != null)
-                LayoutRebuilder.ForceRebuildLayoutImmediate(textBox.GetComponent<RectTransform>());
+                return;
+            }
+            // Lazy one-time cache; never GetComponent per rebuild after this. //
+            if (textBoxRect == null && textBox != null)
+                textBoxRect = textBox.rectTransform;
+            if (textBoxRect != null)
+                LayoutRebuilder.ForceRebuildLayoutImmediate(textBoxRect);
         }
 
         private void ScrollToBottom()

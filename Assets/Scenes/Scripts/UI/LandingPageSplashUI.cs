@@ -33,6 +33,8 @@ public class LandingPageSplashUI : MonoBehaviour
     [SerializeField] private string nextScene = NavigationManager.SCENE_LOGIN_PAGE;
     
     private CanvasGroup _canvasGroup;
+    private CanvasGroup _tapTextCanvasGroup;
+    private float _lastTapAlpha = -1f;
     private bool _isInitialized = false;
     private bool _canTap = false;
     private float _displayStartTime = 0f;
@@ -50,6 +52,10 @@ public class LandingPageSplashUI : MonoBehaviour
         {
             _canvasGroup = gameObject.AddComponent<CanvasGroup>();
         }
+
+        // Cache tap-text CanvasGroup for cheap alpha pulse (no TMP mesh rebuild) //
+        if (tapToContinueText != null)
+            _tapTextCanvasGroup = tapToContinueText.GetComponent<CanvasGroup>();
         
         InitializeUI();
     }
@@ -62,23 +68,24 @@ public class LandingPageSplashUI : MonoBehaviour
     
     private void Update()
     {
+        // Dirty-check: no work until tappable and not transitioning //
+        if (!_canTap || _isTransitioning)
+            return;
+
         // Check for tap/click after minimum display time
-        if (_canTap && !_isTransitioning)
+        // Check for touch input (mobile)
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
-            // Check for touch input (mobile)
-            if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
-            {
-                HandleTap();
-            }
-            // Check for mouse click (editor/testing)
-            else if (Input.GetMouseButtonDown(0))
-            {
-                HandleTap();
-            }
+            HandleTap();
+        }
+        // Check for mouse click (editor/testing)
+        else if (Input.GetMouseButtonDown(0))
+        {
+            HandleTap();
         }
         
         // Animate tap text if enabled
-        if (animateTapText && tapToContinueText != null && _canTap)
+        if (animateTapText && tapToContinueText != null)
         {
             AnimateTapText();
         }
@@ -102,7 +109,11 @@ public class LandingPageSplashUI : MonoBehaviour
         // Hide tap text initially
         if (tapToContinueText != null)
         {
-            SetAlpha(tapToContinueText, 0f);
+            if (_tapTextCanvasGroup != null)
+                _tapTextCanvasGroup.alpha = 0f;
+            else
+                SetAlpha(tapToContinueText, 0f);
+            _lastTapAlpha = -1f;
         }
     }
     
@@ -179,6 +190,9 @@ public class LandingPageSplashUI : MonoBehaviour
     private IEnumerator FadeInText(TextMeshProUGUI text, float duration)
     {
         if (text == null) yield break;
+
+        // Prefer the cached CanvasGroup so fade-in and pulse write the same channel //
+        CanvasGroup group = (text == tapToContinueText) ? _tapTextCanvasGroup : text.GetComponent<CanvasGroup>();
         
         float elapsed = 0f;
         
@@ -188,15 +202,23 @@ public class LandingPageSplashUI : MonoBehaviour
             float t = elapsed / duration;
             float curveValue = fadeInCurve.Evaluate(t);
             
-            SetAlpha(text, curveValue);
+            if (group != null)
+                group.alpha = curveValue;
+            else
+                SetAlpha(text, curveValue);
             yield return null;
         }
         
-        SetAlpha(text, 1f);
+        if (group != null)
+            group.alpha = 1f;
+        else
+            SetAlpha(text, 1f);
+        _lastTapAlpha = -1f;
     }
     
     /// <summary>
-    /// Animates tap text with pulsing effect
+    /// Animates tap text with pulsing effect via CanvasGroup (no TMP rebuild).
+    /// Falls back to color alpha only when no CanvasGroup is present.
     /// </summary>
     private void AnimateTapText()
     {
@@ -204,8 +226,16 @@ public class LandingPageSplashUI : MonoBehaviour
         
         float alpha = Mathf.Lerp(tapTextMinAlpha, tapTextMaxAlpha, 
             (Mathf.Sin(Time.time * tapTextPulseSpeed) + 1f) / 2f);
-        
-        SetAlpha(tapToContinueText, alpha);
+
+        // Dirty-check: skip Canvas/TMP writes when alpha barely changed //
+        if (Mathf.Abs(alpha - _lastTapAlpha) < 0.001f)
+            return;
+        _lastTapAlpha = alpha;
+
+        if (_tapTextCanvasGroup != null)
+            _tapTextCanvasGroup.alpha = alpha;
+        else
+            SetAlpha(tapToContinueText, alpha);
     }
     
     /// <summary>

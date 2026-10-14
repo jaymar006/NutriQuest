@@ -2,8 +2,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using System.Text.RegularExpressions;
-using System.Linq;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -53,6 +53,10 @@ public class UniversalMusicManager : MonoBehaviour
     private static readonly Regex unicodeRegex = new Regex(@"[^\u0000-\u007F]+");
     private static readonly Regex invalidFileNameChars = new Regex(@"[<>:""/\\|?*]");
 
+    // Cache of raw -> sanitized names so scene/group lookups don't re-run regex per call.
+    // Populated once in SanitizeAllGroups / SanitizeMusicGroup, reused in GetGroup/OnSceneLoaded.
+    private readonly Dictionary<string, string> _sanitizedCache = new Dictionary<string, string>();
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -75,28 +79,53 @@ public class UniversalMusicManager : MonoBehaviour
         audioSource.volume = maxVolume;
     }
 
-    // Sanitize a string by removing unicode characters
+    // Sanitize a string by removing unicode characters (cached; manual ASCII filter, no LINQ)
     private string SanitizeString(string input)
     {
         if (string.IsNullOrEmpty(input)) return input;
 
+        string cached;
+        if (_sanitizedCache.TryGetValue(input, out cached))
+            return cached;
+
+        string sanitized = SanitizeCore(input, "Default");
+        _sanitizedCache[input] = sanitized;
+        return sanitized;
+    }
+
+    // Shared core used by both instance and static entry points (removes duplication).
+    private static string SanitizeCore(string input, string emptyFallback)
+    {
         // Remove unicode characters
         string sanitized = unicodeRegex.Replace(input, "");
 
         // Remove invalid file name characters
         sanitized = invalidFileNameChars.Replace(sanitized, "");
 
-        // Remove any remaining non-ASCII characters
-        sanitized = new string(sanitized.Where(c => c <= 127).ToArray());
+        // Keep only ASCII (manual StringBuilder loop, no LINQ).
+        sanitized = FilterAscii(sanitized);
 
         // Trim and clean up
         sanitized = sanitized.Trim();
 
-        // If result is empty, return a default
+        // If result is empty, return fallback
         if (string.IsNullOrEmpty(sanitized))
-            return "Default";
+            return emptyFallback ?? string.Empty;
 
         return sanitized;
+    }
+
+    private static string FilterAscii(string input)
+    {
+        if (string.IsNullOrEmpty(input)) return input ?? string.Empty;
+        StringBuilder sb = new StringBuilder(input.Length);
+        for (int i = 0; i < input.Length; i++)
+        {
+            char c = input[i];
+            if (c <= 127)
+                sb.Append(c);
+        }
+        return sb.ToString();
     }
 
     // Sanitize float values (ensure they're valid)
@@ -239,7 +268,7 @@ public class UniversalMusicManager : MonoBehaviour
 
         if (!forceSwitch && isSameGroup)
         {
-            Debug.Log("[MusicManager] Same group — music continues uninterrupted.");
+            Debug.Log("[MusicManager] Same group ï¿½ music continues uninterrupted.");
             return;
         }
 
@@ -253,6 +282,7 @@ public class UniversalMusicManager : MonoBehaviour
     {
         if (musicGroups == null) return null;
 
+        // Reuses cached sanitized names populated in SanitizeAllGroups.
         string sanitizedTarget = SanitizeString(sceneName);
 
         foreach (var group in musicGroups)
@@ -261,6 +291,7 @@ public class UniversalMusicManager : MonoBehaviour
 
             foreach (var name in group.sceneNames)
             {
+                // Scene names were sanitized + cached in SanitizeAllGroups, so this is a cache hit.
                 string sanitizedName = SanitizeString(name);
                 if (!string.IsNullOrEmpty(sanitizedName) && sanitizedName == sanitizedTarget)
                     return group;
@@ -276,7 +307,7 @@ public class UniversalMusicManager : MonoBehaviour
         {
             yield return StartCoroutine(FadeOut());
             currentGroup = null;
-            Debug.Log("[MusicManager] No group for this scene — music paused, group memory kept: " + currentGroupName);
+            Debug.Log("[MusicManager] No group for this scene ï¿½ music paused, group memory kept: " + currentGroupName);
             yield break;
         }
 
@@ -372,11 +403,13 @@ public class UniversalMusicManager : MonoBehaviour
         audioSource.Stop();
     }
 
-    public void SetVolume(float volume)
+    public void SetVolume(float volume, bool persist = true)
     {
         volume = SanitizeFloat(volume);
         maxVolume = Mathf.Clamp01(volume);
-        audioSource.volume = maxVolume;
+        if (audioSource != null)
+            audioSource.volume = maxVolume;
+        if (!persist) return;
         PlayerPrefs.SetFloat(MUSIC_KEY, maxVolume);
         PlayerPrefs.Save();
     }
@@ -388,15 +421,6 @@ public class UniversalMusicManager : MonoBehaviour
     {
         if (string.IsNullOrEmpty(sceneName)) return sceneName;
 
-        // Remove unicode characters
-        string sanitized = unicodeRegex.Replace(sceneName, "");
-
-        // Remove invalid characters
-        sanitized = invalidFileNameChars.Replace(sanitized, "");
-
-        // Keep only ASCII
-        sanitized = new string(sanitized.Where(c => c <= 127).ToArray());
-
-        return sanitized.Trim();
+        return SanitizeCore(sceneName, string.Empty);
     }
 }

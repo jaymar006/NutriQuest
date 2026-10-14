@@ -84,10 +84,12 @@ public class Timer : MonoBehaviour
     private IEnumerator IntervalCoroutine(float interval, Action onTick, int repeatCount)
     {
         int count = 0;
+        // Perf: hoist yield instruction out of the loop (was new'd every tick).
+        var wait = new WaitForSeconds(interval);
         
         while (repeatCount < 0 || count < repeatCount)
         {
-            yield return new WaitForSeconds(interval);
+            yield return wait;
             onTick?.Invoke();
             count++;
         }
@@ -111,26 +113,40 @@ public class Timer : MonoBehaviour
     }
     
     /// <summary>
-    /// Formats seconds into a readable time string (MM:SS)
+    /// Formats seconds into a readable time string (MM:SS).
+    /// Perf: manual two-digit formatting via string.Concat — avoids
+    /// string.Format boxing of value types (GC per call in UI loops).
     /// </summary>
     public static string FormatTimeMMSS(float seconds)
     {
         int totalSeconds = Mathf.FloorToInt(seconds);
+        if (totalSeconds < 0) totalSeconds = 0;
         int minutes = totalSeconds / 60;
         int secs = totalSeconds % 60;
-        return string.Format("{0:00}:{1:00}", minutes, secs);
+        string m = minutes < 10 ? string.Concat("0", minutes.ToString()) : minutes.ToString();
+        return string.Concat(m, ":", TwoDigits(secs));
     }
     
     /// <summary>
-    /// Formats seconds into a readable time string (HH:MM:SS)
+    /// Formats seconds into a readable time string (HH:MM:SS).
+    /// Perf: same boxing-free formatting as FormatTimeMMSS.
     /// </summary>
     public static string FormatTimeHHMMSS(float seconds)
     {
         int totalSeconds = Mathf.FloorToInt(seconds);
+        if (totalSeconds < 0) totalSeconds = 0;
         int hours = totalSeconds / 3600;
         int minutes = (totalSeconds % 3600) / 60;
         int secs = totalSeconds % 60;
-        return string.Format("{0:00}:{1:00}:{2:00}", hours, minutes, secs);
+        return string.Concat(TwoDigits(hours), ":", TwoDigits(minutes), ":", TwoDigits(secs));
+    }
+
+    private static string TwoDigits(int v)
+    {
+        v %= 100;
+        if (v < 0) v += 100;
+        // string.Concat(char, char) overload avoids intermediate strings/boxing.
+        return string.Concat((char)('0' + v / 10), (char)('0' + v % 10));
     }
     
     /// <summary>
@@ -190,16 +206,44 @@ public class Timer : MonoBehaviour
     }
     
     /// <summary>
-    /// Creates a timer that updates a callback with remaining time (for UI updates)
+    /// Creates a timer that updates a callback with remaining time (for UI updates).
+    /// NOTE: callers must keep the returned Coroutine handle and call
+    /// StopTimer(handle) (or StopCoroutine) when the UI is destroyed/hidden,
+    /// otherwise the per-frame loop leaks after scene unload.
     /// </summary>
     public Coroutine StartUITimer(float duration, Action<string> onUpdate, string format = "MM:SS", Action onComplete = null)
     {
         return StartCoroutine(UITimerCoroutine(duration, onUpdate, format, onComplete));
     }
+
+    /// <summary>
+    /// Stops a timer started with StartCountdown/StartInterval/StartDelayed/StartUITimer.
+    /// Call this from OnDestroy/OnDisable of the owning UI.
+    /// </summary>
+    public void StopTimer(Coroutine handle)
+    {
+        if (handle != null) StopCoroutine(handle);
+    }
     
     private IEnumerator UITimerCoroutine(float duration, Action<string> onUpdate, string format, Action onComplete)
     {
         float elapsed = 0f;
+
+        // Perf: hoist format.ToUpper() out of the per-frame loop — compute once.
+        // 0 = MM:SS, 1 = HH:MM:SS, 2 = READABLE.
+        int formatMode = 0;
+        if (!string.IsNullOrEmpty(format))
+        {
+            if (format.Length == 5) formatMode = 0; // "MM:SS" fast path, avoids ToUpper alloc
+            else
+            {
+                string f = format.ToUpper();
+                if (f == "HH:MM:SS") formatMode = 1;
+                else if (f == "READABLE") formatMode = 2;
+                else if (f == "MM:SS") formatMode = 0;
+                else formatMode = 0;
+            }
+        }
         
         while (elapsed < duration)
         {
@@ -208,16 +252,13 @@ public class Timer : MonoBehaviour
             
             if (onUpdate != null)
             {
-                string timeString = "";
-                switch (format.ToUpper())
+                string timeString;
+                switch (formatMode)
                 {
-                    case "MM:SS":
-                        timeString = FormatTimeMMSS(remaining);
-                        break;
-                    case "HH:MM:SS":
+                    case 1:
                         timeString = FormatTimeHHMMSS(remaining);
                         break;
-                    case "READABLE":
+                    case 2:
                         timeString = FormatTimeReadable(remaining);
                         break;
                     default:

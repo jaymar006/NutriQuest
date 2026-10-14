@@ -76,27 +76,38 @@ public class NotificationBadge : MonoBehaviour
 
         if (targetButton != null && clearOnButtonClick && mode == BadgeMode.ThisNotification)
             targetButton.onClick.AddListener(Dismiss);
+
+        // Subscribe here (not OnEnable) so disabling Update below never drops events. //
+        NotificationService.OnChanged += HandleChanged;
+
+        // Init visual now: OnEnable won't fire when we disable below. //
+        Refresh();
+
+        // No pulse => Update has no work; disable it outright.
+        // Safe because the event subscription lives in Awake/OnDestroy. //
+        if (!pulse)
+            enabled = false;
     }
 
     private void OnDestroy()
     {
+        NotificationService.OnChanged -= HandleChanged;
         if (targetButton != null) targetButton.onClick.RemoveListener(Dismiss);
     }
 
     private void OnEnable()
     {
-        NotificationService.OnChanged += HandleChanged;
         Refresh();
     }
 
     private void OnDisable()
     {
-        NotificationService.OnChanged -= HandleChanged;
     }
 
     private void Update()
     {
-        if (!pulse || badge == null || !badge.activeSelf) return;
+        // Does nothing when badge inactive, missing, or pulse off. //
+        if (!pulse || badge == null || !badge.activeSelf || !badge.activeInHierarchy) return;
         badge.transform.localScale =
             baseScale * (1f + Mathf.Sin(Time.unscaledTime * pulseSpeed) * pulseAmount);
     }
@@ -132,5 +143,7 @@ public class NotificationBadge : MonoBehaviour
         badge.SetActive(count > 0);
         if (count > 0) badge.transform.localScale = baseScale;
         if (countText != null) countText.text = count > 0 ? count.ToString() : "";
+        // Keep Update disabled when there is nothing to animate. //
+        enabled = pulse;
     }
 }

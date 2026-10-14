@@ -68,7 +68,9 @@ public class SyncManager : MonoBehaviour
     {
         if (!_isInitialized || _isSyncing) return;
         
-        // Auto-sync periodically if network is available
+        // Throttled auto-sync gate (5-min interval): cheap Time + IsConnected()
+        // checks per frame. Event-driven path in OnNetworkConnected handles the
+        // reconnect case immediately, so this is only a periodic fallback.
         if (NetworkChecker.Instance != null && NetworkChecker.Instance.IsConnected())
         {
             if (Time.time - _lastSyncTime >= _syncInterval)
@@ -76,6 +78,14 @@ public class SyncManager : MonoBehaviour
                 SyncToCloud();
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+        // Prevent leak: unsubscribe from the DontDestroyOnLoad NetworkChecker.
+        // Use FindObjectOfType (not Instance) to avoid auto-creating one during teardown.
+        NetworkChecker checker = FindObjectOfType<NetworkChecker>();
+        if (checker != null) checker.OnNetworkConnected -= OnNetworkConnected;
     }
     
     /// <summary>

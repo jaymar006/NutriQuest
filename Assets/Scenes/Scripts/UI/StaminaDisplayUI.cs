@@ -18,6 +18,13 @@ public class StaminaDisplayUI : MonoBehaviour
     [SerializeField] private float updateInterval = 1f; // Update every second
     
     private float _lastUpdateTime = 0f;
+
+    // Perf dirty-check: only assign TMP text / fillAmount when the value changed
+    // (TMP text assignment rebuilds layout even for identical strings).
+    private int _lastCurrent = -1;
+    private int _lastMax = -1;
+    private float _lastFill = -1f;
+    private string _lastTimeString = null;
     
     private void Update()
     {
@@ -41,29 +48,38 @@ public class StaminaDisplayUI : MonoBehaviour
         int max = saveData.stamina.maxStamina;
         float percentage = saveData.stamina.GetStaminaPercentage();
         
-        // Update bar
-        if (staminaBarFill != null)
+        // Update bar (dirty-check float to avoid redundant material updates)
+        if (staminaBarFill != null && !Mathf.Approximately(percentage, _lastFill))
         {
             staminaBarFill.fillAmount = percentage;
+            _lastFill = percentage;
         }
         
-        // Update text
-        if (staminaText != null)
+        // Update text (only when current/max ints change)
+        if (staminaText != null && (current != _lastCurrent || max != _lastMax))
         {
-            staminaText.text = $"{current}/{max}";
+            staminaText.text = string.Concat(current.ToString(), "/", max.ToString());
+            _lastCurrent = current;
+            _lastMax = max;
         }
         
-        // Update regen time
+        // Update regen time (only when displayed string changes)
         if (regenTimeText != null && showRegenTime)
         {
+            string next;
             if (current >= max)
             {
-                regenTimeText.text = "Full";
+                next = "Full";
             }
             else
             {
                 System.TimeSpan timeUntil = saveData.stamina.GetTimeUntilNextRegen();
-                regenTimeText.text = Timer.FormatTimeReadable((float)timeUntil.TotalSeconds);
+                next = Timer.FormatTimeReadable((float)timeUntil.TotalSeconds);
+            }
+            if (next != _lastTimeString)
+            {
+                regenTimeText.text = next;
+                _lastTimeString = next;
             }
         }
     }

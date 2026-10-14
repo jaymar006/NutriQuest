@@ -36,6 +36,7 @@ public class LoginPageUI : MonoBehaviour
     private CanvasGroup _canvasGroup;
     private bool _isInitialized = false;
     private bool _isProcessing = false;
+    private UnityEngine.Events.UnityAction<string> _onPasswordSubmit;
     
     // Events
     public event Action<string, string> OnLoginAttempt; // username, password
@@ -52,6 +53,13 @@ public class LoginPageUI : MonoBehaviour
         {
             _canvasGroup = gameObject.AddComponent<CanvasGroup>();
         }
+
+        _onPasswordSubmit = (value) => {
+            if (!string.IsNullOrEmpty(value))
+            {
+                OnLoginClicked();
+            }
+        };
         
         // Initialize UI state
         InitializeUI();
@@ -137,13 +145,20 @@ public class LoginPageUI : MonoBehaviour
         // Enter key support for login
         if (passwordInput != null)
         {
-            passwordInput.onSubmit.AddListener((value) => {
-                if (!string.IsNullOrEmpty(value))
-                {
-                    OnLoginClicked();
-                }
-            });
+            passwordInput.onSubmit.AddListener(_onPasswordSubmit);
         }
+    }
+
+    private void OnDestroy()
+    {
+        if (loginButton != null)
+            loginButton.onClick.RemoveListener(OnLoginClicked);
+        if (registerButton != null)
+            registerButton.onClick.RemoveListener(OnRegisterClicked);
+        if (guestButton != null)
+            guestButton.onClick.RemoveListener(OnGuestClicked);
+        if (passwordInput != null && _onPasswordSubmit != null)
+            passwordInput.onSubmit.RemoveListener(_onPasswordSubmit);
     }
     
     /// <summary>

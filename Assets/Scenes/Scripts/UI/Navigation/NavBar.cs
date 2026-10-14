@@ -36,6 +36,14 @@ public class NavBar : MonoBehaviour
     {
         SetupButtons();
     }
+
+    private void OnDestroy()
+    {
+        if (homeButton != null) homeButton.onClick.RemoveAllListeners();
+        if (recipesButton != null) recipesButton.onClick.RemoveAllListeners();
+        if (settingsButton != null) settingsButton.onClick.RemoveAllListeners();
+        if (profileButton != null) profileButton.onClick.RemoveAllListeners();
+    }
     
     /// <summary>
     /// Sets up button click listeners

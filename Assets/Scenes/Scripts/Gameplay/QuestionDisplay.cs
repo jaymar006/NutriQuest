@@ -24,11 +24,6 @@ public class QuestionDisplay : MonoBehaviour
         StartCoroutine(DisplayQuestion());
     }
 
-    void Update()
-    {
-        
-    }
-
     IEnumerator DisplayQuestion()
     {
         yield return new WaitForSeconds(0.25f);

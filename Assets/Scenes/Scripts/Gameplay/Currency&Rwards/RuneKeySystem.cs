@@ -4,6 +4,7 @@ using TMPro;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 
 public class RuneKeySystem : MonoBehaviour
 {
@@ -38,12 +39,33 @@ public class RuneKeySystem : MonoBehaviour
     private const string RUNE_KEY = "RuneKeys";
     private const string RUNE_LAST_REGEN = "RuneLastRegen";
 
+    // Perf: in-memory cache so per-tick code never touches PlayerPrefs / DateTime.Parse.
+    // Load once in Awake, update field + PlayerPrefs together on change, getter returns field.
+    private int cachedKeys;
+    private bool keysLoaded = false;
+    private DateTime cachedLastRegen = DateTime.MinValue;
+    private bool hasLastRegen = false;
+
+    // Perf: shared yield instruction + timer-text dirty check (avoid TMP rebuild every tick).
+    private static readonly WaitForSeconds regenTickWait = new WaitForSeconds(1f);
+    private string lastTimerString = null;
+
     public int CurrentKeys
     {
-        get => PlayerPrefs.GetInt(RUNE_KEY, maxRuneKeys);
+        get
+        {
+            if (!keysLoaded)
+            {
+                cachedKeys = PlayerPrefs.GetInt(RUNE_KEY, maxRuneKeys);
+                keysLoaded = true;
+            }
+            return cachedKeys;
+        }
         private set
         {
             int newValue = Mathf.Clamp(value, 0, maxRuneKeys);
+            cachedKeys = newValue;
+            keysLoaded = true;
             PlayerPrefs.SetInt(RUNE_KEY, newValue);
             PlayerPrefs.Save();
             UpdateAllKeyDisplays();
@@ -61,11 +83,51 @@ public class RuneKeySystem : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        LoadCachedState();
         SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void LoadCachedState()
+    {
+        cachedKeys = PlayerPrefs.GetInt(RUNE_KEY, maxRuneKeys);
+        keysLoaded = true;
+        string s = PlayerPrefs.GetString(RUNE_LAST_REGEN, "");
+        if (!string.IsNullOrEmpty(s))
+        {
+            try
+            {
+                cachedLastRegen = DateTime.Parse(s, null, DateTimeStyles.RoundtripKind);
+                hasLastRegen = true;
+            }
+            catch
+            {
+                hasLastRegen = false;
+            }
+        }
+    }
+
+    private void SetLastRegenNoSave(DateTime utcNow)
+    {
+        cachedLastRegen = utcNow;
+        hasLastRegen = true;
+        PlayerPrefs.SetString(RUNE_LAST_REGEN, utcNow.ToString("O"));
+    }
+
+    private void SetTimerText(string value)
+    {
+        if (lastTimerString == value) return;
+        lastTimerString = value;
+        if (regenTimerText != null)
+            regenTimerText.text = value;
     }
 
     private void OnDestroy()
     {
+        if (regenLoopCoroutine != null)
+        {
+            StopCoroutine(regenLoopCoroutine);
+            regenLoopCoroutine = null;
+        }
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
@@ -77,7 +139,7 @@ public class RuneKeySystem : MonoBehaviour
 
         // Only wipe the timer ref on scene TRANSITIONS (after first Start() ran).
         // On the very first scene load, Start() hasn't fired yet so persistentTimerName
-        // hasn't been saved — clearing here would destroy the manually assigned reference.
+        // hasn't been saved ï¿½ clearing here would destroy the manually assigned reference.
         if (hasStartedOnce)
             regenTimerText = null;
 
@@ -112,7 +174,7 @@ public class RuneKeySystem : MonoBehaviour
         // Save inspector-assigned names BEFORE anything else can clear them
         SavePersistentDisplayNames();
 
-        // Mark that Start has run — OnSceneLoaded can now safely clear timer on future loads
+        // Mark that Start has run ï¿½ OnSceneLoaded can now safely clear timer on future loads
         hasStartedOnce = true;
 
         if (autoFindTexts && runeKeyTexts.Count == 0)
@@ -275,23 +337,25 @@ public class RuneKeySystem : MonoBehaviour
     {
         if (CurrentKeys >= maxRuneKeys) return;
 
-        string lastRegenStr = PlayerPrefs.GetString(RUNE_LAST_REGEN, "");
-        if (string.IsNullOrEmpty(lastRegenStr)) return;
+        if (!hasLastRegen) return;
 
         try
         {
-            DateTime lastRegen = DateTime.Parse(lastRegenStr);
+            DateTime lastRegen = cachedLastRegen;
             double minutesPassed = (DateTime.UtcNow - lastRegen).TotalMinutes;
             int keysToAdd = Mathf.FloorToInt((float)minutesPassed / regenTimeInMinutes);
 
             if (keysToAdd > 0)
             {
                 int newKeys = Mathf.Min(CurrentKeys + keysToAdd, maxRuneKeys);
+                // Batch: single PlayerPrefs.Save() per regen.
+                cachedKeys = newKeys;
+                keysLoaded = true;
                 PlayerPrefs.SetInt(RUNE_KEY, newKeys);
 
                 float remainingMinutes = (float)(minutesPassed % regenTimeInMinutes);
                 DateTime newLastRegen = DateTime.UtcNow.AddMinutes(-remainingMinutes);
-                PlayerPrefs.SetString(RUNE_LAST_REGEN, newLastRegen.ToString());
+                SetLastRegenNoSave(newLastRegen);
                 PlayerPrefs.Save();
 
                 UpdateAllKeyDisplays();
@@ -308,42 +372,45 @@ public class RuneKeySystem : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(1f);
+            yield return regenTickWait;
 
             if (CurrentKeys >= maxRuneKeys)
             {
-                if (regenTimerText != null)
-                    regenTimerText.text = "FULL";
+                SetTimerText("FULL");
                 continue;
             }
 
-            string lastRegenStr = PlayerPrefs.GetString(RUNE_LAST_REGEN, "");
-
-            if (string.IsNullOrEmpty(lastRegenStr))
+            if (!hasLastRegen)
             {
-                PlayerPrefs.SetString(RUNE_LAST_REGEN, DateTime.UtcNow.ToString());
+                SetLastRegenNoSave(DateTime.UtcNow);
                 PlayerPrefs.Save();
                 continue;
             }
 
             try
             {
-                DateTime lastRegen = DateTime.Parse(lastRegenStr);
+                DateTime lastRegen = cachedLastRegen;
                 double minutesPassed = (DateTime.UtcNow - lastRegen).TotalMinutes;
 
                 if (minutesPassed >= regenTimeInMinutes)
                 {
-                    CurrentKeys++;
-                    PlayerPrefs.SetString(RUNE_LAST_REGEN, DateTime.UtcNow.ToString());
+                    // Batch: update memory + PlayerPrefs once, single Save() per regen
+                    // (previously CurrentKeys++ saved, then SetString saved again = double save).
+                    cachedKeys = Mathf.Clamp(cachedKeys + 1, 0, maxRuneKeys);
+                    keysLoaded = true;
+                    PlayerPrefs.SetInt(RUNE_KEY, cachedKeys);
+                    SetLastRegenNoSave(DateTime.UtcNow);
                     PlayerPrefs.Save();
-                    Debug.Log($"[RuneKeySystem] Rune key regenerated! Now: {CurrentKeys}");
+                    UpdateAllKeyDisplays();
+                    OnKeysChanged?.Invoke();
                 }
                 else if (regenTimerText != null)
                 {
                     double remaining = (regenTimeInMinutes - minutesPassed) * 60;
                     int mins = Mathf.FloorToInt((float)remaining / 60f);
                     int secs = Mathf.FloorToInt((float)remaining % 60f);
-                    regenTimerText.text = string.Format("{0}:{1:00}", mins, secs);
+                    // Dirty-check: only assign TMP text when the displayed second changes.
+                    SetTimerText(mins + ":" + secs.ToString("00"));
                 }
             }
             catch (Exception e)
@@ -368,10 +435,15 @@ public class RuneKeySystem : MonoBehaviour
         // very next 1-second tick, since the stale timestamp already looked
         // "overdue" for a regen that had nothing to do with this spend. That
         // showed up as "my rune key didn't get spent."
-        PlayerPrefs.SetString(RUNE_LAST_REGEN, DateTime.UtcNow.ToString());
+        // Perf: keep memory cache in sync; single batched Save (setter also saves,
+        // so write memory + prefs directly here to avoid double save).
+        SetLastRegenNoSave(DateTime.UtcNow);
+        cachedKeys = Mathf.Clamp(cachedKeys - amount, 0, maxRuneKeys);
+        keysLoaded = true;
+        PlayerPrefs.SetInt(RUNE_KEY, cachedKeys);
         PlayerPrefs.Save();
-
-        CurrentKeys -= amount;
+        UpdateAllKeyDisplays();
+        OnKeysChanged?.Invoke();
         Debug.Log($"[RuneKeySystem] Spent {amount} key(s). Remaining: {CurrentKeys}");
         return true;
     }
@@ -379,6 +451,8 @@ public class RuneKeySystem : MonoBehaviour
     public void AddKey(int amount = 1)
     {
         int newValue = Mathf.Clamp(CurrentKeys + amount, 0, maxRuneKeys);
+        cachedKeys = newValue;
+        keysLoaded = true;
         PlayerPrefs.SetInt(RUNE_KEY, newValue);
         PlayerPrefs.Save();
         UpdateAllKeyDisplays();

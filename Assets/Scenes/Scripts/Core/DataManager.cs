@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -34,6 +33,14 @@ public class DataManager : MonoBehaviour
     private List<Tower> _towers;
     private List<Achievement> _achievements;
     private List<Recipe> _recipes;
+
+    // Zero-alloc lookup caches built once after LoadGameData.
+    private Dictionary<int, List<Question>> _questionsByTower = new Dictionary<int, List<Question>>();
+    private Dictionary<int, Question> _questionById = new Dictionary<int, Question>();
+    private Dictionary<int, Tower> _towerById = new Dictionary<int, Tower>();
+    private Dictionary<int, Achievement> _achievementById = new Dictionary<int, Achievement>();
+    private Dictionary<string, Recipe> _recipeById = new Dictionary<string, Recipe>();
+    private static readonly List<Question> _emptyQuestions = new List<Question>();
     
     // Events
     public System.Action OnDataLoaded;
@@ -75,6 +82,8 @@ public class DataManager : MonoBehaviour
         
         // Load recipes
         LoadRecipes();
+
+        BuildCaches();
         
         _isInitialized = true;
         OnDataLoaded?.Invoke();
@@ -208,17 +217,105 @@ public class DataManager : MonoBehaviour
     {
         return _questions ?? new List<Question>();
     }
+
+    /// <summary>
+    /// Builds dictionary caches once after LoadGameData (manual loops, no LINQ).
+    /// </summary>
+    private void BuildCaches()
+    {
+        _questionsByTower.Clear();
+        _questionById.Clear();
+        _towerById.Clear();
+        _achievementById.Clear();
+        _recipeById.Clear();
+
+        if (_questions != null)
+        {
+            for (int i = 0; i < _questions.Count; i++)
+            {
+                Question q = _questions[i];
+                if (q == null) continue;
+                if (!_questionById.ContainsKey(q.questionId))
+                    _questionById.Add(q.questionId, q);
+
+                List<Question> list;
+                if (!_questionsByTower.TryGetValue(q.towerId, out list) || list == null)
+                {
+                    list = new List<Question>();
+                    _questionsByTower[q.towerId] = list;
+                }
+                list.Add(q);
+            }
+        }
+
+        if (_towers != null)
+        {
+            for (int i = 0; i < _towers.Count; i++)
+            {
+                Tower t = _towers[i];
+                if (t == null) continue;
+                if (!_towerById.ContainsKey(t.towerId))
+                    _towerById.Add(t.towerId, t);
+            }
+        }
+
+        if (_achievements != null)
+        {
+            for (int i = 0; i < _achievements.Count; i++)
+            {
+                Achievement a = _achievements[i];
+                if (a == null) continue;
+                if (!_achievementById.ContainsKey(a.achievementId))
+                    _achievementById.Add(a.achievementId, a);
+            }
+        }
+
+        if (_recipes != null)
+        {
+            for (int i = 0; i < _recipes.Count; i++)
+            {
+                Recipe r = _recipes[i];
+                if (r == null || string.IsNullOrEmpty(r.id)) continue;
+                if (!_recipeById.ContainsKey(r.id))
+                    _recipeById.Add(r.id, r);
+            }
+        }
+    }
     
     public List<Question> GetQuestionsForTower(int towerId)
     {
-        if (_questions == null) return new List<Question>();
-        return _questions.Where(q => q.towerId == towerId).ToList();
+        if (_questions == null) return _emptyQuestions;
+        List<Question> cached;
+        if (_questionsByTower != null && _questionsByTower.TryGetValue(towerId, out cached) && cached != null)
+            return cached;
+        return _emptyQuestions;
+    }
+
+    /// <summary>
+    /// Cached count without allocating a list.
+    /// </summary>
+    public int GetQuestionCountForTower(int towerId)
+    {
+        if (_questionsByTower == null) return 0;
+        List<Question> cached;
+        if (_questionsByTower.TryGetValue(towerId, out cached) && cached != null)
+            return cached.Count;
+        return 0;
     }
     
     public Question GetQuestion(int questionId)
     {
         if (_questions == null) return null;
-        return _questions.FirstOrDefault(q => q.questionId == questionId);
+        Question cached;
+        if (_questionById != null && _questionById.TryGetValue(questionId, out cached))
+            return cached;
+        // Manual fallback loop (no LINQ).
+        for (int i = 0; i < _questions.Count; i++)
+        {
+            if (_questions[i] != null && _questions[i].questionId == questionId)
+                return _questions[i];
+        }
+        return null;
     }
     
     public List<Tower> GetAllTowers()
@@ -229,7 +326,15 @@ public class DataManager : MonoBehaviour
     public Tower GetTower(int towerId)
     {
         if (_towers == null) return null;
-        return _towers.FirstOrDefault(t => t.towerId == towerId);
+        Tower cached;
+        if (_towerById != null && _towerById.TryGetValue(towerId, out cached))
+            return cached;
+        for (int i = 0; i < _towers.Count; i++)
+        {
+            if (_towers[i] != null && _towers[i].towerId == towerId)
+                return _towers[i];
+        }
+        return null;
     }
     
     public List<Achievement> GetAllAchievements()
@@ -240,7 +345,15 @@ public class DataManager : MonoBehaviour
     public Achievement GetAchievement(int achievementId)
     {
         if (_achievements == null) return null;
-        return _achievements.FirstOrDefault(a => a.achievementId == achievementId);
+        Achievement cached;
+        if (_achievementById != null && _achievementById.TryGetValue(achievementId, out cached))
+            return cached;
+        for (int i = 0; i < _achievements.Count; i++)
+        {
+            if (_achievements[i] != null && _achievements[i].achievementId == achievementId)
+                return _achievements[i];
+        }
+        return null;
     }
     
     public List<Recipe> GetAllRecipes()
@@ -250,8 +363,16 @@ public class DataManager : MonoBehaviour
     
     public Recipe GetRecipe(string recipeId)
     {
-        if (_recipes == null) return null;
-        return _recipes.FirstOrDefault(r => r.id == recipeId);
+        if (_recipes == null || string.IsNullOrEmpty(recipeId)) return null;
+        Recipe cached;
+        if (_recipeById != null && _recipeById.TryGetValue(recipeId, out cached))
+            return cached;
+        for (int i = 0; i < _recipes.Count; i++)
+        {
+            if (_recipes[i] != null && _recipes[i].id == recipeId)
+                return _recipes[i];
+        }
+        return null;
     }
     
     public bool IsDataLoaded()

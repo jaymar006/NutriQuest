@@ -84,8 +84,12 @@ public class ResultScreenManager : MonoBehaviour
 
     private AchievementType earnedThisRun = AchievementType.None;
 
+    // Cached PlayerPrefs keys/locals to avoid re-reads and repeated string concat.
+    private string _highScoreKey;
+    private string _badgePrefix;
+
     // ---------------------------------------------------------------
-    // Start — single entry point, order matters
+    // Start ï¿½ single entry point, order matters
     // ---------------------------------------------------------------
     private void Start()
     {
@@ -101,6 +105,10 @@ public class ResultScreenManager : MonoBehaviour
 
         Debug.Log($"[ResultScreenManager] stageID={stageID} correct={correct}/{total} towerIndex={towerIndex}");
 
+        // Cache keys once to avoid repeated concat/lookups below.
+        _highScoreKey = HIGH_SCORE_PREFIX + stageID;
+        _badgePrefix = BADGE_PREFIX + stageID + "_";
+
         string firstClearKey = FIRST_CLEAR_PREFIX + stageID;
         string attemptKey = ATTEMPT_PREFIX + stageID;
 
@@ -108,10 +116,9 @@ public class ResultScreenManager : MonoBehaviour
         isFirstClear = PlayerPrefs.GetInt(firstClearKey, 0) == 0;
         isFirstAttempt = PlayerPrefs.GetInt(attemptKey, 0) == 0;
 
-        // 3. Increment attempt counter
+        // 3. Increment attempt counter (no immediate Save; coalesced at end of Start)
         int attempts = PlayerPrefs.GetInt(attemptKey, 0);
         PlayerPrefs.SetInt(attemptKey, attempts + 1);
-        PlayerPrefs.Save();
 
         // 4. Update high score
         UpdateHighScore();
@@ -125,16 +132,16 @@ public class ResultScreenManager : MonoBehaviour
             TowerUnlockManager.Instance.OnLevelCleared(stageID);
 
         // 7. Handle first-clear rewards (rune key + recipe unlock)
-        //    This runs regardless of score — clearing ANY tower for the
+        //    This runs regardless of score ï¿½ clearing ANY tower for the
         //    first time always grants a rune key and unlocks its recipe.
         if (isFirstClear)
         {
             // a) Persist first-clear flag NOW so everything below reads it correctly
+            //    (no immediate Save; coalesced at end of Start)
             PlayerPrefs.SetInt(firstClearKey, 1);
-            PlayerPrefs.Save();
             Debug.Log($"[ResultScreenManager] First clear! Saved {firstClearKey}=1");
 
-            // b) Grant rune key automatically — the reward button just shows the notification
+            // b) Grant rune key automatically ï¿½ the reward button just shows the notification
             GrantFirstClearRuneKey();
 
             // c) Refresh recipe unlock states so the recipe screen reflects the new unlock
@@ -150,11 +157,15 @@ public class ResultScreenManager : MonoBehaviour
         DisplayAchievements();
         DisplayRewards();
 
+        // Single coalesced flush for all PlayerPrefs Sets above (attempt, first-clear,
+        // badge, high-score, totals, rewards). No intermediate Save() calls.
+        PlayerPrefs.Save();
+
         StartCoroutine(FadeInSequence());
     }
 
     // ---------------------------------------------------------------
-    // First-clear rune key — always +1, no conditions
+    // First-clear rune key ï¿½ always +1, no conditions
     // ---------------------------------------------------------------
     private void GrantFirstClearRuneKey()
     {
@@ -165,7 +176,7 @@ public class ResultScreenManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("[ResultScreenManager] RuneKeySystem.Instance is null — rune key NOT granted!");
+            Debug.LogWarning("[ResultScreenManager] RuneKeySystem.Instance is null ï¿½ rune key NOT granted!");
         }
     }
 
@@ -181,7 +192,7 @@ public class ResultScreenManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("[ResultScreenManager] RecipeUnlockManager.Instance is null — recipe NOT refreshed!");
+            Debug.LogWarning("[ResultScreenManager] RecipeUnlockManager.Instance is null ï¿½ recipe NOT refreshed!");
         }
     }
 
@@ -194,11 +205,10 @@ public class ResultScreenManager : MonoBehaviour
     {
         if (achievement == AchievementType.None) return;
 
-        string key = BADGE_PREFIX + stageID + "_" + achievement.ToString();
+        string key = _badgePrefix != null ? _badgePrefix + achievement.ToString() : BADGE_PREFIX + stageID + "_" + achievement.ToString();
         bool alreadyEarned = PlayerPrefs.GetInt(key, 0) == 1;
 
         PlayerPrefs.SetInt(key, 1);
-        PlayerPrefs.Save();
         Debug.Log($"[ResultScreenManager] Badge saved: {key}");
 
         // Only the Genius badge triggers a rune key drop on retries
@@ -208,15 +218,15 @@ public class ResultScreenManager : MonoBehaviour
         {
             // First clear already gave a guaranteed rune key above.
             // Genius on first clear does NOT give a second key.
-            Debug.Log("[ResultScreenManager] Genius on first clear — rune key already granted, no extra drop.");
+            Debug.Log("[ResultScreenManager] Genius on first clear ï¿½ rune key already granted, no extra drop.");
             return;
         }
 
-        // Retry run with Genius achievement — 70 % drop chance
+        // Retry run with Genius achievement ï¿½ 70 % drop chance
         float roll = UnityEngine.Random.Range(0f, 1f);
         bool dropped = roll <= 0.70f;
 
-        Debug.Log($"[ResultScreenManager] Repeat Genius! Roll={roll:F2} — {(dropped ? "KEY DROPPED!" : "No drop.")}");
+        Debug.Log($"[ResultScreenManager] Repeat Genius! Roll={roll:F2} ï¿½ {(dropped ? "KEY DROPPED!" : "No drop.")}");
 
         if (dropped && RuneKeySystem.Instance != null)
             RuneKeySystem.Instance.AddKey(1);
@@ -280,11 +290,17 @@ public class ResultScreenManager : MonoBehaviour
             AchievementType.StepsTowardsSuccess
         };
 
+        // Cache prefix + earned flags in locals to avoid re-reads per button.
+        string prefix = _badgePrefix ?? (BADGE_PREFIX + stageID + "_");
+        bool[] earned = new bool[allTypes.Length];
+        for (int k = 0; k < allTypes.Length; k++)
+            earned[k] = PlayerPrefs.GetInt(prefix + allTypes[k].ToString(), 0) == 1;
+
         for (int i = 0; i < achievementButtons.Count; i++)
         {
             if (achievementButtons[i] == null) continue;
 
-            bool everEarned = IsBadgeEverEarned(allTypes[i]);
+            bool everEarned = i < earned.Length ? earned[i] : IsBadgeEverEarned(allTypes[i]);
             achievementButtons[i].gameObject.SetActive(true);
 
             if (everEarned)
@@ -309,7 +325,7 @@ public class ResultScreenManager : MonoBehaviour
     // Display: first-clear reward buttons
     //
     // The rune key has ALREADY been granted in Start() above.
-    // These buttons are just visual notifications / modals —
+    // These buttons are just visual notifications / modals ï¿½
     // they do NOT grant anything again when tapped.
     // ---------------------------------------------------------------
     private void DisplayRewards()
@@ -337,9 +353,8 @@ public class ResultScreenManager : MonoBehaviour
             return;
         }
 
-        // Mark as shown permanently
+        // Mark as shown permanently (flushed by coalesced Save() at end of Start)
         PlayerPrefs.SetInt(rewardKey, 1);
-        PlayerPrefs.Save();
 
         rewardsSection.SetActive(true);
         Debug.Log("[ResultScreenManager] Showing first-clear rewards panel.");
@@ -351,7 +366,7 @@ public class ResultScreenManager : MonoBehaviour
             reward.rewardButton.gameObject.SetActive(true);
             reward.rewardButton.onClick.RemoveAllListeners();
 
-            // Tapping just opens the info modal — the reward itself was granted in Start()
+            // Tapping just opens the info modal ï¿½ the reward itself was granted in Start()
             if (reward.rewardModal != null)
             {
                 ModalWindowScript capturedModal = reward.rewardModal;
@@ -373,25 +388,28 @@ public class ResultScreenManager : MonoBehaviour
 
     private bool IsBadgeEverEarned(AchievementType achievement)
     {
-        return PlayerPrefs.GetInt(BADGE_PREFIX + stageID + "_" + achievement.ToString(), 0) == 1;
+        string key = _badgePrefix != null ? _badgePrefix + achievement.ToString() : BADGE_PREFIX + stageID + "_" + achievement.ToString();
+        return PlayerPrefs.GetInt(key, 0) == 1;
     }
 
     private void UpdateHighScore()
     {
-        string key = HIGH_SCORE_PREFIX + stageID;
+        string key = _highScoreKey ?? (HIGH_SCORE_PREFIX + stageID);
         int current = PlayerPrefs.GetInt(key, 0);
         if (correct > current)
         {
             PlayerPrefs.SetInt(key, correct);
-            PlayerPrefs.Save();
         }
 
         int totalAnswered = PlayerPrefs.GetInt("TotalQuestionsAnswered", 0);
         PlayerPrefs.SetInt("TotalQuestionsAnswered", totalAnswered + correct);
-        PlayerPrefs.Save();
     }
 
-    private int GetHighScore() => PlayerPrefs.GetInt(HIGH_SCORE_PREFIX + stageID, 0);
+    private int GetHighScore()
+    {
+        string key = _highScoreKey ?? (HIGH_SCORE_PREFIX + stageID);
+        return PlayerPrefs.GetInt(key, 0);
+    }
 
     // ---------------------------------------------------------------
     // Fade helpers

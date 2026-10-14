@@ -60,6 +60,13 @@ public class CuteUICharacterAnimator : MonoBehaviour, IPointerClickHandler
     private bool isBusy;
     private float levitationTime;
 
+    // Cached to avoid per-frame Vector3 allocs; single transform writer rule:
+    // Update owns localPosition (levitation) while coroutines own localScale.
+    // Update already skips when isBusy, BreathingLoop skips while isBusy — kept. //
+    private static readonly Vector3 Up = Vector3.up;
+    private Vector3 _levitationOffset;
+    private Vector3 _breathScale;
+
     private void Awake()
     {
         if (!Application.isPlaying) return;
@@ -92,11 +99,14 @@ public class CuteUICharacterAnimator : MonoBehaviour, IPointerClickHandler
     private void Update()
     {
         if (!Application.isPlaying) return;
+        // Only one transform writer active: levitation (position) yields while busy;
+        // breathing/reactions (scale) run in coroutines and skip while busy. //
         if (!useLevitating || isBusy) return;
 
         levitationTime += Time.deltaTime * levitationSpeed;
         float offset = Mathf.Sin(levitationTime) * levitationHeight;
-        transform.localPosition = originalPosition + new Vector3(0f, offset, 0f);
+        _levitationOffset = Up * offset;
+        transform.localPosition = originalPosition + _levitationOffset;
     }
 
     private void StartIdleAnimations()
@@ -185,10 +195,10 @@ public class CuteUICharacterAnimator : MonoBehaviour, IPointerClickHandler
                 elapsed += Time.deltaTime;
                 float t = Mathf.Sin((elapsed / breathDuration) * Mathf.PI);
                 float scale = 1f + t * (breathScale - 1f);
-                transform.localScale = new Vector3(
-                    originalScale.x,
-                    originalScale.y * scale,
-                    originalScale.z);
+                _breathScale.x = originalScale.x;
+                _breathScale.y = originalScale.y * scale;
+                _breathScale.z = originalScale.z;
+                transform.localScale = _breathScale;
                 yield return null;
             }
 

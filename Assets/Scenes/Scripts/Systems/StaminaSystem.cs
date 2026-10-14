@@ -54,14 +54,34 @@ public class StaminaSystem : MonoBehaviour
     {
         _isInitialized = true;
         _lastRegenCheckTime = Time.time;
+        // Event-driven path: regen immediately on reconnect instead of waiting
+        // for the next throttled tick. Throttled Update below is kept as a
+        // fallback for offline/time-passed regen.
+        NetworkChecker checker = FindObjectOfType<NetworkChecker>();
+        if (checker != null) checker.OnNetworkConnected += HandleNetworkConnected;
         Debug.Log("StaminaSystem initialized");
+    }
+
+    private void OnDestroy()
+    {
+        NetworkChecker checker = FindObjectOfType<NetworkChecker>();
+        if (checker != null) checker.OnNetworkConnected -= HandleNetworkConnected;
+    }
+
+    private void HandleNetworkConnected()
+    {
+        // Event-driven sync: re-run regen check right away on reconnect.
+        if (!_isInitialized) return;
+        RegenerateStamina();
+        _lastRegenCheckTime = Time.time;
     }
     
     private void Update()
     {
         if (!_isInitialized) return;
         
-        // Check for stamina regeneration periodically
+        // Throttled fallback (1s gate): cheap Time check per frame, real work
+        // only inside RegenerateStamina and only MarkDataDirty on actual change.
         if (Time.time - _lastRegenCheckTime >= _regenCheckInterval)
         {
             RegenerateStamina();

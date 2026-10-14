@@ -19,6 +19,8 @@ public class QuestionDisplayBeta : MonoBehaviour
     public static string newAnswerC;
     public static string newAnswerD;
 
+    private Coroutine _displayCoroutine;
+
     private void Awake()
     {
         Instance = this;
@@ -26,12 +28,16 @@ public class QuestionDisplayBeta : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(DisplayQuestion());
+        if (_displayCoroutine != null)
+            StopCoroutine(_displayCoroutine);
+        _displayCoroutine = StartCoroutine(DisplayQuestion());
     }
 
     public void ShowQuestion()
     {
-        StartCoroutine(DisplayQuestion());
+        if (_displayCoroutine != null)
+            StopCoroutine(_displayCoroutine);
+        _displayCoroutine = StartCoroutine(DisplayQuestion());
     }
 
     private IEnumerator DisplayQuestion()

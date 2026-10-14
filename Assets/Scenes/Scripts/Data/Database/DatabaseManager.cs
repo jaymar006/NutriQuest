@@ -32,6 +32,9 @@ public class DatabaseManager : MonoBehaviour
     private float _lastAutoSaveTime;
     private bool _isSaving = false; // Prevent concurrent saves on Android
     
+    // Perf: shared yield instruction (WaitForEndOfFrame allocates if new'd per save).
+    private static readonly WaitForEndOfFrame s_endOfFrameWait = new WaitForEndOfFrame();
+
     // Events
     public event Action<CloudSaveData> OnSaveDataLoaded;
     public event Action OnSaveDataSaved;
@@ -62,6 +65,10 @@ public class DatabaseManager : MonoBehaviour
     
     private void Update()
     {
+        // Throttled auto-save gate: cheap bool + float compare per frame, actual
+        // file IO only when dirty AND interval elapsed. _isSaving guard prevents
+        // overlapping saves. No true async possible with Unity JsonUtility/File
+        // on WebGL-safe path — keep synchronous save, just called rarely.
         if (!_isInitialized || !autoSaveEnabled || _isSaving) return;
         
         // Auto-save if data is dirty and enough time has passed
@@ -170,15 +177,12 @@ public class DatabaseManager : MonoBehaviour
         
         _isSaving = true;
         
-        // Use Unity's main thread dispatcher for file I/O
-        // Note: File I/O still happens on main thread, but we can add coroutine support later
-        UnityEngine.WaitForEndOfFrame waitFrame = new UnityEngine.WaitForEndOfFrame();
         StartCoroutine(SaveDataCoroutine(createBackup, onComplete));
     }
     
     private System.Collections.IEnumerator SaveDataCoroutine(bool createBackup, System.Action<bool> onComplete)
     {
-        yield return new UnityEngine.WaitForEndOfFrame();
+        yield return s_endOfFrameWait;
         
         bool success = _localSaveManager.SaveSaveData(createBackup);
         _isSaving = false;

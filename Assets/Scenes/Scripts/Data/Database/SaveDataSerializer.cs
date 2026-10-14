@@ -28,7 +28,8 @@ public static class SaveDataSerializer
                 saveData.userData.PrepareForSerialization();
             }
             
-            string json = JsonUtility.ToJson(saveData, true);
+            // Perf: prettyPrint=false reduces JSON size and GC (no indent whitespace).
+            string json = JsonUtility.ToJson(saveData, false);
             return json;
         }
         catch (Exception e)

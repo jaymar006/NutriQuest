@@ -4,6 +4,7 @@ using TMPro;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 
 public class TowerUnlockManager : MonoBehaviour
 {
@@ -34,6 +35,20 @@ public class TowerUnlockManager : MonoBehaviour
     private const string UNLOCK_TIME_PREFIX = "UnlockTime_";
     private const string UNLOCKED_PREFIX = "Unlocked_";
 
+    // Perf: in-memory cache loaded in Start so the 1s TimerUpdateLoop never
+    // touches PlayerPrefs or DateTime.Parse per tick.
+    private readonly Dictionary<string, bool> cachedUnlocked = new Dictionary<string, bool>();
+    private readonly Dictionary<string, DateTime> cachedUnlockTime = new Dictionary<string, DateTime>();
+    private readonly Dictionary<string, string> lastTimerStrings = new Dictionary<string, string>();
+
+    // Perf: cached yield instructions (avoid per-tick / per-init allocation).
+    private static readonly WaitForSeconds timerTickWait = new WaitForSeconds(1f);
+    private static readonly WaitForSeconds initDelayWait = new WaitForSeconds(0.5f);
+
+    // Track coroutine handles so OnDestroy can stop them (no orphan loops after destroy).
+    private Coroutine initCoroutine = null;
+    private Coroutine timerCoroutine = null;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -46,12 +61,73 @@ public class TowerUnlockManager : MonoBehaviour
 
     private void Start()
     {
+        LoadUnlockCache();
         // FIX: Wait one frame before refreshing so all GameObjects in the
         // scene finish their own Awake/Start before we call SetActive on them.
         // Without this, SetActive(true/false) on Lock and Timer GameObjects
         // that haven't fully initialized yet gets silently ignored.
-        StartCoroutine(InitWithDelay());
-        StartCoroutine(TimerUpdateLoop());
+        initCoroutine = StartCoroutine(InitWithDelay());
+        timerCoroutine = StartCoroutine(TimerUpdateLoop());
+    }
+
+    private void OnDestroy()
+    {
+        if (initCoroutine != null) { StopCoroutine(initCoroutine); initCoroutine = null; }
+        if (timerCoroutine != null) { StopCoroutine(timerCoroutine); timerCoroutine = null; }
+    }
+
+    private void LoadUnlockCache()
+    {
+        cachedUnlocked.Clear();
+        cachedUnlockTime.Clear();
+        foreach (TowerEntry t in towers)
+        {
+            if (t == null || string.IsNullOrEmpty(t.towerName)) continue;
+            cachedUnlocked[t.towerName] = PlayerPrefs.GetInt(UNLOCKED_PREFIX + t.towerName, 0) == 1;
+            string s = PlayerPrefs.GetString(UNLOCK_TIME_PREFIX + t.towerName, "");
+            if (!string.IsNullOrEmpty(s))
+            {
+                try { cachedUnlockTime[t.towerName] = DateTime.Parse(s, null, DateTimeStyles.RoundtripKind); }
+                catch { /* ignore corrupt timestamp; treated as missing */ }
+            }
+        }
+    }
+
+    private bool IsUnlockedCached(string towerName)
+    {
+        bool v;
+        if (cachedUnlocked.TryGetValue(towerName, out v)) return v;
+        v = PlayerPrefs.GetInt(UNLOCKED_PREFIX + towerName, 0) == 1;
+        cachedUnlocked[towerName] = v;
+        return v;
+    }
+
+    private void SetUnlockedCached(string towerName)
+    {
+        cachedUnlocked[towerName] = true;
+        PlayerPrefs.SetInt(UNLOCKED_PREFIX + towerName, 1);
+        PlayerPrefs.Save();
+    }
+
+    private bool TryGetUnlockTimeCached(string towerName, out DateTime unlockTime)
+    {
+        if (cachedUnlockTime.TryGetValue(towerName, out unlockTime)) return true;
+        string s = PlayerPrefs.GetString(UNLOCK_TIME_PREFIX + towerName, "");
+        if (string.IsNullOrEmpty(s)) { unlockTime = DateTime.MinValue; return false; }
+        try
+        {
+            unlockTime = DateTime.Parse(s, null, DateTimeStyles.RoundtripKind);
+            cachedUnlockTime[towerName] = unlockTime;
+            return true;
+        }
+        catch { unlockTime = DateTime.MinValue; return false; }
+    }
+
+    private void SetUnlockTimeCached(string towerName, DateTime utcNow)
+    {
+        cachedUnlockTime[towerName] = utcNow;
+        PlayerPrefs.SetString(UNLOCK_TIME_PREFIX + towerName, utcNow.ToString("O"));
+        PlayerPrefs.Save();
     }
 
     private IEnumerator InitWithDelay()
@@ -68,13 +144,13 @@ public class TowerUnlockManager : MonoBehaviour
         // fadeDuration in SceneTransitionManager, update this to match.
         yield return null;
         yield return null;
-        yield return new WaitForSeconds(0.5f);
+        yield return initDelayWait;
         RefreshUnlockStates();
     }
 
     public void RefreshUnlockStates()
     {
-        // TEMP DEBUG — remove after fixing
+        // TEMP DEBUG ï¿½ remove after fixing
         Debug.Log("[TowerUnlock] HighScore_Stage_1 = " +
             PlayerPrefs.GetInt("HighScore_Stage_1", 0));
         Debug.Log("[TowerUnlock] HighScore_Stage_2 = " +
@@ -114,7 +190,7 @@ public class TowerUnlockManager : MonoBehaviour
             return;
         }
 
-        bool alreadyUnlocked = PlayerPrefs.GetInt(UNLOCKED_PREFIX + tower.towerName, 0) == 1;
+        bool alreadyUnlocked = IsUnlockedCached(tower.towerName);
         if (alreadyUnlocked)
         {
             SetTowerUnlocked(tower, true);
@@ -134,7 +210,7 @@ public class TowerUnlockManager : MonoBehaviour
         {
             // Tower_3 stays completely hidden until Tower_2 is fully unlocked
             bool tower2Unlocked = towers.Count > 1 &&
-                PlayerPrefs.GetInt(UNLOCKED_PREFIX + towers[1].towerName, 0) == 1;
+                IsUnlockedCached(towers[1].towerName);
 
             if (!tower2Unlocked)
             {
@@ -154,24 +230,22 @@ public class TowerUnlockManager : MonoBehaviour
             return;
         }
 
-        string unlockTimeStr = PlayerPrefs.GetString(UNLOCK_TIME_PREFIX + tower.towerName, "");
-        if (string.IsNullOrEmpty(unlockTimeStr))
+        DateTime cachedTime;
+        if (!TryGetUnlockTimeCached(tower.towerName, out cachedTime))
         {
-            PlayerPrefs.SetString(UNLOCK_TIME_PREFIX + tower.towerName, DateTime.UtcNow.ToString());
-            PlayerPrefs.Save();
+            SetUnlockTimeCached(tower.towerName, DateTime.UtcNow);
             SetTowerUnlocked(tower, false);
             ShowLockIcon(tower, true);
             ShowTimer(tower, true);
             return;
         }
 
-        DateTime unlockTime = DateTime.Parse(unlockTimeStr);
+        DateTime unlockTime = cachedTime;
         double minutesPassed = (DateTime.UtcNow - unlockTime).TotalMinutes;
 
         if (minutesPassed >= waitTimeInMinutes)
         {
-            PlayerPrefs.SetInt(UNLOCKED_PREFIX + tower.towerName, 1);
-            PlayerPrefs.Save();
+            SetUnlockedCached(tower.towerName);
             SetTowerUnlocked(tower, true);
             ShowLockIcon(tower, false);
             ShowTimer(tower, false);
@@ -195,7 +269,12 @@ public class TowerUnlockManager : MonoBehaviour
 
         int mins = Mathf.FloorToInt((float)remainingSeconds / 60f);
         int secs = Mathf.FloorToInt((float)remainingSeconds % 60f);
-        tower.timerText.text = string.Format("{0}:{1:00}", mins, secs);
+        // Dirty-check: only assign TMP text when the displayed second changes.
+        string next = mins + ":" + secs.ToString("00");
+        string prev;
+        if (lastTimerStrings.TryGetValue(tower.towerName, out prev) && prev == next) return;
+        lastTimerStrings[tower.towerName] = next;
+        tower.timerText.text = next;
     }
 
     private bool CheckScoreRequirement(TowerEntry tower)
@@ -244,34 +323,28 @@ public class TowerUnlockManager : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(1f);
+            yield return timerTickWait;
 
             for (int i = 1; i <= 2; i++)
             {
                 if (i >= towers.Count) continue;
 
                 TowerEntry tower = towers[i];
-                bool alreadyUnlocked = PlayerPrefs.GetInt(
-                    UNLOCKED_PREFIX + tower.towerName, 0) == 1;
-
-                if (alreadyUnlocked)
+                // Perf: memory cache, no PlayerPrefs / DateTime.Parse per tick.
+                if (IsUnlockedCached(tower.towerName))
                 {
                     ShowTimer(tower, false);
                     continue;
                 }
 
-                string unlockTimeStr = PlayerPrefs.GetString(
-                    UNLOCK_TIME_PREFIX + tower.towerName, "");
+                DateTime unlockTime;
+                if (!TryGetUnlockTimeCached(tower.towerName, out unlockTime)) continue;
 
-                if (string.IsNullOrEmpty(unlockTimeStr)) continue;
-
-                DateTime unlockTime = DateTime.Parse(unlockTimeStr);
                 double minutesPassed = (DateTime.UtcNow - unlockTime).TotalMinutes;
 
                 if (minutesPassed >= waitTimeInMinutes)
                 {
-                    PlayerPrefs.SetInt(UNLOCKED_PREFIX + tower.towerName, 1);
-                    PlayerPrefs.Save();
+                    SetUnlockedCached(tower.towerName);
                     SetTowerUnlocked(tower, true);
                     ShowLockIcon(tower, false);
                     ShowTimer(tower, false);

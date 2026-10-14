@@ -98,6 +98,11 @@ public class CatCompanion : MonoBehaviour
 
     public void ReactToAnswer(bool isCorrect)
     {
+        if (reactRoutineCoroutine != null)
+        {
+            StopCoroutine(reactRoutineCoroutine);
+            reactRoutineCoroutine = null;
+        }
         reactRoutineCoroutine = StartCoroutine(ReactRoutine(isCorrect));
     }
 

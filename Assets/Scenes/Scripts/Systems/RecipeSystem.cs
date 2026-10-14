@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -106,23 +105,40 @@ public class RecipeSystem : MonoBehaviour
     }
     
     /// <summary>
-    /// Gets all unlocked recipes
+    /// Gets all unlocked recipes (single manual pass, no LINQ)
     /// </summary>
     public List<Recipe> GetUnlockedRecipes()
     {
         List<Recipe> allRecipes = DataManager.Instance?.GetAllRecipes();
         if (allRecipes == null) return new List<Recipe>();
         
-        return allRecipes.Where(r => r.isUnlocked).ToList();
+        List<Recipe> result = new List<Recipe>(allRecipes.Count);
+        for (int i = 0; i < allRecipes.Count; i++)
+        {
+            Recipe r = allRecipes[i];
+            if (r != null && r.isUnlocked)
+                result.Add(r);
+        }
+        return result;
     }
     
     /// <summary>
-    /// Gets recipes by category
+    /// Gets recipes by category (single manual pass filtering isUnlocked && category, no LINQ chain)
     /// </summary>
     public List<Recipe> GetRecipesByCategory(string category)
     {
-        List<Recipe> unlocked = GetUnlockedRecipes();
-        return unlocked.Where(r => r.categories != null && r.categories.Contains(category)).ToList();
+        List<Recipe> allRecipes = DataManager.Instance?.GetAllRecipes();
+        if (allRecipes == null) return new List<Recipe>();
+
+        List<Recipe> result = new List<Recipe>(allRecipes.Count);
+        for (int i = 0; i < allRecipes.Count; i++)
+        {
+            Recipe r = allRecipes[i];
+            if (r == null || !r.isUnlocked) continue;
+            if (r.categories != null && r.categories.Contains(category))
+                result.Add(r);
+        }
+        return result;
     }
     
     /// <summary>

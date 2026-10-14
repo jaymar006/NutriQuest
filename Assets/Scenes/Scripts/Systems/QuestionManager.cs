@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -54,27 +53,43 @@ public class QuestionManager : MonoBehaviour
     /// </summary>
     public List<Question> GetQuestionsForTower(int towerId, bool shuffle = true, int count = -1)
     {
-        List<Question> questions = DataManager.Instance?.GetQuestionsForTower(towerId);
+        List<Question> source = DataManager.Instance?.GetQuestionsForTower(towerId);
         
-        if (questions == null || questions.Count == 0)
+        if (source == null || source.Count == 0)
         {
             Debug.LogWarning($"No questions found for tower {towerId}");
             return new List<Question>();
         }
-        
-        // Shuffle questions if requested
+
+        // Shuffle (copies) if requested, otherwise copy manually so callers
+        // never mutate DataManager's cached list in place.
+        List<Question> working;
         if (shuffle)
         {
-            questions = ShuffleQuestions(questions);
+            working = ShuffleQuestions(source);
         }
-        
-        // Limit count if specified
-        if (count > 0 && count < questions.Count)
+        else if (count <= 0 || count >= source.Count)
         {
-            questions = questions.Take(count).ToList();
+            working = new List<Question>(source.Count);
+            for (int i = 0; i < source.Count; i++)
+                working.Add(source[i]);
+            return working;
+        }
+        else
+        {
+            working = source;
         }
         
-        return questions;
+        // Limit count if specified (manual take, no LINQ).
+        int take = (count > 0 && count < working.Count) ? count : working.Count;
+        if (shuffle && take == working.Count)
+            return working;
+
+        List<Question> result = new List<Question>(take);
+        for (int i = 0; i < take; i++)
+            result.Add(working[i]);
+        
+        return result;
     }
     
     /// <summary>
@@ -107,7 +122,7 @@ public class QuestionManager : MonoBehaviour
     }
     
     /// <summary>
-    /// Gets questions filtered by language
+    /// Gets questions filtered by language (single manual pass, pre-sized, no LINQ)
     /// </summary>
     public List<Question> GetQuestionsByLanguage(int towerId, string language)
     {
@@ -115,7 +130,14 @@ public class QuestionManager : MonoBehaviour
         
         if (questions == null) return new List<Question>();
         
-        return questions.Where(q => q.language == language).ToList();
+        List<Question> result = new List<Question>(questions.Count);
+        for (int i = 0; i < questions.Count; i++)
+        {
+            Question q = questions[i];
+            if (q != null && q.language == language)
+                result.Add(q);
+        }
+        return result;
     }
     
     /// <summary>
@@ -129,11 +151,12 @@ public class QuestionManager : MonoBehaviour
     }
     
     /// <summary>
-    /// Gets total question count for a tower
+    /// Gets total question count for a tower (cached count, no list allocation)
     /// </summary>
     public int GetQuestionCount(int towerId)
     {
-        List<Question> questions = DataManager.Instance?.GetQuestionsForTower(towerId);
-        return questions?.Count ?? 0;
+        if (DataManager.Instance != null)
+            return DataManager.Instance.GetQuestionCountForTower(towerId);
+        return 0;
     }
 }

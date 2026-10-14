@@ -37,6 +37,9 @@ public class QuestionTimer : MonoBehaviour
     private Coroutine _timerCoroutine;
     private Coroutine _pulseCoroutine;
     private Vector3 _originalScale;
+    private int _lastSecond = int.MinValue;
+    private int _lastBand = -1;
+    private float _lastFill = -1f;
 
     private void Awake()
     {
@@ -51,6 +54,9 @@ public class QuestionTimer : MonoBehaviour
     {
         _isExpired = false;
         _currentTime = timePerQuestion;
+        _lastSecond = int.MinValue;
+        _lastBand = -1;
+        _lastFill = -1f;
 
         if (_timerCoroutine != null)
             StopCoroutine(_timerCoroutine);
@@ -122,36 +128,47 @@ public class QuestionTimer : MonoBehaviour
 
     private void UpdateUI()
     {
-        // Update text //
+        float percent = _currentTime / timePerQuestion;
+        int band = percent > 0.5f ? 0 : (percent > 0.25f ? 1 : 2);
+
+        // Update text only when the visible second changes (avoids TMP rebuild every frame) //
         if (timerText != null)
         {
             int seconds = Mathf.CeilToInt(_currentTime);
-            timerText.text = seconds.ToString();
+            if (seconds != _lastSecond)
+            {
+                _lastSecond = seconds;
+                timerText.text = seconds.ToString();
+            }
 
-            // Update color based on remaining time //
-            float percent = _currentTime / timePerQuestion;
-
-            if (percent > 0.5f)
-                timerText.color = normalColor;
-            else if (percent > 0.25f)
-                timerText.color = warningColor;
-            else
-                timerText.color = dangerColor;
+            // Update color only when the threshold band changes //
+            if (band != _lastBand)
+            {
+                if (band == 0)
+                    timerText.color = normalColor;
+                else if (band == 1)
+                    timerText.color = warningColor;
+                else
+                    timerText.color = dangerColor;
+            }
         }
 
         // Update fill image if assigned //
         if (timerFillImage != null)
         {
-            float percent = _currentTime / timePerQuestion;
-            timerFillImage.fillAmount = percent;
+            // fillAmount only if changed meaningfully (avoids Canvas dirty every frame) //
+            if (Mathf.Abs(percent - _lastFill) > 0.001f)
+            {
+                _lastFill = percent;
+                timerFillImage.fillAmount = percent;
+            }
 
-            if (percent > 0.5f)
-                timerFillImage.color = normalColor;
-            else if (percent > 0.25f)
-                timerFillImage.color = warningColor;
-            else
-                timerFillImage.color = dangerColor;
+            if (band != _lastBand)
+                timerFillImage.color = band == 0 ? normalColor : (band == 1 ? warningColor : dangerColor);
         }
+
+        if (timerText != null || timerFillImage != null)
+            _lastBand = band;
     }
 
     // Pulse animation when time is low //

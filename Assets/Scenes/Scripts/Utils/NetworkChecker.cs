@@ -31,6 +31,7 @@ public class NetworkChecker : MonoBehaviour
     private bool _isConnected = false;
     private bool _isChecking = false;
     private float _lastCheckTime = 0f;
+    private float _lastHeadCheckTime = -1000f;
     private float _checkInterval = Constant.NETWORK_CHECK_INTERVAL;
     
     // Events
@@ -54,12 +55,18 @@ public class NetworkChecker : MonoBehaviour
     
     private void Update()
     {
-        // Periodically check network status
+        // Periodically check network status (throttled to _checkInterval, default 30s).
         if (Time.time - _lastCheckTime >= _checkInterval)
         {
             CheckNetworkStatus();
             _lastCheckTime = Time.time;
         }
+    }
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+        _isChecking = false;
     }
     
     /// <summary>
@@ -68,6 +75,29 @@ public class NetworkChecker : MonoBehaviour
     public void CheckNetworkStatus()
     {
         if (_isChecking) return;
+
+        // Early-out 1: clearly offline per OS -> mark disconnected synchronously, skip HEAD.
+        if (Application.internetReachability == NetworkReachability.NotReachable)
+        {
+            bool wasConnected = _isConnected;
+            _isConnected = false;
+            if (wasConnected)
+            {
+                OnNetworkStatusChanged?.Invoke(false);
+                OnNetworkDisconnected?.Invoke();
+                Debug.LogWarning("No network reachability");
+            }
+            _lastCheckTime = Time.time;
+            return;
+        }
+
+        // Early-out 2: OS says reachable, we are already connected, and the last
+        // HEAD check was recent -> skip the expensive HEAD request.
+        if (_isConnected && Time.time - _lastHeadCheckTime < _checkInterval)
+        {
+            _lastCheckTime = Time.time;
+            return;
+        }
         
         StartCoroutine(CheckNetworkCoroutine());
     }
@@ -86,6 +116,8 @@ public class NetworkChecker : MonoBehaviour
             {
                 request.timeout = Constant.NETWORK_TIMEOUT_SECONDS;
                 yield return request.SendWebRequest();
+
+                _lastHeadCheckTime = Time.time;
                 
                 bool wasConnected = _isConnected;
                 _isConnected = request.result == UnityWebRequest.Result.Success;

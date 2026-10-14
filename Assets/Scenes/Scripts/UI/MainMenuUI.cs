@@ -28,6 +28,11 @@ public class MainMenuUI : MonoBehaviour
     [SerializeField] private float towerButtonSpacing = 20f;
     
     private List<GameObject> _towerButtons = new List<GameObject>();
+    private Dictionary<int, GameObject> _towerButtonPool = new Dictionary<int, GameObject>();
+    private Dictionary<GameObject, Button> _buttonCache = new Dictionary<GameObject, Button>();
+    private Dictionary<GameObject, Image> _imageCache = new Dictionary<GameObject, Image>();
+    private Dictionary<GameObject, TextMeshProUGUI> _textCache = new Dictionary<GameObject, TextMeshProUGUI>();
+    private HashSet<int> _seenTowerIds = new HashSet<int>();
     
     // Events
     public event Action<int> OnTowerSelected; // towerId
@@ -99,16 +104,6 @@ public class MainMenuUI : MonoBehaviour
     {
         if (towerGrid == null || towerButtonPrefab == null) return;
         
-        // Clear existing towers
-        foreach (var button in _towerButtons)
-        {
-            if (button != null)
-            {
-                Destroy(button);
-            }
-        }
-        _towerButtons.Clear();
-        
         // Get all towers
         List<Tower> towers = DataManager.Instance?.GetAllTowers();
         if (towers == null || towers.Count == 0)
@@ -119,18 +114,45 @@ public class MainMenuUI : MonoBehaviour
         
         // Sort towers by ID
         towers.Sort((a, b) => a.towerId.CompareTo(b.towerId));
-        
-        // Create tower buttons
-        foreach (var tower in towers)
+
+        // Rebuild active list in tower order; reuse pooled buttons where possible.
+        _towerButtons.Clear();
+        _seenTowerIds.Clear();
+
+        for (int i = 0; i < towers.Count; i++)
         {
-            CreateTowerButton(tower);
+            Tower tower = towers[i];
+            _seenTowerIds.Add(tower.towerId);
+
+            GameObject buttonObj;
+            if (!_towerButtonPool.TryGetValue(tower.towerId, out buttonObj) || buttonObj == null)
+            {
+                buttonObj = CreateTowerButton(tower);
+                if (buttonObj == null) continue;
+            }
+            else
+            {
+                buttonObj.SetActive(true);
+                UpdateTowerButton(buttonObj, tower);
+            }
+
+            _towerButtons.Add(buttonObj);
+        }
+
+        // Park extras instead of Destroy.
+        foreach (var kvp in _towerButtonPool)
+        {
+            if (!_seenTowerIds.Contains(kvp.Key) && kvp.Value != null)
+            {
+                kvp.Value.SetActive(false);
+            }
         }
     }
     
     /// <summary>
-    /// Creates a button for a tower
+    /// Creates a button for a tower (only for towers not already pooled)
     /// </summary>
-    private void CreateTowerButton(Tower tower)
+    private GameObject CreateTowerButton(Tower tower)
     {
         GameObject buttonObj = Instantiate(towerButtonPrefab, towerGrid.transform);
         Button button = buttonObj.GetComponent<Button>();
@@ -139,34 +161,67 @@ public class MainMenuUI : MonoBehaviour
         {
             Debug.LogError("Tower button prefab must have a Button component");
             Destroy(buttonObj);
-            return;
+            return null;
         }
-        
-        // Set button text
-        TextMeshProUGUI buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>();
+
+        // Cache components once at creation time.
+        _buttonCache[buttonObj] = button;
+        _imageCache[buttonObj] = buttonObj.GetComponent<Image>();
+        _textCache[buttonObj] = buttonObj.GetComponentInChildren<TextMeshProUGUI>(true);
+
+        _towerButtonPool[tower.towerId] = buttonObj;
+
+        UpdateTowerButton(buttonObj, tower);
+
+        return buttonObj;
+    }
+
+    /// <summary>
+    /// Reuses a pooled button: refreshes text/locked state without re-instantiating.
+    /// Uses cached Button/Image/TMP_Text components.
+    /// </summary>
+    private void UpdateTowerButton(GameObject buttonObj, Tower tower)
+    {
+        Button button;
+        if (!_buttonCache.TryGetValue(buttonObj, out button) || button == null)
+        {
+            button = buttonObj.GetComponent<Button>();
+            if (button == null) return;
+            _buttonCache[buttonObj] = button;
+        }
+
+        TextMeshProUGUI buttonText;
+        if (!_textCache.TryGetValue(buttonObj, out buttonText) || buttonText == null)
+        {
+            buttonText = buttonObj.GetComponentInChildren<TextMeshProUGUI>(true);
+            _textCache[buttonObj] = buttonText;
+        }
         if (buttonText != null)
         {
             buttonText.text = tower.towerName;
         }
-        
+
         // Set button interactability based on unlock status
         button.interactable = tower.isUnlocked;
-        
-        // Add click listener
+
+        // Refresh click listener for the current towerId
+        button.onClick.RemoveAllListeners();
         int towerId = tower.towerId; // Capture for closure
         button.onClick.AddListener(() => OnTowerButtonClicked(towerId));
-        
-        // Visual feedback for locked towers
-        if (!tower.isUnlocked)
+
+        // Visual feedback for locked towers (reset to white when unlocked for reuse)
+        Image buttonImage;
+        if (!_imageCache.TryGetValue(buttonObj, out buttonImage) || buttonImage == null)
         {
-            Image buttonImage = buttonObj.GetComponent<Image>();
-            if (buttonImage != null)
-            {
-                buttonImage.color = new Color(0.5f, 0.5f, 0.5f, 1f); // Gray out
-            }
+            buttonImage = buttonObj.GetComponent<Image>();
+            _imageCache[buttonObj] = buttonImage;
         }
-        
-        _towerButtons.Add(buttonObj);
+        if (buttonImage != null)
+        {
+            buttonImage.color = tower.isUnlocked
+                ? Color.white
+                : new Color(0.5f, 0.5f, 0.5f, 1f); // Gray out
+        }
     }
     
     /// <summary>

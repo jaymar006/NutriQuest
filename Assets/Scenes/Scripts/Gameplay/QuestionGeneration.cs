@@ -9,7 +9,7 @@ public class QuestionGenerate : MonoBehaviour
     public static string correctAnswer;
     public static bool displayQuestion = false;
 
-    void Update()
+    void Start()
     {
         if (displayQuestion == false)
         {

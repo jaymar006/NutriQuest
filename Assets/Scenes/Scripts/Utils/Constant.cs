@@ -41,7 +41,7 @@ public static class Constant
     public const float AUTO_SAVE_INTERVAL = 120f; // 2 minutes (optimized for Android battery)
     
     // Network Configuration
-    public const float NETWORK_CHECK_INTERVAL = 5f; // Check network every 5 seconds
+    public const float NETWORK_CHECK_INTERVAL = 30f; // Check network every 30 seconds (was 5s: HEAD every tick drained battery/data)
     public const int NETWORK_TIMEOUT_SECONDS = 10;
     
     // UI Configuration
