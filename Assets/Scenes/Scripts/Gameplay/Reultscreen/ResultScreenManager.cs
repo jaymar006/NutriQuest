@@ -54,6 +54,24 @@ public class ResultScreenManager : MonoBehaviour
 
     [SerializeField] private List<RewardItem> rewardItems = new List<RewardItem>();
 
+    [Header("Repeat-Run Rune Key Drop Rates (%)")]
+    [Tooltip("Chance (0-100) to earn +1 rune key when a RETRY run earns this badge. " +
+             "First clears always give a guaranteed key instead.")]
+    [Range(0f, 100f)][SerializeField] private float dropChanceSteps = 10f;
+    [Range(0f, 100f)][SerializeField] private float dropChanceChallenger = 30f;
+    [Range(0f, 100f)][SerializeField] private float dropChanceConqueror = 50f;
+    [Range(0f, 100f)][SerializeField] private float dropChanceGenius = 70f;
+
+    [Header("Hint Reward Drop Rates (%)")]
+    [Tooltip("Chance (0-100) to recover hint(s) for THIS tower when a run earns the badge. " +
+             "0 = never, 100 = always. Applies to every run, including the first clear.")]
+    [Range(0f, 100f)][SerializeField] private float hintDropChanceSteps = 0f;
+    [Range(0f, 100f)][SerializeField] private float hintDropChanceChallenger = 0f;
+    [Range(0f, 100f)][SerializeField] private float hintDropChanceConqueror = 50f;
+    [Range(0f, 100f)][SerializeField] private float hintDropChanceGenius = 100f;
+    [Tooltip("How many hints are recovered when the roll succeeds (never goes above the tower's max).")]
+    [Min(1)][SerializeField] private int hintRewardAmount = 1;
+
     [Header("Navigation")]
     [SerializeField] private Button tapToContinueButton;
     [SerializeField] private string nextSceneName = "MapScene";
@@ -186,9 +204,10 @@ public class ResultScreenManager : MonoBehaviour
     }
 
     // ---------------------------------------------------------------
-    // Badge save + repeat-Genius rune key drop (70 % chance)
+    // Badge save + repeat-run rune key drop (chance depends on badge)
     // This is separate from the first-clear reward above.
-    // Genius on a RETRY tower = 70 % drop (not guaranteed).
+    // On a RETRY, each badge has its own drop chance (see Inspector):
+    // Steps 10 % / Challenger 30 % / Conqueror 50 % / Genius 70 % by default.
     // ---------------------------------------------------------------
     private void SaveBadgeIfEarned(AchievementType achievement)
     {
@@ -201,25 +220,74 @@ public class ResultScreenManager : MonoBehaviour
         PlayerPrefs.Save();
         Debug.Log($"[ResultScreenManager] Badge saved: {key}");
 
-        // Only the Genius badge triggers a rune key drop on retries
-        if (achievement != AchievementType.GeniusOfTheTower) return;
+        // Hint reward (independent of the rune key drop below).
+        TryGrantHintReward(achievement);
 
         if (isFirstClear)
         {
             // First clear already gave a guaranteed rune key above.
-            // Genius on first clear does NOT give a second key.
-            Debug.Log("[ResultScreenManager] Genius on first clear — rune key already granted, no extra drop.");
+            // Earning a badge on a first clear does NOT give a second key.
+            Debug.Log("[ResultScreenManager] First clear - rune key already granted, no extra drop.");
             return;
         }
 
-        // Retry run with Genius achievement — 70 % drop chance
-        float roll = UnityEngine.Random.Range(0f, 1f);
-        bool dropped = roll <= 0.70f;
+        // Retry run: every badge has its own drop chance (higher badge = higher chance).
+        float dropChance = GetDropChance(achievement);
+        float roll = UnityEngine.Random.Range(0f, 100f);
+        bool dropped = dropChance >= 100f || roll < dropChance;
 
-        Debug.Log($"[ResultScreenManager] Repeat Genius! Roll={roll:F2} — {(dropped ? "KEY DROPPED!" : "No drop.")}");
+        Debug.Log($"[ResultScreenManager] Retry badge {achievement}: chance={dropChance:F0}% roll={roll:F1} " +
+                  $"-> {(dropped ? "KEY DROPPED!" : "No drop.")}");
 
         if (dropped && RuneKeySystem.Instance != null)
             RuneKeySystem.Instance.AddKey(1);
+    }
+
+    // Drop chance (0-100) for each badge on a retry run. Values come from the Inspector.
+    private float GetDropChance(AchievementType achievement)
+    {
+        switch (achievement)
+        {
+            case AchievementType.GeniusOfTheTower: return dropChanceGenius;
+            case AchievementType.ConquerorOfTheTower: return dropChanceConqueror;
+            case AchievementType.ChallengerOfTheTower: return dropChanceChallenger;
+            case AchievementType.StepsTowardsSuccess: return dropChanceSteps;
+            default: return 0f;
+        }
+    }
+
+    // Hint reward: separate from the rune key drop. Hints are tracked PER TOWER
+    // (keyed by stageID), so a hint earned here only goes to THIS tower.
+    private void TryGrantHintReward(AchievementType achievement)
+    {
+        float chance = GetHintDropChance(achievement);
+        if (chance <= 0f) return;
+
+        float roll = UnityEngine.Random.Range(0f, 100f);
+        bool dropped = chance >= 100f || roll < chance;
+
+        Debug.Log($"[ResultScreenManager] Hint reward {achievement}: chance={chance:F0}% roll={roll:F1} " +
+                  $"-> {(dropped ? "HINT DROPPED!" : "No hint.")}");
+
+        if (!dropped) return;
+
+        int before = HintStorage.Get(stageID);
+        HintStorage.Add(stageID, hintRewardAmount);
+        Debug.Log($"[ResultScreenManager] Hints for '{stageID}': {before} -> {HintStorage.Get(stageID)} " +
+                  $"(max {HintStorage.MaxHints})");
+    }
+
+    // Hint drop chance (0-100) for each badge. Values come from the Inspector.
+    private float GetHintDropChance(AchievementType achievement)
+    {
+        switch (achievement)
+        {
+            case AchievementType.GeniusOfTheTower: return hintDropChanceGenius;
+            case AchievementType.ConquerorOfTheTower: return hintDropChanceConqueror;
+            case AchievementType.ChallengerOfTheTower: return hintDropChanceChallenger;
+            case AchievementType.StepsTowardsSuccess: return hintDropChanceSteps;
+            default: return 0f;
+        }
     }
 
     // ---------------------------------------------------------------

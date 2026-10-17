@@ -600,7 +600,7 @@ MonoBehaviour:
   introCutscene:
     sceneAsset: {fileID: 102900000, guid: 3e57f5de1aa50b341976ddef29ecc52b, type: 3}
     sceneName: Tower1CutsceneIntro
-    useLoadingScreen: 0
+    useLoadingScreen: 1
   gameplaySceneAsset: {fileID: 102900000, guid: 01e90143054a11546bfe753597e78a30, type: 3}
   gameplaySceneName: Level 1
 --- !u!114 &11188452

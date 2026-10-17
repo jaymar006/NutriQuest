@@ -16,16 +16,15 @@ public class HintSystem : MonoBehaviour
     [Header("Debug")]
     [SerializeField] private Button debugResetButton;
 
-    private const string HINT_PREFS_KEY = "PlayerHints";
+    // Hints are tracked PER TOWER. The tower is identified by the Stage ID that
+    // ScoreManager already uses for progress, so each tower keeps its own hints.
+    private string TowerKey =>
+        ScoreManager.Instance != null ? ScoreManager.Instance.StageID : "Default";
 
     public int RemainingHints
     {
-        get => PlayerPrefs.GetInt(HINT_PREFS_KEY, maxHints);
-        private set
-        {
-            PlayerPrefs.SetInt(HINT_PREFS_KEY, Mathf.Clamp(value, 0, maxHints));
-            PlayerPrefs.Save();
-        }
+        get => HintStorage.Get(TowerKey);
+        private set => HintStorage.Set(TowerKey, value);
     }
 
     private void Awake()
@@ -38,8 +37,11 @@ public class HintSystem : MonoBehaviour
         if (debugResetButton != null)
             debugResetButton.onClick.AddListener(ResetHints);
 
+        // Tell the shared storage the cap, so the result scene can respect it too.
+        HintStorage.SetMaxHints(maxHints);
+
         UpdateHintUI();
-        Debug.Log("[HintSystem] Hints remaining: " + RemainingHints);
+        Debug.Log("[HintSystem] Tower '" + TowerKey + "' hints remaining: " + RemainingHints);
     }
 
     public void UseHint()
@@ -91,13 +93,14 @@ public class HintSystem : MonoBehaviour
         UpdateHintUI();
     }
 
+    // DEBUG: refills the hints of the CURRENT tower only.
+    // (This used to also call PlayerPrefs.DeleteAll(), which wiped ALL progress.
+    //  DevCheatTool.ResetEverything() still does a full reset in debug builds.)
     public void ResetHints()
     {
         RemainingHints = maxHints;
-        PlayerPrefs.DeleteAll();
-        PlayerPrefs.Save();
         UpdateHintUI();
-        Debug.Log("[HintSystem] DEBUG - Hints reset to " + maxHints);
+        Debug.Log("[HintSystem] DEBUG - Hints for '" + TowerKey + "' reset to " + maxHints);
     }
 
     public void ResetForNewQuestion()

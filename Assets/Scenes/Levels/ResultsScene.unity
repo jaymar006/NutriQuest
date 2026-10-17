@@ -11177,6 +11177,15 @@ MonoBehaviour:
     rewardType: 2
     rewardButton: {fileID: 212235801}
     rewardModal: {fileID: 209573822}
+  dropChanceSteps: 10
+  dropChanceChallenger: 30
+  dropChanceConqueror: 50
+  dropChanceGenius: 70
+  hintDropChanceSteps: 5
+  hintDropChanceChallenger: 25
+  hintDropChanceConqueror: 50
+  hintDropChanceGenius: 90
+  hintRewardAmount: 1
   tapToContinueButton: {fileID: 473828788}
   nextSceneName: MainMenu
 --- !u!1 &2080162592
