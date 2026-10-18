@@ -519,18 +519,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 11188451}
-        m_TargetAssemblyTypeName: ChallengeTowerButton, Assembly-CSharp
-        m_MethodName: OnChallengeTowerPressed
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &11188449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -600,7 +588,7 @@ MonoBehaviour:
   introCutscene:
     sceneAsset: {fileID: 102900000, guid: 3e57f5de1aa50b341976ddef29ecc52b, type: 3}
     sceneName: Tower1CutsceneIntro
-    useLoadingScreen: 1
+    useLoadingScreen: 0
   gameplaySceneAsset: {fileID: 102900000, guid: 01e90143054a11546bfe753597e78a30, type: 3}
   gameplaySceneName: Level 1
 --- !u!114 &11188452
@@ -617,7 +605,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SceneNavigationSystem
   targetSceneAsset: {fileID: 102900000, guid: 01e90143054a11546bfe753597e78a30, type: 3}
   targetSceneName: Level 1
-  useLoadingScreen: 1
+  useLoadingScreen: 0
 --- !u!1 &21238206
 GameObject:
   m_ObjectHideFlags: 0
@@ -2917,7 +2905,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aee75610436dd9f448a7e27a92ee896e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RuneKeySystem
-  maxRuneKeys: 5
+  maxRuneKeys: 1
   regenTimeInMinutes: 3
   runeKeyTexts:
   - {fileID: 1067000998}
@@ -3574,6 +3562,7 @@ GameObject:
   - component: {fileID: 210251114}
   - component: {fileID: 210251113}
   - component: {fileID: 210251112}
+  - component: {fileID: 210251118}
   m_Layer: 5
   m_Name: Challenge
   m_TagString: Untagged
@@ -3847,18 +3836,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 210251112}
-        m_TargetAssemblyTypeName: SquishSquashManager, Assembly-CSharp
-        m_MethodName: PlayShake
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &210251116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3897,6 +3874,40 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 210251110}
   m_CullTransparentMesh: 1
+--- !u!114 &210251118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 210251110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb52673975c8b7e408b3658f78afa821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChallengeTowerButton
+  levelInfo: {fileID: 1693039929}
+  onNotEnoughKeys:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 758871221}
+        m_TargetAssemblyTypeName: ModalWindowScript, Assembly-CSharp
+        m_MethodName: Show
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  introCutscene:
+    sceneAsset: {fileID: 0}
+    sceneName: 
+    useLoadingScreen: 1
+  gameplaySceneAsset: {fileID: 0}
+  gameplaySceneName: 
 --- !u!1 &213493700
 GameObject:
   m_ObjectHideFlags: 0
@@ -10173,6 +10184,7 @@ GameObject:
   - component: {fileID: 625467851}
   - component: {fileID: 625467850}
   - component: {fileID: 625467849}
+  - component: {fileID: 625467855}
   m_Layer: 5
   m_Name: Challenge
   m_TagString: Untagged
@@ -10496,6 +10508,40 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 625467847}
   m_CullTransparentMesh: 1
+--- !u!114 &625467855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 625467847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb52673975c8b7e408b3658f78afa821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChallengeTowerButton
+  levelInfo: {fileID: 133783702}
+  onNotEnoughKeys:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 758871221}
+        m_TargetAssemblyTypeName: ModalWindowScript, Assembly-CSharp
+        m_MethodName: Show
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  introCutscene:
+    sceneAsset: {fileID: 0}
+    sceneName: 
+    useLoadingScreen: 1
+  gameplaySceneAsset: {fileID: 0}
+  gameplaySceneName: 
 --- !u!1 &639803802
 GameObject:
   m_ObjectHideFlags: 0
@@ -13200,6 +13246,7 @@ GameObject:
   - component: {fileID: 806165025}
   - component: {fileID: 806165024}
   - component: {fileID: 806165023}
+  - component: {fileID: 806165029}
   m_Layer: 5
   m_Name: Challenge
   m_TagString: Untagged
@@ -13461,18 +13508,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 806165024}
-        m_TargetAssemblyTypeName: SceneNavigationSystem, Assembly-CSharp
-        m_MethodName: Navigate
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 806165023}
         m_TargetAssemblyTypeName: SquishSquashManager, Assembly-CSharp
         m_MethodName: PlayShake
@@ -13523,6 +13558,40 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 806165021}
   m_CullTransparentMesh: 1
+--- !u!114 &806165029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 806165021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb52673975c8b7e408b3658f78afa821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChallengeTowerButton
+  levelInfo: {fileID: 1267605797}
+  onNotEnoughKeys:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 758871221}
+        m_TargetAssemblyTypeName: ModalWindowScript, Assembly-CSharp
+        m_MethodName: Show
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  introCutscene:
+    sceneAsset: {fileID: 0}
+    sceneName: 
+    useLoadingScreen: 1
+  gameplaySceneAsset: {fileID: 0}
+  gameplaySceneName: 
 --- !u!1 &818729730
 GameObject:
   m_ObjectHideFlags: 0
@@ -20599,6 +20668,7 @@ GameObject:
   - component: {fileID: 1145058895}
   - component: {fileID: 1145058894}
   - component: {fileID: 1145058899}
+  - component: {fileID: 1145058900}
   m_Layer: 5
   m_Name: Challenge
   m_TagString: Untagged
@@ -20793,18 +20863,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1145058894}
-        m_TargetAssemblyTypeName: SceneNavigationSystem, Assembly-CSharp
-        m_MethodName: Navigate
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1145058899}
         m_TargetAssemblyTypeName: SquishSquashManager, Assembly-CSharp
         m_MethodName: PlayShake
@@ -20922,6 +20980,40 @@ MonoBehaviour:
   shakeLoopDelay: 0.5
   shakeDirection: 0
   shakeFadeOut: 1
+--- !u!114 &1145058900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1145058890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb52673975c8b7e408b3658f78afa821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChallengeTowerButton
+  levelInfo: {fileID: 1345518076}
+  onNotEnoughKeys:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 758871217}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  introCutscene:
+    sceneAsset: {fileID: 0}
+    sceneName: 
+    useLoadingScreen: 1
+  gameplaySceneAsset: {fileID: 0}
+  gameplaySceneName: 
 --- !u!1 &1152120080
 GameObject:
   m_ObjectHideFlags: 0
@@ -28291,6 +28383,7 @@ GameObject:
   - component: {fileID: 1621548184}
   - component: {fileID: 1621548183}
   - component: {fileID: 1621548182}
+  - component: {fileID: 1621548188}
   m_Layer: 5
   m_Name: Challenge
   m_TagString: Untagged
@@ -28552,9 +28645,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1621548183}
-        m_TargetAssemblyTypeName: SceneNavigationSystem, Assembly-CSharp
-        m_MethodName: Navigate
+      - m_Target: {fileID: 1621548182}
+        m_TargetAssemblyTypeName: SquishSquashManager, Assembly-CSharp
+        m_MethodName: PlayShake
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -28602,6 +28695,40 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1621548180}
   m_CullTransparentMesh: 1
+--- !u!114 &1621548188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1621548180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb52673975c8b7e408b3658f78afa821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChallengeTowerButton
+  levelInfo: {fileID: 829290836}
+  onNotEnoughKeys:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 758871221}
+        m_TargetAssemblyTypeName: ModalWindowScript, Assembly-CSharp
+        m_MethodName: Show
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  introCutscene:
+    sceneAsset: {fileID: 0}
+    sceneName: 
+    useLoadingScreen: 0
+  gameplaySceneAsset: {fileID: 0}
+  gameplaySceneName: 
 --- !u!1 &1623247681
 GameObject:
   m_ObjectHideFlags: 0
@@ -31711,6 +31838,7 @@ GameObject:
   - component: {fileID: 1826733822}
   - component: {fileID: 1826733821}
   - component: {fileID: 1826733820}
+  - component: {fileID: 1826733826}
   m_Layer: 5
   m_Name: Challenge
   m_TagString: Untagged
@@ -32022,6 +32150,40 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1826733818}
   m_CullTransparentMesh: 1
+--- !u!114 &1826733826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826733818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb52673975c8b7e408b3658f78afa821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChallengeTowerButton
+  levelInfo: {fileID: 306480331}
+  onNotEnoughKeys:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 758871221}
+        m_TargetAssemblyTypeName: ModalWindowScript, Assembly-CSharp
+        m_MethodName: Show
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  introCutscene:
+    sceneAsset: {fileID: 0}
+    sceneName: 
+    useLoadingScreen: 0
+  gameplaySceneAsset: {fileID: 0}
+  gameplaySceneName: 
 --- !u!1 &1835685281
 GameObject:
   m_ObjectHideFlags: 0
@@ -36542,6 +36704,7 @@ GameObject:
   - component: {fileID: 2069787037}
   - component: {fileID: 2069787036}
   - component: {fileID: 2069787035}
+  - component: {fileID: 2069787041}
   m_Layer: 5
   m_Name: Challenge
   m_TagString: Untagged
@@ -36803,18 +36966,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2069787036}
-        m_TargetAssemblyTypeName: SceneNavigationSystem, Assembly-CSharp
-        m_MethodName: Navigate
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!114 &2069787039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36853,6 +37004,40 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2069787033}
   m_CullTransparentMesh: 1
+--- !u!114 &2069787041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069787033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb52673975c8b7e408b3658f78afa821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChallengeTowerButton
+  levelInfo: {fileID: 1612169086}
+  onNotEnoughKeys:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 758871221}
+        m_TargetAssemblyTypeName: ModalWindowScript, Assembly-CSharp
+        m_MethodName: Show
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  introCutscene:
+    sceneAsset: {fileID: 0}
+    sceneName: 
+    useLoadingScreen: 1
+  gameplaySceneAsset: {fileID: 0}
+  gameplaySceneName: 
 --- !u!1 &2075843220
 GameObject:
   m_ObjectHideFlags: 0
@@ -38538,7 +38723,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2705782413640103578, guid: 01ebbf96b66f7a54ab5caf057f38adf6, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3746498357707227947, guid: 01ebbf96b66f7a54ab5caf057f38adf6, type: 3}
       propertyPath: m_LocalPosition.x
