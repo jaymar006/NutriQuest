@@ -52,12 +52,12 @@ public class DevCheatTool : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private bool enableInBuild = false;
 
-    private const string HIGH_SCORE_PREFIX = "HighScore_";
-    private const string FIRST_CLEAR_PREFIX = "FirstClear_";
-    private const string BADGE_PREFIX = "Badge_";
-    private const string UNLOCK_TIME_PREFIX = "UnlockTime_";
-    private const string UNLOCKED_PREFIX = "Unlocked_";
-    private const string ATTEMPT_PREFIX = "Attempts_";
+    private const string HIGH_SCORE_PREFIX = ProgressKeys.HighScore;
+    private const string FIRST_CLEAR_PREFIX = ProgressKeys.FirstClear;
+    private const string BADGE_PREFIX = ProgressKeys.Badge;
+    private const string UNLOCK_TIME_PREFIX = ProgressKeys.UnlockTime;
+    private const string UNLOCKED_PREFIX = ProgressKeys.Unlocked;
+    private const string ATTEMPT_PREFIX = ProgressKeys.Attempts;
 
     // Tower/badge stage IDs
     [Header("Stage IDs (towers + badges)")]

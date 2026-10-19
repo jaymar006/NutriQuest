@@ -13,7 +13,7 @@ namespace Gameplay.CutsceneManager
         // Private constants
         // -----------------------------------------------------------------------
 
-        private const string PLAYER_NAME_KEY = "PlayerName";
+        private const string PLAYER_NAME_KEY = ProgressKeys.PlayerName;
         private const string DEFAULT_NAME = "Player";
 
         // Placeholder tag used inside dialogue lines

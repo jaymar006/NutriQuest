@@ -8,8 +8,9 @@ using UnityEngine;
 /// </summary>
 public static class SaveDataSerializer
 {
-    private const string SAVE_FILE_NAME = "nutriquest_save.json";
-    private const string BACKUP_FILE_NAME = "nutriquest_save_backup.json";
+    // The file names live in Constant so there is only one copy of them.
+    private const string SAVE_FILE_NAME = Constant.SAVE_FILE_NAME;
+    private const string BACKUP_FILE_NAME = Constant.BACKUP_FILE_NAME;
     
     // Android: Application.persistentDataPath resolves to:
     // /storage/emulated/0/Android/data/[package]/files on Android

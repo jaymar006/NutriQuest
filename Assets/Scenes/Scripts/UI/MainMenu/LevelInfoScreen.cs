@@ -54,17 +54,23 @@ public class LevelInfoScreen : MonoBehaviour
              "same drag-and-drop pattern as TapCounterTrigger.")]
     [SerializeField] private UnityEvent onNotEnoughKeys;
 
-    private const string HIGH_SCORE_PREFIX = "HighScore_";
-    private const string BADGE_PREFIX = "Badge_";
-    private const string ATTEMPT_PREFIX = "Attempts_";
+    private const string HIGH_SCORE_PREFIX = ProgressKeys.HighScore;
+    private const string BADGE_PREFIX = ProgressKeys.Badge;
+    private const string ATTEMPT_PREFIX = ProgressKeys.Attempts;
 
     private readonly Color unlockedColor = Color.white;
     private readonly Color lockedColor = new Color(0.4f, 0.4f, 0.4f, 1f);
 
-    private const int COST_NEW_TOWER = 3;
-    private const int COST_RECHALLENGE_TOWER = 2;
-    private const int COST_NEW_TOWER4 = 4;
-    private const int COST_RECHALLENGE_TOWER4 = 3;
+    // Rune key costs. The teacher can change these from the admin panel, so
+    // they read the override layer and fall back to the built-in cost.
+    private static int CostNewTower =>
+        AdminContentStore.GetInt(AdminGameConfig.KeyCostNewTower, AdminGameConfig.DefaultCostNewTower);
+    private static int CostRechallengeTower =>
+        AdminContentStore.GetInt(AdminGameConfig.KeyCostRechallengeTower, AdminGameConfig.DefaultCostRechallengeTower);
+    private static int CostNewTower4 =>
+        AdminContentStore.GetInt(AdminGameConfig.KeyCostNewTower4, AdminGameConfig.DefaultCostNewTower4);
+    private static int CostRechallengeTower4 =>
+        AdminContentStore.GetInt(AdminGameConfig.KeyCostRechallengeTower4, AdminGameConfig.DefaultCostRechallengeTower4);
 
     private int currentCost = 1;
     private Coroutine _warningDismissCoroutine;
@@ -248,9 +254,9 @@ public class LevelInfoScreen : MonoBehaviour
         bool hasAttempted = PlayerPrefs.GetInt(ATTEMPT_PREFIX + stageID, 0) > 0;
 
         if (towerIndex == 3)
-            return hasAttempted ? COST_RECHALLENGE_TOWER4 : COST_NEW_TOWER4;
+            return hasAttempted ? CostRechallengeTower4 : CostNewTower4;
         else
-            return hasAttempted ? COST_RECHALLENGE_TOWER : COST_NEW_TOWER;
+            return hasAttempted ? CostRechallengeTower : CostNewTower;
     }
 
     private void ShowWarning(string message)

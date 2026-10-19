@@ -24,7 +24,7 @@ public class QuestionData
     public string answerCFilipino;
     [Tooltip("Filipino translation of Answer D. Leave empty to use English.")]
     public string answerDFilipino;
-    // correctAnswer does not need translation — it is always "A", "B", "C", or "D"
+    // correctAnswer does not need translation â€” it is always "A", "B", "C", or "D"
 }
 
 public class QuestionGeneratorBeta : MonoBehaviour
@@ -40,6 +40,31 @@ public class QuestionGeneratorBeta : MonoBehaviour
     [Tooltip("How many questions to pick from the pool per game")]
     [SerializeField] private int questionsPerGame = 10;
     [SerializeField] private float delayBeforeNextQuestion = 2f;
+
+    // ------------------------------------------------------------------
+    // Teacher overrides from the admin panel.
+    //
+    // The built-in pool stays in the Inspector so the scene remains the
+    // source of truth. When the teacher edits the questions, the admin
+    // panel stores a replacement pool and this component prefers it.
+    // ------------------------------------------------------------------
+
+    private string LevelKey => UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+
+    private List<QuestionData> EffectivePool
+    {
+        get
+        {
+            List<QuestionData> overridden = AdminContentStore.GetQuestionPool(LevelKey);
+            return overridden != null ? overridden : questionPool;
+        }
+    }
+
+    private int EffectiveQuestionsPerGame =>
+        AdminContentStore.GetInt(AdminGameConfig.KeyQuestionsPerGame, questionsPerGame);
+
+    private float EffectiveDelayBeforeNextQuestion =>
+        AdminContentStore.GetFloat(AdminGameConfig.KeyDelayNextQuestion, delayBeforeNextQuestion);
 
     private List<QuestionData> selectedQuestions = new List<QuestionData>();
     private int currentIndex = 0;
@@ -69,16 +94,17 @@ public class QuestionGeneratorBeta : MonoBehaviour
 
     private void Start()
     {
-        if (questionPool.Count == 0)
+        List<QuestionData> pool = EffectivePool;
+
+        if (pool.Count == 0)
         {
             Debug.LogError("[QuestionGeneratorBeta] No questions in pool!");
             return;
         }
 
-        if (questionsPerGame > questionPool.Count)
+        if (EffectiveQuestionsPerGame > pool.Count)
         {
             Debug.LogWarning("[QuestionGeneratorBeta] questionsPerGame exceeds pool size! Using pool size.");
-            questionsPerGame = questionPool.Count;
         }
 
         StartCoroutine(InitWithDelay());
@@ -105,8 +131,11 @@ public class QuestionGeneratorBeta : MonoBehaviour
 
     private void PickAndShuffleQuestions()
     {
+        List<QuestionData> pool = EffectivePool;
+        int count = Mathf.Min(EffectiveQuestionsPerGame, pool.Count);
+
         // Shuffle the pool first
-        List<QuestionData> shuffledPool = new List<QuestionData>(questionPool);
+        List<QuestionData> shuffledPool = new List<QuestionData>(pool);
         for (int i = shuffledPool.Count - 1; i > 0; i--)
         {
             int randomIndex = Random.Range(0, i + 1);
@@ -116,13 +145,13 @@ public class QuestionGeneratorBeta : MonoBehaviour
         }
 
         // Pick first N questions from shuffled pool
-        selectedQuestions = shuffledPool.GetRange(0, questionsPerGame);
+        selectedQuestions = shuffledPool.GetRange(0, count);
 
         currentIndex = 0;
         DisplayCurrentQuestion();
 
-        Debug.Log("[QuestionGeneratorBeta] Picked " + questionsPerGame +
-            " questions from pool of " + questionPool.Count);
+        Debug.Log("[QuestionGeneratorBeta] Picked " + count +
+            " questions from pool of " + pool.Count);
     }
 
     private void DisplayCurrentQuestion()
@@ -178,7 +207,7 @@ public class QuestionGeneratorBeta : MonoBehaviour
         if (QuestionTimer.Instance != null)
             QuestionTimer.Instance.StopTimer();
 
-        yield return new WaitForSeconds(delayBeforeNextQuestion);
+        yield return new WaitForSeconds(EffectiveDelayBeforeNextQuestion);
 
         currentIndex++;
 

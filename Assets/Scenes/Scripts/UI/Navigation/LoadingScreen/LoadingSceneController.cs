@@ -11,6 +11,10 @@ public class LoadingSceneController : MonoBehaviour
     [Header("Loading Settings")]
     [SerializeField] private float minimumLoadTime = 10.5f;
 
+    // Teacher override from the admin panel.
+    private float EffectiveMinimumLoadTime =>
+        AdminContentStore.GetFloat(AdminGameConfig.KeyLoadingMinSeconds, minimumLoadTime);
+
     [Header("Sound Effects")]
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip tapSoundEffect;
@@ -24,7 +28,7 @@ public class LoadingSceneController : MonoBehaviour
             Debug.LogError("[LoadingSceneController] triviaSystem not assigned in Inspector!");
 
         if (audioSource == null)
-            Debug.LogWarning("[LoadingSceneController] AudioSource not assigned — tap sound won't play.");
+            Debug.LogWarning("[LoadingSceneController] AudioSource not assigned â€” tap sound won't play.");
 
         if (tapSoundEffect == null)
             Debug.LogWarning("[LoadingSceneController] Tap sound effect not assigned in Inspector!");
@@ -43,7 +47,7 @@ public class LoadingSceneController : MonoBehaviour
             triviaSystem.ShowRandomTrivia();
 
         float elapsed = 0f;
-        while (elapsed < minimumLoadTime)
+        while (elapsed < EffectiveMinimumLoadTime)
         {
             if (IsTapDetected())
             {

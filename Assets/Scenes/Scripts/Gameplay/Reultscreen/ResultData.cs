@@ -1,10 +1,10 @@
 public static class ResultData
 {
-    private const string KEY_CORRECT = "Result_Correct";
-    private const string KEY_WRONG = "Result_Wrong";
-    private const string KEY_TOTAL = "Result_Total";
-    private const string KEY_STAGE_ID = "Result_StageID";
-    private const string KEY_TOWER_INDEX = "Result_TowerIndex";
+    private const string KEY_CORRECT = ProgressKeys.ResultCorrect;
+    private const string KEY_WRONG = ProgressKeys.ResultWrong;
+    private const string KEY_TOTAL = ProgressKeys.ResultTotal;
+    private const string KEY_STAGE_ID = ProgressKeys.ResultStageId;
+    private const string KEY_TOWER_INDEX = ProgressKeys.ResultTowerIndex;
 
     public static void Save(int correct, int wrong, int total,
         string stageID, int towerIndex)

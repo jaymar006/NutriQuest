@@ -80,10 +80,10 @@ public class ResultScreenManager : MonoBehaviour
     // PlayerPrefs key prefixes
     // ---------------------------------------------------------------
     private const string HIGH_SCORE_PREFIX = "HighScore_";
-    private const string FIRST_CLEAR_PREFIX = "FirstClear_";
-    private const string ATTEMPT_PREFIX = "Attempts_";
-    private const string BADGE_PREFIX = "Badge_";
-    private const string REWARDS_CLAIMED_PREFIX = "RewardsClaimed_";
+    private const string FIRST_CLEAR_PREFIX = ProgressKeys.FirstClear;
+    private const string ATTEMPT_PREFIX = ProgressKeys.Attempts;
+    private const string BADGE_PREFIX = ProgressKeys.Badge;
+    private const string REWARDS_CLAIMED_PREFIX = ProgressKeys.RewardsClaimed;
 
     // ---------------------------------------------------------------
     // Runtime state (populated in Start, never changed after)
@@ -103,7 +103,7 @@ public class ResultScreenManager : MonoBehaviour
     private AchievementType earnedThisRun = AchievementType.None;
 
     // ---------------------------------------------------------------
-    // Start — single entry point, order matters
+    // Start â€” single entry point, order matters
     // ---------------------------------------------------------------
     private void Start()
     {
@@ -143,7 +143,7 @@ public class ResultScreenManager : MonoBehaviour
             TowerUnlockManager.Instance.OnLevelCleared(stageID);
 
         // 7. Handle first-clear rewards (rune key + recipe unlock)
-        //    This runs regardless of score — clearing ANY tower for the
+        //    This runs regardless of score â€” clearing ANY tower for the
         //    first time always grants a rune key and unlocks its recipe.
         if (isFirstClear)
         {
@@ -152,7 +152,7 @@ public class ResultScreenManager : MonoBehaviour
             PlayerPrefs.Save();
             Debug.Log($"[ResultScreenManager] First clear! Saved {firstClearKey}=1");
 
-            // b) Grant rune key automatically — the reward button just shows the notification
+            // b) Grant rune key automatically â€” the reward button just shows the notification
             GrantFirstClearRuneKey();
 
             // c) Refresh recipe unlock states so the recipe screen reflects the new unlock
@@ -172,7 +172,7 @@ public class ResultScreenManager : MonoBehaviour
     }
 
     // ---------------------------------------------------------------
-    // First-clear rune key — always +1, no conditions
+    // First-clear rune key â€” always +1, no conditions
     // ---------------------------------------------------------------
     private void GrantFirstClearRuneKey()
     {
@@ -183,7 +183,7 @@ public class ResultScreenManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("[ResultScreenManager] RuneKeySystem.Instance is null — rune key NOT granted!");
+            Debug.LogWarning("[ResultScreenManager] RuneKeySystem.Instance is null â€” rune key NOT granted!");
         }
     }
 
@@ -199,7 +199,7 @@ public class ResultScreenManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("[ResultScreenManager] RecipeUnlockManager.Instance is null — recipe NOT refreshed!");
+            Debug.LogWarning("[ResultScreenManager] RecipeUnlockManager.Instance is null â€” recipe NOT refreshed!");
         }
     }
 
@@ -243,17 +243,21 @@ public class ResultScreenManager : MonoBehaviour
             RuneKeySystem.Instance.AddKey(1);
     }
 
-    // Drop chance (0-100) for each badge on a retry run. Values come from the Inspector.
+    // Drop chance (0-100) for each badge on a retry run. The Inspector value
+    // is the built-in default; the teacher can override it from the admin
+    // panel.
     private float GetDropChance(AchievementType achievement)
     {
+        float fallback;
         switch (achievement)
         {
-            case AchievementType.GeniusOfTheTower: return dropChanceGenius;
-            case AchievementType.ConquerorOfTheTower: return dropChanceConqueror;
-            case AchievementType.ChallengerOfTheTower: return dropChanceChallenger;
-            case AchievementType.StepsTowardsSuccess: return dropChanceSteps;
-            default: return 0f;
+            case AchievementType.GeniusOfTheTower: fallback = dropChanceGenius; break;
+            case AchievementType.ConquerorOfTheTower: fallback = dropChanceConqueror; break;
+            case AchievementType.ChallengerOfTheTower: fallback = dropChanceChallenger; break;
+            case AchievementType.StepsTowardsSuccess: fallback = dropChanceSteps; break;
+            default: fallback = 0f; break;
         }
+        return AdminContentStore.GetFloat(AdminGameConfig.DropChanceKey(achievement), fallback);
     }
 
     // Hint reward: separate from the rune key drop. Hints are tracked PER TOWER
@@ -272,22 +276,25 @@ public class ResultScreenManager : MonoBehaviour
         if (!dropped) return;
 
         int before = HintStorage.Get(stageID);
-        HintStorage.Add(stageID, hintRewardAmount);
+        HintStorage.Add(stageID, AdminContentStore.GetInt(AdminGameConfig.KeyHintRewardAmount, hintRewardAmount));
         Debug.Log($"[ResultScreenManager] Hints for '{stageID}': {before} -> {HintStorage.Get(stageID)} " +
                   $"(max {HintStorage.MaxHints})");
     }
 
-    // Hint drop chance (0-100) for each badge. Values come from the Inspector.
+    // Hint drop chance (0-100) for each badge. The Inspector value is the
+    // built-in default; the teacher can override it from the admin panel.
     private float GetHintDropChance(AchievementType achievement)
     {
+        float fallback;
         switch (achievement)
         {
-            case AchievementType.GeniusOfTheTower: return hintDropChanceGenius;
-            case AchievementType.ConquerorOfTheTower: return hintDropChanceConqueror;
-            case AchievementType.ChallengerOfTheTower: return hintDropChanceChallenger;
-            case AchievementType.StepsTowardsSuccess: return hintDropChanceSteps;
-            default: return 0f;
+            case AchievementType.GeniusOfTheTower: fallback = hintDropChanceGenius; break;
+            case AchievementType.ConquerorOfTheTower: fallback = hintDropChanceConqueror; break;
+            case AchievementType.ChallengerOfTheTower: fallback = hintDropChanceChallenger; break;
+            case AchievementType.StepsTowardsSuccess: fallback = hintDropChanceSteps; break;
+            default: fallback = 0f; break;
         }
+        return AdminContentStore.GetFloat(AdminGameConfig.HintDropChanceKey(achievement), fallback);
     }
 
     // ---------------------------------------------------------------
@@ -377,7 +384,7 @@ public class ResultScreenManager : MonoBehaviour
     // Display: first-clear reward buttons
     //
     // The rune key has ALREADY been granted in Start() above.
-    // These buttons are just visual notifications / modals —
+    // These buttons are just visual notifications / modals â€”
     // they do NOT grant anything again when tapped.
     // ---------------------------------------------------------------
     private void DisplayRewards()
@@ -419,7 +426,7 @@ public class ResultScreenManager : MonoBehaviour
             reward.rewardButton.gameObject.SetActive(true);
             reward.rewardButton.onClick.RemoveAllListeners();
 
-            // Tapping just opens the info modal — the reward itself was granted in Start()
+            // Tapping just opens the info modal â€” the reward itself was granted in Start()
             if (reward.rewardModal != null)
             {
                 ModalWindowScript capturedModal = reward.rewardModal;
@@ -454,8 +461,8 @@ public class ResultScreenManager : MonoBehaviour
             PlayerPrefs.Save();
         }
 
-        int totalAnswered = PlayerPrefs.GetInt("TotalQuestionsAnswered", 0);
-        PlayerPrefs.SetInt("TotalQuestionsAnswered", totalAnswered + correct);
+        int totalAnswered = PlayerPrefs.GetInt(ProgressKeys.TotalQuestionsAnswered, 0);
+        PlayerPrefs.SetInt(ProgressKeys.TotalQuestionsAnswered, totalAnswered + correct);
         PlayerPrefs.Save();
     }
 

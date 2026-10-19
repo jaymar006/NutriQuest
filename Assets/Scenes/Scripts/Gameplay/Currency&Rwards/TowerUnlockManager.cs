@@ -30,9 +30,16 @@ public class TowerUnlockManager : MonoBehaviour
     [Header("Wait Time Settings")]
     [SerializeField] private float waitTimeInMinutes = 3f;
 
-    private const string HIGH_SCORE_PREFIX = "HighScore_";
-    private const string UNLOCK_TIME_PREFIX = "UnlockTime_";
-    private const string UNLOCKED_PREFIX = "Unlocked_";
+    // Teacher overrides from the admin panel.
+    private float EffectiveWaitTimeInMinutes =>
+        AdminContentStore.GetFloat(AdminGameConfig.KeyTowerWaitMinutes, waitTimeInMinutes);
+
+    private int EffectiveTower4RequiredTotal =>
+        AdminContentStore.GetInt(AdminGameConfig.KeyTower4RequiredTotal, tower4RequiredTotal);
+
+    private const string HIGH_SCORE_PREFIX = ProgressKeys.HighScore;
+    private const string UNLOCK_TIME_PREFIX = ProgressKeys.UnlockTime;
+    private const string UNLOCKED_PREFIX = ProgressKeys.Unlocked;
 
     private void Awake()
     {
@@ -74,7 +81,7 @@ public class TowerUnlockManager : MonoBehaviour
 
     public void RefreshUnlockStates()
     {
-        // TEMP DEBUG — remove after fixing
+        // TEMP DEBUG â€” remove after fixing
         Debug.Log("[TowerUnlock] HighScore_Stage_1 = " +
             PlayerPrefs.GetInt("HighScore_Stage_1", 0));
         Debug.Log("[TowerUnlock] HighScore_Stage_2 = " +
@@ -168,7 +175,7 @@ public class TowerUnlockManager : MonoBehaviour
         DateTime unlockTime = DateTime.Parse(unlockTimeStr);
         double minutesPassed = (DateTime.UtcNow - unlockTime).TotalMinutes;
 
-        if (minutesPassed >= waitTimeInMinutes)
+        if (minutesPassed >= EffectiveWaitTimeInMinutes)
         {
             PlayerPrefs.SetInt(UNLOCKED_PREFIX + tower.towerName, 1);
             PlayerPrefs.Save();
@@ -190,7 +197,7 @@ public class TowerUnlockManager : MonoBehaviour
     {
         if (tower.timerText == null) return;
 
-        double remainingSeconds = (waitTimeInMinutes - minutesPassed) * 60;
+        double remainingSeconds = (EffectiveWaitTimeInMinutes - minutesPassed) * 60;
         if (remainingSeconds < 0) remainingSeconds = 0;
 
         int mins = Mathf.FloorToInt((float)remainingSeconds / 60f);
@@ -219,7 +226,7 @@ public class TowerUnlockManager : MonoBehaviour
         int s1 = PlayerPrefs.GetInt(HIGH_SCORE_PREFIX + "Stage_1", 0);
         int s2 = PlayerPrefs.GetInt(HIGH_SCORE_PREFIX + "Stage_2", 0);
         int s3 = PlayerPrefs.GetInt(HIGH_SCORE_PREFIX + "Stage_3", 0);
-        return (s1 + s2 + s3) >= tower4RequiredTotal;
+        return (s1 + s2 + s3) >= EffectiveTower4RequiredTotal;
     }
 
     private void SetTowerUnlocked(TowerEntry tower, bool unlocked)
@@ -268,7 +275,7 @@ public class TowerUnlockManager : MonoBehaviour
                 DateTime unlockTime = DateTime.Parse(unlockTimeStr);
                 double minutesPassed = (DateTime.UtcNow - unlockTime).TotalMinutes;
 
-                if (minutesPassed >= waitTimeInMinutes)
+                if (minutesPassed >= EffectiveWaitTimeInMinutes)
                 {
                     PlayerPrefs.SetInt(UNLOCKED_PREFIX + tower.towerName, 1);
                     PlayerPrefs.Save();

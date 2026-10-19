@@ -14,8 +14,8 @@ public class SoundSettingsManager : MonoBehaviour
     [SerializeField] private TMP_Text soundFXTXT;
     [SerializeField] private TMP_Text valueSFXTXT;
 
-    private const string MUSIC_KEY = "MusicVolume";
-    private const string SFX_KEY = "SFXVolume";
+    private const string MUSIC_KEY = ProgressKeys.MusicVolume;
+    private const string SFX_KEY = ProgressKeys.SfxVolume;
 
     private void Start()
     {

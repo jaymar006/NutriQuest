@@ -1,0 +1,122 @@
+﻿{
+    "schemaVersion":  1,
+    "recipes":  [
+                    {
+                        "id":  "recipe_1",
+                        "sceneName":  "Recipe 1",
+                        "unlockStageId":  "Stage_1",
+                        "nameEn":  "Kid-Friendly Sinabawang Gulay",
+                        "nameFil":  "Kid-Friendly Sinabawang Gulay",
+                        "blocks":  [
+                                       {
+                                           "id":  "P1",
+                                           "labelEn":  "Ingredients",
+                                           "labelFil":  "",
+                                           "subLabelEn":  "",
+                                           "subLabelFil":  "",
+                                           "bodyEn":  "2 tablespoons vegetable oil\n4 cloves garlic, mince\n1 small onion, chopped\n1/2 cup carrot, chopped\n1/2 cup sliced mushroom\n4 cups water\n1/2 cup canned corn kernels\n2 sachets (8 g each) MAGGI Magic Sarap\n3 tablespoons cornstarch, dissolved in 3 tablespoons water\n1/2 cup small shrimp, peeled and deveined\n12 pieces quail egg, boiled and peeled\n2 tablespoons sliced spring onion",
+                                           "bodyFil":  "2 kutsara ng mantika\n4 butil ng bawang, tinadtad\n1 maliit na sibuyas, tinadtad\n1/2 tasa ng karot, tinadtad\n1/2 tasa ng hiniwang kabute\n4 na tasa ng tubig\n1/2 tasa ng de-latang butil ng mais\n2 pakete (tig-8 g) ng MAGGI Magic Sarap\n3 kutsara ng cornstarch, tinunaw sa 3 kutsara ng tubig\n1/2 tasa ng maliliit na hipon, binalatan at tinanggalan ng ugat\n12 pirasong itlog ng pugo, nilaga at binalatan\n2 kutsara ng hiniwang dahon ng sibuyas"
+                                       },
+                                       {
+                                           "id":  "Steps",
+                                           "labelEn":  "Instructions",
+                                           "labelFil":  "",
+                                           "subLabelEn":  "",
+                                           "subLabelFil":  "",
+                                           "bodyEn":  "1. Heat vegetable oil in a pot over medium heat. Sauté garlic and onion until fragrant.\n\r\n2. Add chopped carrot and sliced mushroom. Cook for a few minutes until slightly softened.\n\r\n3. Pour in water and bring to a boil, then add the corn kernels.\n\r\n4. Season with MAGGI Magic Sarap and mix well.\n\r\n5. Stir in the cornstarch mixture and simmer until the soup slightly thickens.\n\r\n6. Add the shrimp and cook just until they turn pink and are cooked through.\n\r\n7. Add the quail eggs and sliced spring onion, then turn off the heat.",
+                                           "bodyFil":  "Initin ang mantika sa isang kaserola sa katamtamang init. Igisa ang bawang at sibuyas hanggang maging mabango.\n\nIdagdag ang tinadtad na karot at hiniwang kabute.\nLutuin nang ilang minuto hanggang bahagyang lumambot.\n\nIbuhos ang tubig at pakuluan. Kapag kumukulo na, idagdag ang mga butil ng mais.\n\nTimplahan gamit ang MAGGI Magic Sarap at haluing mabuti.\n\nIdagdag ang tinunaw na cornstarch habang hinahalo. Pakuluan hanggang bahagyang lumapot ang sabaw.\n\nIdagdag ang mga hipon at lutuin hanggang maging kulay rosas at maluto nang husto.\n\nIdagdag ang mga itlog ng pugo at hiniwang dahon ng sibuyas, pagkatapos ay patayin ang apoy."
+                                       }
+                                   ]
+                    },
+                    {
+                        "id":  "recipe_2",
+                        "sceneName":  "Recipe 2",
+                        "unlockStageId":  "Stage_2",
+                        "nameEn":  "Filipino Fruit Salad",
+                        "nameFil":  "Filipino Fresh Fruit Salad",
+                        "blocks":  [
+                                       {
+                                           "id":  "P1",
+                                           "labelEn":  "Ingredients",
+                                           "labelFil":  "",
+                                           "subLabelEn":  "",
+                                           "subLabelFil":  "",
+                                           "bodyEn":  "1 can (168 ml) sweetened condensed milk\n1 pack (250 ml) all-purpose cream, chilled\n1 can (822 g) fruit cocktail, syrup drained\n1 cup young coconut meat, shredded into strips\n1 bottle (12 oz) kaong / sugar palm fruit (green), rinsed and drained\n1 bottle (12 oz) nata de coco / coconut gel (red), rinsed and drained\n1/2 cup cheese (Eden or Velveeta), cut into tiny cubes (optional)",
+                                           "bodyFil":  "1 lata (168 ml) ng pinatamis na condensada\n1 pakete (250 ml) ng all-purpose cream, pinalamig\n1 lata (822 g) ng fruit cocktail, inalisan ng syrup\n1 tasa ng murang buko, hiniwa nang pahaba\n1 bote (12 oz) ng berdeng kaong, hinugasan at pinatulo\n1 bote (12 oz) ng pulang nata de coco, hinugasan at pinatulo\n1/2 tasa ng keso (Eden o Velveeta), hiniwa sa maliliit na kubo (opsyonal)"
+                                       },
+                                       {
+                                           "id":  "Steps",
+                                           "labelEn":  "Instructions",
+                                           "labelFil":  "",
+                                           "subLabelEn":  "",
+                                           "subLabelFil":  "",
+                                           "bodyEn":  "1. In a large bowl or container with a lid, combine and mix the sweetened condensed milk and all-purpose cream.\n\n2. Add the rest of the ingredients and toss until well combined.\n\n3. Cover the bowl with cling wrap and chill for several hours before serving; you may also freeze it.",
+                                           "bodyFil":  "1. Sa isang malaking mangkok o lalagyang may takip, paghaluin ang pinatamis na condensada at all-purpose cream hanggang maging pantay ang pagkakahalo.\n\n2. Idagdag ang natitirang mga sangkap at haluing mabuti hanggang pantay na mahalo ang lahat.\n\n3. Takpan ang mangkok gamit ang cling wrap at ilagay sa refrigerator nang ilang oras bago ihain. Maaari rin itong ilagay sa freezer kung nais itong mas malamig."
+                                       }
+                                   ]
+                    },
+                    {
+                        "id":  "recipe_3",
+                        "sceneName":  "Recipe 3",
+                        "unlockStageId":  "Stage_3",
+                        "nameEn":  "Filipino Clubhouse Sandwich",
+                        "nameFil":  "Filipino Clubhouse Sandwich",
+                        "blocks":  [
+                                       {
+                                           "id":  "P1",
+                                           "labelEn":  "Ingredients",
+                                           "labelFil":  "",
+                                           "subLabelEn":  "",
+                                           "subLabelFil":  "",
+                                           "bodyEn":  "1 medium tomato, sliced​\r\n6 slices cucumber\r\n1 large egg\r\n6 slices brown sliced bread\r\n2 slices cheddar, white cheese or cheese of your choice \r\n6 pieces romaine lettuce leaves, washed\r\n2 pieces chicken ham\r\n2–3 tablespoons mayonnaise\r\n1 tablespoon vegetable oil",
+                                           "bodyFil":  "1 katamtamang laki ng kamatis, hiniwa\n6 na hiwa ng pipino\n1 malaking itlog\n6 na hiwa ng brown bread\n2 hiwa ng cheddar, puting keso, o anumang kesong gusto mo\n6 na piraso ng dahon ng romaine lettuce, hinugasan\n2 piraso ng chicken ham\n2–3 kutsara ng mayonesa\n1 kutsara ng mantika"
+                                       },
+                                       {
+                                           "id":  "Steps",
+                                           "labelEn":  "Instructions",
+                                           "labelFil":  "",
+                                           "subLabelEn":  "",
+                                           "subLabelFil":  "",
+                                           "bodyEn":  "1. Place the chicken ham in a pan and fry until light brown, then set aside.\r\n\r\n2. In the same pan, add 1–2 tablespoons vegetable oil and the egg, and cook into a scrambled egg; set aside.\n\r\n3. Toast the bread using an electric grill until browned, then set aside.\n\r\n4. To assemble, spread mayonnaise on the first slice of bread.\n\r\n5. Add ham, then lettuce, scrambled egg, and tomatoes.\r\n\r\n6. Place the second slice of bread (spread with mayonnaise) on top. Add lettuce, cheese squares, scrambled egg, and sliced cucumber, then cover with the third slice of bread.\n\r\n7. Insert toothpicks on each side to hold the layers, then cut into 4 pieces.",
+                                           "bodyFil":  "1. Ilagay ang chicken ham sa kawali at iprito hanggang maging bahagyang kulay kayumanggi. Pagkatapos, itabi muna.\n2. Sa parehong kawali, maglagay ng 1–2 kutsara ng mantika at idagdag ang itlog. Lutuin ito bilang scrambled egg, pagkatapos ay itabi muna.\n3. I-toast ang mga hiwa ng tinapay gamit ang electric grill hanggang maging bahagyang kulay kayumanggi. Pagkatapos, itabi muna.\n4. Upang buuin ang sandwich, pahiran ng mayonesa ang unang hiwa ng tinapay.\n5. Ilagay ang chicken ham, kasunod ang lettuce, scrambled egg, at mga hiwa ng kamatis.\n6. Takpan ng ikalawang hiwa ng tinapay na may mayonesa. Idagdag ang lettuce, mga hiwa ng keso, scrambled egg, at hiniwang pipino, pagkatapos ay takpan ng ikatlong hiwa ng tinapay.\n7. Tusukin ng toothpick ang bawat gilid upang hindi maghiwalay ang mga patong, pagkatapos ay hiwain sa apat na piraso."
+                                       }
+                                   ]
+                    },
+                    {
+                        "id":  "recipe_4",
+                        "sceneName":  "Recipe 4",
+                        "unlockStageId":  "Stage_4",
+                        "nameEn":  "Veggie Stir-fried Chicken Meal for Kids",
+                        "nameFil":  "Veggie Stir-Fried Chicken Meal for Kids",
+                        "blocks":  [
+                                       {
+                                           "id":  "P1",
+                                           "labelEn":  "Ingredients",
+                                           "labelFil":  "",
+                                           "subLabelEn":  "Marinade Mix",
+                                           "subLabelFil":  "Marinade Mix",
+                                           "bodyEn":  "1/2 kilo (500 g) chicken thigh or breast\r\n2 packs (50 ml each) SARSAYA Oyster Sauce\r\n1 1/2 tablespoons (15 g) garlic, minced\r\n1 tablespoon (15 g) cooking oil​",
+                                           "bodyFil":  "1/2 kilo (500 g) ng hita o dibdib ng manok\n2 pakete (tig-50 ml) ng SARSAYA Oyster Sauce\n1½ kutsara ng tinadtad na bawang\n1 kutsara ng mantika"
+                                       },
+                                       {
+                                           "id":  "PSF1",
+                                           "labelEn":  "Ingredients",
+                                           "labelFil":  "",
+                                           "subLabelEn":  "Stir Fry:",
+                                           "subLabelFil":  "Stir Fry:",
+                                           "bodyEn":  "4 tablespoons (60 ml) cooking oil​\r\n3/4 cup (150 g) onion, minced\r\n1 1/2 tablespoons (15 g) garlic, minced\r\n2 cups (400 g) potato, medium diced\r\n1 cup (200 g) carrot, medium diced\r\n1 1/2 cups (345 g) corn kernels\r\n1 cup (200 g) Baguio beans, diced\r\n1 teaspoon (1.2 g) ground black pepper\r\n1/2 teaspoon (2.5 g) iodized salt",
+                                           "bodyFil":  "4 na kutsara (60 ml) ng mantika\n3/4 tasa (150 g) ng sibuyas, tinadtad\n1½ kutsara (15 g) ng bawang, tinadtad\n2 tasa (400 g) ng patatas, hiniwa sa katamtamang laki\n1 tasa (200 g) ng karot, hiniwa sa katamtamang laki\n1½ tasa (345 g) ng butil ng mais\n1 tasa (200 g) ng Baguio beans, hiniwa sa maliliit na piraso\n1 kutsarita (1.2 g) ng giniling na pamintang itim\n1/2 kutsarita (2.5 g) ng iodized na asin"
+                                       },
+                                       {
+                                           "id":  "Steps",
+                                           "labelEn":  "Instructions",
+                                           "labelFil":  "",
+                                           "subLabelEn":  "",
+                                           "subLabelFil":  "",
+                                           "bodyEn":  "1. Marinate: In a bowl, combine chicken, SARSAYA Oyster Sauce, garlic, and oil. Mix well and marinate for 30 minutes.\r\n2. Sauté and stir-fry: In a pan, heat oil. Sauté onion and garlic until fragrant. Add chicken and cook until golden brown. Add potato, carrot, corn, and Baguio beans, and cook for a few minutes.\r\n3. Season: Add salt and ground black pepper, then mix well.\r\n4. Serve: For each meal, place 3/4 cup stir-fried chicken with mixed vegetables and 1/2 cup rice on a plate. Serve with 1 banana and 1 glass of water.",
+                                           "bodyFil":  "1. I-marinate ang manok: Sa isang mangkok, paghaluin ang manok, SARSAYA Oyster Sauce, bawang, at mantika. Haluing mabuti at ibabad sa loob ng 30 minuto.\n2. Igisa at lutuin: Sa isang kawali, initin ang mantika. Igisa ang sibuyas at bawang hanggang maging mabango. Idagdag ang manok at lutuin hanggang maging bahagyang kulay kayumanggi. Isunod ang patatas, karot, mais, at Baguio beans, at lutuin nang ilang minuto.\n3. Timplahan: Idagdag ang asin at giniling na pamintang itim, pagkatapos ay haluing mabuti.\n4. Ihain: Sa bawat pagkain, maglagay ng ¾ tasa ng ginisang manok na may halong gulay at ½ tasa ng kanin sa isang plato. Ihain kasama ang 1 saging at 1 baso ng tubig."
+                                       }
+                                   ]
+                    }
+                ]
+}

@@ -43,7 +43,7 @@ using Gameplay.CutsceneManager;
 public class TitleScreenManager : MonoBehaviour
 {
     // -------------------------------------------------------------------------
-    // Inspector — Navigation
+    // Inspector â€” Navigation
     // -------------------------------------------------------------------------
     [Header("Navigation")]
     [Tooltip("Scene to load for returning players (your world map / level select scene).")]
@@ -75,7 +75,7 @@ public class TitleScreenManager : MonoBehaviour
     [SerializeField] private bool useLoadingScreenForLanguageSelect = false;
 
     // -------------------------------------------------------------------------
-    // Inspector — Always-visible UI
+    // Inspector â€” Always-visible UI
     // -------------------------------------------------------------------------
     [Header("Always Visible")]
     [Tooltip("The 'Touch to Continue' text shown in both states.")]
@@ -95,9 +95,9 @@ public class TitleScreenManager : MonoBehaviour
     [SerializeField] private Button quitButton;
 
     // -------------------------------------------------------------------------
-    // Inspector — Idle fade animation
+    // Inspector â€” Idle fade animation
     // -------------------------------------------------------------------------
-    [Header("Touch To Continue — Idle Fade")]
+    [Header("Touch To Continue â€” Idle Fade")]
     [Tooltip("Seconds for one fade-out or fade-in half of the loop.")]
     [SerializeField] private float fadeDuration = 1f;
 
@@ -108,7 +108,7 @@ public class TitleScreenManager : MonoBehaviour
     [SerializeField, Range(0f, 1f)] private float fadeMaxAlpha = 1f;
 
     // -------------------------------------------------------------------------
-    // Inspector — Returning player UI
+    // Inspector â€” Returning player UI
     // -------------------------------------------------------------------------
     [Header("Returning Player UI")]
     [Tooltip("Root object for the top welcome bar. Shown only for returning players.")]
@@ -118,7 +118,7 @@ public class TitleScreenManager : MonoBehaviour
     [SerializeField] private TMP_Text welcomeNameText;
 
     // -------------------------------------------------------------------------
-    // Inspector — Tap prompt heading (shown in both states, wording differs)
+    // Inspector â€” Tap prompt heading (shown in both states, wording differs)
     // -------------------------------------------------------------------------
     [Header("Tap Prompt Heading")]
     [Tooltip("Heading shown above Touch to Continue. Text changes depending on new-install vs returning player.")]
@@ -131,14 +131,14 @@ public class TitleScreenManager : MonoBehaviour
     [SerializeField] private string returningPlayerPromptText = "CONTINUE";
 
     // -------------------------------------------------------------------------
-    // Inspector — First-time name input
+    // Inspector â€” First-time name input
     // -------------------------------------------------------------------------
     [Header("Name Input (First Time)")]
     [Tooltip("The NameInputScreen component. Shown only on fresh install when player taps.")]
     [SerializeField] private NameInputScreen nameInputScreen;
 
     // -------------------------------------------------------------------------
-    // Inspector — Tap sound
+    // Inspector â€” Tap sound
     // -------------------------------------------------------------------------
     [Header("Audio")]
     [SerializeField] private AudioSource audioSource;
@@ -153,7 +153,7 @@ public class TitleScreenManager : MonoBehaviour
 
     private Coroutine fadeLoopCoroutine;
 
-    private const string LanguageSelectedKey = "LanguageSelected";
+    private const string LanguageSelectedKey = ProgressKeys.LanguageSelected;
 
     // -------------------------------------------------------------------------
     // Unity lifecycle
@@ -170,7 +170,7 @@ public class TitleScreenManager : MonoBehaviour
     {
         // Version label
         if (versionText != null)
-            versionText.text = "Version " + Application.version;
+            versionText.text = AdminVersionService.Label;
 
         // Quit button
         if (quitButton != null)
@@ -329,13 +329,13 @@ public class TitleScreenManager : MonoBehaviour
 
         if (isReturningPlayer)
         {
-            // Returning player — go straight to map
+            // Returning player â€” go straight to map
             inputLocked = true;
             NavigateTo(mapSceneName, useLoadingScreenForMap);
         }
         else
         {
-            // Fresh install — choose a language first, then open name input.
+            // Fresh install â€” choose a language first, then open name input.
             if (!HasSelectedLanguage())
             {
                 inputLocked = true;
@@ -348,7 +348,7 @@ public class TitleScreenManager : MonoBehaviour
                 nameInputScreen.Show();
             else
             {
-                // No name input screen assigned — skip to next scene with default name
+                // No name input screen assigned â€” skip to next scene with default name
                 Debug.LogWarning("[TitleScreenManager] NameInputScreen not assigned. Skipping to next scene.");
                 inputLocked = true;
                 ProceedToNewPlayerNextScene();
@@ -367,9 +367,9 @@ public class TitleScreenManager : MonoBehaviour
         ProceedToNewPlayerNextScene();
     }
 
-    // newPlayerIntroCutscene is a plain embedded field — no separate
+    // newPlayerIntroCutscene is a plain embedded field â€” no separate
     // GameObject/component to wire up. If a scene is assigned and unseen, it
-    // plays (once per save) — that cutscene scene's own DialogueManager
+    // plays (once per save) â€” that cutscene scene's own DialogueManager
     // already knows to load MapScene next. If none is assigned, falls back
     // to loading newPlayerNextScene directly.
     private void ProceedToNewPlayerNextScene()

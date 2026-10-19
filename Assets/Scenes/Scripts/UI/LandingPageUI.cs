@@ -71,7 +71,7 @@ public class LandingPageUI : MonoBehaviour
             TextMeshProUGUI version = versionText.GetComponent<TextMeshProUGUI>();
             if (version != null)
             {
-                version.text = $"Version {Constant.GAME_VERSION}";
+                version.text = AdminVersionService.Label;
             }
         }
     }

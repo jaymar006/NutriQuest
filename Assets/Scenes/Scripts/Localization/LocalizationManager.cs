@@ -10,8 +10,8 @@ public class LocalizationManager : MonoBehaviour
 
     private const string FILIPINO_CODE = "fil";
     private const string ENGLISH_CODE = "en";
-    private const string PREFS_KEY = "SelectedLanguage";
-    private const string HAS_CHOSEN_KEY = "HasChosenLanguage";
+    private const string PREFS_KEY = ProgressKeys.SelectedLanguage;
+    private const string HAS_CHOSEN_KEY = ProgressKeys.HasChosenLanguage;
 
     public bool IsFilipino => currentLanguage == FILIPINO_CODE;
     public bool IsEnglish => currentLanguage == ENGLISH_CODE;

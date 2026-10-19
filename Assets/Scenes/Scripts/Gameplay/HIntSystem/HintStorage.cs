@@ -19,8 +19,8 @@ using UnityEngine;
 // =============================================================================
 public static class HintStorage
 {
-    private const string HINTS_PREFIX = "PlayerHints_";
-    private const string MAX_KEY = "PlayerHintsMax";
+    private const string HINTS_PREFIX = ProgressKeys.Hints;
+    private const string MAX_KEY = ProgressKeys.HintsMax;
     public const int DEFAULT_MAX_HINTS = 3;
 
     /// <summary>Max hints per tower. Set by HintSystem from its Inspector value.</summary>

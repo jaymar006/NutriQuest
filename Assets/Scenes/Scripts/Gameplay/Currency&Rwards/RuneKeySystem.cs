@@ -16,6 +16,13 @@ public class RuneKeySystem : MonoBehaviour
     [SerializeField] private int maxRuneKeys = 3;
     [SerializeField] private float regenTimeInMinutes = 30f;
 
+    // Teacher overrides from the admin panel.
+    private int EffectiveMaxRuneKeys =>
+        AdminContentStore.GetInt(AdminGameConfig.KeyMaxRuneKeys, maxRuneKeys);
+
+    private float EffectiveRegenTimeInMinutes =>
+        AdminContentStore.GetFloat(AdminGameConfig.KeyRuneRegenMinutes, regenTimeInMinutes);
+
     [Header("UI - Multiple Displays")]
     [SerializeField] private List<TMP_Text> runeKeyTexts = new List<TMP_Text>();
 
@@ -35,15 +42,15 @@ public class RuneKeySystem : MonoBehaviour
     // Track the RegenLoop coroutine so we can stop it reliably
     private Coroutine regenLoopCoroutine = null;
 
-    private const string RUNE_KEY = "RuneKeys";
-    private const string RUNE_LAST_REGEN = "RuneLastRegen";
+    private const string RUNE_KEY = ProgressKeys.RuneKeys;
+    private const string RUNE_LAST_REGEN = ProgressKeys.RuneLastRegen;
 
     public int CurrentKeys
     {
-        get => PlayerPrefs.GetInt(RUNE_KEY, maxRuneKeys);
+        get => PlayerPrefs.GetInt(RUNE_KEY, EffectiveMaxRuneKeys);
         private set
         {
-            int newValue = Mathf.Clamp(value, 0, maxRuneKeys);
+            int newValue = Mathf.Clamp(value, 0, EffectiveMaxRuneKeys);
             PlayerPrefs.SetInt(RUNE_KEY, newValue);
             PlayerPrefs.Save();
             UpdateAllKeyDisplays();
@@ -77,7 +84,7 @@ public class RuneKeySystem : MonoBehaviour
 
         // Only wipe the timer ref on scene TRANSITIONS (after first Start() ran).
         // On the very first scene load, Start() hasn't fired yet so persistentTimerName
-        // hasn't been saved — clearing here would destroy the manually assigned reference.
+        // hasn't been saved â€” clearing here would destroy the manually assigned reference.
         if (hasStartedOnce)
             regenTimerText = null;
 
@@ -112,7 +119,7 @@ public class RuneKeySystem : MonoBehaviour
         // Save inspector-assigned names BEFORE anything else can clear them
         SavePersistentDisplayNames();
 
-        // Mark that Start has run — OnSceneLoaded can now safely clear timer on future loads
+        // Mark that Start has run â€” OnSceneLoaded can now safely clear timer on future loads
         hasStartedOnce = true;
 
         if (autoFindTexts && runeKeyTexts.Count == 0)
@@ -235,11 +242,11 @@ public class RuneKeySystem : MonoBehaviour
         foreach (TMP_Text text in runeKeyTexts)
         {
             if (text != null)
-                text.text = $"{currentKeys}/{maxRuneKeys}";
+                text.text = $"{currentKeys}/{EffectiveMaxRuneKeys}";
         }
 
         if (runeKeyTexts.Count > 0)
-            Debug.Log($"[RuneKeySystem] Updated {runeKeyTexts.Count} displays to: {currentKeys}/{maxRuneKeys}");
+            Debug.Log($"[RuneKeySystem] Updated {runeKeyTexts.Count} displays to: {currentKeys}/{EffectiveMaxRuneKeys}");
     }
 
     public void RegisterKeyDisplay(TMP_Text textDisplay)
@@ -248,7 +255,7 @@ public class RuneKeySystem : MonoBehaviour
         if (!runeKeyTexts.Contains(textDisplay))
         {
             runeKeyTexts.Add(textDisplay);
-            textDisplay.text = $"{CurrentKeys}/{maxRuneKeys}";
+            textDisplay.text = $"{CurrentKeys}/{EffectiveMaxRuneKeys}";
             if (!persistentDisplayNames.Contains(textDisplay.gameObject.name))
                 persistentDisplayNames.Add(textDisplay.gameObject.name);
             Debug.Log($"[RuneKeySystem] Registered key display: {textDisplay.gameObject.name}");
@@ -273,7 +280,7 @@ public class RuneKeySystem : MonoBehaviour
 
     private void ProcessOfflineRegen()
     {
-        if (CurrentKeys >= maxRuneKeys) return;
+        if (CurrentKeys >= EffectiveMaxRuneKeys) return;
 
         string lastRegenStr = PlayerPrefs.GetString(RUNE_LAST_REGEN, "");
         if (string.IsNullOrEmpty(lastRegenStr)) return;
@@ -282,14 +289,14 @@ public class RuneKeySystem : MonoBehaviour
         {
             DateTime lastRegen = DateTime.Parse(lastRegenStr);
             double minutesPassed = (DateTime.UtcNow - lastRegen).TotalMinutes;
-            int keysToAdd = Mathf.FloorToInt((float)minutesPassed / regenTimeInMinutes);
+            int keysToAdd = Mathf.FloorToInt((float)minutesPassed / EffectiveRegenTimeInMinutes);
 
             if (keysToAdd > 0)
             {
-                int newKeys = Mathf.Min(CurrentKeys + keysToAdd, maxRuneKeys);
+                int newKeys = Mathf.Min(CurrentKeys + keysToAdd, EffectiveMaxRuneKeys);
                 PlayerPrefs.SetInt(RUNE_KEY, newKeys);
 
-                float remainingMinutes = (float)(minutesPassed % regenTimeInMinutes);
+                float remainingMinutes = (float)(minutesPassed % EffectiveRegenTimeInMinutes);
                 DateTime newLastRegen = DateTime.UtcNow.AddMinutes(-remainingMinutes);
                 PlayerPrefs.SetString(RUNE_LAST_REGEN, newLastRegen.ToString());
                 PlayerPrefs.Save();
@@ -310,7 +317,7 @@ public class RuneKeySystem : MonoBehaviour
         {
             yield return new WaitForSeconds(1f);
 
-            if (CurrentKeys >= maxRuneKeys)
+            if (CurrentKeys >= EffectiveMaxRuneKeys)
             {
                 if (regenTimerText != null)
                     regenTimerText.text = "FULL";
@@ -331,7 +338,7 @@ public class RuneKeySystem : MonoBehaviour
                 DateTime lastRegen = DateTime.Parse(lastRegenStr);
                 double minutesPassed = (DateTime.UtcNow - lastRegen).TotalMinutes;
 
-                if (minutesPassed >= regenTimeInMinutes)
+                if (minutesPassed >= EffectiveRegenTimeInMinutes)
                 {
                     CurrentKeys++;
                     PlayerPrefs.SetString(RUNE_LAST_REGEN, DateTime.UtcNow.ToString());
@@ -340,7 +347,7 @@ public class RuneKeySystem : MonoBehaviour
                 }
                 else if (regenTimerText != null)
                 {
-                    double remaining = (regenTimeInMinutes - minutesPassed) * 60;
+                    double remaining = (EffectiveRegenTimeInMinutes - minutesPassed) * 60;
                     int mins = Mathf.FloorToInt((float)remaining / 60f);
                     int secs = Mathf.FloorToInt((float)remaining % 60f);
                     regenTimerText.text = string.Format("{0}:{1:00}", mins, secs);
@@ -378,7 +385,7 @@ public class RuneKeySystem : MonoBehaviour
 
     public void AddKey(int amount = 1)
     {
-        int newValue = Mathf.Clamp(CurrentKeys + amount, 0, maxRuneKeys);
+        int newValue = Mathf.Clamp(CurrentKeys + amount, 0, EffectiveMaxRuneKeys);
         PlayerPrefs.SetInt(RUNE_KEY, newValue);
         PlayerPrefs.Save();
         UpdateAllKeyDisplays();
@@ -388,7 +395,7 @@ public class RuneKeySystem : MonoBehaviour
 
     public void GeniusReward()
     {
-        if (CurrentKeys < maxRuneKeys)
+        if (CurrentKeys < EffectiveMaxRuneKeys)
         {
             AddKey(1);
             Debug.Log("[RuneKeySystem] Genius reward! +1 rune key.");

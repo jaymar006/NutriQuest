@@ -11,6 +11,10 @@ public class QuestionTimer : MonoBehaviour
     [Tooltip("Time in seconds per question.")]
     [SerializeField] private float timePerQuestion = 15f;
 
+    // Teacher override from the admin panel. Falls back to the Inspector value.
+    private float EffectiveTimePerQuestion =>
+        AdminContentStore.GetFloat(AdminGameConfig.KeyQuestionSeconds, timePerQuestion);
+
     [Header("UI")]
     [SerializeField] private TMP_Text timerText;
     [SerializeField] private Image timerFillImage;
@@ -50,7 +54,7 @@ public class QuestionTimer : MonoBehaviour
     public void StartTimer()
     {
         _isExpired = false;
-        _currentTime = timePerQuestion;
+        _currentTime = EffectiveTimePerQuestion;
 
         if (_timerCoroutine != null)
             StopCoroutine(_timerCoroutine);
@@ -129,7 +133,7 @@ public class QuestionTimer : MonoBehaviour
             timerText.text = seconds.ToString();
 
             // Update color based on remaining time //
-            float percent = _currentTime / timePerQuestion;
+            float percent = _currentTime / EffectiveTimePerQuestion;
 
             if (percent > 0.5f)
                 timerText.color = normalColor;
@@ -142,7 +146,7 @@ public class QuestionTimer : MonoBehaviour
         // Update fill image if assigned //
         if (timerFillImage != null)
         {
-            float percent = _currentTime / timePerQuestion;
+            float percent = _currentTime / EffectiveTimePerQuestion;
             timerFillImage.fillAmount = percent;
 
             if (percent > 0.5f)

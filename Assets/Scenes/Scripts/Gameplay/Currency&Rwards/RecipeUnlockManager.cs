@@ -25,7 +25,7 @@ public class RecipeUnlockManager : MonoBehaviour
     [Header("Recipe Entries")]
     [SerializeField] private List<RecipeEntry> recipes = new List<RecipeEntry>();
 
-    private const string FIRST_CLEAR_PREFIX = "FirstClear_";
+    private const string FIRST_CLEAR_PREFIX = ProgressKeys.FirstClear;
 
     private void Awake()
     {
@@ -48,11 +48,12 @@ public class RecipeUnlockManager : MonoBehaviour
     // Safe to call from anywhere - just re-reads PlayerPrefs and updates buttons.
     public void RefreshUnlockStates()
     {
-        foreach (RecipeEntry recipe in recipes)
+        for (int i = 0; i < recipes.Count; i++)
         {
+            RecipeEntry recipe = recipes[i];
             if (recipe == null || recipe.recipeButton == null) continue;
 
-            bool unlocked = IsRecipeUnlocked(recipe.requiredStageID);
+            bool unlocked = IsRecipeUnlocked(EffectiveStageId(i, recipe.requiredStageID));
 
             recipe.recipeButton.interactable = unlocked;
 
@@ -62,8 +63,29 @@ public class RecipeUnlockManager : MonoBehaviour
             }
 
             Debug.Log($"[RecipeUnlockManager] '{recipe.recipeName}' " +
-                      $"(stageID='{recipe.requiredStageID}') -> {(unlocked ? "UNLOCKED" : "LOCKED")}");
+                      $"(stageID='{EffectiveStageId(i, recipe.requiredStageID)}') -> {(unlocked ? "UNLOCKED" : "LOCKED")}");
         }
+    }
+
+    /// <summary>
+    /// The stage a recipe unlocks after. The teacher can change this from the
+    /// admin panel; the Inspector value is the built-in default.
+    ///
+    /// The entries in this component line up with AdminGameConfig.Recipes by
+    /// index, which is what lets the override find its recipe.
+    /// </summary>
+    private static string EffectiveStageId(int index, string inspectorStageId)
+    {
+        if (index >= 0 && index < AdminGameConfig.Recipes.Count)
+        {
+            AdminContentStore.RecipeOverride recipe =
+                AdminContentStore.GetRecipe(AdminGameConfig.Recipes[index].id);
+            if (recipe != null && !string.IsNullOrEmpty(recipe.unlockStageId))
+            {
+                return recipe.unlockStageId;
+            }
+        }
+        return inspectorStageId;
     }
 
     // A recipe is unlocked when its required stage has been cleared at least once.

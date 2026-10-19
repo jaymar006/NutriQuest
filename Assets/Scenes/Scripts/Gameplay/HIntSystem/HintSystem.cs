@@ -9,6 +9,10 @@ public class HintSystem : MonoBehaviour
     [Header("Hint Settings")]
     [SerializeField] private int maxHints = 3;
 
+    // Teacher override from the admin panel.
+    private int EffectiveMaxHints =>
+        AdminContentStore.GetInt(AdminGameConfig.KeyMaxHints, maxHints);
+
     [Header("Hint Button")]
     [SerializeField] private Button hintButton;
     [SerializeField] private TMP_Text hintCountText;
@@ -38,7 +42,7 @@ public class HintSystem : MonoBehaviour
             debugResetButton.onClick.AddListener(ResetHints);
 
         // Tell the shared storage the cap, so the result scene can respect it too.
-        HintStorage.SetMaxHints(maxHints);
+        HintStorage.SetMaxHints(EffectiveMaxHints);
 
         UpdateHintUI();
         Debug.Log("[HintSystem] Tower '" + TowerKey + "' hints remaining: " + RemainingHints);
@@ -80,14 +84,14 @@ public class HintSystem : MonoBehaviour
 
     public void TryReplenishHint()
     {
-        if (RemainingHints < maxHints)
+        if (RemainingHints < EffectiveMaxHints)
         {
             RemainingHints++;
             Debug.Log("[HintSystem] Hint replenished! Now: " + RemainingHints);
         }
         else
         {
-            Debug.Log("[HintSystem] Already at max hints (" + maxHints + ").");
+            Debug.Log("[HintSystem] Already at max hints (" + EffectiveMaxHints + ").");
         }
 
         UpdateHintUI();
@@ -98,9 +102,9 @@ public class HintSystem : MonoBehaviour
     //  DevCheatTool.ResetEverything() still does a full reset in debug builds.)
     public void ResetHints()
     {
-        RemainingHints = maxHints;
+        RemainingHints = EffectiveMaxHints;
         UpdateHintUI();
-        Debug.Log("[HintSystem] DEBUG - Hints for '" + TowerKey + "' reset to " + maxHints);
+        Debug.Log("[HintSystem] DEBUG - Hints for '" + TowerKey + "' reset to " + EffectiveMaxHints);
     }
 
     public void ResetForNewQuestion()

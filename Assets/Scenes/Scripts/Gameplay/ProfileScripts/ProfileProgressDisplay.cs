@@ -34,30 +34,20 @@ public class ProfileProgressDisplay : MonoBehaviour
 
     // Config
     [Header("Config")]
-    [Tooltip("Total number of towers in the game")]
-    [SerializeField] private int totalTowers = 4;
-
-    [Tooltip("Total number of recipes in the game")]
-    [SerializeField] private int totalRecipes = 6;
-
     [Tooltip("Total badges possible -- 4 badges x 3 towers = 12")]
     [SerializeField] private int totalBadges = 12;
 
-    [Tooltip("Stage IDs to read high scores from")]
-    [SerializeField] private string[] stageIDs = { "Stage_1", "Stage_2", "Stage_3", "Stage_4" };
-
-    [Tooltip("Questions for Stage 1 to 3")]
-    [SerializeField] private int questionsPerStage = 10;
-
-    [Tooltip("Questions for Stage 4 (combines Tower 1-3)")]
-    [SerializeField] private int questionsStageFour = 30;
+    [Tooltip("Legacy fallback totals. The registry is used when it has entries; " +
+             "these are only read if the registry is empty.")]
+    [SerializeField] private int totalTowers = 4;
+    [SerializeField] private int totalRecipes = 6;
 
     // PlayerPrefs Keys
-    private const string UNLOCKED_PREFIX = "Unlocked_";
-    private const string FIRST_CLEAR_PREFIX = "FirstClear_";
-    private const string HIGH_SCORE_PREFIX = "HighScore_";
-    private const string BADGE_PREFIX = "Badge_";
-    private const string TOTAL_QUESTIONS_KEY = "TotalQuestionsAnswered";
+    private const string UNLOCKED_PREFIX = ProgressKeys.Unlocked;
+    private const string FIRST_CLEAR_PREFIX = ProgressKeys.FirstClear;
+    private const string HIGH_SCORE_PREFIX = ProgressKeys.HighScore;
+    private const string BADGE_PREFIX = ProgressKeys.Badge;
+    private const string TOTAL_QUESTIONS_KEY = ProgressKeys.TotalQuestionsAnswered;
 
     private static readonly string[] achievementNames =
     {
@@ -67,11 +57,25 @@ public class ProfileProgressDisplay : MonoBehaviour
         "StepsTowardsSuccess"
     };
 
-    [Header("Tower Names (must match TowerUnlockManager)")]
-    [SerializeField] private string[] towerNames = { "Tower1", "Tower2", "Tower3", "Tower4" };
-
     [Header("Recipe Stage IDs (must match RecipeUnlockManager)")]
     [SerializeField] private string[] recipeStageIDs;
+
+    // ------------------------------------------------------------------
+    // The registry is the source of truth for how many towers and recipes
+    // exist. The serialized counts above are only a fallback.
+    //
+    // NOTE: this script used to have a towerNames array of "Tower1",
+    // "Tower2" ... while TowerUnlockManager writes "Unlocked_Tower_1",
+    // "Unlocked_Tower_2" ... so the unlocked-tower count on the profile
+    // screen could never go above one. The registry uses the same
+    // identifiers the game writes, so the count is correct now.
+    // ------------------------------------------------------------------
+
+    private int EffectiveTotalTowers =>
+        AdminGameConfig.Levels.Count > 0 ? AdminGameConfig.Levels.Count : totalTowers;
+
+    private int EffectiveTotalRecipes =>
+        AdminGameConfig.Recipes.Count > 0 ? AdminGameConfig.Recipes.Count : totalRecipes;
 
     private void OnEnable()
     {
@@ -93,7 +97,7 @@ public class ProfileProgressDisplay : MonoBehaviour
         DisplayRank(badgesEarned, totalBadges);
     }
 
-    // Updates only the name field — call this after the player changes their name
+    // Updates only the name field â€” call this after the player changes their name
     public void RefreshPlayerName()
     {
         if (playerNameTXT == null) return;
@@ -113,19 +117,21 @@ public class ProfileProgressDisplay : MonoBehaviour
         if (PlayerPrefs.GetInt(HIGH_SCORE_PREFIX + "Stage_1", 0) > 0)
             count++;
 
-        for (int i = 1; i < towerNames.Length - 1; i++)
+        // Tiers 2 and 3 are counted from the registry so the identifiers match
+        // the ones TowerUnlockManager actually writes.
+        for (int i = 1; i < AdminGameConfig.Levels.Count - 1; i++)
         {
-            if (PlayerPrefs.GetInt(UNLOCKED_PREFIX + towerNames[i], 0) == 1)
+            if (PlayerPrefs.GetInt(ProgressKeys.UnlockedFor(AdminGameConfig.Levels[i].towerName), 0) == 1)
                 count++;
         }
 
         int s1 = PlayerPrefs.GetInt(HIGH_SCORE_PREFIX + "Stage_1", 0);
         int s2 = PlayerPrefs.GetInt(HIGH_SCORE_PREFIX + "Stage_2", 0);
         int s3 = PlayerPrefs.GetInt(HIGH_SCORE_PREFIX + "Stage_3", 0);
-        if ((s1 + s2 + s3) >= 26)
+        if ((s1 + s2 + s3) >= AdminGameConfig.DefaultTower4RequiredTotal)
             count++;
 
-        return Mathf.Min(count, totalTowers);
+        return Mathf.Min(count, EffectiveTotalTowers);
     }
 
     private int CountBadgesEarned()
@@ -162,7 +168,7 @@ public class ProfileProgressDisplay : MonoBehaviour
                 PlayerPrefs.GetInt(FIRST_CLEAR_PREFIX + stageID, 0) == 1)
                 count++;
         }
-        return Mathf.Min(count, totalRecipes);
+        return Mathf.Min(count, EffectiveTotalRecipes);
     }
 
     // Display Methods
@@ -178,9 +184,9 @@ public class ProfileProgressDisplay : MonoBehaviour
     {
         if (percentageTXT == null) return;
 
-        float towerRatio = totalTowers > 0 ? (float)towers / totalTowers : 0f;
+        float towerRatio = EffectiveTotalTowers > 0 ? (float)towers / EffectiveTotalTowers : 0f;
         float badgeRatio = totalBadges > 0 ? (float)badges / totalBadges : 0f;
-        float recipeRatio = totalRecipes > 0 ? (float)recipes / totalRecipes : 0f;
+        float recipeRatio = EffectiveTotalRecipes > 0 ? (float)recipes / EffectiveTotalRecipes : 0f;
 
         float overall = (towerRatio + badgeRatio + recipeRatio) / 3f;
         int percent = Mathf.RoundToInt(overall * 100f);

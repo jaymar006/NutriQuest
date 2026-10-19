@@ -3,9 +3,9 @@ using System;
 
 public class TowerDebugger : MonoBehaviour
 {
-    private const string HIGH_SCORE_PREFIX = "HighScore_";
-    private const string UNLOCK_TIME_PREFIX = "UnlockTime_";
-    private const string UNLOCKED_PREFIX = "Unlocked_";
+    private const string HIGH_SCORE_PREFIX = ProgressKeys.HighScore;
+    private const string UNLOCK_TIME_PREFIX = ProgressKeys.UnlockTime;
+    private const string UNLOCKED_PREFIX = ProgressKeys.Unlocked;
 
     private void Start()
     {
