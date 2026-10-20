@@ -58,6 +58,7 @@ public static class AdminGameConfig
     public const string KeyQuestionsPerGame = "timer.questionsPerGame";
     public const string KeyDelayNextQuestion = "timer.delayNextQuestion";
     public const string KeyTowerWaitMinutes = "tower.waitMinutes";
+    public const string KeyTower4RequiredTotal = "tower.tower4RequiredTotal";
     public const string KeyLoadingMinSeconds = "ui.loadingMinSeconds";
 
     // Difficulty
@@ -234,6 +235,86 @@ public static class AdminGameConfig
             if (s_recipes[i].id == id) return s_recipes[i];
         }
         return null;
+    }
+
+    /// <summary>
+    /// The groups of editable content the Content tab shows. The values are
+    /// the same ones the game uses.
+    /// </summary>
+    public const string ContentGroupCategories = "categories";
+    public const string ContentGroupLevels = "levels";
+    public const string ContentGroupRewards = "rewards";
+
+    /// <summary>
+    /// The content the game ships with, in the shape the Content tab edits.
+    ///
+    /// The tab shows these until the teacher changes one, so the panel never
+    /// starts out empty and the values on screen are the ones the game is
+    /// actually using.
+    /// </summary>
+    public static List<AdminContentStore.ContentEntry> DefaultContent(string group)
+    {
+        List<AdminContentStore.ContentEntry> result = new List<AdminContentStore.ContentEntry>();
+
+        if (group == ContentGroupLevels)
+        {
+            for (int i = 0; i < s_levels.Length; i++)
+            {
+                result.Add(new AdminContentStore.ContentEntry
+                {
+                    id = s_levels[i].stageId,
+                    group = group,
+                    name = s_levels[i].labelEn,
+                    value = s_levels[i].sceneName,
+                    enabled = true
+                });
+            }
+        }
+        else if (group == ContentGroupRewards)
+        {
+            AchievementType[] types = BadgeTypes;
+            for (int i = 0; i < types.Length; i++)
+            {
+                result.Add(new AdminContentStore.ContentEntry
+                {
+                    id = types[i].ToString(),
+                    group = group,
+                    name = types[i].ToString(),
+                    value = DefaultDropChance(types[i]).ToString(),
+                    enabled = true
+                });
+            }
+        }
+        else if (group == ContentGroupCategories)
+        {
+            // The categories the questions are actually tagged with.
+            List<string> seen = new List<string>();
+            for (int i = 0; i < s_levels.Length; i++)
+            {
+                List<QuestionData> pool = AdminQuestionCatalog.GetBuiltIn(s_levels[i].sceneName);
+                if (pool == null) continue;
+                for (int q = 0; q < pool.Count; q++)
+                {
+                    QuestionData question = pool[q];
+                    if (question == null) continue;
+                    string category = question.category;
+                    if (string.IsNullOrEmpty(category)) continue;
+                    category = category.Trim();
+                    if (seen.Contains(category)) continue;
+                    seen.Add(category);
+                    result.Add(new AdminContentStore.ContentEntry
+                    {
+                        id = category,
+                        group = group,
+                        name = category,
+                        value = category,
+                        enabled = true
+                    });
+                }
+            }
+        }
+
+        return result;
     }
 
     /// <summary>Every badge the player can earn, in the order the result screen shows them.</summary>

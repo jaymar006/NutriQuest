@@ -167,6 +167,12 @@ foreach ($lv in $levels) {
             answerBFilipino    = $(if ($it.ContainsKey('answerBFilipino')) { Decode-Yaml $it['answerBFilipino'] } else { '' })
             answerCFilipino    = $(if ($it.ContainsKey('answerCFilipino')) { Decode-Yaml $it['answerCFilipino'] } else { '' })
             answerDFilipino    = $(if ($it.ContainsKey('answerDFilipino')) { Decode-Yaml $it['answerDFilipino'] } else { '' })
+            # The admin fields. The scenes do not have them yet, so they are
+            # written with their defaults to keep the catalogue explicit.
+            isEnabled           = $(if ($it.ContainsKey('isEnabled')) { (Decode-Yaml $it['isEnabled']) -eq '1' } else { $true })
+            category           = $(if ($it.ContainsKey('category')) { Decode-Yaml $it['category'] } else { '' })
+            difficulty         = $(if ($it.ContainsKey('difficulty')) { [int](Decode-Yaml $it['difficulty']) } else { 0 })
+            explanation        = $(if ($it.ContainsKey('explanation')) { Decode-Yaml $it['explanation'] } else { '' })
         }
         [void]$questions.Add($q)
     }

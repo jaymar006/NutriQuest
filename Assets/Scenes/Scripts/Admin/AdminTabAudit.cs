@@ -4,12 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// The Activity Log tab: a record of every change the teacher made.
+/// The Activity Log tab: an append-only record of every admin change.
 ///
-/// A shipped admin panel that can hand out badges and rewrite questions
-/// needs to leave a trail, otherwise a mistaken change cannot be traced.
-/// The log is kept in the admin configuration file, capped at the most recent
-/// entries.
+/// Each line records when it happened, which tab made the change, what was
+/// changed, and the value before and after. The log lives in the admin
+/// config file, so it survives a restart.
+///
+/// The log is append only: nothing in the panel edits a line. It can be
+/// cleared, which is the one exception, and that is recorded in the log too
+/// by the tab that does it.
 /// </summary>
 public class AdminTabAudit : AdminTabBase
 {
@@ -21,7 +24,7 @@ public class AdminTabAudit : AdminTabBase
     {
         List<AdminContentStore.AuditEntry> entries = AdminContentStore.GetAudit();
 
-        RectTransform card = AddCard(content, AdminStrings.Get("audit"));
+        RectTransform card = AddCard(content, AdminStrings.Get("audit") + " (" + entries.Count + ")");
 
         if (entries.Count == 0)
         {
@@ -35,35 +38,64 @@ public class AdminTabAudit : AdminTabBase
             AdminContentStore.AuditEntry entry = entries[i];
             if (entry == null) continue;
 
-            RectTransform row = AddRow(card);
+            RectTransform row = AddRow(card, 80f);
 
-            TMP_Text stamp = AdminUi.CreateText(row, "Stamp", FormatStamp(entry.utc), AdminUi.FontSmall,
-                                                TextAlignmentOptions.MidlineLeft, AdminUi.Muted);
-            LayoutElement stampLayout = stamp.gameObject.AddComponent<LayoutElement>();
-            stampLayout.preferredWidth = 300f;
-            stampLayout.minWidth = 240f;
+            TMP_Text stamp = AdminUi.CreateText(row, "Stamp", FormatStamp(entry.utc),
+                                                AdminUi.FontSmall, TextAlignmentOptions.MidlineLeft, AdminUi.Muted);
+            LayoutElement stampLayout = AdminUi.EnsureLayout(stamp.gameObject);
+            stampLayout.preferredWidth = 220f;
+            stampLayout.minWidth = 180f;
             stampLayout.flexibleWidth = 0f;
 
-            TMP_Text action = AdminUi.CreateText(row, "Action", entry.action, AdminUi.FontBody,
-                                                 TextAlignmentOptions.MidlineLeft, AdminUi.Text);
-            LayoutElement actionLayout = action.gameObject.AddComponent<LayoutElement>();
-            actionLayout.preferredWidth = 300f;
+            TMP_Text action = AdminUi.CreateText(row, "Action", Describe(entry),
+                                                 AdminUi.FontSmall, TextAlignmentOptions.MidlineLeft, AdminUi.Text);
+            LayoutElement actionLayout = AdminUi.EnsureLayout(action.gameObject);
+            actionLayout.preferredWidth = 320f;
             actionLayout.minWidth = 220f;
             actionLayout.flexibleWidth = 0f;
 
-            TMP_Text detail = AdminUi.CreateText(row, "Detail", entry.detail, AdminUi.FontSmall,
-                                                 TextAlignmentOptions.MidlineLeft, AdminUi.Muted);
-            LayoutElement detailLayout = detail.gameObject.AddComponent<LayoutElement>();
-            detailLayout.preferredWidth = 520f;
-            detailLayout.minWidth = 320f;
-            detailLayout.flexibleWidth = 1f;
+            TMP_Text change = AdminUi.CreateText(row, "Change", DescribeChange(entry),
+                                                 AdminUi.FontSmall, TextAlignmentOptions.MidlineLeft, AdminUi.Muted);
+            LayoutElement changeLayout = AdminUi.EnsureLayout(change.gameObject);
+            changeLayout.preferredWidth = 520f;
+            changeLayout.minWidth = 300f;
+            changeLayout.flexibleWidth = 1f;
         }
+
+        AddButtonRow(card, AdminStrings.Get("clearAudit"), () =>
+        {
+            if (Root == null) return;
+            Root.Confirm(AdminStrings.Get("clearAudit"), AdminStrings.Get("confirmClearAudit"),
+                AdminStrings.Get("clearAudit"), () =>
+                {
+                    AdminContentStore.ClearAudit();
+                    Toast(AdminStrings.Get("auditCleared"));
+                    if (Root != null) Root.RefreshCurrentTab();
+                });
+        }, AdminUi.Danger);
     }
 
     private static string FormatStamp(string utc)
     {
         if (string.IsNullOrEmpty(utc)) return "";
         if (!System.DateTime.TryParse(utc, out System.DateTime parsed)) return utc;
-        return parsed.ToLocalTime().ToString("yyyy-MM-dd HH:mm");
+        return parsed.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss");
+    }
+
+    /// <summary>The tab and the action, for example "Security - Changed the admin PIN".</summary>
+    private static string Describe(AdminContentStore.AuditEntry entry)
+    {
+        string tab = string.IsNullOrEmpty(entry.tab) ? "" : entry.tab + " - ";
+        return tab + entry.action;
+    }
+
+    /// <summary>The old and the new value, when the entry recorded them.</summary>
+    private static string DescribeChange(AdminContentStore.AuditEntry entry)
+    {
+        if (string.IsNullOrEmpty(entry.oldValue) && string.IsNullOrEmpty(entry.newValue))
+        {
+            return entry.detail;
+        }
+        return entry.oldValue + "  ->  " + entry.newValue;
     }
 }

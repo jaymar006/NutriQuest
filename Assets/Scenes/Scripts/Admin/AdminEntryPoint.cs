@@ -66,21 +66,55 @@ public class AdminEntryPoint : MonoBehaviour
         RectTransform panel = FindSettingsPanel();
         if (panel == null)
         {
-            Debug.LogWarning("[AdminEntryPoint] No settings panel found in this scene.");
+            // Most scenes have no settings panel at all, so this is not
+            // worth warning about. Only the main menu is expected to have
+            // one, so that is the only case worth a warning.
+            if (SceneManager.GetActiveScene().name == "MainMenu")
+            {
+                Debug.LogWarning("[AdminEntryPoint] The MainMenu settings panel was not found, " +
+                                 "so the admin entry point was not added.");
+            }
             return;
         }
+
+        // The main menu has the version label authored in the scene as a real
+        // GameObject (AdminVersionButton), so the teacher can see and move it
+        // in the Editor. Only inject one when a scene has no authored button.
+        if (panel.GetComponentInChildren<AdminVersionButton>(true) != null)
+        {
+            Debug.Log("[AdminEntryPoint] The settings panel already has an AdminVersionButton; " +
+                      "not injecting another one.");
+            return;
+        }
+
         if (panel.Find(ButtonName) != null) return;
 
-        RectTransform buttonRect = AdminUi.CreateRect(panel, ButtonName);
-        // The settings panel is hand positioned: the title is top-left, the
-        // sound sliders are in the middle and the language dropdown and the
-        // decorative bar fill the bottom. The top-right corner is the only
-        // free space, so the version label goes there.
-        buttonRect.anchorMin = new Vector2(1f, 1f);
-        buttonRect.anchorMax = new Vector2(1f, 1f);
-        buttonRect.pivot = new Vector2(1f, 1f);
-        buttonRect.anchoredPosition = new Vector2(-30f, -24f);
-        buttonRect.sizeDelta = new Vector2(430f, 62f);
+        // The version label is parented to the panel's "Settings" heading so
+        // it always sits directly beside the heading word. The main menu's
+        // nav bar occupies the top-right corner of the tab area, so anchoring
+        // the label to the panel's top-right would put it underneath the bar.
+        RectTransform heading = FindHeading(panel);
+        Transform parent = heading != null ? (Transform)heading : panel;
+
+        RectTransform buttonRect = AdminUi.CreateRect(parent, ButtonName);
+        if (heading != null)
+        {
+            // Immediately to the right of the heading word.
+            buttonRect.anchorMin = new Vector2(1f, 0.5f);
+            buttonRect.anchorMax = new Vector2(1f, 0.5f);
+            buttonRect.pivot = new Vector2(0f, 0.5f);
+            buttonRect.anchoredPosition = new Vector2(20f, 0f);
+            buttonRect.sizeDelta = new Vector2(420f, 50f);
+        }
+        else
+        {
+            // Fallback: bottom-left of the panel.
+            buttonRect.anchorMin = new Vector2(0f, 0f);
+            buttonRect.anchorMax = new Vector2(0f, 0f);
+            buttonRect.pivot = new Vector2(0f, 0f);
+            buttonRect.anchoredPosition = new Vector2(30f, 24f);
+            buttonRect.sizeDelta = new Vector2(420f, 50f);
+        }
 
         Image background = buttonRect.gameObject.AddComponent<Image>();
         background.color = new Color(1f, 1f, 1f, 0f);
@@ -90,47 +124,76 @@ public class AdminEntryPoint : MonoBehaviour
         button.targetGraphic = background;
 
         TMP_Text label = AdminUi.CreateText(buttonRect, "Label", AdminVersionService.Label,
-                                            AdminUi.FontSmall, TextAlignmentOptions.MidlineRight,
-                                            new Color(0.72f, 0.76f, 0.82f, 1f));
+                                            AdminUi.FontSmall, TextAlignmentOptions.MidlineLeft,
+                                            new Color(0.68f, 0.73f, 0.80f, 1f));
         AdminUi.Stretch(label.rectTransform, 4f, 4f);
         label.raycastTarget = false;
 
         button.onClick.AddListener(() => AdminPanelRoot.Open());
 
-        Debug.Log("[AdminEntryPoint] Admin panel entry point added to the Settings panel.");
+        Debug.Log("[AdminEntryPoint] Admin entry point added to the settings panel in scene '" +
+                  SceneManager.GetActiveScene().name + "' (parent: " + parent.name + ").");
     }
 
     /// <summary>
-    /// Finds the Settings panel. The main menu has both a "Settings" nav
-    /// button and a "SettingsWindow" panel; the panel is the one that owns a
-    /// "SettingsTXT" title.
+    /// Finds the "Settings" heading inside the settings panel. The heading
+    /// GameObject is called "SettingsTXT".
+    /// </summary>
+    private static RectTransform FindHeading(RectTransform panel)
+    {
+        RectTransform[] children = panel.GetComponentsInChildren<RectTransform>(true);
+        for (int i = 0; i < children.Length; i++)
+        {
+            if (children[i] != null && children[i].gameObject.name == "SettingsTXT")
+            {
+                return children[i];
+            }
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// Finds the settings panel in the loaded scene.
     ///
-    /// Inactive objects have to be included: the settings panel is inactive
-    /// when the scene loads and is only switched on when the player opens it,
-    /// so a search that skipped inactive objects would never find it.
+    /// In the main menu the settings screen is one of three tabs swapped by
+    /// TabsManager, so the panel and the nav button have different names:
+    /// the panel is "SettingsWindow" and the button that selects it is
+    /// "Settings". Two strategies are used so the entry point keeps working
+    /// if the panel is ever renamed.
+    ///
+    /// Inactive objects have to be included: the settings tab is inactive
+    /// until the player selects it, so a search that skipped inactive objects
+    /// would never find it.
     /// </summary>
     private static RectTransform FindSettingsPanel()
     {
-        RectTransform fallback = null;
-
         RectTransform[] all = Object.FindObjectsByType<RectTransform>(
             FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+        // 1. By the panel's own name.
         for (int i = 0; i < all.Length; i++)
         {
-            RectTransform rect = all[i];
-            if (rect == null) continue;
-
-            string name = rect.gameObject.name;
-            if (name == "SettingsWindow") return rect;
-
-            if (name == "Settings")
-            {
-                if (rect.Find("SettingsTXT") != null) return rect;
-                fallback = rect;
-            }
+            if (all[i] != null && all[i].gameObject.name == "SettingsWindow") return all[i];
         }
 
-        return fallback;
+        // 2. By the panel's heading. "SettingsTXT" is the title inside the
+        //    settings tab and its parent is the panel itself.
+        for (int i = 0; i < all.Length; i++)
+        {
+            if (all[i] == null || all[i].gameObject.name != "SettingsTXT") continue;
+            Transform parent = all[i].parent;
+            RectTransform parentRect = parent as RectTransform;
+            if (parentRect != null) return parentRect;
+        }
+
+        // 3. A tab named "Settings" that owns a "SettingsTXT" child.
+        for (int i = 0; i < all.Length; i++)
+        {
+            if (all[i] == null || all[i].gameObject.name != "Settings") continue;
+            if (all[i].Find("SettingsTXT") != null) return all[i];
+        }
+
+        return null;
     }
 
     // ------------------------------------------------------------------
@@ -149,15 +212,11 @@ public class AdminEntryPoint : MonoBehaviour
             TMP_Text text = texts[i];
             if (text == null || string.IsNullOrEmpty(text.text)) continue;
             if (!text.text.StartsWith("Version")) continue;
-            if (text.GetComponent<Button>() != null) continue;
+            if (text.GetComponent<AdminVersionButton>() != null) continue;
 
-            Image background = text.gameObject.AddComponent<Image>();
-            background.color = new Color(1f, 1f, 1f, 0f);
-            background.raycastTarget = true;
-
-            Button button = text.gameObject.AddComponent<Button>();
-            button.targetGraphic = background;
-            button.onClick.AddListener(() => AdminPanelRoot.Open());
+            // AdminVersionButton counts the taps, so the title screen uses the
+            // same hidden gesture as the settings label.
+            text.gameObject.AddComponent<AdminVersionButton>();
         }
     }
 }

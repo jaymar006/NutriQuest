@@ -63,6 +63,101 @@ public static class AdminRecipeCatalog
     }
 
     /// <summary>
+    /// The built-in recipe with the teacher's override merged over it, field
+    /// by field.
+    ///
+    /// This is what the game reads, so a teacher who only changes the
+    /// ingredients does not blank the steps, and a game update that adds a
+    /// field to the built-in recipe still shows up in an old override.
+    /// </summary>
+    public static AdminContentStore.RecipeOverride GetMerged(string id)
+    {
+        AdminContentStore.RecipeOverride builtIn = GetBuiltIn(id);
+        AdminContentStore.RecipeOverride over = AdminContentStore.GetRecipe(id);
+
+        if (over == null) return builtIn;
+        if (builtIn == null) return over;
+
+        AdminContentStore.RecipeOverride merged = new AdminContentStore.RecipeOverride
+        {
+            id = id,
+            nameEn = Pick(over.nameEn, builtIn.nameEn),
+            nameFil = Pick(over.nameFil, builtIn.nameFil),
+            descriptionEn = Pick(over.descriptionEn, builtIn.descriptionEn),
+            descriptionFil = Pick(over.descriptionFil, builtIn.descriptionFil),
+            category = Pick(over.category, builtIn.category),
+            unlockStageId = Pick(over.unlockStageId, builtIn.unlockStageId),
+            blocks = new List<AdminContentStore.RecipeBlock>()
+        };
+
+        // Blocks are merged by their id so a new block in the built-in
+        // catalogue shows up even in an old override.
+        if (builtIn.blocks != null)
+        {
+            for (int i = 0; i < builtIn.blocks.Count; i++)
+            {
+                AdminContentStore.RecipeBlock b = builtIn.blocks[i];
+                if (b == null) continue;
+                merged.blocks.Add(new AdminContentStore.RecipeBlock
+                {
+                    id = b.id,
+                    labelEn = b.labelEn,
+                    labelFil = b.labelFil,
+                    subLabelEn = b.subLabelEn,
+                    subLabelFil = b.subLabelFil,
+                    bodyEn = b.bodyEn,
+                    bodyFil = b.bodyFil,
+                });
+            }
+        }
+
+        if (over.blocks != null)
+        {
+            for (int i = 0; i < over.blocks.Count; i++)
+            {
+                AdminContentStore.RecipeBlock b = over.blocks[i];
+                if (b == null) continue;
+                int index = merged.blocks.FindIndex(x => x != null && x.id == b.id);
+                if (index < 0)
+                {
+                    merged.blocks.Add(new AdminContentStore.RecipeBlock
+                    {
+                        id = b.id,
+                        labelEn = b.labelEn,
+                        labelFil = b.labelFil,
+                        subLabelEn = b.subLabelEn,
+                        subLabelFil = b.subLabelFil,
+                        bodyEn = b.bodyEn,
+                        bodyFil = b.bodyFil,
+                    });
+                    continue;
+                }
+                AdminContentStore.RecipeBlock target = merged.blocks[index];
+                target.labelEn = Pick(b.labelEn, target.labelEn);
+                target.labelFil = Pick(b.labelFil, target.labelFil);
+                target.subLabelEn = Pick(b.subLabelEn, target.subLabelEn);
+                target.subLabelFil = Pick(b.subLabelFil, target.subLabelFil);
+                target.bodyEn = Pick(b.bodyEn, target.bodyEn);
+                target.bodyFil = Pick(b.bodyFil, target.bodyFil);
+            }
+        }
+
+        return merged;
+    }
+
+    /// <summary>The override's value when it has one, otherwise the built-in value.</summary>
+    private static string Pick(string over, string builtIn)
+    {
+        return string.IsNullOrEmpty(over) ? builtIn : over;
+    }
+
+    /// <summary>True when the teacher has actually changed this recipe.</summary>
+    public static bool HasOverride(string id)
+    {
+        return AdminContentStore.GetRecipe(id) != null;
+    }
+
+    /// <summary>
     /// Creates an override seeded from the built-in recipe so the teacher can
     /// edit it. Returns the override that now exists.
     /// </summary>
@@ -76,6 +171,9 @@ public static class AdminRecipeCatalog
             id = builtIn.id,
             nameEn = builtIn.nameEn,
             nameFil = builtIn.nameFil,
+            descriptionEn = builtIn.descriptionEn,
+            descriptionFil = builtIn.descriptionFil,
+            category = builtIn.category,
             unlockStageId = builtIn.unlockStageId,
             blocks = new List<AdminContentStore.RecipeBlock>()
         };

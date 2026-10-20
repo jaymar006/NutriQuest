@@ -37,10 +37,37 @@ public abstract class AdminTabBase
     }
 
     /// <summary>Records the change in the audit log and writes the file.</summary>
-    protected void Commit(string action, string detail)
+    /// <summary>
+    /// Records a change in the audit log and saves the config.
+    ///
+    /// The tab is recorded so the log reads as "Questions - Edited answerA of
+    /// question 3 in Level 1" rather than a bare action.
+    /// </summary>
+    protected void Commit(string tab, string action)
     {
-        AdminContentStore.AddAudit(action, detail);
+        AdminContentStore.AddAudit(tab, action, "", "", "");
         AdminContentStore.Save();
+    }
+
+    /// <summary>Records a change together with the value before and after.</summary>
+    protected void Commit(string tab, string action, string oldValue, string newValue)
+    {
+        AdminContentStore.AddAudit(tab, action, oldValue, newValue, "");
+        AdminContentStore.Save();
+    }
+
+    /// <summary>
+    /// True when the value differs from the last one seen.
+    ///
+    /// Typing "15" into a field fires onValueChanged for "1" and then "15".
+    /// Without this the audit log would get an entry per keystroke and the
+    /// config file would be rewritten per keystroke.
+    /// </summary>
+    private static bool Changed(ref object last, object value)
+    {
+        if (last != null && last.Equals(value)) return false;
+        last = value;
+        return true;
     }
 
     // ------------------------------------------------------------------
@@ -71,7 +98,7 @@ public abstract class AdminTabBase
         {
             TMP_Text heading = AdminUi.CreateText(card.transform, "Heading", title, AdminUi.FontHeading,
                                                   TextAlignmentOptions.TopLeft, AdminUi.Text);
-            LayoutElement headingLayout = heading.gameObject.AddComponent<LayoutElement>();
+            LayoutElement headingLayout = AdminUi.EnsureLayout(heading.gameObject);
             headingLayout.minHeight = 44f;
             headingLayout.preferredHeight = 44f;
             headingLayout.flexibleWidth = 1f;
@@ -137,12 +164,15 @@ public abstract class AdminTabBase
             AddResetButton(row, key);
         }
 
+        object last = null;
         input.onValueChanged.AddListener(text =>
         {
             int value;
             if (!int.TryParse(text, out value)) return;
             value = Mathf.Clamp(value, (int)min, (int)max);
+            if (!Changed(ref last, value)) return;
             AdminContentStore.SetInt(key, value);
+            Commit("Settings", "Set " + key + " to " + value);
             if (onChanged != null) onChanged(value);
         });
     }
@@ -163,12 +193,15 @@ public abstract class AdminTabBase
             AddResetButton(row, key);
         }
 
+        object last = null;
         input.onValueChanged.AddListener(text =>
         {
             float value;
             if (!float.TryParse(text, out value)) return;
             value = Mathf.Clamp(value, min, max);
+            if (!Changed(ref last, value)) return;
             AdminContentStore.SetFloat(key, value);
+            Commit("Settings", "Set " + key + " to " + value);
             if (onChanged != null) onChanged(value);
         });
     }
@@ -189,9 +222,12 @@ public abstract class AdminTabBase
             AddResetButton(row, key);
         }
 
+        object last = null;
         input.onValueChanged.AddListener(text =>
         {
+            if (!Changed(ref last, text)) return;
             AdminContentStore.SetString(key, text);
+            Commit("settings", "Set " + key);
             if (onChanged != null) onChanged(text);
         });
     }
@@ -218,9 +254,12 @@ public abstract class AdminTabBase
             AddResetButton(row, key);
         }
 
+        object last = null;
         toggle.onValueChanged.AddListener(value =>
         {
+            if (!Changed(ref last, value)) return;
             AdminContentStore.SetBool(key, value);
+            Commit("Settings", "Set " + key + " to " + value);
             if (onChanged != null) onChanged(value);
         });
     }
@@ -262,7 +301,7 @@ public abstract class AdminTabBase
         group.childForceExpandHeight = false;
         group.childAlignment = TextAnchor.MiddleLeft;
 
-        LayoutElement layout = row.gameObject.AddComponent<LayoutElement>();
+        LayoutElement layout = AdminUi.EnsureLayout(row.gameObject);
         layout.minHeight = height;
         layout.preferredHeight = height;
         layout.flexibleWidth = 1f;
@@ -273,17 +312,17 @@ public abstract class AdminTabBase
     {
         TMP_Text text = AdminUi.CreateText(row, "Label", label, AdminUi.FontBody,
                                            TextAlignmentOptions.MidlineLeft, AdminUi.Text);
-        LayoutElement layout = text.gameObject.AddComponent<LayoutElement>();
+        LayoutElement layout = AdminUi.EnsureLayout(text.gameObject);
         layout.preferredWidth = 520f;
         layout.minWidth = 320f;
         layout.flexibleWidth = 1f;
     }
 
-    protected TMP_InputField AddRowInput(RectTransform row, string value, bool multiline = false)
+    protected TMP_InputField AddRowInput(RectTransform row, string value, bool multiline = false, float preferredWidth = 320f)
     {
         TMP_InputField input = AdminUi.CreateInput(row, "Input", value, multiline, AdminUi.FontBody);
-        LayoutElement layout = input.gameObject.AddComponent<LayoutElement>();
-        layout.preferredWidth = 320f;
+        LayoutElement layout = AdminUi.EnsureLayout(input.gameObject);
+        layout.preferredWidth = preferredWidth;
         layout.minWidth = 200f;
         layout.flexibleWidth = 1f;
         if (multiline)
@@ -299,7 +338,7 @@ public abstract class AdminTabBase
     {
         TMP_Text hint = AdminUi.CreateText(row, "Default", AdminStrings.Get("builtIn") + ": " + defaultText,
                                            AdminUi.FontSmall, TextAlignmentOptions.MidlineRight, AdminUi.Muted);
-        LayoutElement layout = hint.gameObject.AddComponent<LayoutElement>();
+        LayoutElement layout = AdminUi.EnsureLayout(hint.gameObject);
         layout.preferredWidth = 300f;
         layout.minWidth = 200f;
         layout.flexibleWidth = 0f;
@@ -312,12 +351,12 @@ public abstract class AdminTabBase
             () =>
             {
                 AdminContentStore.ClearKey(key);
-                Commit("reset", "Restored the built-in value of " + key);
+                Commit("Settings", "Restored the built-in value of " + key);
                 Toast(AdminStrings.Get("reset"));
                 if (Root != null) Root.RefreshCurrentTab();
             },
             AdminUi.CardAlt, AdminUi.FontSmall);
-        LayoutElement layout = button.gameObject.AddComponent<LayoutElement>();
+        LayoutElement layout = AdminUi.EnsureLayout(button.gameObject);
         layout.preferredWidth = 150f;
         layout.minWidth = 120f;
         layout.flexibleWidth = 0f;

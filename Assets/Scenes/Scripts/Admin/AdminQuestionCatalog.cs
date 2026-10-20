@@ -15,8 +15,8 @@ using UnityEngine;
 /// teacher's override over it.
 ///
 /// QuestionGeneratorBeta reads the effective pool through
-/// AdminQuestionCatalog.GetEffective so the game uses the teacher's version
-/// when one exists and the built-in one otherwise.
+/// AdminQuestionCatalog.GetEffective, so there is only ever one source of
+/// truth for "which questions does this level ask".
 /// </summary>
 public static class AdminQuestionCatalog
 {
@@ -86,6 +86,10 @@ public static class AdminQuestionCatalog
                 answerBFilipino = src.answerBFilipino,
                 answerCFilipino = src.answerCFilipino,
                 answerDFilipino = src.answerDFilipino,
+                isEnabled = src.isEnabled,
+                category = src.category,
+                difficulty = src.difficulty,
+                explanation = src.explanation,
             });
         }
 

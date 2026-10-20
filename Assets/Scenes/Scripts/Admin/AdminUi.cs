@@ -112,9 +112,55 @@ public static class AdminUi
         text.alignment = align;
         text.color = color;
         text.raycastTarget = false;
-        text.enableWordWrapping = true;
+        text.textWrappingMode = TextWrappingModes.Normal;
         text.text = value;
+
+        // A label inside a layout group needs a height or the group gives it
+        // zero size. Harmless where the text is positioned by anchors.
+        LayoutElement layout = EnsureLayout(rt.gameObject);
+        layout.minHeight = 60f;
+        layout.preferredHeight = 60f;
+        layout.flexibleWidth = 1f;
+
         return text;
+    }
+
+    // ------------------------------------------------------------------
+    // Layout helpers
+    // ------------------------------------------------------------------
+
+    /// <summary>
+    /// Returns the LayoutElement on an object, adding one if there is none.
+    ///
+    /// Always use this instead of AddComponent&lt;LayoutElement&gt;(). A second
+    /// LayoutElement on the same object is ignored by Unity's layout system
+    /// (GetComponent returns the first), so the width a caller sets would be
+    /// silently dropped. And a LayoutElement with no height collapses the
+    /// element to zero size inside a layout group, which makes it invisible
+    /// and unclickable.
+    /// </summary>
+    public static LayoutElement EnsureLayout(GameObject go)
+    {
+        LayoutElement element = go.GetComponent<LayoutElement>();
+        if (element == null) element = go.AddComponent<LayoutElement>();
+        return element;
+    }
+
+    /// <summary>Sets a width on an element while keeping the height it already has.</summary>
+    public static LayoutElement SetWidth(GameObject go, float width)
+    {
+        LayoutElement element = EnsureLayout(go);
+        element.preferredWidth = width;
+        return element;
+    }
+
+    /// <summary>Sets the size of an element, keeping the width it already has.</summary>
+    public static LayoutElement SetHeight(GameObject go, float height)
+    {
+        LayoutElement element = EnsureLayout(go);
+        element.minHeight = height;
+        element.preferredHeight = height;
+        return element;
     }
 
     // ------------------------------------------------------------------
@@ -142,6 +188,15 @@ public static class AdminUi
         TMP_Text text = CreateText(bg.transform, "Label", label, fontSize,
                                    TextAlignmentOptions.Center, Text);
         Stretch(text.rectTransform, 10f, 6f);
+
+        // A button inside a layout group needs a height, otherwise the layout
+        // group gives it zero size and it cannot be seen or clicked.
+        LayoutElement layout = EnsureLayout(bg.gameObject);
+        layout.minHeight = 64f;
+        layout.preferredHeight = 64f;
+        layout.preferredWidth = 320f;
+        layout.flexibleWidth = 0f;
+
         return button;
     }
 
@@ -169,13 +224,13 @@ public static class AdminUi
         TMP_Text text = CreateText(area, "Text", value, fontSize,
                                    multiline ? TextAlignmentOptions.TopLeft : TextAlignmentOptions.Left, Text);
         Stretch(text.rectTransform, 0f, 0f);
-        text.enableWordWrapping = multiline;
+        text.textWrappingMode = multiline ? TextWrappingModes.Normal : TextWrappingModes.NoWrap;
         text.richText = false;
 
         TMP_Text placeholder = CreateText(area, "Placeholder", "", fontSize,
                                           multiline ? TextAlignmentOptions.TopLeft : TextAlignmentOptions.Left, Muted);
         Stretch(placeholder.rectTransform, 0f, 0f);
-        placeholder.enableWordWrapping = multiline;
+        placeholder.textWrappingMode = multiline ? TextWrappingModes.Normal : TextWrappingModes.NoWrap;
 
         input.textViewport = area;
         input.textComponent = text;
@@ -191,6 +246,12 @@ public static class AdminUi
             ContentSizeFitter fitter = text.gameObject.AddComponent<ContentSizeFitter>();
             fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
         }
+
+        LayoutElement layout = EnsureLayout(bg.gameObject);
+        layout.minHeight = multiline ? 150f : 64f;
+        layout.preferredHeight = multiline ? 150f : 64f;
+        layout.preferredWidth = 320f;
+        layout.flexibleWidth = 1f;
 
         return input;
     }
@@ -226,6 +287,12 @@ public static class AdminUi
             textRect.offsetMax = new Vector2(-10f, 0f);
         }
 
+        LayoutElement layout = EnsureLayout(bg.gameObject);
+        layout.minHeight = 56f;
+        layout.preferredHeight = 56f;
+        layout.preferredWidth = 80f;
+        layout.flexibleWidth = 0f;
+
         return toggle;
     }
 
@@ -233,8 +300,12 @@ public static class AdminUi
     // Scroll views and layout
     // ------------------------------------------------------------------
 
-    /// <summary>Creates a vertical scroll view and hands back its content transform.</summary>
-    public static ScrollRect CreateScrollView(Transform parent, string name, out RectTransform content)
+    /// <summary>
+    /// Creates a scroll view and hands back its content transform. Pass
+    /// horizontal = true for a row of tabs; the content then uses a horizontal
+    /// layout group and grows along X instead of Y.
+    /// </summary>
+    public static ScrollRect CreateScrollView(Transform parent, string name, out RectTransform content, bool horizontal = false)
     {
         Image bg = CreatePanel(parent, name, Color.clear);
         ScrollRect scroll = bg.gameObject.AddComponent<ScrollRect>();
@@ -257,21 +328,43 @@ public static class AdminUi
         content.offsetMin = new Vector2(0f, 0f);
         content.offsetMax = new Vector2(0f, 0f);
 
-        VerticalLayoutGroup group = content.gameObject.AddComponent<VerticalLayoutGroup>();
-        group.spacing = 10f;
-        group.padding = new RectOffset(14, 14, 14, 14);
-        group.childControlWidth = true;
-        group.childControlHeight = true;
-        group.childForceExpandWidth = true;
-        group.childForceExpandHeight = false;
+        if (horizontal)
+        {
+            HorizontalLayoutGroup group = content.gameObject.AddComponent<HorizontalLayoutGroup>();
+            group.spacing = 8f;
+            group.padding = new RectOffset(4, 4, 4, 4);
+            group.childControlWidth = true;
+            group.childControlHeight = true;
+            group.childForceExpandWidth = false;
+            group.childForceExpandHeight = false;
+            group.childAlignment = TextAnchor.MiddleLeft;
+        }
+        else
+        {
+            VerticalLayoutGroup group = content.gameObject.AddComponent<VerticalLayoutGroup>();
+            group.spacing = 10f;
+            group.padding = new RectOffset(14, 14, 14, 14);
+            group.childControlWidth = true;
+            group.childControlHeight = true;
+            group.childForceExpandWidth = true;
+            group.childForceExpandHeight = false;
+        }
 
         ContentSizeFitter fitter = content.gameObject.AddComponent<ContentSizeFitter>();
-        fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+        if (horizontal)
+        {
+            fitter.verticalFit = ContentSizeFitter.FitMode.Unconstrained;
+            fitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+        }
+        else
+        {
+            fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+        }
 
         scroll.viewport = viewport;
         scroll.content = content;
-        scroll.horizontal = false;
-        scroll.vertical = true;
+        scroll.horizontal = horizontal;
+        scroll.vertical = !horizontal;
         scroll.movementType = ScrollRect.MovementType.Clamped;
         scroll.scrollSensitivity = 40f;
 

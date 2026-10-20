@@ -32,6 +32,7 @@ public class AdminPanelRoot : MonoBehaviour
     private TMP_Text _toastText;
     private Coroutine _toastRoutine;
 
+    private readonly List<AdminTabBase> _allTabs = new List<AdminTabBase>();
     private readonly List<AdminTabBase> _tabs = new List<AdminTabBase>();
     private AdminTabBase _currentTab;
 
@@ -105,6 +106,10 @@ public class AdminPanelRoot : MonoBehaviour
         Image panel = AdminUi.CreatePanel(parent, "Shell", AdminUi.Panel);
         AdminUi.Stretch(panel.rectTransform);
 
+        // Keep the panel inside the notch and the gesture bar.
+        AdminSafeAreaFitter safeArea = panel.gameObject.AddComponent<AdminSafeAreaFitter>();
+        safeArea.Apply();
+
         // ---- Header ----
         Image header = AdminUi.CreatePanel(panel.transform, "Header", AdminUi.Card);
         RectTransform headerRect = header.rectTransform;
@@ -126,11 +131,13 @@ public class AdminPanelRoot : MonoBehaviour
         TMP_Text subtitle = AdminUi.CreateText(header.transform, "Subtitle", AdminStrings.Get("subtitle"),
             AdminUi.FontSmall, TextAlignmentOptions.TopLeft, AdminUi.Muted);
         RectTransform subtitleRect = subtitle.rectTransform;
-        subtitleRect.anchorMin = new Vector2(0f, 0f);
-        subtitleRect.anchorMax = new Vector2(1f, 0f);
-        subtitleRect.pivot = new Vector2(0.5f, 0f);
-        subtitleRect.offsetMin = new Vector2(24f, 12f);
-        subtitleRect.offsetMax = new Vector2(-24f, 44f);
+        // Directly under the title, NOT at the bottom of the header: the
+        // bottom band is taken by the version label and the language button.
+        subtitleRect.anchorMin = new Vector2(0f, 1f);
+        subtitleRect.anchorMax = new Vector2(1f, 1f);
+        subtitleRect.pivot = new Vector2(0.5f, 1f);
+        subtitleRect.offsetMin = new Vector2(24f, -104f);
+        subtitleRect.offsetMax = new Vector2(-24f, -78f);
 
         TMP_Text version = AdminUi.CreateText(header.transform, "Version", AdminVersionService.Label,
             AdminUi.FontSmall, TextAlignmentOptions.BottomLeft, AdminUi.Muted);
@@ -180,30 +187,12 @@ public class AdminPanelRoot : MonoBehaviour
         tabRect.offsetMax = new Vector2(0f, -180f);
 
         RectTransform tabScrollContent;
-        ScrollRect tabScroll = AdminUi.CreateScrollView(tabPanel.transform, "TabScroll", out tabScrollContent);
+        ScrollRect tabScroll = AdminUi.CreateScrollView(tabPanel.transform, "TabScroll", out tabScrollContent, true);
         RectTransform tabScrollRect = tabScroll.GetComponent<RectTransform>();
         tabScrollRect.anchorMin = Vector2.zero;
         tabScrollRect.anchorMax = Vector2.one;
         tabScrollRect.offsetMin = new Vector2(10f, 10f);
         tabScrollRect.offsetMax = new Vector2(-10f, -10f);
-        tabScroll.horizontal = true;
-        tabScroll.vertical = false;
-
-        HorizontalLayoutGroup tabGroup = tabScrollContent.gameObject.AddComponent<HorizontalLayoutGroup>();
-        tabGroup.spacing = 8f;
-        tabGroup.padding = new RectOffset(4, 4, 4, 4);
-        tabGroup.childControlWidth = true;
-        tabGroup.childControlHeight = true;
-        tabGroup.childForceExpandWidth = false;
-        tabGroup.childForceExpandHeight = false;
-        tabGroup.childAlignment = TextAnchor.MiddleLeft;
-
-        ContentSizeFitter fitter = tabScrollContent.gameObject.GetComponent<ContentSizeFitter>();
-        if (fitter != null)
-        {
-            fitter.verticalFit = ContentSizeFitter.FitMode.Unconstrained;
-            fitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
-        }
 
         _tabBar = tabScrollContent;
 
@@ -235,7 +224,7 @@ public class AdminPanelRoot : MonoBehaviour
         cardRect.sizeDelta = new Vector2(880f, 700f);
 
         _gate = gate.rectTransform;
-        _gateContent = card.transform;
+        _gateContent = card.rectTransform;
     }
 
     private RectTransform _gateContent;
@@ -397,7 +386,11 @@ public class AdminPanelRoot : MonoBehaviour
         string verifyError;
         if (!AdminSecurity.VerifyPin(pin, out verifyError))
         {
-            error.text = verifyError;
+            // AdminSecurity reports in English; the panel shows the teacher
+            // their own language.
+            error.text = string.IsNullOrEmpty(pin)
+                ? AdminStrings.Get("pinRequired")
+                : verifyError;
             if (AdminSecurity.IsLockedOut)
             {
                 error.text = AdminStrings.Get("pinLocked", AdminSecurity.LockoutSecondsRemaining);
@@ -444,21 +437,32 @@ public class AdminPanelRoot : MonoBehaviour
 
     private void BuildTabs()
     {
-        if (_tabs.Count == 0)
+        if (_allTabs.Count == 0)
         {
-            _tabs.Add(new AdminTabProgress(this));
-            _tabs.Add(new AdminTabTimers(this));
-            _tabs.Add(new AdminTabQuestions(this));
-            _tabs.Add(new AdminTabRecipes(this));
-            _tabs.Add(new AdminTabText(this));
-            _tabs.Add(new AdminTabContent(this));
-            _tabs.Add(new AdminTabAudit(this));
-            _tabs.Add(new AdminTabSecurity(this));
+            _allTabs.Add(new AdminTabProgress(this));
+            _allTabs.Add(new AdminTabTimers(this));
+            _allTabs.Add(new AdminTabQuestions(this));
+            _allTabs.Add(new AdminTabRecipes(this));
+            _allTabs.Add(new AdminTabText(this));
+            _allTabs.Add(new AdminTabContent(this));
+            _allTabs.Add(new AdminTabAudit(this));
+            _allTabs.Add(new AdminTabSecurity(this));
+        }
+
+        // While the device is still on the default PIN, only the Security
+        // tab is reachable. The teacher has to replace the default before
+        // anything else can be changed.
+        _tabs.Clear();
+        for (int i = 0; i < _allTabs.Count; i++)
+        {
+            if (AdminSecurity.MustChangePin && !(_allTabs[i] is AdminTabSecurity)) continue;
+            _tabs.Add(_allTabs[i]);
         }
 
         for (int i = _tabBar.childCount - 1; i >= 0; i--)
         {
             GameObject child = _tabBar.GetChild(i).gameObject;
+            child.SetActive(false);
             Destroy(child);
         }
 
@@ -467,15 +471,93 @@ public class AdminPanelRoot : MonoBehaviour
             AdminTabBase tab = _tabs[i];
             Button button = AdminUi.CreateButton(_tabBar, "Tab_" + tab.TitleKey,
                 AdminStrings.Get(tab.TitleKey), () => SelectTab(tab), AdminUi.Card, AdminUi.FontSmall);
-            LayoutElement layout = button.GetComponent<LayoutElement>();
+            LayoutElement layout = AdminUi.EnsureLayout(button.gameObject);
             layout.minWidth = 300f;
             layout.preferredWidth = 300f;
             layout.minHeight = 80f;
+            layout.preferredHeight = 80f;
             layout.flexibleWidth = 0f;
         }
 
         SelectTab(_tabs[0]);
     }
+
+    /// <summary>
+    /// Shows a confirmation dialog over the panel. The panel stays visible
+    /// behind it, so the teacher can see what they are about to change.
+    /// </summary>
+    public void Confirm(string title, string message, string confirmLabel, System.Action onConfirm)
+    {
+        if (_confirmOverlay != null)
+        {
+            _confirmOverlay.SetActive(false);
+            Destroy(_confirmOverlay);
+        }
+
+        Image backdrop = AdminUi.CreatePanel(_canvas.transform, "ConfirmOverlay",
+                                             new Color(0f, 0f, 0f, 0.6f));
+        AdminUi.Stretch(backdrop.rectTransform);
+        backdrop.raycastTarget = true;
+        _confirmOverlay = backdrop.gameObject;
+
+        Image card = AdminUi.CreatePanel(backdrop.transform, "Card", AdminUi.Panel);
+        RectTransform cardRect = card.rectTransform;
+        cardRect.anchorMin = new Vector2(0.5f, 0.5f);
+        cardRect.anchorMax = new Vector2(0.5f, 0.5f);
+        cardRect.pivot = new Vector2(0.5f, 0.5f);
+        cardRect.anchoredPosition = Vector2.zero;
+        cardRect.sizeDelta = new Vector2(880f, 520f);
+
+        TMP_Text heading = AdminUi.CreateText(card.transform, "Title", title,
+            AdminUi.FontHeading, TextAlignmentOptions.TopLeft, AdminUi.Text);
+        RectTransform headingRect = heading.rectTransform;
+        headingRect.anchorMin = new Vector2(0f, 1f);
+        headingRect.anchorMax = new Vector2(1f, 1f);
+        headingRect.pivot = new Vector2(0.5f, 1f);
+        headingRect.offsetMin = new Vector2(30f, -80f);
+        headingRect.offsetMax = new Vector2(-30f, -20f);
+
+        TMP_Text body = AdminUi.CreateText(card.transform, "Message", message,
+            AdminUi.FontBody, TextAlignmentOptions.TopLeft, AdminUi.Muted);
+        RectTransform bodyRect = body.rectTransform;
+        bodyRect.anchorMin = new Vector2(0f, 1f);
+        bodyRect.anchorMax = new Vector2(1f, 1f);
+        bodyRect.pivot = new Vector2(0.5f, 1f);
+        bodyRect.offsetMin = new Vector2(30f, -260f);
+        bodyRect.offsetMax = new Vector2(-30f, -90f);
+
+        Button cancel = AdminUi.CreateButton(card.transform, "Cancel", AdminStrings.Get("cancel"),
+            () => CloseConfirm(), AdminUi.CardAlt, AdminUi.FontBody);
+        RectTransform cancelRect = cancel.GetComponent<RectTransform>();
+        cancelRect.anchorMin = new Vector2(0f, 0f);
+        cancelRect.anchorMax = new Vector2(0.5f, 0f);
+        cancelRect.pivot = new Vector2(0f, 0f);
+        cancelRect.anchoredPosition = new Vector2(30f, 30f);
+        cancelRect.sizeDelta = new Vector2(380f, 84f);
+
+        Button accept = AdminUi.CreateButton(card.transform, "Accept", confirmLabel,
+            () =>
+            {
+                CloseConfirm();
+                if (onConfirm != null) onConfirm();
+            }, AdminUi.Danger, AdminUi.FontBody);
+        RectTransform acceptRect = accept.GetComponent<RectTransform>();
+        acceptRect.anchorMin = new Vector2(1f, 0f);
+        acceptRect.anchorMax = new Vector2(1f, 0f);
+        acceptRect.pivot = new Vector2(1f, 0f);
+        acceptRect.anchoredPosition = new Vector2(-30f, 30f);
+        acceptRect.sizeDelta = new Vector2(380f, 84f);
+    }
+
+    private void CloseConfirm()
+    {
+        if (_confirmOverlay == null) return;
+        _confirmOverlay.SetActive(false);
+        Destroy(_confirmOverlay);
+        _confirmOverlay = null;
+    }
+
+    private GameObject _confirmOverlay;
 
     private void SelectTab(AdminTabBase tab)
     {

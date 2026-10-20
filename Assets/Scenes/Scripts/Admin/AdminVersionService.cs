@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -13,7 +14,8 @@ using UnityEngine;
 /// ContentRevision counts how many times the teacher has saved a change to
 /// the admin configuration. It is the honest replacement for "version
 /// control" at runtime: there is no source control on a device, but the
-/// content does have a revision number that teachers can quote.
+/// content does have a revision number that teachers can quote, and the date
+/// of the last change is shown next to it.
 /// </summary>
 public static class AdminVersionService
 {
@@ -24,9 +26,13 @@ public static class AdminVersionService
     public static string DisplayVersion =>
         AdminContentStore.GetString(AdminGameConfig.KeyDisplayVersion, Application.version);
 
+    /// <summary>Raised when the displayed version changes, so labels can refresh.</summary>
+    public static event Action OnDisplayVersionChanged;
+
     public static void SetDisplayVersion(string value)
     {
         AdminContentStore.SetString(AdminGameConfig.KeyDisplayVersion, value ?? Application.version);
+        OnDisplayVersionChanged?.Invoke();
     }
 
     public static bool IsDisplayVersionOverridden =>
@@ -35,14 +41,41 @@ public static class AdminVersionService
     /// <summary>How many times the admin configuration has been saved.</summary>
     public static int ContentRevision => AdminContentStore.ContentRevision;
 
-    /// <summary>The label used on the title screen and in Settings.</summary>
+    /// <summary>The short label, for example "v1.2.0 | content 14".</summary>
     public static string Label
     {
         get
         {
             string version = DisplayVersion;
-            if (ContentRevision > 0) return "Version " + version + " (rev " + ContentRevision + ")";
-            return "Version " + version;
+            if (string.IsNullOrEmpty(version)) version = BuildVersion;
+            if (!version.StartsWith("v")) version = "v" + version;
+            return version + " | content " + ContentRevision;
+        }
+    }
+
+    /// <summary>
+    /// The label with the date of the last content change underneath it, for
+    /// example "v1.2.0 | content 14" and "2026-10-21 03:12".
+    /// </summary>
+    public static string LabelWithDate
+    {
+        get
+        {
+            string label = Label;
+            string date = LastChangedShort;
+            return string.IsNullOrEmpty(date) ? label : label + "\n" + date;
+        }
+    }
+
+    /// <summary>When the admin content was last changed, in local time.</summary>
+    public static string LastChangedShort
+    {
+        get
+        {
+            string utc = AdminContentStore.UpdatedUtc;
+            if (string.IsNullOrEmpty(utc)) return "";
+            if (!DateTime.TryParse(utc, out DateTime parsed)) return "";
+            return parsed.ToLocalTime().ToString("yyyy-MM-dd HH:mm");
         }
     }
 }

@@ -28,9 +28,15 @@ using UnityEngine;
 /// </summary>
 public static class AdminContentStore
 {
-    public const int SchemaVersion = 1;
+    public const int SchemaVersion = 2;
     public const string FileName = "admin_content.json";
-    public const int MaxAuditEntries = 200;
+    public const string TempFileName = "admin_content.json.tmp";
+    public const string CorruptFileName = "admin_content.corrupt.json";
+    public const int MaxAuditEntries = 500;
+    public const int MaxBackups = 5;
+
+    /// <summary>Key of the flag that lets the admin system be switched off.</summary>
+    public const string KeyAdminEnabled = "admin.enabled";
 
     // ------------------------------------------------------------------
     // Serializable document model
@@ -90,16 +96,37 @@ public static class AdminContentStore
         public string id;
         public string nameEn;
         public string nameFil;
+        public string descriptionEn;
+        public string descriptionFil;
+        public string category;
         public string unlockStageId;
         public List<RecipeBlock> blocks = new List<RecipeBlock>();
     }
 
+    /// <summary>
+    /// A piece of editable game content that is not a question or a recipe:
+    /// categories, levels and rewards all use this shape.
+    /// </summary>
+    [Serializable]
+    public class ContentEntry
+    {
+        public string id = "";
+        public string group = "";
+        public string name = "";
+        public string value = "";
+        public bool enabled = true;
+    }
+
+    /// <summary>One line of the audit log.</summary>
     [Serializable]
     public class AuditEntry
     {
-        public string utc;
-        public string action;
-        public string detail;
+        public string utc = "";
+        public string tab = "";
+        public string action = "";
+        public string oldValue = "";
+        public string newValue = "";
+        public string detail = "";
     }
 
     [Serializable]
@@ -115,6 +142,7 @@ public static class AdminContentStore
         public List<TextEntry> texts = new List<TextEntry>();
         public List<QuestionPool> questionPools = new List<QuestionPool>();
         public List<RecipeOverride> recipes = new List<RecipeOverride>();
+        public List<ContentEntry> content = new List<ContentEntry>();
         public List<AuditEntry> audit = new List<AuditEntry>();
     }
 
@@ -132,6 +160,15 @@ public static class AdminContentStore
     public static string FilePath =>
         Path.Combine(Application.persistentDataPath, FileName);
 
+    public static string TempFilePath =>
+        Path.Combine(Application.persistentDataPath, TempFileName);
+
+    public static string BackupFolder =>
+        Path.Combine(Application.persistentDataPath, "admin_backups");
+
+    public static string ExportFolder =>
+        Path.Combine(Application.persistentDataPath, "admin_exports");
+
     // ------------------------------------------------------------------
     // Lifecycle
     // ------------------------------------------------------------------
@@ -142,29 +179,59 @@ public static class AdminContentStore
         _loaded = true;
 
         Document loaded = null;
+        string path = FilePath;
+
         try
         {
-            string path = FilePath;
             if (File.Exists(path))
             {
                 string json = File.ReadAllText(path);
                 if (!string.IsNullOrEmpty(json))
                 {
                     loaded = JsonUtility.FromJson<Document>(json);
+                    if (loaded == null)
+                    {
+                        QuarantineCorruptFile(path, "the file did not contain a readable admin document");
+                    }
                 }
             }
         }
         catch (Exception e)
         {
-            Debug.LogWarning("[AdminContentStore] Could not read admin config, starting fresh: " + e.Message);
+            Debug.LogWarning("[AdminContentStore] Could not read the admin config, falling back to defaults: " + e.Message);
+            QuarantineCorruptFile(path, e.Message);
             loaded = null;
         }
 
         _doc = loaded ?? new Document();
         Normalize(_doc);
+        Migrate(_doc);
     }
 
-    /// <summary>Makes sure every list exists and the schema version matches.</summary>
+    /// <summary>
+    /// Moves a file that could not be parsed out of the way, so the game can
+    /// start from the built-in defaults without the bad file being silently
+    /// overwritten by the next save.
+    /// </summary>
+    private static void QuarantineCorruptFile(string path, string reason)
+    {
+        try
+        {
+            if (!File.Exists(path)) return;
+            string target = Path.Combine(Application.persistentDataPath, CorruptFileName);
+            if (File.Exists(target)) File.Delete(target);
+            File.Move(path, target);
+            Debug.LogWarning("[AdminContentStore] The admin config could not be read (" + reason +
+                             "). It was moved to " + CorruptFileName +
+                             " and the built-in defaults are in use.");
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning("[AdminContentStore] Could not move the unreadable admin config aside: " + e.Message);
+        }
+    }
+
+    /// <summary>Makes sure every list exists.</summary>
     private static void Normalize(Document d)
     {
         if (d.strings == null) d.strings = new List<StringEntry>();
@@ -173,17 +240,47 @@ public static class AdminContentStore
         if (d.texts == null) d.texts = new List<TextEntry>();
         if (d.questionPools == null) d.questionPools = new List<QuestionPool>();
         if (d.recipes == null) d.recipes = new List<RecipeOverride>();
+        if (d.content == null) d.content = new List<ContentEntry>();
         if (d.audit == null) d.audit = new List<AuditEntry>();
-
-        if (d.schemaVersion != SchemaVersion)
-        {
-            Debug.LogWarning("[AdminContentStore] Config schema " + d.schemaVersion +
-                             " differs from " + SchemaVersion + "; unknown fields are ignored.");
-            d.schemaVersion = SchemaVersion;
-        }
     }
 
-    /// <summary>Writes the document to disk. Bumps the content revision by default.</summary>
+    /// <summary>
+    /// Brings an older document up to the current schema. Every step is
+    /// additive, so a document written by any shipped version keeps its data.
+    /// </summary>
+    private static void Migrate(Document d)
+    {
+        if (d.schemaVersion == SchemaVersion) return;
+
+        if (d.schemaVersion < 2)
+        {
+            // v1 -> v2: the audit log gained a tab and an old/new value, the
+            // recipe gained a description and a category, and a new list of
+            // editable content (categories, levels, rewards) was added. Old
+            // entries keep their action and detail and simply have empty new
+            // fields.
+            for (int i = 0; i < d.audit.Count; i++)
+            {
+                AuditEntry e = d.audit[i];
+                if (e == null) continue;
+                if (e.tab == null) e.tab = "";
+                if (e.oldValue == null) e.oldValue = "";
+                if (e.newValue == null) e.newValue = "";
+            }
+        }
+
+        d.schemaVersion = SchemaVersion;
+    }
+
+    // ------------------------------------------------------------------
+    // Saving
+    // ------------------------------------------------------------------
+
+    /// <summary>
+    /// Writes the document to disk. The file is written to a temp path first
+    /// and then moved over the target, so a crash can never leave a partially
+    /// written file behind. Bumps the content revision by default.
+    /// </summary>
     public static void Save(bool bumpRevision = true)
     {
         Load();
@@ -196,16 +293,96 @@ public static class AdminContentStore
         _doc.updatedUtc = DateTime.UtcNow.ToString("o");
         _doc.schemaVersion = SchemaVersion;
 
+        string path = FilePath;
+        string temp = TempFilePath;
+
         try
         {
-            string path = FilePath;
             string dir = Path.GetDirectoryName(path);
             if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir)) Directory.CreateDirectory(dir);
-            File.WriteAllText(path, JsonUtility.ToJson(_doc, true));
+
+            string json = JsonUtility.ToJson(_doc, true);
+
+            // 1. write the new file beside the target
+            File.WriteAllText(temp, json);
+
+            // 2. keep a copy of what we are about to replace
+            Backup(path);
+
+            // 3. move it over the target in one step
+            if (File.Exists(path)) File.Delete(path);
+            File.Move(temp, path);
         }
         catch (Exception e)
         {
-            Debug.LogError("[AdminContentStore] Failed to save admin config: " + e.Message);
+            Debug.LogError("[AdminContentStore] Failed to save the admin config: " + e.Message);
+            try { if (File.Exists(temp)) File.Delete(temp); } catch { }
+        }
+    }
+
+    /// <summary>Keeps a copy of the file we are about to replace.</summary>
+    private static void Backup(string path)
+    {
+        try
+        {
+            if (!File.Exists(path)) return;
+            string folder = BackupFolder;
+            if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
+
+            // shift the existing backups up by one and drop the oldest
+            for (int i = MaxBackups - 1; i >= 1; i--)
+            {
+                string from = Path.Combine(folder, "admin_content." + i + ".json");
+                string to = Path.Combine(folder, "admin_content." + (i + 1) + ".json");
+                if (!File.Exists(from)) continue;
+                // File.Move has no overwrite overload in the .NET Standard 2.1
+                // profile that Unity uses, so the target is removed first.
+                if (File.Exists(to)) File.Delete(to);
+                File.Move(from, to);
+            }
+
+            File.Copy(path, Path.Combine(folder, "admin_content.1.json"), true);
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning("[AdminContentStore] Could not write a backup: " + e.Message);
+        }
+    }
+
+    /// <summary>Lists the backup files, newest first.</summary>
+    public static List<string> GetBackups()
+    {
+        List<string> result = new List<string>();
+        try
+        {
+            string folder = BackupFolder;
+            if (!Directory.Exists(folder)) return result;
+            for (int i = 1; i <= MaxBackups; i++)
+            {
+                string path = Path.Combine(folder, "admin_content." + i + ".json");
+                if (File.Exists(path)) result.Add(path);
+            }
+        }
+        catch { }
+        return result;
+    }
+
+    /// <summary>Restores a backup file over the live config.</summary>
+    public static bool RestoreBackup(string backupPath)
+    {
+        try
+        {
+            if (!File.Exists(backupPath)) return false;
+            File.Copy(backupPath, FilePath, true);
+            _loaded = false;
+            _doc = null;
+            Load();
+            return true;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("[AdminContentStore] Could not restore the backup: " + e.Message);
+            return false;
         }
     }
 
@@ -315,6 +492,22 @@ public static class AdminContentStore
     }
 
     // ------------------------------------------------------------------
+    // The admin system can be switched off entirely
+    // ------------------------------------------------------------------
+
+    /// <summary>
+    /// False when the teacher has turned the admin system off, for example
+    /// before shipping a build to players. The entry point checks this and
+    /// refuses to open the panel.
+    /// </summary>
+    public static bool IsAdminEnabled => GetBool(KeyAdminEnabled, true);
+
+    public static void SetAdminEnabled(bool enabled)
+    {
+        SetBool(KeyAdminEnabled, enabled);
+    }
+
+    // ------------------------------------------------------------------
     // Override presence and clearing
     // ------------------------------------------------------------------
 
@@ -366,6 +559,18 @@ public static class AdminContentStore
         {
             if (_doc.texts[i].key == original) return _doc.texts[i].value;
         }
+
+        // Fall back to a whitespace-insensitive match. A TextMeshPro string
+        // read at runtime can differ from the one that was serialised (a
+        // trailing newline, for example), and the override has to still land.
+        string trimmed = original.Trim();
+        for (int i = 0; i < _doc.texts.Count; i++)
+        {
+            if (_doc.texts[i].key != null && _doc.texts[i].key.Trim() == trimmed)
+            {
+                return _doc.texts[i].value;
+            }
+        }
         return original;
     }
 
@@ -400,11 +605,39 @@ public static class AdminContentStore
         _doc.texts.Add(new TextEntry { key = original, value = replacement });
     }
 
+    /// <summary>
+    /// Given the text that is currently on screen, returns the ORIGINAL string
+    /// that an override replaced. The scene already shows the replaced text
+    /// after the applier has run, so without this the second edit of the
+    /// same string would be keyed off the replacement and stop matching the
+    /// scene. Returns the input when nothing matches.
+    /// </summary>
+    public static string GetOriginalText(string current)
+    {
+        Load();
+        if (_doc == null || string.IsNullOrEmpty(current)) return current;
+        for (int i = 0; i < _doc.texts.Count; i++)
+        {
+            if (_doc.texts[i].value == current) return _doc.texts[i].key;
+        }
+        return current;
+    }
+
     public static void ClearText(string original)
     {
         Load();
         if (_doc == null) return;
         _doc.texts.RemoveAll(e => e.key == original);
+    }
+
+    /// <summary>Removes every text override, so all scene text goes back to default.</summary>
+    public static int ClearAllText()
+    {
+        Load();
+        if (_doc == null) return 0;
+        int count = _doc.texts.Count;
+        _doc.texts.Clear();
+        return count;
     }
 
     /// <summary>All text replacements currently in effect, for the admin UI.</summary>
@@ -499,25 +732,83 @@ public static class AdminContentStore
         return _doc != null ? new List<RecipeOverride>(_doc.recipes) : new List<RecipeOverride>();
     }
 
-    public static void ClearRecipes()
+    // ------------------------------------------------------------------
+    // Editable content (categories, levels, rewards)
+    // ------------------------------------------------------------------
+
+    public static List<ContentEntry> GetContent(string group)
+    {
+        Load();
+        List<ContentEntry> result = new List<ContentEntry>();
+        if (_doc == null) return result;
+        for (int i = 0; i < _doc.content.Count; i++)
+        {
+            if (_doc.content[i] != null && _doc.content[i].group == group) result.Add(_doc.content[i]);
+        }
+        return result;
+    }
+
+    public static ContentEntry GetContentEntry(string group, string id)
+    {
+        Load();
+        if (_doc == null) return null;
+        for (int i = 0; i < _doc.content.Count; i++)
+        {
+            if (_doc.content[i] != null && _doc.content[i].group == group && _doc.content[i].id == id)
+            {
+                return _doc.content[i];
+            }
+        }
+        return null;
+    }
+
+    public static void SetContentEntry(ContentEntry entry)
+    {
+        Load();
+        if (entry == null) return;
+        for (int i = 0; i < _doc.content.Count; i++)
+        {
+            if (_doc.content[i] != null && _doc.content[i].group == entry.group && _doc.content[i].id == entry.id)
+            {
+                _doc.content[i] = entry;
+                return;
+            }
+        }
+        _doc.content.Add(entry);
+    }
+
+    public static void RemoveContentEntry(string group, string id)
     {
         Load();
         if (_doc == null) return;
-        _doc.recipes.Clear();
+        _doc.content.RemoveAll(c => c != null && c.group == group && c.id == id);
     }
 
     // ------------------------------------------------------------------
     // Audit log
     // ------------------------------------------------------------------
 
+    /// <summary>Appends a line to the audit log without a tab or old/new value.</summary>
     public static void AddAudit(string action, string detail)
+    {
+        AddAudit("", action, "", "", detail);
+    }
+
+    /// <summary>
+    /// Appends a line to the audit log, recording which tab made the change
+    /// and what the value was before and after.
+    /// </summary>
+    public static void AddAudit(string tab, string action, string oldValue, string newValue, string detail)
     {
         Load();
         if (_doc == null) return;
         _doc.audit.Add(new AuditEntry
         {
             utc = DateTime.UtcNow.ToString("o"),
+            tab = tab ?? "",
             action = action ?? "",
+            oldValue = oldValue ?? "",
+            newValue = newValue ?? "",
             detail = detail ?? ""
         });
         while (_doc.audit.Count > MaxAuditEntries)
@@ -532,6 +823,15 @@ public static class AdminContentStore
         return _doc != null ? new List<AuditEntry>(_doc.audit) : new List<AuditEntry>();
     }
 
+    /// <summary>Empties the audit log. The log itself is not an override.</summary>
+    public static void ClearAudit()
+    {
+        Load();
+        if (_doc == null) return;
+        _doc.audit.Clear();
+        Save(bumpRevision: false);
+    }
+
     // ------------------------------------------------------------------
     // Export / import
     // ------------------------------------------------------------------
@@ -540,6 +840,59 @@ public static class AdminContentStore
     {
         Load();
         return JsonUtility.ToJson(_doc, true);
+    }
+
+    /// <summary>
+    /// The live document. Used to build a patch, which copies the parts it
+    /// needs. Callers must not modify what they get back.
+    /// </summary>
+    public static Document ExportDocument()
+    {
+        Load();
+        return _doc;
+    }
+
+    /// <summary>
+    /// Writes the current configuration to a file in the export folder and
+    /// returns its path, so it can be copied off the device.
+    /// </summary>
+    public static string ExportToFile(string fileName = null)
+    {
+        try
+        {
+            string folder = ExportFolder;
+            if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
+
+            string name = string.IsNullOrEmpty(fileName)
+                ? "nutriquest_admin_" + DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".json"
+                : fileName;
+
+            string path = Path.Combine(folder, name);
+            File.WriteAllText(path, ExportJson());
+            Debug.Log("[AdminContentStore] Exported the admin config to " + path);
+            return path;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("[AdminContentStore] Could not export the admin config: " + e.Message);
+            return null;
+        }
+    }
+
+    /// <summary>Lists the exported configuration files, newest first.</summary>
+    public static List<string> GetExports()
+    {
+        List<string> result = new List<string>();
+        try
+        {
+            string folder = ExportFolder;
+            if (!Directory.Exists(folder)) return result;
+            string[] files = Directory.GetFiles(folder, "*.json");
+            Array.Sort(files, (a, b) => File.GetLastWriteTimeUtc(b).CompareTo(File.GetLastWriteTimeUtc(a)));
+            result.AddRange(files);
+        }
+        catch { }
+        return result;
     }
 
     /// <summary>
@@ -583,8 +936,49 @@ public static class AdminContentStore
         MergeTextEntries(_doc.texts, incoming.texts);
         MergeQuestionPools(_doc.questionPools, incoming.questionPools);
         MergeRecipes(_doc.recipes, incoming.recipes);
+        MergeContentEntries(_doc.content, incoming.content);
 
         return true;
+    }
+
+    /// <summary>
+    /// Merges a document over the current one. Used by the patch system,
+    /// which already has a parsed document in hand.
+    /// </summary>
+    public static bool ImportDocument(Document incoming, out string error)
+    {
+        error = "";
+        if (incoming == null)
+        {
+            error = "Not a valid admin configuration.";
+            return false;
+        }
+
+        Normalize(incoming);
+        Load();
+
+        MergeStringEntries(_doc.strings, incoming.strings);
+        MergeNumberEntries(_doc.numbers, incoming.numbers);
+        MergeFlagEntries(_doc.flags, incoming.flags);
+        MergeTextEntries(_doc.texts, incoming.texts);
+        MergeQuestionPools(_doc.questionPools, incoming.questionPools);
+        MergeRecipes(_doc.recipes, incoming.recipes);
+        MergeContentEntries(_doc.content, incoming.content);
+
+        return true;
+    }
+
+    private static void MergeContentEntries(List<ContentEntry> into, List<ContentEntry> from)
+    {
+        if (from == null) return;
+        for (int i = 0; i < from.Count; i++)
+        {
+            ContentEntry s = from[i];
+            if (s == null || string.IsNullOrEmpty(s.id)) continue;
+            ContentEntry existing = into.Find(e => e != null && e.group == s.group && e.id == s.id);
+            if (existing != null) into[into.IndexOf(existing)] = s;
+            else into.Add(s);
+        }
     }
 
     private static void MergeStringEntries(List<StringEntry> into, List<StringEntry> from)

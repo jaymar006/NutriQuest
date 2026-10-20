@@ -16,8 +16,9 @@ using UnityEngine;
 /// have to move server side, which the current GooglePlayGamesService stub
 /// cannot provide.
 ///
-/// There is deliberately NO default PIN in the build. The first person to open
-/// the admin panel creates one, so every installation has its own secret.
+/// A fresh install starts on a well known default PIN and is flagged
+/// <see cref="MustChangePin"/>. The panel refuses to open any other tab until
+/// the teacher replaces it, so the default never becomes the real one.
 ///
 /// The PIN is stored in its own file so that exporting the admin configuration
 /// (which teachers share between devices) never leaks it.
@@ -30,7 +31,19 @@ public static class AdminSecurity
     public const int LockoutMinutes = 5;
     public const int Iterations = 10000;
 
+    /// <summary>
+    /// The PIN a fresh install starts with. It is only ever accepted until
+    /// the teacher changes it, and the panel refuses to open any other tab
+    /// until then. It is deliberately well known: the point is that a teacher
+    /// can always get back in, not that it is secret.
+    /// </summary>
+    public const string DefaultPin = "1234";
+
     public const string FileName = "admin_pin.json";
+
+    /// <summary>Key of the lockout setting in the admin content store.</summary>
+    public const string KeyLockoutAttempts = "admin.lockoutAttempts";
+    public const string KeyLockoutMinutes = "admin.lockoutMinutes";
 
     [Serializable]
     private class PinRecord
@@ -40,6 +53,7 @@ public static class AdminSecurity
         public int iterations = Iterations;
         public int failedAttempts = 0;
         public string lockoutUntilUtc = "";
+        public bool mustChange = true;
     }
 
     private static PinRecord _record;
@@ -55,6 +69,30 @@ public static class AdminSecurity
             return _record != null && !string.IsNullOrEmpty(_record.hash);
         }
     }
+
+    /// <summary>
+    /// True while the device is still on the default PIN. The panel blocks
+    /// every other tab until the teacher changes it.
+    /// </summary>
+    public static bool MustChangePin
+    {
+        get
+        {
+            Load();
+            return _record != null && _record.mustChange;
+        }
+    }
+
+    /// <summary>How many wrong attempts are allowed before a lockout.</summary>
+    public static int AllowedAttempts =>
+        Mathf.Clamp(AdminContentStore.GetInt(KeyLockoutAttempts, MaxFailedAttempts), 1, 99);
+
+    /// <summary>How long a lockout lasts, in minutes.</summary>
+    public static int LockoutMinutesConfigured =>
+        Mathf.Clamp(AdminContentStore.GetInt(KeyLockoutMinutes, LockoutMinutes), 1, 1440);
+
+    /// <summary>False when the teacher has switched the admin system off.</summary>
+    public static bool IsAdminEnabled => AdminContentStore.IsAdminEnabled;
 
     public static int FailedAttempts
     {
@@ -118,6 +156,25 @@ public static class AdminSecurity
         }
 
         if (_record == null) _record = new PinRecord();
+
+        // A fresh install starts on the default PIN and is told to change it.
+        if (string.IsNullOrEmpty(_record.hash))
+        {
+            byte[] salt = new byte[16];
+            using (RandomNumberGenerator rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(salt);
+            }
+            _record.salt = Convert.ToBase64String(salt);
+            _record.iterations = Iterations;
+            _record.hash = Convert.ToBase64String(Derive(DefaultPin, salt, Iterations));
+            _record.failedAttempts = 0;
+            _record.lockoutUntilUtc = "";
+            _record.mustChange = true;
+            Save();
+            Debug.Log("[AdminSecurity] No PIN was set on this device, so the default PIN (" +
+                      DefaultPin + ") is active. Change it from the Security tab.");
+        }
     }
 
     private static void Save()
@@ -163,6 +220,7 @@ public static class AdminSecurity
         _record.hash = Convert.ToBase64String(Derive(pin, salt, Iterations));
         _record.failedAttempts = 0;
         _record.lockoutUntilUtc = "";
+        _record.mustChange = false;
         Save();
         return true;
     }
@@ -245,6 +303,7 @@ public static class AdminSecurity
         _record.hash = Convert.ToBase64String(Derive(newPin, salt, Iterations));
         _record.failedAttempts = 0;
         _record.lockoutUntilUtc = "";
+        _record.mustChange = false;
         Save();
         return true;
     }
@@ -282,9 +341,9 @@ public static class AdminSecurity
     private static void RegisterFailure()
     {
         _record.failedAttempts++;
-        if (_record.failedAttempts >= MaxFailedAttempts)
+        if (_record.failedAttempts >= AllowedAttempts)
         {
-            _record.lockoutUntilUtc = DateTime.UtcNow.AddMinutes(LockoutMinutes).ToString("o");
+            _record.lockoutUntilUtc = DateTime.UtcNow.AddMinutes(LockoutMinutesConfigured).ToString("o");
             _record.failedAttempts = 0;
         }
         Save();

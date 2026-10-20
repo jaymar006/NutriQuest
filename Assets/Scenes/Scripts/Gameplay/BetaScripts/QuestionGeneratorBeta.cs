@@ -25,6 +25,21 @@ public class QuestionData
     [Tooltip("Filipino translation of Answer D. Leave empty to use English.")]
     public string answerDFilipino;
     // correctAnswer does not need translation — it is always "A", "B", "C", or "D"
+
+    [Header("Admin")]
+    [Tooltip("A disabled question is kept in the pool but never asked. " +
+             "The default is true so the questions that were already in the " +
+             "scenes stay enabled.")]
+    public bool isEnabled = true;
+
+    [Tooltip("Optional topic, for example Nutrition or Exercise.")]
+    public string category = "";
+
+    [Tooltip("1 is easiest, 5 is hardest. Zero means no difficulty was set.")]
+    public int difficulty = 0;
+
+    [Tooltip("Optional explanation shown after the question is answered.")]
+    public string explanation = "";
 }
 
 public class QuestionGeneratorBeta : MonoBehaviour
@@ -44,9 +59,10 @@ public class QuestionGeneratorBeta : MonoBehaviour
     // ------------------------------------------------------------------
     // Teacher overrides from the admin panel.
     //
-    // The built-in pool stays in the Inspector so the scene remains the
-    // source of truth. When the teacher edits the questions, the admin
-    // panel stores a replacement pool and this component prefers it.
+    // The pool comes from AdminQuestionCatalog, which merges the teacher's
+    // override over the built-in catalogue. Reading it through the catalogue
+    // rather than straight from the store keeps one source of truth for
+    // "which questions does this level ask".
     // ------------------------------------------------------------------
 
     private string LevelKey => UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
@@ -55,8 +71,24 @@ public class QuestionGeneratorBeta : MonoBehaviour
     {
         get
         {
-            List<QuestionData> overridden = AdminContentStore.GetQuestionPool(LevelKey);
-            return overridden != null ? overridden : questionPool;
+            List<QuestionData> pool = AdminQuestionCatalog.GetEffective(LevelKey);
+            if (pool != null) return pool;
+            return questionPool;
+        }
+    }
+
+    /// <summary>The pool without the questions the teacher has switched off.</summary>
+    private List<QuestionData> EnabledPool
+    {
+        get
+        {
+            List<QuestionData> all = EffectivePool;
+            List<QuestionData> enabled = new List<QuestionData>();
+            for (int i = 0; i < all.Count; i++)
+            {
+                if (all[i] != null && all[i].isEnabled) enabled.Add(all[i]);
+            }
+            return enabled;
         }
     }
 
@@ -94,11 +126,11 @@ public class QuestionGeneratorBeta : MonoBehaviour
 
     private void Start()
     {
-        List<QuestionData> pool = EffectivePool;
+        List<QuestionData> pool = EnabledPool;
 
         if (pool.Count == 0)
         {
-            Debug.LogError("[QuestionGeneratorBeta] No questions in pool!");
+            Debug.LogError("[QuestionGeneratorBeta] No enabled questions in the pool!");
             return;
         }
 
@@ -131,7 +163,7 @@ public class QuestionGeneratorBeta : MonoBehaviour
 
     private void PickAndShuffleQuestions()
     {
-        List<QuestionData> pool = EffectivePool;
+        List<QuestionData> pool = EnabledPool;
         int count = Mathf.Min(EffectiveQuestionsPerGame, pool.Count);
 
         // Shuffle the pool first

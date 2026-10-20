@@ -16,7 +16,11 @@
                                             "answerAFilipino":  "Kanin at tsokolate",
                                             "answerBFilipino":  "Kanin na maraming mantika at hotdog",
                                             "answerCFilipino":  "Kanin na may potato chips",
-                                            "answerDFilipino":  "Puting kanin na may kaunting gulay sa ibabaw"
+                                            "answerDFilipino":  "Puting kanin na may kaunting gulay sa ibabaw",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which is the healthiest drink for kids?",
@@ -29,7 +33,11 @@
                                             "answerAFilipino":  "Energy drink",
                                             "answerBFilipino":  "Gatas",
                                             "answerCFilipino":  "Soft drinks",
-                                            "answerDFilipino":  "Matamis na juice"
+                                            "answerDFilipino":  "Matamis na juice",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which food is rich in vitamin C, good for immunity?",
@@ -42,7 +50,11 @@
                                             "answerAFilipino":  "Soft drinks",
                                             "answerBFilipino":  "Biskwit",
                                             "answerCFilipino":  "Ponkan (orange)",
-                                            "answerDFilipino":  "Lollipop"
+                                            "answerDFilipino":  "Lollipop",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which is a junk food high in sugar?",
@@ -55,7 +67,11 @@
                                             "answerAFilipino":  "Espinaka",
                                             "answerBFilipino":  "Kanin",
                                             "answerCFilipino":  "Manok",
-                                            "answerDFilipino":  "Chocolate bar"
+                                            "answerDFilipino":  "Chocolate bar",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which is a healthy food that comes from plants?",
@@ -68,7 +84,11 @@
                                             "answerAFilipino":  "Tokwa",
                                             "answerBFilipino":  "Bacon",
                                             "answerCFilipino":  "Hamon",
-                                            "answerDFilipino":  "Tocino"
+                                            "answerDFilipino":  "Tocino",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which should you eat every day, not just occasionally?",
@@ -81,7 +101,11 @@
                                             "answerAFilipino":  "Mga gulay",
                                             "answerBFilipino":  "French fries",
                                             "answerCFilipino":  "Tsokolate",
-                                            "answerDFilipino":  "Soft drinks"
+                                            "answerDFilipino":  "Soft drinks",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which is a healthy snack for kids?",
@@ -94,7 +118,11 @@
                                             "answerAFilipino":  "Matamis na tinapay",
                                             "answerBFilipino":  "Chocolate syrup",
                                             "answerCFilipino":  "Suman",
-                                            "answerDFilipino":  "Soft drinks"
+                                            "answerDFilipino":  "Soft drinks",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which of these foods that you eat with rice is the healthiest?",
@@ -107,7 +135,11 @@
                                             "answerAFilipino":  "Pritong longganisa",
                                             "answerBFilipino":  "Hotdog",
                                             "answerCFilipino":  "Chicharon",
-                                            "answerDFilipino":  "Inihaw na isda"
+                                            "answerDFilipino":  "Inihaw na isda",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which food is less healthy because it is high in fat?",
@@ -120,7 +152,11 @@
                                             "answerAFilipino":  "Isda",
                                             "answerBFilipino":  "Mais",
                                             "answerCFilipino":  "Pritong manok",
-                                            "answerDFilipino":  "Kamote"
+                                            "answerDFilipino":  "Kamote",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which is a junk food that should be avoided?",
@@ -133,7 +169,11 @@
                                             "answerAFilipino":  "Monggo",
                                             "answerBFilipino":  "Potato chips",
                                             "answerCFilipino":  "Itlog",
-                                            "answerDFilipino":  "Pakwan"
+                                            "answerDFilipino":  "Pakwan",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which is a healthier snack?",
@@ -146,7 +186,11 @@
                                             "answerAFilipino":  "Ice cream na may syrup",
                                             "answerBFilipino":  "Isang pakete ng potato chips",
                                             "answerCFilipino":  "Mangga",
-                                            "answerDFilipino":  "Malaking hiwa ng keyk"
+                                            "answerDFilipino":  "Malaking hiwa ng keyk",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which is the better drink to bring to school?",
@@ -159,7 +203,11 @@
                                             "answerAFilipino":  "Napaka tamis na juice",
                                             "answerBFilipino":  "Tubig",
                                             "answerCFilipino":  "Soft drinks",
-                                            "answerDFilipino":  "Energy drink"
+                                            "answerDFilipino":  "Energy drink",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which of these is “junk food”?",
@@ -172,7 +220,11 @@
                                             "answerAFilipino":  "Nilagang mais",
                                             "answerBFilipino":  "Ginisang monggo",
                                             "answerCFilipino":  "Saging na saba",
-                                            "answerDFilipino":  "Matamis na kamote cue"
+                                            "answerDFilipino":  "Matamis na kamote cue",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which is an example of a healthy food in the Pinggang Pinoy?",
@@ -185,7 +237,11 @@
                                             "answerAFilipino":  "Keyk",
                                             "answerBFilipino":  "Talong",
                                             "answerCFilipino":  "Ice cream",
-                                            "answerDFilipino":  "French fries"
+                                            "answerDFilipino":  "French fries",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which of the following is a healthy food that comes from plants?",
@@ -198,7 +254,11 @@
                                             "answerAFilipino":  "Kendi",
                                             "answerBFilipino":  "Saging",
                                             "answerCFilipino":  "Hotdog",
-                                            "answerDFilipino":  "Soft drinks"
+                                            "answerDFilipino":  "Soft drinks",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which food should be limited because it is high in salt?",
@@ -211,7 +271,11 @@
                                             "answerAFilipino":  "Ginisang gulay",
                                             "answerBFilipino":  "Chicharon",
                                             "answerCFilipino":  "Saging",
-                                            "answerDFilipino":  "Sariwang isda"
+                                            "answerDFilipino":  "Sariwang isda",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which is a healthy food that comes from animals?",
@@ -224,7 +288,11 @@
                                             "answerAFilipino":  "Chocolate bar",
                                             "answerBFilipino":  "Keso",
                                             "answerCFilipino":  "Ice cream",
-                                            "answerDFilipino":  "Hotdog"
+                                            "answerDFilipino":  "Hotdog",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which of these is an example of a fruit?",
@@ -237,7 +305,11 @@
                                             "answerAFilipino":  "Kamatis",
                                             "answerBFilipino":  "Karrots",
                                             "answerCFilipino":  "Donut",
-                                            "answerDFilipino":  "Mansanas"
+                                            "answerDFilipino":  "Mansanas",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which food is a healthy \"Go\" food in the Food Pyramid?",
@@ -250,7 +322,11 @@
                                             "answerAFilipino":  "Cupcake",
                                             "answerBFilipino":  "Donut",
                                             "answerCFilipino":  "Chicharon",
-                                            "answerDFilipino":  "Kanin"
+                                            "answerDFilipino":  "Kanin",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which food is rich in vitamin C, good for immunity?",
@@ -263,7 +339,11 @@
                                             "answerAFilipino":  "Soft drinks",
                                             "answerBFilipino":  "Biskwit",
                                             "answerCFilipino":  "Kahel (orange)",
-                                            "answerDFilipino":  "Lollipop"
+                                            "answerDFilipino":  "Lollipop",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         }
                                     ]
                   },
@@ -282,7 +362,11 @@
                                             "answerAFilipino":  "Para makakain ng maraming kendi",
                                             "answerBFilipino":  "Para makainom ng maraming soft drinks",
                                             "answerCFilipino":  "Para hindi na kumain ng tanghalian",
-                                            "answerDFilipino":  "Para magkaroon ng lakas sa pag-aaral at paglalaro sa umaga"
+                                            "answerDFilipino":  "Para magkaroon ng lakas sa pag-aaral at paglalaro sa umaga",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "What is the effect of eating too much junk food like chips?",
@@ -295,7 +379,11 @@
                                             "answerAFilipino":  "Mas lalakas ang katawan",
                                             "answerBFilipino":  "Mas gaganda ang balat",
                                             "answerCFilipino":  "Pagtaba at mga problema sa kalusugan",
-                                            "answerDFilipino":  "Mas bibilis ang paglaki"
+                                            "answerDFilipino":  "Mas bibilis ang paglaki",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Why are green vegetables like pechay or kangkong important?",
@@ -308,7 +396,11 @@
                                             "answerAFilipino":  "Mas lalakas ang katawan",
                                             "answerBFilipino":  "Mas gaganda ang balat",
                                             "answerCFilipino":  "Pagtaba at mga problema sa kalusugan",
-                                            "answerDFilipino":  "Mas bibilis ang paglaki"
+                                            "answerDFilipino":  "Mas bibilis ang paglaki",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which food is rich in fiber to help digestion?",
@@ -321,7 +413,11 @@
                                             "answerAFilipino":  "Puting kanin",
                                             "answerBFilipino":  "Oatmeal",
                                             "answerCFilipino":  "Soft drinks",
-                                            "answerDFilipino":  "Kendi"
+                                            "answerDFilipino":  "Kendi",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "What is a good way to make juice less sweet?",
@@ -334,7 +430,11 @@
                                             "answerAFilipino":  "Magdagdag pa ng asukal",
                                             "answerBFilipino":  "Haluan ng tubig upang mabawasan ang tamis",
                                             "answerCFilipino":  "Inumin agad nang marami",
-                                            "answerDFilipino":  "Lagyan ng suka"
+                                            "answerDFilipino":  "Lagyan ng suka",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "What kind of “Grow” food helps strengthen muscles?",
@@ -347,7 +447,11 @@
                                             "answerAFilipino":  "Mga prutas at gulay lamang",
                                             "answerBFilipino":  "Isda, karne, itlog, at munggo",
                                             "answerCFilipino":  "Kendi at tsokolate",
-                                            "answerDFilipino":  "Soft drinks at juice"
+                                            "answerDFilipino":  "Soft drinks at juice",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Why are fruits like mangoes important for our body?",
@@ -360,7 +464,11 @@
                                             "answerAFilipino":  "Pinapatamis nito ang dugo",
                                             "answerBFilipino":  "Nagpapataba ito",
                                             "answerCFilipino":  "Nagbibigay ito ng bitamina C at nagpapalakas ng panlaban ng katawan",
-                                            "answerDFilipino":  "Pinapasarap nito ang pagkain"
+                                            "answerDFilipino":  "Pinapasarap nito ang pagkain",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which vitamin in carrots is good for eyesight?",
@@ -373,7 +481,11 @@
                                             "answerAFilipino":  "Bitamina B",
                                             "answerBFilipino":  "Bitamina D",
                                             "answerCFilipino":  "Bitamina E",
-                                            "answerDFilipino":  "Bitamina A"
+                                            "answerDFilipino":  "Bitamina A",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "What do “Go” foods like rice and bread do for our body?",
@@ -386,7 +498,11 @@
                                             "answerAFilipino":  "Pumaputi ang balat",
                                             "answerBFilipino":  "Gumaganda ang buhok",
                                             "answerCFilipino":  "Nagbibigay ng enerhiya para makagalaw at makapaglaro",
-                                            "answerDFilipino":  "Mas mabilis makatulog"
+                                            "answerDFilipino":  "Mas mabilis makatulog",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "What is the main benefit of \"Grow\" foods like fish?",
@@ -399,7 +515,11 @@
                                             "answerAFilipino":  "Nagbibigay ng enerhiya",
                                             "answerBFilipino":  "Pinapalakas lamang ang ngipin",
                                             "answerCFilipino":  "Pinapaganda ang tulog",
-                                            "answerDFilipino":  "Tumutulong sa paglaki ng katawan at kalamnan"
+                                            "answerDFilipino":  "Tumutulong sa paglaki ng katawan at kalamnan",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Why is water important in our diet?",
@@ -412,7 +532,11 @@
                                             "answerAFilipino":  "Para tumamis ang pagkain",
                                             "answerBFilipino":  "Para mas sumarap ang pagkain",
                                             "answerCFilipino":  "Pamalit sa gatas",
-                                            "answerDFilipino":  "Para manatiling hydrated at malusog ang katawan"
+                                            "answerDFilipino":  "Para manatiling hydrated at malusog ang katawan",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "What type of fat should be limited in food?",
@@ -425,7 +549,11 @@
                                             "answerAFilipino":  "Masustansyang taba mula sa mani",
                                             "answerBFilipino":  "Masustansyang taba mula sa avocado",
                                             "answerCFilipino":  "Masustansyang taba mula sa isda",
-                                            "answerDFilipino":  "Taba mula sa pritong chicharon at fast food"
+                                            "answerDFilipino":  "Taba mula sa pritong chicharon at fast food",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "What can happen if you rarely eat fruits and vegetables?",
@@ -438,7 +566,11 @@
                                             "answerAFilipino":  "Laging busog at masaya",
                                             "answerBFilipino":  "Magkukulang sa bitamina at mas madaling magkasakit",
                                             "answerCFilipino":  "Agad na lalakas ang katawan",
-                                            "answerDFilipino":  "Mas bibilis ang paglaki ng tangkad"
+                                            "answerDFilipino":  "Mas bibilis ang paglaki ng tangkad",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which food is rich in calcium for strong bones?",
@@ -451,7 +583,11 @@
                                             "answerAFilipino":  "Dilaw na mangga",
                                             "answerBFilipino":  "Gatas",
                                             "answerCFilipino":  "Soft drinks",
-                                            "answerDFilipino":  "Matamis na tinapay"
+                                            "answerDFilipino":  "Matamis na tinapay",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "What should you choose for a healthier snack?",
@@ -464,7 +600,11 @@
                                             "answerAFilipino":  "Tatlong donut",
                                             "answerBFilipino":  "Whole grain crackers na may keso",
                                             "answerCFilipino":  "Ice cream araw-araw",
-                                            "answerDFilipino":  "Malaking pakete ng chips"
+                                            "answerDFilipino":  "Malaking pakete ng chips",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  " Why should we limit foods high in salt?",
@@ -477,7 +617,11 @@
                                             "answerAFilipino":  "Nagbibigay ng bitamina",
                                             "answerBFilipino":  "Nagpapalakas ng katawan",
                                             "answerCFilipino":  "Masarap ang lasa",
-                                            "answerDFilipino":  "Maaari itong magdulot ng altapresyon (high blood pressure)"
+                                            "answerDFilipino":  "Maaari itong magdulot ng altapresyon (high blood pressure)",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Where are foods like sugar and oil found in the Food Pyramid?",
@@ -490,7 +634,11 @@
                                             "answerAFilipino":  "Sa pinakailalim (pinakamalawak na bahagi)",
                                             "answerBFilipino":  "Sa pinakataas (pinakamaliit na bahagi)",
                                             "answerCFilipino":  "Wala ang mga ito sa Food Pyramid",
-                                            "answerDFilipino":  "Sa gitnang bahagi"
+                                            "answerDFilipino":  "Sa gitnang bahagi",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Why shouldn’t we always eat junk food?",
@@ -503,7 +651,11 @@
                                             "answerAFilipino":  "Dahil wala itong lasa",
                                             "answerBFilipino":  "Dahil palagi itong mura",
                                             "answerCFilipino":  "Dahil mataas ito sa asukal, taba, at asin ngunit mababa sa sustansya",
-                                            "answerDFilipino":  "Dahil mas mahirap itong kainin"
+                                            "answerDFilipino":  "Dahil mas mahirap itong kainin",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "What is the main purpose of the Pinggang Pinoy?",
@@ -516,7 +668,11 @@
                                             "answerAFilipino":  "Magturo ng pagluluto",
                                             "answerBFilipino":  "Magbigay ng masasarap na pagkain",
                                             "answerCFilipino":  "Magpakita ng mamahaling pagkain",
-                                            "answerDFilipino":  "Magturo ng balanseng pagkain para sa mabuting kalusugan"
+                                            "answerDFilipino":  "Magturo ng balanseng pagkain para sa mabuting kalusugan",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "What is a good effect of eating fruits every day?",
@@ -529,7 +685,11 @@
                                             "answerAFilipino":  "Mas maraming asukal sa dugo",
                                             "answerBFilipino":  "Mas maraming bitamina at fiber na nakukuha ng katawan",
                                             "answerCFilipino":  "Hindi na kailangang uminom ng tubig",
-                                            "answerDFilipino":  "Hindi na kailangang kumain ng gulay"
+                                            "answerDFilipino":  "Hindi na kailangang kumain ng gulay",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         }
                                     ]
                   },
@@ -548,7 +708,11 @@
                                             "answerAFilipino":  "Ibigay ito sa kaibigan",
                                             "answerBFilipino":  "Palitan ito ng mas masustansiyang pagkain tulad ng mga prutas",
                                             "answerCFilipino":  "Kainin lahat para hindi masayang",
-                                            "answerDFilipino":  "Itago para kainin araw-araw"
+                                            "answerDFilipino":  "Itago para kainin araw-araw",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  " If you’re preparing breakfast, what’s a healthy choice?",
@@ -561,7 +725,11 @@
                                             "answerAFilipino":  "Matamis na cereal at soft drinks",
                                             "answerBFilipino":  "Chicharon at soft drinks",
                                             "answerCFilipino":  "Itlog, kanin, at prutas",
-                                            "answerDFilipino":  "Keyk at kape"
+                                            "answerDFilipino":  "Keyk at kape",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "If you’re playing outside and feel hungry, what’s the best\nsnack?",
@@ -574,7 +742,11 @@
                                             "answerAFilipino":  "Potato chips",
                                             "answerBFilipino":  "Pakwan",
                                             "answerCFilipino":  "Soft drinks",
-                                            "answerDFilipino":  "Tsokolateng kendi (candy bar)"
+                                            "answerDFilipino":  "Tsokolateng kendi (candy bar)",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "For lunch, which is the best to choose with rice?",
@@ -587,7 +759,11 @@
                                             "answerAFilipino":  "Pritong hotdog lamang",
                                             "answerBFilipino":  "Tsokolate at keyk",
                                             "answerCFilipino":  "Chips at soft drinks",
-                                            "answerDFilipino":  "Adobo at ginisang gulay"
+                                            "answerDFilipino":  "Adobo at ginisang gulay",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "If you’re sick, what’s the best food to help you recover\nquickly?",
@@ -600,7 +776,11 @@
                                             "answerAFilipino":  "Soft drinks",
                                             "answerBFilipino":  "Matamis na tinapay",
                                             "answerCFilipino":  "Chicharon",
-                                            "answerDFilipino":  "Sopas na may manok at gulay"
+                                            "answerDFilipino":  "Sopas na may manok at gulay",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  " Before watching TV, which snack would you choose?",
@@ -613,7 +793,11 @@
                                             "answerAFilipino":  "Malaking pakete ng potato chips",
                                             "answerBFilipino":  "Dalawang lata ng soft drinks",
                                             "answerCFilipino":  "Tsokolateng kendi (candy bar)",
-                                            "answerDFilipino":  "Hiniwang mangga"
+                                            "answerDFilipino":  "Hiniwang mangga",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "At a party, which plate is healthier?",
@@ -626,7 +810,11 @@
                                             "answerAFilipino":  "Pancit at soft drinks lamang",
                                             "answerBFilipino":  "Pritong manok lamang, walang gulay",
                                             "answerCFilipino":  "Kaunting kanin, inihaw na isda, at ensaladang gulay",
-                                            "answerDFilipino":  "Keyk at sorbetes lamang"
+                                            "answerDFilipino":  "Keyk at sorbetes lamang",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "If you’re buying a snack, what should you choose?",
@@ -639,7 +827,11 @@
                                             "answerAFilipino":  "Soft drinks",
                                             "answerBFilipino":  "Sorbetes",
                                             "answerCFilipino":  "Suman at mangga",
-                                            "answerDFilipino":  "Chicharon"
+                                            "answerDFilipino":  "Chicharon",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "If you’re an athlete, what should you eat before a game?",
@@ -652,7 +844,11 @@
                                             "answerAFilipino":  "Mamantikang pagkain tulad ng french fries",
                                             "answerBFilipino":  "Kendi para magkaroon ng enerhiya",
                                             "answerCFilipino":  "Huwag nang kumain, maglaro na lang",
-                                            "answerDFilipino":  "Kanin, itlog, at tubig para sa balanseng pagkain"
+                                            "answerDFilipino":  "Kanin, itlog, at tubig para sa balanseng pagkain",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "If you bring adobo and vegetables to school, how should you eat them?",
@@ -665,7 +861,11 @@
                                             "answerAFilipino":  "Adobo lamang ang kainin",
                                             "answerBFilipino":  "Kainin ang gulay at adobo sa tamang balanse",
                                             "answerCFilipino":  "Huwag nang kumain para pumayat",
-                                            "answerDFilipino":  "Itapon ang gulay at bumili ng chips"
+                                            "answerDFilipino":  "Itapon ang gulay at bumili ng chips",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "If buying at the store near school, which is better?",
@@ -678,7 +878,11 @@
                                             "answerAFilipino":  "Soft drinks at chicharon",
                                             "answerBFilipino":  "Tatlong pirasong kendi",
                                             "answerCFilipino":  "De-boteng tubig at saging",
-                                            "answerDFilipino":  "Malaking sorbetes"
+                                            "answerDFilipino":  "Malaking sorbetes",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "After playing basketball, what is the best drink?",
@@ -691,7 +895,11 @@
                                             "answerAFilipino":  "Chips at soft drinks",
                                             "answerBFilipino":  "Matamis na tinapay at energy drink",
                                             "answerCFilipino":  "Sandwich na may gulay at tubig",
-                                            "answerDFilipino":  "Kendi at sorbetes"
+                                            "answerDFilipino":  "Kendi at sorbetes",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "If you’re going on a field trip, what should you pack for lunch?",
@@ -704,7 +912,11 @@
                                             "answerAFilipino":  "Punuin ito ng karne lamang",
                                             "answerBFilipino":  "Punuin ito ng kanin lamang",
                                             "answerCFilipino":  "Punuin ito ng matatamis",
-                                            "answerDFilipino":  "Kendi at sorbetes"
+                                            "answerDFilipino":  "Kendi at sorbetes",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "If you’re preparing your dinner plate, how should you follow\nPinggang Pinoy?",
@@ -717,7 +929,11 @@
                                             "answerAFilipino":  "Punuin ito ng karne lamang",
                                             "answerBFilipino":  "Punuin ito ng kanin lamang",
                                             "answerCFilipino":  "Punuin ito ng matatamis",
-                                            "answerDFilipino":  "Kalahating gulay, isang-kapat na kanin, at isang-kapat na isda"
+                                            "answerDFilipino":  "Kalahating gulay, isang-kapat na kanin, at isang-kapat na isda",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "At recess time: What is better to buy at the canteen?",
@@ -730,7 +946,11 @@
                                             "answerAFilipino":  "Sa oras ng recess, ano ang mas mabuting bilhin sa kantina?",
                                             "answerBFilipino":  "Soft drinks at kendi",
                                             "answerCFilipino":  "Sorbetes",
-                                            "answerDFilipino":  "Saging at tubig"
+                                            "answerDFilipino":  "Saging at tubig",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "When preparing packed lunch for a field trip, which is the most balanced?",
@@ -743,7 +963,11 @@
                                             "answerAFilipino":  "Keyk at juice",
                                             "answerBFilipino":  "Kanin, inihaw na manok, prutas, at tubig",
                                             "answerCFilipino":  "Chips, soft drinks, at kendi",
-                                            "answerDFilipino":  "Donut at energy drink"
+                                            "answerDFilipino":  "Donut at energy drink",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "If you notice you\u0027re always eating chips at night, what is better to do?",
@@ -756,7 +980,11 @@
                                             "answerAFilipino":  "Itago ang chips para kainin araw-araw",
                                             "answerBFilipino":  "Kumain pa ng mas maraming chips",
                                             "answerCFilipino":  "Palitan ito ng prutas o hiniwang gulay paminsan-minsan",
-                                            "answerDFilipino":  "Gawing hapunan ang chips"
+                                            "answerDFilipino":  "Gawing hapunan ang chips",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "If you\u0027re in a hurry in the morning, which is a healthier packed meal?",
@@ -769,7 +997,11 @@
                                             "answerAFilipino":  "Tsokolate at chips",
                                             "answerBFilipino":  "Peanut butter sandwich at isang prutas",
                                             "answerCFilipino":  "Kendi at soft drinks",
-                                            "answerDFilipino":  "Dalawang donut"
+                                            "answerDFilipino":  "Dalawang donut",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "For a birthday party, what’s a healthy food to serve?",
@@ -782,7 +1014,11 @@
                                             "answerAFilipino":  "Chocolate cake",
                                             "answerBFilipino":  "Spaghetti na may matamis na sarsa",
                                             "answerCFilipino":  "Sorbetes na may syrup",
-                                            "answerDFilipino":  "Fruit salad na may yogurt"
+                                            "answerDFilipino":  "Fruit salad na may yogurt",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "For lunch, which is the best to choose with rice?",
@@ -795,7 +1031,11 @@
                                             "answerAFilipino":  "Pritong hotdog lamang",
                                             "answerBFilipino":  "Tsokolate at keyk",
                                             "answerCFilipino":  "Chips at soft drinks",
-                                            "answerDFilipino":  "Adobo at ginisang gulay"
+                                            "answerDFilipino":  "Adobo at ginisang gulay",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         }
                                     ]
                   },
@@ -814,7 +1054,11 @@
                                             "answerAFilipino":  "Mas maraming asukal sa dugo",
                                             "answerBFilipino":  "Mas maraming bitamina at fiber na nakukuha ng katawan",
                                             "answerCFilipino":  "Hindi na kailangang uminom ng tubig",
-                                            "answerDFilipino":  "Hindi na kailangang kumain ng gulay"
+                                            "answerDFilipino":  "Hindi na kailangang kumain ng gulay",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "What is the effect of eating too much junk food like chips?",
@@ -827,7 +1071,11 @@
                                             "answerAFilipino":  "Mas lalakas ang katawan",
                                             "answerBFilipino":  "Mas gaganda ang balat",
                                             "answerCFilipino":  "Pagtaba at mga problema sa kalusugan",
-                                            "answerDFilipino":  "Mas bibilis ang paglaki"
+                                            "answerDFilipino":  "Mas bibilis ang paglaki",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which food is rich in fiber to help digestion?",
@@ -840,7 +1088,11 @@
                                             "answerAFilipino":  "Puting kanin",
                                             "answerBFilipino":  "Oatmeal",
                                             "answerCFilipino":  "Soft drinks",
-                                            "answerDFilipino":  "Kendi"
+                                            "answerDFilipino":  "Kendi",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which food is rich in vitamin C, good for immunity?",
@@ -853,7 +1105,11 @@
                                             "answerAFilipino":  "Soft drinks",
                                             "answerBFilipino":  "Biskwit",
                                             "answerCFilipino":  "Kahel (Orange)",
-                                            "answerDFilipino":  "Lollipop"
+                                            "answerDFilipino":  "Lollipop",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which food is a healthy \"Go\" food in the Food Pyramid?",
@@ -866,7 +1122,11 @@
                                             "answerAFilipino":  "Cupcake",
                                             "answerBFilipino":  "Donut",
                                             "answerCFilipino":  "Chicharon",
-                                            "answerDFilipino":  "Kanin"
+                                            "answerDFilipino":  "Kanin",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which should you eat every day, not just occasionally?",
@@ -879,7 +1139,11 @@
                                             "answerAFilipino":  "Mga gulay",
                                             "answerBFilipino":  "French fries",
                                             "answerCFilipino":  " Tsokolate",
-                                            "answerDFilipino":  "Soft drinks"
+                                            "answerDFilipino":  "Soft drinks",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "What is a good way to make juice less sweet?",
@@ -892,7 +1156,11 @@
                                             "answerAFilipino":  "Magdagdag pa ng asukal",
                                             "answerBFilipino":  "Haluan ng tubig upang mabawasan ang tamis",
                                             "answerCFilipino":  "Inumin agad nang marami",
-                                            "answerDFilipino":  "Lagyan ng kape"
+                                            "answerDFilipino":  "Lagyan ng kape",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "What is the main benefit of \"Grow\" foods like fish?",
@@ -905,7 +1173,11 @@
                                             "answerAFilipino":  "Nagbibigay ng enerhiya",
                                             "answerBFilipino":  "Pinapalakas lamang ang ngipin",
                                             "answerCFilipino":  "Pinapaganda ang tulog",
-                                            "answerDFilipino":  "Tumutulong sa paglaki ng katawan at kalamnan"
+                                            "answerDFilipino":  "Tumutulong sa paglaki ng katawan at kalamnan",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Why shouldn’t we always eat junk food?",
@@ -918,7 +1190,11 @@
                                             "answerAFilipino":  "Dahil mabubulag ka",
                                             "answerBFilipino":  "Dahil palagi itong mura",
                                             "answerCFilipino":  "Dahil mataas ito sa asukal, taba, at asin ngunit mababa sa sustansya",
-                                            "answerDFilipino":  "Dahil mas mahirap itong kainin"
+                                            "answerDFilipino":  "Dahil mas mahirap itong kainin",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Why is water important in our diet?",
@@ -931,7 +1207,11 @@
                                             "answerAFilipino":  "Para tumamis ang pagkain",
                                             "answerBFilipino":  "Para mas sumarap ang pagkain",
                                             "answerCFilipino":  "Pamalit sa gatas",
-                                            "answerDFilipino":  "Para manatiling hydrated at malusog ang katawan"
+                                            "answerDFilipino":  "Para manatiling hydrated at malusog ang katawan",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "What type of fat should be limited in food?",
@@ -944,7 +1224,11 @@
                                             "answerAFilipino":  "Masustansyang taba mula sa mani",
                                             "answerBFilipino":  "Masustansyang taba mula sa avocado",
                                             "answerCFilipino":  "Masustansyang taba mula sa isda",
-                                            "answerDFilipino":  "Taba mula sa pritong chicharon at fast food"
+                                            "answerDFilipino":  "Taba mula sa pritong chicharon at fast food",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "What can happen if you rarely eat fruits and vegetables?",
@@ -957,7 +1241,11 @@
                                             "answerAFilipino":  "Laging busog at masaya",
                                             "answerBFilipino":  "Magkukulang sa bitamina at mas madaling magkasakit",
                                             "answerCFilipino":  "Agad na lalakas ang katawan",
-                                            "answerDFilipino":  "Mas bibilis ang paglaki ng tangkad"
+                                            "answerDFilipino":  "Mas bibilis ang paglaki ng tangkad",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which food is rich in calcium for strong bones?",
@@ -970,7 +1258,11 @@
                                             "answerAFilipino":  "Dilaw na mangga",
                                             "answerBFilipino":  "Gatas",
                                             "answerCFilipino":  "Soft drinks",
-                                            "answerDFilipino":  "Matamis na tinapay"
+                                            "answerDFilipino":  "Matamis na tinapay",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "What should you choose for a healthier snack?",
@@ -983,7 +1275,11 @@
                                             "answerAFilipino":  "Tatlong donut",
                                             "answerBFilipino":  "Whole grain crackers na may keso",
                                             "answerCFilipino":  "Ice cream araw-araw",
-                                            "answerDFilipino":  "Malaking pakete ng chips"
+                                            "answerDFilipino":  "Malaking pakete ng chips",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  " Why should we limit foods high in salt?",
@@ -996,7 +1292,11 @@
                                             "answerAFilipino":  "Nagbibigay ito ng mga bitamina",
                                             "answerBFilipino":  "Pinapalakas nito ang katawan",
                                             "answerCFilipino":  "Masarap ang lasa nito",
-                                            "answerDFilipino":  "Maaari itong magdulot ng altapresyon (high blood pressure)"
+                                            "answerDFilipino":  "Maaari itong magdulot ng altapresyon (high blood pressure)",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Where are foods like sugar and oil found in the Food Pyramid?",
@@ -1009,7 +1309,11 @@
                                             "answerAFilipino":  "Sa pinakailalim (pinakamalawak na bahagi)",
                                             "answerBFilipino":  "Sa pinakataas (pinakamaliit na bahagi)",
                                             "answerCFilipino":  "Wala ang mga ito sa Food Pyramid",
-                                            "answerDFilipino":  "Sa gitnang bahagi"
+                                            "answerDFilipino":  "Sa gitnang bahagi",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "If you’re going on a field trip, what should you pack for lunch?",
@@ -1022,7 +1326,11 @@
                                             "answerAFilipino":  "Chips at soft drinks",
                                             "answerBFilipino":  "Matamis na tinapay at energy drink",
                                             "answerCFilipino":  "Sandwich na may gulay at tubig",
-                                            "answerDFilipino":  "Kendi at sorbetes"
+                                            "answerDFilipino":  "Kendi at sorbetes",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Why shouldn’t we always eat junk food?",
@@ -1035,7 +1343,11 @@
                                             "answerAFilipino":  "Dahil wala itong lasa",
                                             "answerBFilipino":  "Dahil palagi itong mura",
                                             "answerCFilipino":  "Dahil mataas ito sa asukal, taba, at asin ngunit mababa sa sustansya",
-                                            "answerDFilipino":  "Dahil mas mahirap itong kainin"
+                                            "answerDFilipino":  "Dahil mas mahirap itong kainin",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "What is the main purpose of the Pinggang Pinoy?",
@@ -1048,7 +1360,11 @@
                                             "answerAFilipino":  "Magturo ng pagluluto",
                                             "answerBFilipino":  "Magbigay ng masasarap na pagkain",
                                             "answerCFilipino":  "Magpakita ng mamahaling pagkain",
-                                            "answerDFilipino":  " Magturo ng balanseng pagkain para sa mabuting kalusugan"
+                                            "answerDFilipino":  " Magturo ng balanseng pagkain para sa mabuting kalusugan",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which is a healthier rice choice?",
@@ -1061,7 +1377,11 @@
                                             "answerAFilipino":  "Kanin at tsokolate",
                                             "answerBFilipino":  "Kanin na maraming mantika at hotdog",
                                             "answerCFilipino":  "Kanin na may potato chips",
-                                            "answerDFilipino":  "Puting kanin na may kaunting gulay sa ibabaw"
+                                            "answerDFilipino":  "Puting kanin na may kaunting gulay sa ibabaw",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "When preparing packed lunch for a field trip, which is the most balanced?",
@@ -1074,7 +1394,11 @@
                                             "answerAFilipino":  "Keyk at juice",
                                             "answerBFilipino":  "Kanin, inihaw na manok, prutas, at tubig",
                                             "answerCFilipino":  "Chips, soft drinks, at kendi",
-                                            "answerDFilipino":  "Donut at energy drink"
+                                            "answerDFilipino":  "Donut at energy drink",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which is the healthiest drink for kids?",
@@ -1087,7 +1411,11 @@
                                             "answerAFilipino":  "Energy drink",
                                             "answerBFilipino":  "Gatas",
                                             "answerCFilipino":  "Soft drinks",
-                                            "answerDFilipino":  "Matamis na juice"
+                                            "answerDFilipino":  "Matamis na juice",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which is a junk food high in sugar?",
@@ -1100,7 +1428,11 @@
                                             "answerAFilipino":  "Espinaka",
                                             "answerBFilipino":  "Kanin",
                                             "answerCFilipino":  "Manok",
-                                            "answerDFilipino":  "Chocolate bar"
+                                            "answerDFilipino":  "Chocolate bar",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "What kind of “Grow” food helps strengthen muscles?",
@@ -1113,7 +1445,11 @@
                                             "answerAFilipino":  "Mga prutas at gulay lamang",
                                             "answerBFilipino":  "Isda, karne, itlog, at munggo",
                                             "answerCFilipino":  "Kendi at tsokolate",
-                                            "answerDFilipino":  "Soft drinks at juice"
+                                            "answerDFilipino":  "Soft drinks at juice",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which is a healthy food that comes from plants?",
@@ -1126,7 +1462,11 @@
                                             "answerAFilipino":  "Tokwa",
                                             "answerBFilipino":  "Bacon",
                                             "answerCFilipino":  "Hamon",
-                                            "answerDFilipino":  "Tocino"
+                                            "answerDFilipino":  "Tocino",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which is a healthy snack for kids?",
@@ -1139,7 +1479,11 @@
                                             "answerAFilipino":  "Matamis na tinapay",
                                             "answerBFilipino":  "Chocolate syrup",
                                             "answerCFilipino":  "Suman",
-                                            "answerDFilipino":  "Soft drinks"
+                                            "answerDFilipino":  "Soft drinks",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "If you want to be more active during the day, which breakfast to",
@@ -1152,7 +1496,11 @@
                                             "answerAFilipino":  "Walang pagkain, diretso laro agad",
                                             "answerBFilipino":  "Kendi at soft drinks",
                                             "answerCFilipino":  "Donut at kape",
-                                            "answerDFilipino":  "Kanin, itlog, at prutas"
+                                            "answerDFilipino":  "Kanin, itlog, at prutas",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which food should be limited because it is high in salt?",
@@ -1165,7 +1513,11 @@
                                             "answerAFilipino":  "Ginisang gulay",
                                             "answerBFilipino":  "Chicharon",
                                             "answerCFilipino":  "Saging",
-                                            "answerDFilipino":  "Sariwang isda"
+                                            "answerDFilipino":  "Sariwang isda",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which vitamin in carrots is good for eyesight?",
@@ -1178,7 +1530,11 @@
                                             "answerAFilipino":  "Bitamina B",
                                             "answerBFilipino":  "Bitamina D",
                                             "answerCFilipino":  "Bitamina E",
-                                            "answerDFilipino":  "Bitamina A"
+                                            "answerDFilipino":  "Bitamina A",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Why are fruits like mangoes important for our body?",
@@ -1191,7 +1547,11 @@
                                             "answerAFilipino":  "Pinapatamis nito ang dugo",
                                             "answerBFilipino":  "Nagpapataba ito",
                                             "answerCFilipino":  "Nagbibigay ito ng bitamina C at nagpapalakas ng panlaban ng\nkatawan",
-                                            "answerDFilipino":  "Pinapasarap nito ang pagkain"
+                                            "answerDFilipino":  "Pinapasarap nito ang pagkain",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which is a healthy snack for kids?",
@@ -1204,7 +1564,11 @@
                                             "answerAFilipino":  "Matamis na tinapay",
                                             "answerBFilipino":  "Chocolate syrup",
                                             "answerCFilipino":  "Suman",
-                                            "answerDFilipino":  "Soft drinks"
+                                            "answerDFilipino":  "Soft drinks",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which of these is “junk food”?",
@@ -1217,7 +1581,11 @@
                                             "answerAFilipino":  "Nilagang mais",
                                             "answerBFilipino":  "Ginisang monggo",
                                             "answerCFilipino":  "Saging na saba",
-                                            "answerDFilipino":  "Matamis na kamote cue"
+                                            "answerDFilipino":  "Matamis na kamote cue",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "If you notice you\u0027re always eating chips at night, what is better to do?",
@@ -1230,7 +1598,11 @@
                                             "answerAFilipino":  "Itago ang chips para kainin araw-araw",
                                             "answerBFilipino":  "Kumain pa ng mas maraming chips",
                                             "answerCFilipino":  "Palitan ito ng prutas o hiniwang gulay paminsan-minsan",
-                                            "answerDFilipino":  "Gawing hapunan ang chips"
+                                            "answerDFilipino":  "Gawing hapunan ang chips",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "What is a good effect of eating fruits every day?",
@@ -1243,7 +1615,11 @@
                                             "answerAFilipino":  "Mas maraming asukal sa dugo",
                                             "answerBFilipino":  "Mas maraming bitamina at fiber na nakukuha ng katawan",
                                             "answerCFilipino":  "Hindi na kailangang uminom ng tubig",
-                                            "answerDFilipino":  "Hindi na kailangang kumain ng gulay"
+                                            "answerDFilipino":  "Hindi na kailangang kumain ng gulay",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Why is breakfast important?",
@@ -1256,7 +1632,11 @@
                                             "answerAFilipino":  "Para makakain ng maraming kendi",
                                             "answerBFilipino":  "Para makainom ng maraming soft drinks",
                                             "answerCFilipino":  "Para hindi na kumain ng tanghalian",
-                                            "answerDFilipino":  "Para magkaroon ng lakas sa pag-aaral at paglalaro sa umaga"
+                                            "answerDFilipino":  "Para magkaroon ng lakas sa pag-aaral at paglalaro sa umaga",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which is the better drink to bring to school?",
@@ -1269,7 +1649,11 @@
                                             "answerAFilipino":  "Matamis na powdered juice",
                                             "answerBFilipino":  "Tubig",
                                             "answerCFilipino":  "Soft drinks",
-                                            "answerDFilipino":  "Energy drink"
+                                            "answerDFilipino":  "Energy drink",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which is a healthy food that comes from animals?",
@@ -1282,7 +1666,11 @@
                                             "answerAFilipino":  "Chocolate bar",
                                             "answerBFilipino":  "Keso",
                                             "answerCFilipino":  "Ice cream",
-                                            "answerDFilipino":  "Hotdog"
+                                            "answerDFilipino":  "Hotdog",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "After playing basketball, what is the best drink?",
@@ -1295,7 +1683,11 @@
                                             "answerAFilipino":  "Napakatamis na energy drink",
                                             "answerBFilipino":  "Soft drinks",
                                             "answerCFilipino":  "Matamis na juice",
-                                            "answerDFilipino":  "Tubig"
+                                            "answerDFilipino":  "Tubig",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "What is the main purpose of the Pinggang Pinoy?",
@@ -1308,7 +1700,11 @@
                                             "answerAFilipino":  "Magturo ng pagluluto",
                                             "answerBFilipino":  "Magbigay ng masasarap na pagkain",
                                             "answerCFilipino":  "Magpakita ng mamahaling pagkain",
-                                            "answerDFilipino":  "Magturo ng balanseng pagkain para sa mabuting kalusugan"
+                                            "answerDFilipino":  "Magturo ng balanseng pagkain para sa mabuting kalusugan",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Why should we limit foods high in salt?",
@@ -1321,7 +1717,11 @@
                                             "answerAFilipino":  "Nagbibigay ng bitamina",
                                             "answerBFilipino":  "Nagpapalakas ng katawan",
                                             "answerCFilipino":  "Masarap ang lasa",
-                                            "answerDFilipino":  " Maaari itong magdulot ng altapresyon (high blood pressure)"
+                                            "answerDFilipino":  " Maaari itong magdulot ng altapresyon (high blood pressure)",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which is a healthier breakfast for kids?",
@@ -1334,7 +1734,11 @@
                                             "answerAFilipino":  "Matamis na cereal at soda",
                                             "answerBFilipino":  "Tinapay na may palaman na itlog at prutas",
                                             "answerCFilipino":  "Donut at soft drinks",
-                                            "answerDFilipino":  "Kendi at gatas"
+                                            "answerDFilipino":  "Kendi at gatas",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "If you have too much junk food at home, what should you do?",
@@ -1347,7 +1751,11 @@
                                             "answerAFilipino":  "Ibigay ito sa kaibigan",
                                             "answerBFilipino":  "Palitan ito ng mas masustansiyang pagkain tulad ng mga prutas",
                                             "answerCFilipino":  "Kainin lahat para hindi masayang",
-                                            "answerDFilipino":  "Itago para kainin araw-araw"
+                                            "answerDFilipino":  "Itago para kainin araw-araw",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Why are green vegetables like pechay or kangkong important?",
@@ -1360,7 +1768,11 @@
                                             "answerAFilipino":  "Para mas umalat ang pagkain",
                                             "answerBFilipino":  "Pamalit sa mga prutas",
                                             "answerCFilipino":  "Para mas tumamis ang ulam",
-                                            "answerDFilipino":  "Dahil mayaman ang mga ito sa bitamina at mineral na kailangan ng katawan"
+                                            "answerDFilipino":  "Dahil mayaman ang mga ito sa bitamina at mineral na kailangan ng katawan",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "If you’re preparing breakfast, what’s a healthy choice?",
@@ -1373,7 +1785,11 @@
                                             "answerAFilipino":  "Matamis na cereal at soft drinks",
                                             "answerBFilipino":  "Chicharon at soft drinks",
                                             "answerCFilipino":  "Itlog, kanin, at prutas",
-                                            "answerDFilipino":  "Keyk at kape"
+                                            "answerDFilipino":  "Keyk at kape",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "If you’re playing outside and feel hungry, what’s the best\nsnack?",
@@ -1386,7 +1802,11 @@
                                             "answerAFilipino":  "Potato chips",
                                             "answerBFilipino":  "Pakwan",
                                             "answerCFilipino":  "Soft drinks",
-                                            "answerDFilipino":  "Tsokolateng kendi (Candy bar)"
+                                            "answerDFilipino":  "Tsokolateng kendi (Candy bar)",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "For lunch, which is the best to choose with rice?",
@@ -1399,7 +1819,11 @@
                                             "answerAFilipino":  "Pritong hotdog lamang",
                                             "answerBFilipino":  "Tsokolate at keyk",
                                             "answerCFilipino":  "Chips at soft drinks",
-                                            "answerDFilipino":  "Adobo at ginisang gulay"
+                                            "answerDFilipino":  "Adobo at ginisang gulay",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "If you’re sick, what’s the best food to help you recover\nquickly?",
@@ -1412,7 +1836,11 @@
                                             "answerAFilipino":  "Soft drinks",
                                             "answerBFilipino":  "Matamis na tinapay",
                                             "answerCFilipino":  "Chicharon",
-                                            "answerDFilipino":  "Sopas na may manok at gulay"
+                                            "answerDFilipino":  "Sopas na may manok at gulay",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Before watching TV, which snack would you choose?",
@@ -1425,7 +1853,11 @@
                                             "answerAFilipino":  "Malaking pakete ng potato chips",
                                             "answerBFilipino":  "Dalawang lata ng soft drinks",
                                             "answerCFilipino":  "Tsokolateng kendi (Candy bar)",
-                                            "answerDFilipino":  "Hiniwang mangga"
+                                            "answerDFilipino":  "Hiniwang mangga",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "At a party, which plate is healthier?",
@@ -1438,7 +1870,11 @@
                                             "answerAFilipino":  "Pancit at soft drinks lamang",
                                             "answerBFilipino":  "Pritong manok lamang, walang gulay",
                                             "answerCFilipino":  "Kaunting kanin, inihaw na isda, at ensaladang gulay",
-                                            "answerDFilipino":  "Keyk at sorbetes lamang"
+                                            "answerDFilipino":  "Keyk at sorbetes lamang",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "If you’re buying a snack, what should you choose?",
@@ -1451,7 +1887,11 @@
                                             "answerAFilipino":  "Soft drinks",
                                             "answerBFilipino":  "Sorbetes",
                                             "answerCFilipino":  "Suman at mangga",
-                                            "answerDFilipino":  "Chicharon"
+                                            "answerDFilipino":  "Chicharon",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "If you’re an athlete, what should you eat before a game?",
@@ -1464,7 +1904,11 @@
                                             "answerAFilipino":  "Mamantikang pagkain tulad ng French fries",
                                             "answerBFilipino":  "Kendi para magkaroon ng enerhiya",
                                             "answerCFilipino":  "Huwag nang kumain, maglaro na lang",
-                                            "answerDFilipino":  "Kanin, itlog, at tubig para sa balanseng pagkain"
+                                            "answerDFilipino":  "Kanin, itlog, at tubig para sa balanseng pagkain",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "For a birthday party, what’s a healthy food to serve?",
@@ -1477,7 +1921,11 @@
                                             "answerAFilipino":  "Chocolate cake",
                                             "answerBFilipino":  "Spaghetti na may matamis na sarsa",
                                             "answerCFilipino":  "Sorbetes na may syrup",
-                                            "answerDFilipino":  "Fruit salad na may yogurt"
+                                            "answerDFilipino":  "Fruit salad na may yogurt",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "If you bring adobo and vegetables to school, how should you eat them?",
@@ -1490,7 +1938,11 @@
                                             "answerAFilipino":  "Adobo lamang ang kainin",
                                             "answerBFilipino":  "Kainin ang gulay at adobo sa tamang balanse",
                                             "answerCFilipino":  "Huwag nang kumain para pumayat",
-                                            "answerDFilipino":  "Itapon ang gulay at bumili ng chips"
+                                            "answerDFilipino":  "Itapon ang gulay at bumili ng chips",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "If buying at the store near school, which is better?",
@@ -1503,7 +1955,11 @@
                                             "answerAFilipino":  "Soft drinks at chicharon",
                                             "answerBFilipino":  "Tatlong pirasong kendi",
                                             "answerCFilipino":  "De-boteng tubig at saging",
-                                            "answerDFilipino":  "Malaking sorbetes"
+                                            "answerDFilipino":  "Malaking sorbetes",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "If you’re preparing your dinner plate, how should you follow\nPinggang Pinoy?",
@@ -1516,7 +1972,11 @@
                                             "answerAFilipino":  "Punuin ito ng karne lamang",
                                             "answerBFilipino":  "Punuin ito ng kanin lamang",
                                             "answerCFilipino":  "Punuin ito ng matatamis",
-                                            "answerDFilipino":  "Kalahating gulay, isang-kapat na kanin, at isang-kapat na isda"
+                                            "answerDFilipino":  "Kalahating gulay, isang-kapat na kanin, at isang-kapat na isda",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which is an example of a healthy food in the Pinggang Pinoy?",
@@ -1529,7 +1989,11 @@
                                             "answerAFilipino":  "Keyk",
                                             "answerBFilipino":  "Talong",
                                             "answerCFilipino":  "Ice cream",
-                                            "answerDFilipino":  "French fries"
+                                            "answerDFilipino":  "French fries",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "At recess time: What is better to buy at the canteen?",
@@ -1542,7 +2006,11 @@
                                             "answerAFilipino":  "Soft drinks at kendi",
                                             "answerBFilipino":  "Sorbetes",
                                             "answerCFilipino":  "Saging at tubig",
-                                            "answerDFilipino":  "Malaking pakete ng chicharon"
+                                            "answerDFilipino":  "Malaking pakete ng chicharon",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "Which of these is an example of a fruit?",
@@ -1555,7 +2023,11 @@
                                             "answerAFilipino":  "Luya",
                                             "answerBFilipino":  "Hotcake",
                                             "answerCFilipino":  "Pandesal",
-                                            "answerDFilipino":  "Apple"
+                                            "answerDFilipino":  "Apple",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "If you\u0027re in a hurry in the morning, which is a healthier packed meal?",
@@ -1568,7 +2040,11 @@
                                             "answerAFilipino":  "Tsokolate at chips",
                                             "answerBFilipino":  "Peanut butter sandwich at isang prutas",
                                             "answerCFilipino":  "Kendi at soft drinks",
-                                            "answerDFilipino":  "Dalawang donut"
+                                            "answerDFilipino":  "Dalawang donut",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         },
                                         {
                                             "question":  "What do “Go” foods like rice and bread do for our body?",
@@ -1581,7 +2057,11 @@
                                             "answerAFilipino":  "Pumaputi ang balat",
                                             "answerBFilipino":  "Gumaganda ang buhok",
                                             "answerCFilipino":  "Nagbibigay ng enerhiya para makagalaw at makapaglaro",
-                                            "answerDFilipino":  "Mas mabilis makatulog"
+                                            "answerDFilipino":  "Mas mabilis makatulog",
+                                            "isEnabled":  true,
+                                            "category":  "",
+                                            "difficulty":  0,
+                                            "explanation":  ""
                                         }
                                     ]
                   }

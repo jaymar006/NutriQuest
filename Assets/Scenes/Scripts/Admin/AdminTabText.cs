@@ -25,6 +25,12 @@ public class AdminTabText : AdminTabBase
     private string _selected;
     private string _search = "";
 
+    // The list rows are created once and then filtered in place, so typing in
+    // the search box never rebuilds (and therefore never destroys) the
+    // search field itself.
+    private readonly List<GameObject> _stringRows = new List<GameObject>();
+    private readonly List<string> _stringValues = new List<string>();
+
     public AdminTabText(AdminPanelRoot root) : base(root) { }
 
     public override string TitleKey => "tabText";
@@ -50,7 +56,7 @@ public class AdminTabText : AdminTabBase
 
         TMP_Text current = AdminUi.CreateText(row, "Current", SceneManager.GetActiveScene().name,
                                               AdminUi.FontSmall, TextAlignmentOptions.MidlineRight, AdminUi.Muted);
-        LayoutElement currentLayout = current.gameObject.AddComponent<LayoutElement>();
+        LayoutElement currentLayout = AdminUi.EnsureLayout(current.gameObject);
         currentLayout.preferredWidth = 300f;
         currentLayout.minWidth = 200f;
         currentLayout.flexibleWidth = 0f;
@@ -68,7 +74,7 @@ public class AdminTabText : AdminTabBase
                 SceneManager.LoadScene(sceneName);
             }, AdminUi.CardAlt, AdminUi.FontSmall);
 
-            LayoutElement layout = button.gameObject.AddComponent<LayoutElement>();
+            LayoutElement layout = AdminUi.EnsureLayout(button.gameObject);
             layout.preferredWidth = 280f;
             layout.minWidth = 200f;
             layout.flexibleWidth = 1f;
@@ -90,8 +96,23 @@ public class AdminTabText : AdminTabBase
         input.onValueChanged.AddListener(text =>
         {
             _search = text ?? "";
-            if (Root != null) Root.RefreshCurrentTab();
+            // Filter the rows in place. Rebuilding the tab here would destroy
+            // the search field while it is being typed into, so it would only
+            // ever accept one character.
+            ApplyFilter();
         });
+    }
+
+    /// <summary>Shows only the rows whose text contains the search term.</summary>
+    private void ApplyFilter()
+    {
+        for (int i = 0; i < _stringRows.Count; i++)
+        {
+            string value = _stringValues[i];
+            bool match = string.IsNullOrEmpty(_search) ||
+                         value.IndexOf(_search, System.StringComparison.OrdinalIgnoreCase) >= 0;
+            if (_stringRows[i] != null) _stringRows[i].SetActive(match);
+        }
     }
 
     // ------------------------------------------------------------------
@@ -108,7 +129,7 @@ public class AdminTabText : AdminTabBase
         AddRowLabel(originalRow, AdminStrings.Get("originalText"));
         TMP_Text original = AdminUi.CreateText(originalRow, "Value", _selected, AdminUi.FontSmall,
                                                TextAlignmentOptions.MidlineLeft, AdminUi.Muted);
-        LayoutElement originalLayout = original.gameObject.AddComponent<LayoutElement>();
+        LayoutElement originalLayout = AdminUi.EnsureLayout(original.gameObject);
         originalLayout.preferredWidth = 520f;
         originalLayout.minWidth = 320f;
         originalLayout.flexibleWidth = 1f;
@@ -118,10 +139,13 @@ public class AdminTabText : AdminTabBase
 
         string current = AdminContentStore.GetText(_selected);
         TMP_InputField input = AddRowInput(row, current, true);
+        string last = null;
         input.onValueChanged.AddListener(text =>
         {
+            if (last == text) return;
+            last = text;
             AdminContentStore.SetText(_selected, text);
-            Commit("text", "Edited a scene string");
+            Commit("Text", "Edited a scene string");
         });
 
         if (AdminContentStore.HasTextOverride(_selected))
@@ -129,12 +153,11 @@ public class AdminTabText : AdminTabBase
             AddButtonRow(card, AdminStrings.Get("reset"), () =>
             {
                 AdminContentStore.ClearText(_selected);
-                Commit("text", "Restored a scene string");
+                Commit("Text", "Restored a scene string");
                 if (Root != null) Root.RefreshCurrentTab();
             }, AdminUi.CardAlt);
         }
     }
-
     // ------------------------------------------------------------------
     // The list of editable strings
     // ------------------------------------------------------------------
@@ -152,16 +175,13 @@ public class AdminTabText : AdminTabBase
             return;
         }
 
+        _stringRows.Clear();
+        _stringValues.Clear();
+
         int listed = 0;
         for (int i = 0; i < strings.Count && listed < MaxListedStrings; i++)
         {
             string value = strings[i];
-            if (!string.IsNullOrEmpty(_search) &&
-                value.IndexOf(_search, System.StringComparison.OrdinalIgnoreCase) < 0)
-            {
-                continue;
-            }
-
             listed++;
 
             bool selected = value == _selected;
@@ -171,9 +191,31 @@ public class AdminTabText : AdminTabBase
                 if (Root != null) Root.RefreshCurrentTab();
             }, selected ? AdminUi.Accent : AdminUi.CardAlt, AdminUi.FontSmall);
 
-            LayoutElement layout = button.gameObject.AddComponent<LayoutElement>();
+            LayoutElement layout = AdminUi.EnsureLayout(button.gameObject);
             layout.minHeight = 64f;
             layout.preferredHeight = 64f;
+            layout.preferredWidth = 280f;
+            layout.minWidth = 200f;
+            layout.flexibleWidth = 1f;
+
+            _stringRows.Add(button.gameObject);
+            _stringValues.Add(value);
+        }
+
+        if (AdminContentStore.GetTextOverrides().Count > 0)
+        {
+            AddButtonRow(card, AdminStrings.Get("restoreSection"), () =>
+            {
+                if (Root == null) return;
+                Root.Confirm(AdminStrings.Get("restoreSection"), AdminStrings.Get("confirmClearAudit"),
+                    AdminStrings.Get("restoreSection"), () =>
+                    {
+                        AdminContentStore.ClearAllText();
+                        Commit("Text", "Restored every scene string");
+                        Toast(AdminStrings.Get("reset"));
+                        if (Root != null) Root.RefreshCurrentTab();
+                    });
+            }, AdminUi.Danger);
         }
 
         BuildSceneButtons(card);
@@ -205,6 +247,11 @@ public class AdminTabText : AdminTabBase
 
             string value = text.text;
             if (string.IsNullOrEmpty(value)) continue;
+
+            // The scene already shows the REPLACEMENT after the applier has
+            // run, so list the ORIGINAL. The editor then shows the effective
+            // value and the key stays stable across repeated edits.
+            value = AdminContentStore.GetOriginalText(value);
             if (!seen.Add(value)) continue;
 
             result.Add(value);

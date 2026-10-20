@@ -15,8 +15,6 @@ using UnityEngine.UI;
 /// </summary>
 public class AdminTabProgress : AdminTabBase
 {
-    private bool _resetArmed;
-
     public AdminTabProgress(AdminPanelRoot root) : base(root) { }
 
     public override string TitleKey => "tabProgress";
@@ -39,29 +37,34 @@ public class AdminTabProgress : AdminTabBase
         RectTransform card = AddCard(content, level.labelEn + "  (" + level.stageId + ")");
 
         AddNumberRow(card, AdminStrings.Get("highScore"), snap.highScore,
-            value => AdminProgressService.SetHighScore(level.stageId, value), 0f, 999f);
+            value => { AdminProgressService.SetHighScore(level.stageId, value); Commit("Progress", "Set the high score of " + level.stageId); }, 0f, 999f);
 
         AddToggleRow(card, AdminStrings.Get("firstClear"), snap.firstCleared,
-            value => AdminProgressService.SetFirstCleared(level.stageId, value));
+            value => { AdminProgressService.SetFirstCleared(level.stageId, value); Commit("Progress", "Cleared " + level.stageId); });
 
         AddNumberRow(card, AdminStrings.Get("attempts"), snap.attempts,
-            value => AdminProgressService.SetAttempts(level.stageId, value), 0f, 999f);
+            value => { AdminProgressService.SetAttempts(level.stageId, value); Commit("Progress", "Set the attempts of " + level.stageId); }, 0f, 999f);
 
         AddNumberRow(card, AdminStrings.Get("hints"), snap.hints,
-            value => AdminProgressService.SetHints(level.stageId, value), 0f, 99f);
+            value => { AdminProgressService.SetHints(level.stageId, value); Commit("Progress", "Set the hints of " + level.stageId); }, 0f, 99f);
 
         AddToggleRow(card, level.towerName, snap.unlocked,
-            value => AdminProgressService.SetTowerUnlocked(level.towerName, value));
+            value => { AdminProgressService.SetTowerUnlocked(level.towerName, value); Commit("Progress", "Unlocked " + level.towerName); });
 
         BuildBadgeRow(card, level, snap);
 
         AddButtonRow(card, AdminStrings.Get("reset") + " " + level.labelEn, () =>
         {
-            AdminProgressService.ResetStage(level.stageId);
-            AdminProgressService.SetTowerUnlocked(level.towerName, false);
-            Commit("progress", "Reset the progress of " + level.stageId);
-            Toast(AdminStrings.Get("reset"));
-            if (Root != null) Root.RefreshCurrentTab();
+            if (Root == null) return;
+            Root.Confirm(AdminStrings.Get("reset"), AdminStrings.Get("confirmReset"),
+                AdminStrings.Get("reset"), () =>
+                {
+                    AdminProgressService.ResetStage(level.stageId);
+                    AdminProgressService.SetTowerUnlocked(level.towerName, false);
+                    Commit("Progress", "Reset the progress of " + level.stageId);
+                    Toast(AdminStrings.Get("reset"));
+                    if (Root != null) Root.RefreshCurrentTab();
+                });
         }, AdminUi.Danger);
     }
 
@@ -72,7 +75,7 @@ public class AdminTabProgress : AdminTabBase
 
         TMP_Text label = AdminUi.CreateText(row, "Label", AdminStrings.Get("badges"), AdminUi.FontBody,
                                             TextAlignmentOptions.MidlineLeft, AdminUi.Text);
-        LayoutElement labelLayout = label.gameObject.AddComponent<LayoutElement>();
+        LayoutElement labelLayout = AdminUi.EnsureLayout(label.gameObject);
         labelLayout.preferredWidth = 520f;
         labelLayout.minWidth = 320f;
         labelLayout.flexibleWidth = 1f;
@@ -84,7 +87,7 @@ public class AdminTabProgress : AdminTabBase
             bool earned = snap.badges != null && i < snap.badges.Length && snap.badges[i];
 
             Toggle toggle = AdminUi.CreateToggle(row, "Badge_" + type, earned);
-            LayoutElement layout = toggle.gameObject.AddComponent<LayoutElement>();
+            LayoutElement layout = AdminUi.EnsureLayout(toggle.gameObject);
             layout.preferredWidth = 76f;
             layout.minWidth = 76f;
             layout.flexibleWidth = 0f;
@@ -98,7 +101,7 @@ public class AdminTabProgress : AdminTabBase
             toggle.onValueChanged.AddListener(value =>
             {
                 AdminProgressService.SetBadge(stageId, type, value);
-                Commit("progress", "Set the badge " + type + " for " + stageId);
+                Commit("Progress", "Set the badge " + type + " for " + stageId);
             });
         }
     }
@@ -110,22 +113,18 @@ public class AdminTabProgress : AdminTabBase
         AddNumberRow(card, AdminStrings.Get("runeKeys"), AdminProgressService.GetRuneKeys(),
             value => AdminProgressService.SetRuneKeys(value), 0f, 999f);
 
-        // Resetting everything is destructive, so it takes two taps.
-        AddButtonRow(card, _resetArmed ? AdminStrings.Get("confirmReset") : AdminStrings.Get("resetProgress"),
-            () =>
-            {
-                if (!_resetArmed)
+        // Resetting everything is destructive, so it asks first.
+        AddButtonRow(card, AdminStrings.Get("resetProgress"), () =>
+        {
+            if (Root == null) return;
+            Root.Confirm(AdminStrings.Get("resetProgress"), AdminStrings.Get("confirmReset"),
+                AdminStrings.Get("reset"), () =>
                 {
-                    _resetArmed = true;
+                    AdminProgressService.ResetAllProgress();
+                    Commit("Progress", "Reset all player progress");
+                    Toast(AdminStrings.Get("reset"));
                     if (Root != null) Root.RefreshCurrentTab();
-                    return;
-                }
-
-                _resetArmed = false;
-                AdminProgressService.ResetAllProgress();
-                Commit("progress", "Reset all player progress");
-                Toast(AdminStrings.Get("reset"));
-                if (Root != null) Root.RefreshCurrentTab();
-            }, AdminUi.Danger);
+                });
+        }, AdminUi.Danger);
     }
 }
