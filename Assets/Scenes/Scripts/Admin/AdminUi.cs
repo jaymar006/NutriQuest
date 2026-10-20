@@ -90,6 +90,22 @@ public static class AdminUi
         return rt;
     }
 
+    /// <summary>
+    /// Destroys an object, picking the call that Unity allows.
+    ///
+    /// Outside play mode Unity refuses Object.Destroy and asks for
+    /// Object.DestroyImmediate instead. Routing every destroy through here
+    /// means the panel can be built and torn down by the UI audit tool
+    /// without entering play mode.
+    /// </summary>
+    public static void SafeDestroy(UnityEngine.Object target)
+    {
+        if (target == null) return;
+
+        if (Application.isPlaying) UnityEngine.Object.Destroy(target);
+        else UnityEngine.Object.DestroyImmediate(target);
+    }
+
     public static Image CreatePanel(Transform parent, string name, Color color)
     {
         RectTransform rt = CreateRect(parent, name);

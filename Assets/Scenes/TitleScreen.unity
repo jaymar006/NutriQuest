@@ -2042,7 +2042,7 @@ MonoBehaviour:
   touchToContinueText: {fileID: 1149452511}
   touchToContinueCanvasGroup: {fileID: 1149452513}
   touchToContinuePulse: {fileID: 0}
-  versionText: {fileID: 0}
+  versionText: {fileID: 1047574986}
   quitButton: {fileID: 1487839467}
   fadeDuration: 1
   fadeMinAlpha: 0.25

@@ -53,8 +53,8 @@ public static class AdminStrings
         { "pinMismatch",      new[] { "The two PINs do not match.", "Hindi magkatugma ang dalawang PIN." } },
         { "pinTooShort",      new[] { "Use at least 6 digits.", "Gumamit ng hindi bababa sa 6 na digit." } },
         { "pinDigitsOnly",    new[] { "Digits only.",          "Digit lamang." } },
-        { "pinLocked",        new[] { "Too many attempts. Try again in {0} seconds.",
-                                      "Masyadong maraming pagsubok. Subukan muli sa {0} segundo." } },
+        { "pinLocked",        new[] { "Too many attempts. Try again in {0} seconds. To reset now, clear this app's data in the Android settings.",
+                                      "Masyadong maraming pagsubok. Subukan muli sa {0} segundo. Para i-reset ngayon, burahin ang data ng app na ito sa mga setting ng Android." } },
 
         // ----- Progress -----
         { "highScore",        new[] { "High score",            "Mataas na iskor" } },

@@ -78,7 +78,20 @@ public class AdminTabAudit : AdminTabBase
     private static string FormatStamp(string utc)
     {
         if (string.IsNullOrEmpty(utc)) return "";
-        if (!System.DateTime.TryParse(utc, out System.DateTime parsed)) return utc;
+
+        // The stamp is stored in UTC, so it is read back as UTC and then
+        // converted for display.
+        if (!System.DateTime.TryParse(utc, System.Globalization.CultureInfo.InvariantCulture,
+                System.Globalization.DateTimeStyles.RoundtripKind, out System.DateTime parsed))
+        {
+            return utc;
+        }
+
+        if (parsed.Kind == System.DateTimeKind.Unspecified)
+        {
+            parsed = System.DateTime.SpecifyKind(parsed, System.DateTimeKind.Utc);
+        }
+
         return parsed.ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss");
     }
 

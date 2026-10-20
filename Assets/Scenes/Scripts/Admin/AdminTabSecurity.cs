@@ -150,6 +150,10 @@ public class AdminTabSecurity : AdminTabBase
             error.text = "";
             Commit("Security", "Changed the admin PIN");
             Toast(AdminStrings.Get("pinChanged"));
+
+            // Replacing the default PIN unlocks the other tabs, so the tab
+            // bar has to be rebuilt for them to appear.
+            if (Root != null) Root.RebuildTabBar();
             if (Root != null) Root.RefreshCurrentTab();
         }, AdminUi.AccentDim);
     }

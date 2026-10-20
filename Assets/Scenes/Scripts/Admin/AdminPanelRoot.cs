@@ -35,6 +35,7 @@ public class AdminPanelRoot : MonoBehaviour
     private readonly List<AdminTabBase> _allTabs = new List<AdminTabBase>();
     private readonly List<AdminTabBase> _tabs = new List<AdminTabBase>();
     private AdminTabBase _currentTab;
+    private bool _unlocked;
 
     public static bool IsOpen => FindAnyObjectByType<AdminPanelRoot>() != null;
 
@@ -48,6 +49,9 @@ public class AdminPanelRoot : MonoBehaviour
         AdminPanelRoot existing = FindAnyObjectByType<AdminPanelRoot>();
         if (existing != null)
         {
+            // The canvas can be missing if the scene was reloaded while the
+            // panel was open. Rebuild it rather than showing an empty panel.
+            existing.EnsureBuilt();
             existing.SetShellVisible(true);
             return existing;
         }
@@ -61,11 +65,18 @@ public class AdminPanelRoot : MonoBehaviour
         return root;
     }
 
+    /// <summary>Builds the panel if it has no canvas yet.</summary>
+    private void EnsureBuilt()
+    {
+        if (_canvas != null) return;
+        Build();
+    }
+
     /// <summary>Closes and destroys the admin panel.</summary>
     public static void Close()
     {
         AdminPanelRoot existing = FindAnyObjectByType<AdminPanelRoot>();
-        if (existing != null) Destroy(existing.gameObject);
+        if (existing != null) AdminUi.SafeDestroy(existing.gameObject);
     }
 
     // ------------------------------------------------------------------
@@ -89,6 +100,12 @@ public class AdminPanelRoot : MonoBehaviour
     {
         _canvas = AdminUi.CreateCanvas("[AdminCanvas]", CanvasOrder);
 
+        // The canvas has to be a child of the panel root. Otherwise closing
+        // the panel destroys the root but leaves the canvas, the backdrop and
+        // every control on screen, and the backdrop keeps swallowing the
+        // taps that would have closed it.
+        _canvas.transform.SetParent(transform, false);
+
         // Full screen backdrop that also swallows clicks to the game behind.
         Image backdrop = AdminUi.CreatePanel(_canvas.transform, "Backdrop", AdminUi.Background);
         AdminUi.Stretch(backdrop.rectTransform);
@@ -98,7 +115,18 @@ public class AdminPanelRoot : MonoBehaviour
         BuildGate(backdrop.transform);
         BuildToast(backdrop.transform);
 
-        ShowGate();
+        // A panel that was already open keeps its unlocked state. This
+        // matters for the language toggle, which rebuilds the whole panel
+        // and should not make the teacher type the PIN again.
+        if (_unlocked)
+        {
+            SetShellVisible(true);
+            BuildTabs();
+        }
+        else
+        {
+            ShowGate();
+        }
     }
 
     private void BuildShell(Transform parent)
@@ -139,7 +167,7 @@ public class AdminPanelRoot : MonoBehaviour
         subtitleRect.offsetMin = new Vector2(24f, -104f);
         subtitleRect.offsetMax = new Vector2(-24f, -78f);
 
-        TMP_Text version = AdminUi.CreateText(header.transform, "Version", AdminVersionService.Label,
+        TMP_Text version = AdminUi.CreateText(header.transform, "Version", AdminVersionService.LabelWithDate,
             AdminUi.FontSmall, TextAlignmentOptions.BottomLeft, AdminUi.Muted);
         RectTransform versionRect = version.rectTransform;
         versionRect.anchorMin = new Vector2(0f, 0f);
@@ -197,7 +225,11 @@ public class AdminPanelRoot : MonoBehaviour
         _tabBar = tabScrollContent;
 
         // ---- Content ----
-        Image contentPanel = AdminUi.CreatePanel(panel.transform, "Content", Color.clear);
+        // Named "ContentArea" and not "Content" because the scroll views
+        // also create a child called "Content", and two objects with the
+        // same name in one hierarchy is a trap for anything that looks one
+        // up by name.
+        Image contentPanel = AdminUi.CreatePanel(panel.transform, "ContentArea", Color.clear);
         RectTransform contentRect = contentPanel.rectTransform;
         contentRect.anchorMin = Vector2.zero;
         contentRect.anchorMax = Vector2.one;
@@ -264,7 +296,7 @@ public class AdminPanelRoot : MonoBehaviour
         {
             GameObject child = _gateContent.GetChild(i).gameObject;
             child.SetActive(false);
-            Destroy(child);
+            AdminUi.SafeDestroy(child);
         }
 
         bool creating = !AdminSecurity.HasPin;
@@ -421,6 +453,7 @@ public class AdminPanelRoot : MonoBehaviour
 
     private void OnUnlocked()
     {
+        _unlocked = true;
         _gate.gameObject.SetActive(false);
         SetShellVisible(true);
         BuildTabs();
@@ -452,6 +485,8 @@ public class AdminPanelRoot : MonoBehaviour
         // While the device is still on the default PIN, only the Security
         // tab is reachable. The teacher has to replace the default before
         // anything else can be changed.
+        AdminTabBase keep = _currentTab;
+
         _tabs.Clear();
         for (int i = 0; i < _allTabs.Count; i++)
         {
@@ -463,7 +498,7 @@ public class AdminPanelRoot : MonoBehaviour
         {
             GameObject child = _tabBar.GetChild(i).gameObject;
             child.SetActive(false);
-            Destroy(child);
+            AdminUi.SafeDestroy(child);
         }
 
         for (int i = 0; i < _tabs.Count; i++)
@@ -479,7 +514,36 @@ public class AdminPanelRoot : MonoBehaviour
             layout.flexibleWidth = 0f;
         }
 
-        SelectTab(_tabs[0]);
+        // Stay on the tab the teacher was looking at when it is still
+        // reachable. That is what makes the tab bar open up in place after
+        // the default PIN is replaced.
+        if (keep != null && _tabs.Contains(keep)) SelectTab(keep);
+        else SelectTab(_tabs[0]);
+    }
+
+    /// <summary>
+    /// Rebuilds the tab bar. The set of reachable tabs changes when the
+    /// teacher replaces the default PIN, and the bar has to be rebuilt for
+    /// the new tabs to appear.
+    /// </summary>
+    public void RebuildTabBar()
+    {
+        BuildTabs();
+    }
+
+    // ------------------------------------------------------------------
+    // Used by the admin UI audit tool (Assets/Editor/AdminUiAudit.cs).
+    // These are read-only helpers so the tool can walk the tabs without
+    // poking at private fields.
+    // ------------------------------------------------------------------
+
+    /// <summary>The tabs the teacher can currently reach.</summary>
+    public System.Collections.Generic.IReadOnlyList<AdminTabBase> VisibleTabs => _tabs;
+
+    /// <summary>Switches to a tab.</summary>
+    public void ShowTab(AdminTabBase tab)
+    {
+        SelectTab(tab);
     }
 
     /// <summary>
@@ -491,7 +555,7 @@ public class AdminPanelRoot : MonoBehaviour
         if (_confirmOverlay != null)
         {
             _confirmOverlay.SetActive(false);
-            Destroy(_confirmOverlay);
+            AdminUi.SafeDestroy(_confirmOverlay);
         }
 
         Image backdrop = AdminUi.CreatePanel(_canvas.transform, "ConfirmOverlay",
@@ -553,7 +617,7 @@ public class AdminPanelRoot : MonoBehaviour
     {
         if (_confirmOverlay == null) return;
         _confirmOverlay.SetActive(false);
-        Destroy(_confirmOverlay);
+        AdminUi.SafeDestroy(_confirmOverlay);
         _confirmOverlay = null;
     }
 
@@ -566,7 +630,7 @@ public class AdminPanelRoot : MonoBehaviour
         for (int i = _content.childCount - 1; i >= 0; i--)
         {
             GameObject child = _content.GetChild(i).gameObject;
-            Destroy(child);
+            AdminUi.SafeDestroy(child);
         }
 
         if (tab != null) tab.Build(_content);
@@ -597,7 +661,7 @@ public class AdminPanelRoot : MonoBehaviour
         if (_canvas != null)
         {
             _canvas.gameObject.SetActive(false);
-            Destroy(_canvas.gameObject);
+            AdminUi.SafeDestroy(_canvas.gameObject);
         }
         Build();
     }

@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using UnityEngine;
 
 /// <summary>
@@ -74,7 +75,21 @@ public static class AdminVersionService
         {
             string utc = AdminContentStore.UpdatedUtc;
             if (string.IsNullOrEmpty(utc)) return "";
-            if (!DateTime.TryParse(utc, out DateTime parsed)) return "";
+
+            // The timestamp is stored in UTC, so it is read back as UTC and
+            // then converted for display. Parsing it as local time would
+            // shift the date by the timezone offset.
+            if (!DateTime.TryParse(utc, CultureInfo.InvariantCulture,
+                    DateTimeStyles.RoundtripKind, out DateTime parsed))
+            {
+                return "";
+            }
+
+            if (parsed.Kind == DateTimeKind.Unspecified)
+            {
+                parsed = DateTime.SpecifyKind(parsed, DateTimeKind.Utc);
+            }
+
             return parsed.ToLocalTime().ToString("yyyy-MM-dd HH:mm");
         }
     }

@@ -91,6 +91,12 @@ public class TitleScreenManager : MonoBehaviour
     [Tooltip("Version label at the bottom left. Text is set automatically from Application.version.")]
     [SerializeField] private TMP_Text versionText;
 
+    /// <summary>
+    /// The version label, so the admin entry point can find it instead of
+    /// guessing from the text on screen.
+    /// </summary>
+    public TMP_Text VersionText => versionText;
+
     [Tooltip("Quit / power button. Always visible.")]
     [SerializeField] private Button quitButton;
 

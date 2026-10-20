@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
@@ -108,9 +109,8 @@ public static class AdminSecurity
     {
         get
         {
-            Load();
-            if (_record == null || string.IsNullOrEmpty(_record.lockoutUntilUtc)) return false;
-            if (!DateTime.TryParse(_record.lockoutUntilUtc, out DateTime until)) return false;
+            DateTime until;
+            if (!TryGetLockoutUntilUtc(out until)) return false;
             return DateTime.UtcNow < until;
         }
     }
@@ -120,12 +120,48 @@ public static class AdminSecurity
     {
         get
         {
-            Load();
-            if (_record == null || string.IsNullOrEmpty(_record.lockoutUntilUtc)) return 0;
-            if (!DateTime.TryParse(_record.lockoutUntilUtc, out DateTime until)) return 0;
+            DateTime until;
+            if (!TryGetLockoutUntilUtc(out until)) return 0;
             double seconds = (until - DateTime.UtcNow).TotalSeconds;
             return seconds <= 0 ? 0 : (int)Math.Ceiling(seconds);
         }
+    }
+
+    /// <summary>
+    /// Reads the lockout timestamp as a UTC instant.
+    ///
+    /// The timestamp is written in UTC, so it has to be read back as UTC.
+    /// DateTime.TryParse would convert it to local time, and comparing a
+    /// local time against DateTime.UtcNow inflates the remaining time by the
+    /// timezone offset. On a UTC+8 machine that turned a five minute lockout
+    /// into one of eight hours.
+    /// </summary>
+    private static bool TryGetLockoutUntilUtc(out DateTime untilUtc)
+    {
+        untilUtc = default;
+        Load();
+        if (_record == null || string.IsNullOrEmpty(_record.lockoutUntilUtc)) return false;
+
+        if (!DateTime.TryParse(_record.lockoutUntilUtc, CultureInfo.InvariantCulture,
+                DateTimeStyles.RoundtripKind, out untilUtc))
+        {
+            // A timestamp that cannot be read is treated as no lockout, so a
+            // damaged file can never lock the teacher out.
+            return false;
+        }
+
+        // A timestamp written without a zone is read as UTC, because that is
+        // what this class writes.
+        if (untilUtc.Kind == DateTimeKind.Unspecified)
+        {
+            untilUtc = DateTime.SpecifyKind(untilUtc, DateTimeKind.Utc);
+        }
+        else if (untilUtc.Kind == DateTimeKind.Local)
+        {
+            untilUtc = untilUtc.ToUniversalTime();
+        }
+
+        return true;
     }
 
     // ------------------------------------------------------------------

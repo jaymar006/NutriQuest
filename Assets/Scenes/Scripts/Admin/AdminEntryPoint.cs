@@ -116,20 +116,16 @@ public class AdminEntryPoint : MonoBehaviour
             buttonRect.sizeDelta = new Vector2(420f, 50f);
         }
 
-        Image background = buttonRect.gameObject.AddComponent<Image>();
-        background.color = new Color(1f, 1f, 1f, 0f);
-        background.raycastTarget = true;
-
-        Button button = buttonRect.gameObject.AddComponent<Button>();
-        button.targetGraphic = background;
-
         TMP_Text label = AdminUi.CreateText(buttonRect, "Label", AdminVersionService.Label,
                                             AdminUi.FontSmall, TextAlignmentOptions.MidlineLeft,
                                             new Color(0.68f, 0.73f, 0.80f, 1f));
         AdminUi.Stretch(label.rectTransform, 4f, 4f);
         label.raycastTarget = false;
 
-        button.onClick.AddListener(() => AdminPanelRoot.Open());
+        // AdminVersionButton counts the taps, so an injected entry point
+        // needs the same hidden gesture as the authored one. Adding it by
+        // hand with a plain Button would open the panel on a single tap.
+        buttonRect.gameObject.AddComponent<AdminVersionButton>();
 
         Debug.Log("[AdminEntryPoint] Admin entry point added to the settings panel in scene '" +
                   SceneManager.GetActiveScene().name + "' (parent: " + parent.name + ").");
@@ -205,18 +201,39 @@ public class AdminEntryPoint : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name != "TitleScreen") return;
 
+        // The title screen writes its own version label, so the manager is
+        // asked where that label is. Falling back to a text scan would pick
+        // up the word "Version" that captions it, and the caption would then
+        // be overwritten with the version text.
+        TitleScreenManager manager = Object.FindAnyObjectByType<TitleScreenManager>();
+        if (manager != null && manager.VersionText != null)
+        {
+            AddVersionButton(manager.VersionText);
+            return;
+        }
+
         TMP_Text[] texts = Object.FindObjectsByType<TMP_Text>(
             FindObjectsInactive.Include, FindObjectsSortMode.None);
         for (int i = 0; i < texts.Length; i++)
         {
             TMP_Text text = texts[i];
             if (text == null || string.IsNullOrEmpty(text.text)) continue;
-            if (!text.text.StartsWith("Version")) continue;
-            if (text.GetComponent<AdminVersionButton>() != null) continue;
 
-            // AdminVersionButton counts the taps, so the title screen uses the
-            // same hidden gesture as the settings label.
-            text.gameObject.AddComponent<AdminVersionButton>();
+            bool isVersionLabel = text.text.StartsWith(AdminVersionService.Label)
+                               || (text.text.StartsWith("Version") && text.text.Length > 7);
+            if (!isVersionLabel) continue;
+
+            AddVersionButton(text);
         }
+    }
+
+    private static void AddVersionButton(TMP_Text text)
+    {
+        if (text == null) return;
+        if (text.GetComponent<AdminVersionButton>() != null) return;
+
+        // AdminVersionButton counts the taps, so the title screen uses the
+        // same hidden gesture as the settings label.
+        text.gameObject.AddComponent<AdminVersionButton>();
     }
 }

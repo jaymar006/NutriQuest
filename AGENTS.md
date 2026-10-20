@@ -111,6 +111,9 @@ Both parse the Unity scene YAML directly. Run them after editing a level scene o
 - **The panel is built entirely in code** (`AdminUi` + `AdminPanelRoot` + 8 tabs), so it needs no prefab and no scene wiring. `AdminSafeAreaFitter` keeps it out of the notch and the gesture bar, and `AdminPanelRoot.Confirm` is the shared modal used by every destructive action.
 - `AdminValidation` holds the input rules shared by the Questions and Recipes tabs (no empty text, exactly one correct answer, no duplicates), so the two cannot drift apart on what "valid" means.
 - `QuestionData` gained `isEnabled`, `category`, `difficulty` and `explanation`. The new fields default to enabled/empty, so the questions already in the level scenes keep working unchanged, and `questions.json` was regenerated to match.
+- **The panel is checked by a tool, not by eye.** `Assets/Editor/AdminUiAudit.cs` opens the panel, unlocks it, walks every tab and checks that every button, toggle and text field has a handler, that its graphic can be hit by a touch, and that nothing has collapsed to zero size. It then presses every button and reports any exception, and checks that the panel can be closed and opened again. The admin files and the affected PlayerPrefs keys are copied first and written back afterwards, so the audit changes nothing.
+  - In the Editor: press Play, then **NutriQuest → Audit Admin UI**. The report is printed to the Console and copied to the clipboard.
+  - From a command line: `Unity.exe -batchmode -projectPath ... -executeMethod AdminUiAudit.RunFromCommandLine` (no `-quit`: the audit enters play mode itself). The report goes to `Logs/admin-ui-audit.txt` and the editor exits with code 1 on a failure.
 
 
 ## Which script set is live
