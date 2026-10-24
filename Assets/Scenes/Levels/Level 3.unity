@@ -8559,7 +8559,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5793622218821405593}
-  - component: {fileID: 6475080835721100700}
   m_Layer: 0
   m_Name: Debug
   m_TagString: Untagged
@@ -10133,18 +10132,6 @@ MonoBehaviour:
   - YAY! Nagawa NATIN!
   reactionDelay: 0.5
   typewriterSpeed: 0.04
---- !u!114 &6475080835721100700
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1442603782394130111}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1298a0c2236cad04f9eb9c2e4b9c390e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DebugTool
 --- !u!222 &6505497627546357968
 CanvasRenderer:
   m_ObjectHideFlags: 0

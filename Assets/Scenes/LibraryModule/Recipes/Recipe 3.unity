@@ -5103,18 +5103,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &7505080096749858339
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8110361129755777633}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::UISoundFX
 --- !u!114 &7555154765810696918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5351,7 +5339,6 @@ GameObject:
   - component: {fileID: 7040016391710749549}
   - component: {fileID: 3875253271115304896}
   - component: {fileID: 8276853825078232995}
-  - component: {fileID: 7505080096749858339}
   - component: {fileID: 7211566476533160771}
   - component: {fileID: 9144971894542729565}
   m_Layer: 5

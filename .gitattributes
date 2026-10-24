@@ -1,2 +1,100 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+﻿# Unity-specific .gitattributes for cross-platform line-ending stability
+# Text files - always LF in repo, checkout as native
+*.cs		text eol=lf
+*.unity	text eol=lf
+*.prefab	text eol=lf
+*.meta	text eol=lf
+*.asset	text eol=lf
+*.json	text eol=lf
+*.yaml	text eol=lf
+*.yml	text eol=lf
+*.txt	text eol=lf
+*.md	text eol=lf
+*.ps1	text eol=lf
+*.sh	text eol=lf
+*.xml	text eol=lf
+*.csproj	text eol=lf
+*.sln	text eol=lf
+*.slnx	text eol=lf
+*.props	text eol=lf
+*.targets	text eol=lf
+
+# Binary files - never convert
+*.png	binary
+*.jpg	binary
+*.jpeg	binary
+*.gif	binary
+*.bmp	binary
+*.tga	binary
+*.psd	binary
+*.exr	binary
+*.hdr	binary
+*.fbx	binary
+*.obj	binary
+*.blend	binary
+*.max	binary
+*.ma	binary
+*.mb	binary
+*.3ds	binary
+*.dae	binary
+*.wav	binary
+*.mp3	binary
+*.ogg	binary
+*.aif	binary
+*.aiff	binary
+*.mid	binary
+*.midi	binary
+*.ttf	binary
+*.otf	binary
+*.fontsettings	binary
+*.mat	binary
+*.anim	binary
+*.controller	binary
+*.overrideController	binary
+*.mask	binary
+*.flare	binary
+*.renderTexture	binary
+*.compute	binary
+*.shader	binary
+*.shadervariants	binary
+*.cginc	binary
+*.hlsl	binary
+*.glsl	binary
+*.hlslinc	binary
+*.shadergraph	binary
+*.vfx	binary
+*.vfxgraph	binary
+*.dll	binary
+*.pdb	binary
+*.mdb	binary
+*.exe	binary
+*.apk	binary
+*.aab	binary
+*.ipa	binary
+*.bundle	binary
+*.unitypackage	binary
+*.zip	binary
+*.gz	binary
+*.tar	binary
+*.rar	binary
+*.7z	binary
+
+# URP/ShaderGraph specific
+*.shadergraph	binary
+*.vfxgraph	binary
+
+# Addressables
+*.bin	binary
+*.hash	binary
+
+# Localization
+*.csv	text eol=lf
+*.tsv	text eol=lf
+
+# Ignore Unity's generated files
+/Temp/*
+/Library/*
+/Builds/*
+/Logs/*
+/UserSettings/*
+/Obj/*
