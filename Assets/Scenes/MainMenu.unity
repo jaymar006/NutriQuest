@@ -2905,7 +2905,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aee75610436dd9f448a7e27a92ee896e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RuneKeySystem
-  maxRuneKeys: 1
+  maxRuneKeys: 3
   regenTimeInMinutes: 3
   runeKeyTexts:
   - {fileID: 1067000998}

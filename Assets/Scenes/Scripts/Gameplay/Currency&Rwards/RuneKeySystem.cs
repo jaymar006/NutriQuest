@@ -45,9 +45,14 @@ public class RuneKeySystem : MonoBehaviour
     private const string RUNE_KEY = ProgressKeys.RuneKeys;
     private const string RUNE_LAST_REGEN = ProgressKeys.RuneLastRegen;
 
+    // Tracks whether we've initialized the default keys for a fresh install.
+    // We only want to grant the starting keys ONCE per device, not every time
+    // the game launches or the max keys setting changes.
+    private const string RUNE_KEYS_INITIALIZED = "RuneKeysInitialized";
+
     public int CurrentKeys
     {
-        get => PlayerPrefs.GetInt(RUNE_KEY, EffectiveMaxRuneKeys);
+        get => PlayerPrefs.GetInt(RUNE_KEY, maxRuneKeys);
         private set
         {
             int newValue = Mathf.Clamp(value, 0, EffectiveMaxRuneKeys);
@@ -57,6 +62,25 @@ public class RuneKeySystem : MonoBehaviour
             // Broadcast so LevelInfoScreen buttons update immediately
             OnKeysChanged?.Invoke();
         }
+    }
+
+    /// <summary>
+    /// Ensures a fresh install starts with the inspector default max keys (3),
+    /// regardless of any admin override on the max. Runs once per device.
+    /// </summary>
+    private void EnsureInitialKeysGranted()
+    {
+        if (PlayerPrefs.HasKey(RUNE_KEYS_INITIALIZED))
+            return;
+
+        // Grant the inspector default (3) as starting keys.
+        // This uses the raw inspector value, not EffectiveMaxRuneKeys, so a
+        // teacher's admin override on the max cap doesn't reduce the initial grant.
+        int startingKeys = maxRuneKeys;
+        PlayerPrefs.SetInt(RUNE_KEY, startingKeys);
+        PlayerPrefs.SetInt(RUNE_KEYS_INITIALIZED, 1);
+        PlayerPrefs.Save();
+        Debug.Log($"[RuneKeySystem] Fresh install - granted {startingKeys} starting rune keys");
     }
 
     private void Awake()
@@ -121,6 +145,9 @@ public class RuneKeySystem : MonoBehaviour
 
         // Mark that Start has run — OnSceneLoaded can now safely clear timer on future loads
         hasStartedOnce = true;
+
+        // Grant starting keys on fresh install (runs once per device)
+        EnsureInitialKeysGranted();
 
         if (autoFindTexts && runeKeyTexts.Count == 0)
             FindAllRuneKeyTexts();
