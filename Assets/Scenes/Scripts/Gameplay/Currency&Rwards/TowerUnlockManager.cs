@@ -26,6 +26,7 @@ public class TowerUnlockManager : MonoBehaviour
 
     [Header("Tower 4 Settings")]
     [SerializeField] private int tower4RequiredTotal = 26;
+    [SerializeField] private TowerScoreRequirement tower4RequirementDisplay;
 
     [Header("Wait Time Settings")]
     [SerializeField] private float waitTimeInMinutes = 3f;
@@ -46,26 +47,15 @@ public class TowerUnlockManager : MonoBehaviour
 
     private void Start()
     {
-        // FIX: Wait one frame before refreshing so all GameObjects in the
-        // scene finish their own Awake/Start before we call SetActive on them.
-        // Without this, SetActive(true/false) on Lock and Timer GameObjects
-        // that haven't fully initialized yet gets silently ignored.
         StartCoroutine(InitWithDelay());
         StartCoroutine(TimerUpdateLoop());
     }
 
     private IEnumerator InitWithDelay()
     {
-        // Wait for SceneTransitionManager's fade-in to fully complete
-        // before calling SetActive on any GameObjects. Without this,
-        // RefreshUnlockStates() fires while the fade canvas is still
-        // covering the screen (blocksRaycasts = true), which makes it
-        // look like the lock/timer never appeared even though SetActive
-        // was called correctly.
-        //
-        // The delay matches SceneTransitionManager.fadeDuration (0.4s)
-        // plus two extra frames as a safety buffer. If you change
-        // fadeDuration in SceneTransitionManager, update this to match.
+        // Wait for SceneTransitionManager's fade-in to finish before
+        // calling SetActive on any GameObjects. Matches fadeDuration (0.4s)
+        // plus a safety buffer. Update if you change fadeDuration.
         yield return null;
         yield return null;
         yield return new WaitForSeconds(0.5f);
@@ -74,7 +64,7 @@ public class TowerUnlockManager : MonoBehaviour
 
     public void RefreshUnlockStates()
     {
-        // TEMP DEBUG — remove after fixing
+        // TEMP DEBUG - remove after fixing
         Debug.Log("[TowerUnlock] HighScore_Stage_1 = " +
             PlayerPrefs.GetInt("HighScore_Stage_1", 0));
         Debug.Log("[TowerUnlock] HighScore_Stage_2 = " +
@@ -88,6 +78,10 @@ public class TowerUnlockManager : MonoBehaviour
 
         for (int i = 0; i < towers.Count; i++)
             UpdateTowerState(i);
+
+        // Update the Tower 4 requirement display (hides itself once met)
+        if (tower4RequirementDisplay != null)
+            tower4RequirementDisplay.UpdateDisplay(GetTower4Total(), tower4RequiredTotal);
     }
 
     private void UpdateTowerState(int index)
@@ -123,24 +117,17 @@ public class TowerUnlockManager : MonoBehaviour
             return;
         }
 
-        // Tower dependency check: each tower only reveals its lock and timer
-        // once the PREVIOUS tower is fully unlocked. Before that, the lock
-        // and timer are completely hidden so the player isn't confused by a
-        // locked tower they can't do anything about yet.
-        //
-        // index 1 = Tower_2 requires Tower_1 to be playable (always true)
-        // index 2 = Tower_3 requires Tower_2 to be fully unlocked first
+        // Tower_3 stays completely hidden until Tower_2 is fully unlocked
         if (index == 2)
         {
-            // Tower_3 stays completely hidden until Tower_2 is fully unlocked
             bool tower2Unlocked = towers.Count > 1 &&
                 PlayerPrefs.GetInt(UNLOCKED_PREFIX + towers[1].towerName, 0) == 1;
 
             if (!tower2Unlocked)
             {
                 SetTowerUnlocked(tower, false);
-                ShowLockIcon(tower, false);  // hide lock entirely
-                ShowTimer(tower, false);     // hide timer entirely
+                ShowLockIcon(tower, false);
+                ShowTimer(tower, false);
                 return;
             }
         }
@@ -203,23 +190,25 @@ public class TowerUnlockManager : MonoBehaviour
         if (string.IsNullOrEmpty(tower.requiredStageID)) return true;
 
         // Primary check: did the player clear this stage at least once?
-        // ResultScreenManager writes FirstClear_<stageID> = 1 on first completion.
-        // This guarantees the timer starts regardless of what score they got.
         bool firstCleared = PlayerPrefs.GetInt("FirstClear_" + tower.requiredStageID, 0) == 1;
         if (firstCleared) return true;
 
-        // Fallback: also unlock if they hit the required score threshold,
-        // in case FirstClear_ wasn't written yet (e.g. old save data).
+        // Fallback: unlock if they hit the required score threshold.
         int highScore = PlayerPrefs.GetInt(HIGH_SCORE_PREFIX + tower.requiredStageID, 0);
         return highScore >= tower.requiredScore;
     }
 
-    private bool CheckTower4()
+    private int GetTower4Total()
     {
         int s1 = PlayerPrefs.GetInt(HIGH_SCORE_PREFIX + "Stage_1", 0);
         int s2 = PlayerPrefs.GetInt(HIGH_SCORE_PREFIX + "Stage_2", 0);
         int s3 = PlayerPrefs.GetInt(HIGH_SCORE_PREFIX + "Stage_3", 0);
-        return (s1 + s2 + s3) >= tower4RequiredTotal;
+        return s1 + s2 + s3;
+    }
+
+    private bool CheckTower4()
+    {
+        return GetTower4Total() >= tower4RequiredTotal;
     }
 
     private void SetTowerUnlocked(TowerEntry tower, bool unlocked)
