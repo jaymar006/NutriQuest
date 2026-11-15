@@ -39,6 +39,10 @@ MonoBehaviour:
     m_Key: modals.warning_runekey_warning
     m_Metadata:
       m_Items: []
+  - m_Id: 37694167526608896
+    m_Key: modals.reset_warning
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

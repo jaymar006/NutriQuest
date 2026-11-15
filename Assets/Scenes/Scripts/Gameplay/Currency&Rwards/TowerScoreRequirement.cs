@@ -32,6 +32,12 @@ public class TowerScoreRequirement : MonoBehaviour
     [Tooltip("Left side = 0% progress, right side = 100% progress. Click the bar to edit colors.")]
     [SerializeField] private Gradient progressColor = CreateDefaultGradient();
 
+    [Header("Progress Fill Color")]
+    [Tooltip("Turn off to keep the color you set on the fill Image")]
+    [SerializeField] private bool useFillColor = true;
+    [Tooltip("Left side = 0% progress, right side = 100% progress. Click the bar to edit colors.")]
+    [SerializeField] private Gradient fillColor = CreateDefaultGradient();
+
     [Header("Options")]
     [Tooltip("Leave OFF when TowerUnlockManager supplies the score")]
     [SerializeField] private bool autoReadOnEnable = false;
@@ -121,7 +127,12 @@ public class TowerScoreRequirement : MonoBehaviour
         shownFill = value;
 
         if (progressFill != null)
+        {
             progressFill.fillAmount = value;
+
+            if (useFillColor && fillColor != null)
+                progressFill.color = fillColor.Evaluate(value);
+        }
 
         if (useProgressColor && progressText != null && progressColor != null)
             progressText.color = progressColor.Evaluate(value);

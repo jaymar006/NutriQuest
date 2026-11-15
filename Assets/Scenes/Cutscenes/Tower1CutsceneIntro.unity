@@ -1220,7 +1220,7 @@ MonoBehaviour:
     openNameInputAfterThisLine: 0
   - character: {fileID: 0}
     useCustomSpeakerName: 0
-    customSpeakerName: 
+    customSpeakerName: ???
     dialogueText: Ugh- I can't solve this questions. It making my head spin! But.
       If I can't solve this Sienna's effort will go to waste!
     filipinoText: Ugh... Hindi ko masagutan ang mga tanong na ito. Parang sasabog
@@ -1384,6 +1384,7 @@ MonoBehaviour:
     openNameInputAfterThisLine: 0
   autoStartOnAwake: 1
   minTimeBetweenTaps: 0.15
+  minFullTextDisplayTime: 0.3
   autoAdvanceOnEnd: 1
   onFinishLoadSceneAsset: {fileID: 102900000, guid: 01e90143054a11546bfe753597e78a30, type: 3}
   onFinishLoadScene: Level 1

@@ -46,6 +46,14 @@ MonoBehaviour:
     m_Localized: Tagalog
     m_Metadata:
       m_Items: []
+  - m_Id: 12897426542592
+    m_Localized: Reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 38425522677944320
+    m_Localized: New Game
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

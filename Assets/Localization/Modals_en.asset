@@ -43,6 +43,11 @@ MonoBehaviour:
     m_Localized: You don't have enough Rune Keys please wait for it to replenish.
     m_Metadata:
       m_Items: []
+  - m_Id: 37694167526608896
+    m_Localized: You are about to reset your progress do you want to continue? IF
+      you continue there is no turning back!
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []
