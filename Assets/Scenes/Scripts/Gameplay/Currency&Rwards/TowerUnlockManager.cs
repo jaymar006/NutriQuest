@@ -31,9 +31,23 @@ public class TowerUnlockManager : MonoBehaviour
     [Header("Wait Time Settings")]
     [SerializeField] private float waitTimeInMinutes = 3f;
 
+    [Header("Tower Opacity")]
+    [Tooltip("Tower is unlocked and playable")]
+    [Range(0f, 1f)][SerializeField] private float unlockedOpacity = 1f;
+    [Tooltip("Tower is locked (lock icon or timer showing)")]
+    [Range(0f, 1f)][SerializeField] private float lockedOpacity = 0.5f;
+    [Tooltip("Tower 3 while Tower 2 is not unlocked yet")]
+    [Range(0f, 1f)][SerializeField] private float hiddenOpacity = 0.15f;
+    [Tooltip("Re-apply opacity every frame so you can tweak the sliders while playing")]
+    [SerializeField] private bool liveUpdateInEditor = true;
+
     private const string HIGH_SCORE_PREFIX = "HighScore_";
     private const string UNLOCK_TIME_PREFIX = "UnlockTime_";
     private const string UNLOCKED_PREFIX = "Unlocked_";
+
+    // Remembers each tower's current state so opacity can be re-applied
+    private enum TowerVisualState { Unlocked, Locked, Hidden }
+    private readonly Dictionary<int, TowerVisualState> visualStates = new Dictionary<int, TowerVisualState>();
 
     private void Awake()
     {
@@ -49,6 +63,14 @@ public class TowerUnlockManager : MonoBehaviour
     {
         StartCoroutine(InitWithDelay());
         StartCoroutine(TimerUpdateLoop());
+    }
+
+    private void Update()
+    {
+#if UNITY_EDITOR
+        if (liveUpdateInEditor)
+            ReapplyOpacity();
+#endif
     }
 
     private IEnumerator InitWithDelay()
@@ -93,7 +115,7 @@ public class TowerUnlockManager : MonoBehaviour
 
         if (index == 0)
         {
-            SetTowerUnlocked(tower, true);
+            SetTowerUnlocked(index, true);
             ShowLockIcon(tower, false);
             ShowTimer(tower, false);
             return;
@@ -102,7 +124,7 @@ public class TowerUnlockManager : MonoBehaviour
         if (index == 3)
         {
             bool unlocked = CheckTower4();
-            SetTowerUnlocked(tower, unlocked);
+            SetTowerUnlocked(index, unlocked);
             ShowLockIcon(tower, !unlocked);
             ShowTimer(tower, false);
             return;
@@ -111,7 +133,7 @@ public class TowerUnlockManager : MonoBehaviour
         bool alreadyUnlocked = PlayerPrefs.GetInt(UNLOCKED_PREFIX + tower.towerName, 0) == 1;
         if (alreadyUnlocked)
         {
-            SetTowerUnlocked(tower, true);
+            SetTowerUnlocked(index, true);
             ShowLockIcon(tower, false);
             ShowTimer(tower, false);
             return;
@@ -125,7 +147,7 @@ public class TowerUnlockManager : MonoBehaviour
 
             if (!tower2Unlocked)
             {
-                SetTowerUnlocked(tower, false);
+                SetTowerHidden(index);
                 ShowLockIcon(tower, false);
                 ShowTimer(tower, false);
                 return;
@@ -135,7 +157,7 @@ public class TowerUnlockManager : MonoBehaviour
         bool scoreMet = CheckScoreRequirement(tower);
         if (!scoreMet)
         {
-            SetTowerUnlocked(tower, false);
+            SetTowerUnlocked(index, false);
             ShowLockIcon(tower, true);
             ShowTimer(tower, false);
             return;
@@ -146,7 +168,7 @@ public class TowerUnlockManager : MonoBehaviour
         {
             PlayerPrefs.SetString(UNLOCK_TIME_PREFIX + tower.towerName, DateTime.UtcNow.ToString());
             PlayerPrefs.Save();
-            SetTowerUnlocked(tower, false);
+            SetTowerUnlocked(index, false);
             ShowLockIcon(tower, true);
             ShowTimer(tower, true);
             return;
@@ -159,14 +181,14 @@ public class TowerUnlockManager : MonoBehaviour
         {
             PlayerPrefs.SetInt(UNLOCKED_PREFIX + tower.towerName, 1);
             PlayerPrefs.Save();
-            SetTowerUnlocked(tower, true);
+            SetTowerUnlocked(index, true);
             ShowLockIcon(tower, false);
             ShowTimer(tower, false);
             Debug.Log("[TowerUnlockManager] " + tower.towerName + " fully unlocked!");
         }
         else
         {
-            SetTowerUnlocked(tower, false);
+            SetTowerUnlocked(index, false);
             ShowLockIcon(tower, true);
             ShowTimer(tower, true);
             UpdateTimerText(tower, minutesPassed);
@@ -211,10 +233,55 @@ public class TowerUnlockManager : MonoBehaviour
         return GetTower4Total() >= tower4RequiredTotal;
     }
 
-    private void SetTowerUnlocked(TowerEntry tower, bool unlocked)
+    // ---------------- Tower state + opacity ----------------
+
+    private void SetTowerUnlocked(int index, bool unlocked)
     {
+        TowerEntry tower = towers[index];
         if (tower.towerButton != null)
             tower.towerButton.interactable = unlocked;
+
+        visualStates[index] = unlocked ? TowerVisualState.Unlocked : TowerVisualState.Locked;
+        ApplyOpacity(index);
+    }
+
+    private void SetTowerHidden(int index)
+    {
+        TowerEntry tower = towers[index];
+        if (tower.towerButton != null)
+            tower.towerButton.interactable = false;
+
+        visualStates[index] = TowerVisualState.Hidden;
+        ApplyOpacity(index);
+    }
+
+    private void ApplyOpacity(int index)
+    {
+        if (index < 0 || index >= towers.Count) return;
+        if (!visualStates.TryGetValue(index, out TowerVisualState state)) return;
+
+        TowerEntry tower = towers[index];
+        if (tower.towerButton == null) return;
+
+        float alpha;
+        switch (state)
+        {
+            case TowerVisualState.Unlocked: alpha = unlockedOpacity; break;
+            case TowerVisualState.Hidden: alpha = hiddenOpacity; break;
+            default: alpha = lockedOpacity; break;
+        }
+
+        CanvasGroup group = tower.towerButton.GetComponent<CanvasGroup>();
+        if (group == null)
+            group = tower.towerButton.gameObject.AddComponent<CanvasGroup>();
+
+        group.alpha = alpha;
+    }
+
+    private void ReapplyOpacity()
+    {
+        for (int i = 0; i < towers.Count; i++)
+            ApplyOpacity(i);
     }
 
     private void ShowLockIcon(TowerEntry tower, bool show)
@@ -261,7 +328,7 @@ public class TowerUnlockManager : MonoBehaviour
                 {
                     PlayerPrefs.SetInt(UNLOCKED_PREFIX + tower.towerName, 1);
                     PlayerPrefs.Save();
-                    SetTowerUnlocked(tower, true);
+                    SetTowerUnlocked(i, true);
                     ShowLockIcon(tower, false);
                     ShowTimer(tower, false);
                     Debug.Log("[TowerUnlockManager] " + tower.towerName + " unlocked by timer!");

@@ -69,6 +69,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Locale-fil
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c02eeacf535605744aff0fa911146995
+    m_Address: Choices_fil
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-fil
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c70002bcd69ef5d4d8e2896da22c2018
     m_Address: Modals_fil
     m_ReadOnly: 1

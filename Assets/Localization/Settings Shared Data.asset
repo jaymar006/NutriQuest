@@ -44,7 +44,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 12897426542592
-    m_Key: New Entry
+    m_Key: reset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 38425522677944320
+    m_Key: reset.new_game
     m_Metadata:
       m_Items: []
   m_Metadata:
